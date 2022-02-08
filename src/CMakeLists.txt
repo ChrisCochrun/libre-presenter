@@ -13,7 +13,6 @@ target_link_libraries(presenter
         Qt5::Widgets
         KF5::Kirigami2
         KF5::I18n
-
 )
 
 target_compile_options (presenter PUBLIC -fexceptions)

@@ -4,6 +4,8 @@
 #include <QUrl>
 #include <KLocalizedContext>
 #include <KLocalizedString>
+#include <iostream>
+#include <QQmlEngine>
 
 // #include "mpvobject.h"
 
@@ -16,21 +18,18 @@ int main(int argc, char *argv[])
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Church Presenter"));
 
+  // path = QQmlEngine::importPathList()
+  std::cout << "Hello World!";
+
   QQmlApplicationEngine engine;
 
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
-  engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+  engine.load(QUrl(QStringLiteral("qrc:qml/main.qml")));
 
 #ifdef STATIC_KIRIGAMI
   KirigamiPlugin::getInstance().registerTypes();
 #endif
-
-  // // Qt sets the locale in the QGuiApplication constructor, but libmpv
-  // // requires the LC_NUMERIC category to be set to "C", so change it back.
-  // std::setlocale(LC_NUMERIC, "C");
-
-  // qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
   if (engine.rootObjects().isEmpty()) {
     return -1;

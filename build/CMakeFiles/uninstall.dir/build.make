@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/chris/dev/newapp
+CMAKE_SOURCE_DIR = /home/chris/dev/church-presenter
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/chris/dev/newapp/build
+CMAKE_BINARY_DIR = /home/chris/dev/church-presenter/build
 
 # Utility rule file for uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/uninstall.dir/compiler_depend.make
 include CMakeFiles/uninstall.dir/progress.make
 
 CMakeFiles/uninstall:
-	/usr/bin/cmake -P /home/chris/dev/newapp/build/ecm_uninstall.cmake
+	/usr/bin/cmake -P /home/chris/dev/church-presenter/build/ecm_uninstall.cmake
 
 uninstall: CMakeFiles/uninstall
 uninstall: CMakeFiles/uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/chris/dev/newapp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/chris/dev/newapp /home/chris/dev/newapp /home/chris/dev/newapp/build /home/chris/dev/newapp/build /home/chris/dev/newapp/build/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/chris/dev/church-presenter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/chris/dev/church-presenter /home/chris/dev/church-presenter /home/chris/dev/church-presenter/build /home/chris/dev/church-presenter/build /home/chris/dev/church-presenter/build/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/uninstall.dir/depend
 

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/chris/dev/newapp
+CMAKE_SOURCE_DIR = /home/chris/dev/church-presenter
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/chris/dev/newapp/build
+CMAKE_BINARY_DIR = /home/chris/dev/church-presenter/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -97,14 +97,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/chris/dev/newapp/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/newapp/build/CMakeFiles /home/chris/dev/newapp/build/src//CMakeFiles/progress.marks
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/newapp/build/CMakeFiles 0
+	cd /home/chris/dev/church-presenter/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/church-presenter/build/CMakeFiles /home/chris/dev/church-presenter/build/src//CMakeFiles/progress.marks
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/church-presenter/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -113,22 +113,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/chris/dev/newapp/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/chris/dev/church-presenter/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/presenter.dir/rule:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter.dir/rule
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter.dir/rule
 .PHONY : src/CMakeFiles/presenter.dir/rule
 
 # Convenience name for target.
@@ -137,12 +137,12 @@ presenter: src/CMakeFiles/presenter.dir/rule
 
 # fast build rule for target.
 presenter/fast:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/build
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/build
 .PHONY : presenter/fast
 
 # Convenience name for target.
 src/CMakeFiles/presenter_autogen.dir/rule:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter_autogen.dir/rule
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter_autogen.dir/rule
 .PHONY : src/CMakeFiles/presenter_autogen.dir/rule
 
 # Convenience name for target.
@@ -151,7 +151,7 @@ presenter_autogen: src/CMakeFiles/presenter_autogen.dir/rule
 
 # fast build rule for target.
 presenter_autogen/fast:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/build
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/build
 .PHONY : presenter_autogen/fast
 
 main.o: main.cpp.o
@@ -159,7 +159,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.o
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -167,7 +167,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.i
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -175,7 +175,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.s
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 presenter_autogen/EWIEGA46WW/qrc_resources.o: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
@@ -183,7 +183,7 @@ presenter_autogen/EWIEGA46WW/qrc_resources.o: presenter_autogen/EWIEGA46WW/qrc_r
 
 # target to build an object file
 presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
 .PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
 
 presenter_autogen/EWIEGA46WW/qrc_resources.i: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
@@ -191,7 +191,7 @@ presenter_autogen/EWIEGA46WW/qrc_resources.i: presenter_autogen/EWIEGA46WW/qrc_r
 
 # target to preprocess a source file
 presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
 .PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
 
 presenter_autogen/EWIEGA46WW/qrc_resources.s: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
@@ -199,7 +199,7 @@ presenter_autogen/EWIEGA46WW/qrc_resources.s: presenter_autogen/EWIEGA46WW/qrc_r
 
 # target to generate assembly for a file
 presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
 .PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
 
 presenter_autogen/mocs_compilation.o: presenter_autogen/mocs_compilation.cpp.o
@@ -207,7 +207,7 @@ presenter_autogen/mocs_compilation.o: presenter_autogen/mocs_compilation.cpp.o
 
 # target to build an object file
 presenter_autogen/mocs_compilation.cpp.o:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.o
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.o
 .PHONY : presenter_autogen/mocs_compilation.cpp.o
 
 presenter_autogen/mocs_compilation.i: presenter_autogen/mocs_compilation.cpp.i
@@ -215,7 +215,7 @@ presenter_autogen/mocs_compilation.i: presenter_autogen/mocs_compilation.cpp.i
 
 # target to preprocess a source file
 presenter_autogen/mocs_compilation.cpp.i:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.i
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.i
 .PHONY : presenter_autogen/mocs_compilation.cpp.i
 
 presenter_autogen/mocs_compilation.s: presenter_autogen/mocs_compilation.cpp.s
@@ -223,7 +223,7 @@ presenter_autogen/mocs_compilation.s: presenter_autogen/mocs_compilation.cpp.s
 
 # target to generate assembly for a file
 presenter_autogen/mocs_compilation.cpp.s:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.s
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.s
 .PHONY : presenter_autogen/mocs_compilation.cpp.s
 
 # Help Target
@@ -257,6 +257,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/chris/dev/newapp/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/chris/dev/church-presenter/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

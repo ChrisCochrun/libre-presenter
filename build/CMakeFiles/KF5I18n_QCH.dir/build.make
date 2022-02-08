@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/chris/dev/newapp
+CMAKE_SOURCE_DIR = /home/chris/dev/church-presenter
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/chris/dev/newapp/build
+CMAKE_BINARY_DIR = /home/chris/dev/church-presenter/build
 
 # Utility rule file for KF5I18n_QCH.
 
@@ -78,6 +78,6 @@ CMakeFiles/KF5I18n_QCH.dir/clean:
 .PHONY : CMakeFiles/KF5I18n_QCH.dir/clean
 
 CMakeFiles/KF5I18n_QCH.dir/depend:
-	cd /home/chris/dev/newapp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/chris/dev/newapp /home/chris/dev/newapp /home/chris/dev/newapp/build /home/chris/dev/newapp/build /home/chris/dev/newapp/build/CMakeFiles/KF5I18n_QCH.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/chris/dev/church-presenter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/chris/dev/church-presenter /home/chris/dev/church-presenter /home/chris/dev/church-presenter/build /home/chris/dev/church-presenter/build /home/chris/dev/church-presenter/build/CMakeFiles/KF5I18n_QCH.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/KF5I18n_QCH.dir/depend
 

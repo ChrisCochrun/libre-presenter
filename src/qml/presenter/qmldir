@@ -1,0 +1,3 @@
+module presenter
+MainWindow 1.0 MainWindow.qml
+LeftDock 1.0 LeftDock.qml

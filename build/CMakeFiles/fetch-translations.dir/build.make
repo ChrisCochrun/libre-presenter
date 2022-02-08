@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/chris/dev/newapp
+CMAKE_SOURCE_DIR = /home/chris/dev/church-presenter
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/chris/dev/newapp/build
+CMAKE_BINARY_DIR = /home/chris/dev/church-presenter/build
 
 # Utility rule file for fetch-translations.
 
@@ -67,14 +67,14 @@ include CMakeFiles/fetch-translations.dir/compiler_depend.make
 include CMakeFiles/fetch-translations.dir/progress.make
 
 CMakeFiles/fetch-translations: releaseme
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Downloading translations for presenter branch trunk..."
-	git -C /home/chris/dev/newapp/build/releaseme pull
-	cmake -E remove_directory /home/chris/dev/newapp/build/po
-	cmake -E remove_directory /home/chris/dev/newapp/build/poqm
-	ruby /home/chris/dev/newapp/build/releaseme/fetchpo.rb --origin trunk --project presenter --output-dir /home/chris/dev/newapp/build/po --output-poqm-dir /home/chris/dev/newapp/build/poqm /home/chris/dev/newapp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/church-presenter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Downloading translations for presenter branch trunk..."
+	git -C /home/chris/dev/church-presenter/build/releaseme pull
+	cmake -E remove_directory /home/chris/dev/church-presenter/build/po
+	cmake -E remove_directory /home/chris/dev/church-presenter/build/poqm
+	ruby /home/chris/dev/church-presenter/build/releaseme/fetchpo.rb --origin trunk --project presenter --output-dir /home/chris/dev/church-presenter/build/po --output-poqm-dir /home/chris/dev/church-presenter/build/poqm /home/chris/dev/church-presenter
 
 releaseme:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Fetching releaseme scripts to download translations..."
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/church-presenter/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Fetching releaseme scripts to download translations..."
 	git clone --depth 1 https://invent.kde.org/sdk/releaseme.git
 
 fetch-translations: CMakeFiles/fetch-translations
@@ -91,6 +91,6 @@ CMakeFiles/fetch-translations.dir/clean:
 .PHONY : CMakeFiles/fetch-translations.dir/clean
 
 CMakeFiles/fetch-translations.dir/depend:
-	cd /home/chris/dev/newapp/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/chris/dev/newapp /home/chris/dev/newapp /home/chris/dev/newapp/build /home/chris/dev/newapp/build /home/chris/dev/newapp/build/CMakeFiles/fetch-translations.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/chris/dev/church-presenter/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/chris/dev/church-presenter /home/chris/dev/church-presenter /home/chris/dev/church-presenter/build /home/chris/dev/church-presenter/build /home/chris/dev/church-presenter/build/CMakeFiles/fetch-translations.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/fetch-translations.dir/depend
 

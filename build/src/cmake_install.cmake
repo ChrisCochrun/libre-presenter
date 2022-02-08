@@ -1,4 +1,4 @@
-# Install script for directory: /home/chris/dev/newapp/src
+# Install script for directory: /home/chris/dev/church-presenter/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
