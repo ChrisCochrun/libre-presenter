@@ -179,30 +179,30 @@ KF5CoreAddons_QCH/fast:
 .PHONY : KF5CoreAddons_QCH/fast
 
 #=============================================================================
-# Target rules for targets named helloworld
+# Target rules for targets named presenter
 
 # Build rule for target.
-helloworld: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 helloworld
-.PHONY : helloworld
+presenter: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 presenter
+.PHONY : presenter
 
 # fast build rule for target.
-helloworld/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/build
-.PHONY : helloworld/fast
+presenter/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/build
+.PHONY : presenter/fast
 
 #=============================================================================
-# Target rules for targets named helloworld_autogen
+# Target rules for targets named presenter_autogen
 
 # Build rule for target.
-helloworld_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 helloworld_autogen
-.PHONY : helloworld_autogen
+presenter_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 presenter_autogen
+.PHONY : presenter_autogen
 
 # fast build rule for target.
-helloworld_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld_autogen.dir/build.make src/CMakeFiles/helloworld_autogen.dir/build
-.PHONY : helloworld_autogen/fast
+presenter_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/build
+.PHONY : presenter_autogen/fast
 
 # Help Target
 help:
@@ -216,9 +216,9 @@ help:
 	@echo "... KF5CoreAddons_QCH"
 	@echo "... KF5I18n_QCH"
 	@echo "... fetch-translations"
-	@echo "... helloworld_autogen"
+	@echo "... presenter_autogen"
 	@echo "... uninstall"
-	@echo "... helloworld"
+	@echo "... presenter"
 .PHONY : help
 
 

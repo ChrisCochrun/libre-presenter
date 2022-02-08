@@ -67,11 +67,11 @@ include CMakeFiles/fetch-translations.dir/compiler_depend.make
 include CMakeFiles/fetch-translations.dir/progress.make
 
 CMakeFiles/fetch-translations: releaseme
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Downloading translations for helloworld branch trunk..."
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Downloading translations for presenter branch trunk..."
 	git -C /home/chris/dev/newapp/build/releaseme pull
 	cmake -E remove_directory /home/chris/dev/newapp/build/po
 	cmake -E remove_directory /home/chris/dev/newapp/build/poqm
-	ruby /home/chris/dev/newapp/build/releaseme/fetchpo.rb --origin trunk --project helloworld --output-dir /home/chris/dev/newapp/build/po --output-poqm-dir /home/chris/dev/newapp/build/poqm /home/chris/dev/newapp
+	ruby /home/chris/dev/newapp/build/releaseme/fetchpo.rb --origin trunk --project presenter --output-dir /home/chris/dev/newapp/build/po --output-poqm-dir /home/chris/dev/newapp/build/poqm /home/chris/dev/newapp
 
 releaseme:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Fetching releaseme scripts to download translations..."

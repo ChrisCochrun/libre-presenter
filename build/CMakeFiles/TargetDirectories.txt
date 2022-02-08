@@ -5,8 +5,8 @@
 /home/chris/dev/newapp/build/CMakeFiles/test.dir
 /home/chris/dev/newapp/build/CMakeFiles/edit_cache.dir
 /home/chris/dev/newapp/build/CMakeFiles/rebuild_cache.dir
-/home/chris/dev/newapp/build/src/CMakeFiles/helloworld.dir
+/home/chris/dev/newapp/build/src/CMakeFiles/presenter.dir
 /home/chris/dev/newapp/build/src/CMakeFiles/test.dir
 /home/chris/dev/newapp/build/src/CMakeFiles/edit_cache.dir
 /home/chris/dev/newapp/build/src/CMakeFiles/rebuild_cache.dir
-/home/chris/dev/newapp/build/src/CMakeFiles/helloworld_autogen.dir
+/home/chris/dev/newapp/build/src/CMakeFiles/presenter_autogen.dir

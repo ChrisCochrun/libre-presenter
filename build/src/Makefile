@@ -127,87 +127,39 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/helloworld.dir/rule:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/helloworld.dir/rule
-.PHONY : src/CMakeFiles/helloworld.dir/rule
+src/CMakeFiles/presenter.dir/rule:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter.dir/rule
+.PHONY : src/CMakeFiles/presenter.dir/rule
 
 # Convenience name for target.
-helloworld: src/CMakeFiles/helloworld.dir/rule
-.PHONY : helloworld
+presenter: src/CMakeFiles/presenter.dir/rule
+.PHONY : presenter
 
 # fast build rule for target.
-helloworld/fast:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/build
-.PHONY : helloworld/fast
+presenter/fast:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/build
+.PHONY : presenter/fast
 
 # Convenience name for target.
-src/CMakeFiles/helloworld_autogen.dir/rule:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/helloworld_autogen.dir/rule
-.PHONY : src/CMakeFiles/helloworld_autogen.dir/rule
+src/CMakeFiles/presenter_autogen.dir/rule:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter_autogen.dir/rule
+.PHONY : src/CMakeFiles/presenter_autogen.dir/rule
 
 # Convenience name for target.
-helloworld_autogen: src/CMakeFiles/helloworld_autogen.dir/rule
-.PHONY : helloworld_autogen
+presenter_autogen: src/CMakeFiles/presenter_autogen.dir/rule
+.PHONY : presenter_autogen
 
 # fast build rule for target.
-helloworld_autogen/fast:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld_autogen.dir/build.make src/CMakeFiles/helloworld_autogen.dir/build
-.PHONY : helloworld_autogen/fast
-
-helloworld_autogen/EWIEGA46WW/qrc_resources.o: helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.o
-.PHONY : helloworld_autogen/EWIEGA46WW/qrc_resources.o
-
-# target to build an object file
-helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.o:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.o
-.PHONY : helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.o
-
-helloworld_autogen/EWIEGA46WW/qrc_resources.i: helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.i
-.PHONY : helloworld_autogen/EWIEGA46WW/qrc_resources.i
-
-# target to preprocess a source file
-helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.i:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.i
-.PHONY : helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.i
-
-helloworld_autogen/EWIEGA46WW/qrc_resources.s: helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.s
-.PHONY : helloworld_autogen/EWIEGA46WW/qrc_resources.s
-
-# target to generate assembly for a file
-helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.s:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.s
-.PHONY : helloworld_autogen/EWIEGA46WW/qrc_resources.cpp.s
-
-helloworld_autogen/mocs_compilation.o: helloworld_autogen/mocs_compilation.cpp.o
-.PHONY : helloworld_autogen/mocs_compilation.o
-
-# target to build an object file
-helloworld_autogen/mocs_compilation.cpp.o:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/helloworld_autogen/mocs_compilation.cpp.o
-.PHONY : helloworld_autogen/mocs_compilation.cpp.o
-
-helloworld_autogen/mocs_compilation.i: helloworld_autogen/mocs_compilation.cpp.i
-.PHONY : helloworld_autogen/mocs_compilation.i
-
-# target to preprocess a source file
-helloworld_autogen/mocs_compilation.cpp.i:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/helloworld_autogen/mocs_compilation.cpp.i
-.PHONY : helloworld_autogen/mocs_compilation.cpp.i
-
-helloworld_autogen/mocs_compilation.s: helloworld_autogen/mocs_compilation.cpp.s
-.PHONY : helloworld_autogen/mocs_compilation.s
-
-# target to generate assembly for a file
-helloworld_autogen/mocs_compilation.cpp.s:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/helloworld_autogen/mocs_compilation.cpp.s
-.PHONY : helloworld_autogen/mocs_compilation.cpp.s
+presenter_autogen/fast:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/build
+.PHONY : presenter_autogen/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
 
 # target to build an object file
 main.cpp.o:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/main.cpp.o
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -215,7 +167,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/main.cpp.i
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -223,8 +175,56 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/main.cpp.s
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+presenter_autogen/EWIEGA46WW/qrc_resources.o: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
+.PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.o
+
+# target to build an object file
+presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
+.PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
+
+presenter_autogen/EWIEGA46WW/qrc_resources.i: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
+.PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.i
+
+# target to preprocess a source file
+presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
+.PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.cpp.i
+
+presenter_autogen/EWIEGA46WW/qrc_resources.s: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
+.PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.s
+
+# target to generate assembly for a file
+presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
+.PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.cpp.s
+
+presenter_autogen/mocs_compilation.o: presenter_autogen/mocs_compilation.cpp.o
+.PHONY : presenter_autogen/mocs_compilation.o
+
+# target to build an object file
+presenter_autogen/mocs_compilation.cpp.o:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.o
+.PHONY : presenter_autogen/mocs_compilation.cpp.o
+
+presenter_autogen/mocs_compilation.i: presenter_autogen/mocs_compilation.cpp.i
+.PHONY : presenter_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+presenter_autogen/mocs_compilation.cpp.i:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.i
+.PHONY : presenter_autogen/mocs_compilation.cpp.i
+
+presenter_autogen/mocs_compilation.s: presenter_autogen/mocs_compilation.cpp.s
+.PHONY : presenter_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+presenter_autogen/mocs_compilation.cpp.s:
+	cd /home/chris/dev/newapp/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.s
+.PHONY : presenter_autogen/mocs_compilation.cpp.s
 
 # Help Target
 help:
@@ -235,17 +235,17 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... helloworld_autogen"
-	@echo "... helloworld"
-	@echo "... helloworld_autogen/EWIEGA46WW/qrc_resources.o"
-	@echo "... helloworld_autogen/EWIEGA46WW/qrc_resources.i"
-	@echo "... helloworld_autogen/EWIEGA46WW/qrc_resources.s"
-	@echo "... helloworld_autogen/mocs_compilation.o"
-	@echo "... helloworld_autogen/mocs_compilation.i"
-	@echo "... helloworld_autogen/mocs_compilation.s"
+	@echo "... presenter_autogen"
+	@echo "... presenter"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... presenter_autogen/EWIEGA46WW/qrc_resources.o"
+	@echo "... presenter_autogen/EWIEGA46WW/qrc_resources.i"
+	@echo "... presenter_autogen/EWIEGA46WW/qrc_resources.s"
+	@echo "... presenter_autogen/mocs_compilation.o"
+	@echo "... presenter_autogen/mocs_compilation.i"
+	@echo "... presenter_autogen/mocs_compilation.s"
 .PHONY : help
 
 

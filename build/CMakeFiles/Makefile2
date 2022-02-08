@@ -82,7 +82,7 @@ clean: src/clean
 # Directory level rules for directory src
 
 # Recursive "all" directory target.
-src/all: src/CMakeFiles/helloworld.dir/all
+src/all: src/CMakeFiles/presenter.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -90,8 +90,8 @@ src/preinstall:
 .PHONY : src/preinstall
 
 # Recursive "clean" directory target.
-src/clean: src/CMakeFiles/helloworld.dir/clean
-src/clean: src/CMakeFiles/helloworld_autogen.dir/clean
+src/clean: src/CMakeFiles/presenter.dir/clean
+src/clean: src/CMakeFiles/presenter_autogen.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
@@ -199,56 +199,56 @@ CMakeFiles/KF5CoreAddons_QCH.dir/clean:
 .PHONY : CMakeFiles/KF5CoreAddons_QCH.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/helloworld.dir
+# Target rules for target src/CMakeFiles/presenter.dir
 
 # All Build rule for target.
-src/CMakeFiles/helloworld.dir/all: src/CMakeFiles/helloworld_autogen.dir/all
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=3,4,5,6,7 "Built target helloworld"
-.PHONY : src/CMakeFiles/helloworld.dir/all
+src/CMakeFiles/presenter.dir/all: src/CMakeFiles/presenter_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=3,4,5,6,7 "Built target presenter"
+.PHONY : src/CMakeFiles/presenter.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/helloworld.dir/rule: cmake_check_build_system
+src/CMakeFiles/presenter.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/newapp/build/CMakeFiles 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/helloworld.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/newapp/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/helloworld.dir/rule
+.PHONY : src/CMakeFiles/presenter.dir/rule
 
 # Convenience name for target.
-helloworld: src/CMakeFiles/helloworld.dir/rule
-.PHONY : helloworld
+presenter: src/CMakeFiles/presenter.dir/rule
+.PHONY : presenter
 
 # clean rule for target.
-src/CMakeFiles/helloworld.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld.dir/build.make src/CMakeFiles/helloworld.dir/clean
-.PHONY : src/CMakeFiles/helloworld.dir/clean
+src/CMakeFiles/presenter.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/clean
+.PHONY : src/CMakeFiles/presenter.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/helloworld_autogen.dir
+# Target rules for target src/CMakeFiles/presenter_autogen.dir
 
 # All Build rule for target.
-src/CMakeFiles/helloworld_autogen.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld_autogen.dir/build.make src/CMakeFiles/helloworld_autogen.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld_autogen.dir/build.make src/CMakeFiles/helloworld_autogen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=8 "Built target helloworld_autogen"
-.PHONY : src/CMakeFiles/helloworld_autogen.dir/all
+src/CMakeFiles/presenter_autogen.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/dev/newapp/build/CMakeFiles --progress-num=8 "Built target presenter_autogen"
+.PHONY : src/CMakeFiles/presenter_autogen.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/helloworld_autogen.dir/rule: cmake_check_build_system
+src/CMakeFiles/presenter_autogen.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/newapp/build/CMakeFiles 1
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/helloworld_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/presenter_autogen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/dev/newapp/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/helloworld_autogen.dir/rule
+.PHONY : src/CMakeFiles/presenter_autogen.dir/rule
 
 # Convenience name for target.
-helloworld_autogen: src/CMakeFiles/helloworld_autogen.dir/rule
-.PHONY : helloworld_autogen
+presenter_autogen: src/CMakeFiles/presenter_autogen.dir/rule
+.PHONY : presenter_autogen
 
 # clean rule for target.
-src/CMakeFiles/helloworld_autogen.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/helloworld_autogen.dir/build.make src/CMakeFiles/helloworld_autogen.dir/clean
-.PHONY : src/CMakeFiles/helloworld_autogen.dir/clean
+src/CMakeFiles/presenter_autogen.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter_autogen.dir/build.make src/CMakeFiles/presenter_autogen.dir/clean
+.PHONY : src/CMakeFiles/presenter_autogen.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

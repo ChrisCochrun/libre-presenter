@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=present
+GenericName=Church Presentation
+Comment=A Kirigami base church presenter
+Exec=present %U
+TryExec=present
+Icon=present
+StartupNotify=true
+Terminal=false
+Categories=presentation
