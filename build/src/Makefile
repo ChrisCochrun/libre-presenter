@@ -226,6 +226,30 @@ presenter_autogen/mocs_compilation.cpp.s:
 	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/presenter_autogen/mocs_compilation.cpp.s
 .PHONY : presenter_autogen/mocs_compilation.cpp.s
 
+songlistmodel.o: songlistmodel.cpp.o
+.PHONY : songlistmodel.o
+
+# target to build an object file
+songlistmodel.cpp.o:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songlistmodel.cpp.o
+.PHONY : songlistmodel.cpp.o
+
+songlistmodel.i: songlistmodel.cpp.i
+.PHONY : songlistmodel.i
+
+# target to preprocess a source file
+songlistmodel.cpp.i:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songlistmodel.cpp.i
+.PHONY : songlistmodel.cpp.i
+
+songlistmodel.s: songlistmodel.cpp.s
+.PHONY : songlistmodel.s
+
+# target to generate assembly for a file
+songlistmodel.cpp.s:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songlistmodel.cpp.s
+.PHONY : songlistmodel.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -246,6 +270,9 @@ help:
 	@echo "... presenter_autogen/mocs_compilation.o"
 	@echo "... presenter_autogen/mocs_compilation.i"
 	@echo "... presenter_autogen/mocs_compilation.s"
+	@echo "... songlistmodel.o"
+	@echo "... songlistmodel.i"
+	@echo "... songlistmodel.s"
 .PHONY : help
 
 

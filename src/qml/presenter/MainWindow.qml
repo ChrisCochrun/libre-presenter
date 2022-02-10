@@ -1,6 +1,6 @@
 import QtQuick 2.13
 import QtQuick.Dialogs 1.0
-import QtQuick.Controls 2.0 as Controls
+import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
 import QtQuick.Layouts 1.2
 import QtMultimedia 5.15
@@ -8,61 +8,54 @@ import QtAudioEngine 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 
-Kirigami.Page {
+Controls.Page {
     id: mainPage
-    title: "Presenter"
     padding: 0
     property var video: null
-
-    actions {
-        main: Kirigami.Action {
-            icon.name: "fileopen"
-            text: "VideoBG"
-            onTriggered: {
-                print("Action button in buttons page clicked");
-                fileDialog.open()
-            }
-        }
-        right: Kirigami.Action {
-            icon.name: "view-presentation"
-            text: "Go Live"
-            onTriggered: {
-                print("Window is loading")
-                presentLoader.active = true
-            }
-        }
-    }
 
     Item {
         id: mainItem
         anchors.fill: parent
         height: parent.height
 
-        GridLayout {
-            id: gridLayout
+        Controls.SplitView {
+            id: splitMainView
             anchors.fill: parent
-            height: parent.height
-            columns: 3
-            rows: 2
-            Presenter.LeftDock {
-                id: leftDock
-                Layout.fillHeight: true
-                implicitWidth: 200
+            handle: Item{
+                implicitWidth: 6
+
+                Rectangle {
+                    height: parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    implicitWidth: 2
+                    color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
+                    //Controls.SplitHandle.pressed ? Kirigami.Theme.focusColor
+                    //: (Controls.Splithandle.hovered ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor)
+                }
             }
 
-            Rectangle {
-                id: leftDockBorder
-                color: "lightblue"
-                Layout.fillHeight: true
-                width: 2
+            Presenter.LeftDock {
+                id: leftDock
+                Controls.SplitView.fillHeight: true
+                Controls.SplitView.preferredWidth: 200
             }
 
             Rectangle {
                 id: rightMainArea
                 color: "red"
-                Layout.fillHeight: true
-                Layout.fillWidth: true
+                Controls.SplitView.fillHeight: true
+                Controls.SplitView.fillWidth: true
+                Controls.SplitView.preferredWidth: 700
+                Controls.SplitView.minimumWidth: 500
             }
+
+            Presenter.Library {
+                id: library
+                Controls.SplitView.fillHeight: true
+                Controls.SplitView.preferredWidth: libraryOpen ? 200 : 0
+                Controls.SplitView.maximumWidth: 350
+            }
+ 
         }
     }
 

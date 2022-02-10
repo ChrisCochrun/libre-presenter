@@ -10,11 +10,18 @@ import "./presenter" as Presenter
 
 Kirigami.ApplicationWindow {
     id: root
+
+    property bool libraryOpen: true
+        
     pageStack.initialPage: mainPage
+    header: Presenter.Header {}
+    width: 1280
 
     Presenter.MainWindow {
         id: mainPage
     }
+
+    function toggleLibrary() {
+        libraryOpen = !libraryOpen
+    }
 }
-
-

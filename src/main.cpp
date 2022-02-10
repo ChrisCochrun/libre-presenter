@@ -2,11 +2,13 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QUrl>
+#include <QDebug>
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <iostream>
 #include <QQmlEngine>
 
+#include "songlistmodel.h"
 // #include "mpvobject.h"
 
 int main(int argc, char *argv[])
@@ -18,14 +20,18 @@ int main(int argc, char *argv[])
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Church Presenter"));
 
+  SongListModel songListModel;
+
   // path = QQmlEngine::importPathList()
-  std::cout << "Hello World!";
+  qDebug() << "Hello World!";
 
   QQmlApplicationEngine engine;
 
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
+  engine.rootContext()->setContextProperty("_songListModel", &songListModel);
   engine.load(QUrl(QStringLiteral("qrc:qml/main.qml")));
+
 
 #ifdef STATIC_KIRIGAMI
   KirigamiPlugin::getInstance().registerTypes();

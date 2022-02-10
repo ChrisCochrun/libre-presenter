@@ -4,5 +4,11 @@
         <file>qml/presenter/qmldir</file>
         <file>qml/presenter/LeftDock.qml</file>
         <file>qml/presenter/MainWindow.qml</file>
+        <file>qml/presenter/Library.qml</file>
+        <file>qml/presenter/LibraryModel.qml</file>
+        <file>qml/presenter/LibraryDelegate.qml</file>
+        <file>qml/presenter/Header.qml</file>
+        <file>qml/presenter/Actions.qml</file>
+        <file>qml/presenter/PanelItem.qml</file>
     </qresource>
 </RCC>
