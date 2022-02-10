@@ -16,7 +16,6 @@ Controls.Page {
     Item {
         id: mainItem
         anchors.fill: parent
-        height: parent.height
 
         Controls.SplitView {
             id: splitMainView
@@ -40,9 +39,8 @@ Controls.Page {
                 Controls.SplitView.preferredWidth: 200
             }
 
-            Rectangle {
+            Presenter.SongEditor {
                 id: rightMainArea
-                color: "red"
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.preferredWidth: 700

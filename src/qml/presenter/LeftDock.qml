@@ -9,21 +9,32 @@ import org.kde.kirigami 2.13 as Kirigami
 
 ColumnLayout {
     id: root
-    Layout.fillHeight: true
-    
-    Kirigami.Heading {
-        id: serviceTitle
-        text: "Service List"
-        level: 1
-        Layout.alignment: Qt.AlignHCenter
+
+    Rectangle {
+        id: headerBackground
+        color: Kirigami.Theme.backgroundColor
+        height: 40
+        opacity: 1.0
+        Layout.fillWidth: true
+
+        Kirigami.Heading {
+            id: serviceTitle
+            text: "Service List"
+            anchors.centerIn: headerBackground 
+            padding: 5
+            level: 3
+        }
     }
-    
+
     ListView {
         id: serviceItemList
+        Layout.fillWidth: true
+        Layout.fillHeight: true
         model: listModel
         delegate: itemDelegate
-        /* flickDeceleration: 2000 */
-
+        clip: true
+        spacing: 2
+        
         Component {
             id: itemDelegate
             Kirigami.BasicListItem {
@@ -49,81 +60,81 @@ ColumnLayout {
             anchors.leftMargin: 10
             active: hovered || pressed
         }
-    }
-
-    ListModel {
-        id: listModel
-        ListElement {
-            itemName: "10,000 Reason"
-            type: "song"
-        }
-        ListElement {
-            itemName: "Marvelous Light"
-            type: "song"
-        }
-        ListElement {
-            itemName: "10 reason to use church presenter"
-            type: "video"
-        }
-        ListElement {
-            itemName: "10,000 Reason"
-            type: "song"
-        }
-        ListElement {
-            itemName: "Marvelous Light"
-            type: "song"
-        }
-        ListElement {
-            itemName: "10 reason to use church presenter"
-            type: "video"
-        }
-        ListElement {
-            itemName: "10,000 Reason"
-            type: "song"
-        }
-        ListElement {
-            itemName: "Marvelous Light"
-            type: "song"
-        }
-        ListElement {
-            itemName: "10 reason to use church presenter"
-            type: "video"
-        }
-        ListElement {
-            itemName: "10,000 Reason"
-            type: "song"
-        }
-        ListElement {
-            itemName: "Marvelous Light"
-            type: "song"
-        }
-        ListElement {
-            itemName: "10 reason to use church presenter"
-            type: "video"
-        }
-        ListElement {
-            itemName: "10,000 Reason"
-            type: "song"
-        }
-        ListElement {
-            itemName: "Marvelous Light"
-            type: "song"
-        }
-        ListElement {
-            itemName: "10 reason to use church presenter"
-            type: "video"
-        }
-        ListElement {
-            itemName: "10,000 Reason"
-            type: "song"
-        }
-        ListElement {
-            itemName: "Marvelous Light"
-            type: "song"
-        }
-        ListElement {
-            itemName: "10 reason to use church presenter"
-            type: "video"
-        }
-    }
+        ListModel {
+            id: listModel
+            ListElement {
+                itemName: "10,000 Reason"
+                type: "song"
+            }
+            ListElement {
+                itemName: "Marvelous Light"
+                type: "song"
+            }
+            ListElement {
+                itemName: "10 reason to use church presenter"
+                type: "video"
+            }
+            ListElement {
+                itemName: "10,000 Reason"
+                type: "song"
+            }
+            ListElement {
+                itemName: "Marvelous Light"
+                type: "song"
+            }
+            ListElement {
+                itemName: "10 reason to use church presenter"
+                type: "video"
+            }
+            ListElement {
+                itemName: "10,000 Reason"
+                type: "song"
+            }
+            ListElement {
+                itemName: "Marvelous Light"
+                type: "song"
+            }
+            ListElement {
+                itemName: "10 reason to use church presenter"
+                type: "video"
+            }
+            ListElement {
+                itemName: "10,000 Reason"
+                type: "song"
+            }
+            ListElement {
+                itemName: "Marvelous Light"
+                type: "song"
+            }
+            ListElement {
+                itemName: "10 reason to use church presenter"
+                type: "video"
+            }
+            ListElement {
+                itemName: "10,000 Reason"
+                type: "song"
+            }
+            ListElement {
+                itemName: "Marvelous Light"
+                type: "song"
+            }
+            ListElement {
+                itemName: "10 reason to use church presenter"
+                type: "video"
+            }
+            ListElement {
+                itemName: "10,000 Reason"
+                type: "song"
+            }
+             ListElement {
+                 itemName: "Marvelous Light"
+                 type: "song"
+             }
+             ListElement {
+                 itemName: "10 reason to use church presenter"
+                 type: "video"
+             }
+         }
+     }
 }
+
