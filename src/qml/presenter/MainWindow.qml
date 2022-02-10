@@ -76,68 +76,20 @@ Controls.Page {
 
     Loader {
         id: presentLoader
-        active: false
+        active: presenting
         sourceComponent: Window {
-            id: presentWindow
+            id: presentationWindow
             title: "presentation-window"
             height: maximumHeight
             width: maximumWidth
-            visible: true
-            onClosing: presentLoader.active = false
+            screen: Qt.application.screens[1]
+            onClosing: presenting = false
             Component.onCompleted: {
-                presentWindow.showFullScreen();
+                presentationWindow.showFullScreen();
             }
-            Item {
-                id: basePresentationLayer
-                anchors.fill: parent
-                Rectangle {
-                    id: basePrColor
-                    anchors.fill: parent
-                    color: "black"
-
-                    MediaPlayer {
-                        id: videoPlayer
-                        source: video
-                        loops: MediaPlayer.Infinite
-                        autoPlay: true
-                        notifyInterval: 100
-                    }
-
-                    VideoOutput {
-                        id: videoOutput
-                        anchors.fill: parent
-                        source: videoPlayer
-                    }
-                    MouseArea {
-                        id: playArea
-                        anchors.fill: parent
-                        onPressed: videoPlayer.play();
-                    }
-
-                    Controls.ProgressBar {
-                        id: progressBar
-
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-                        anchors.margins: 100
-                        from: 0
-                        to: videoPlayer.duraion
-                        value: videoPlayer.position/videoPlayer.duration
-
-                        height: 30
-
-                        MouseArea {
-                            anchors.fill: parent
-
-                            onClicked: {
-                                if (videoPlayer.seekable) {
-                                    videoPlayer.seek(videoPlayer.duration * mouse.x/width);
-                                }
-                            }
-                        }
-                    }
-                }
+            Presenter.Slide {
+                id: presentationSlide
+                imageSource: "../../assets/parallel.jpg"
             }
         }
     }

@@ -11,5 +11,7 @@
         <file>qml/presenter/Actions.qml</file>
         <file>qml/presenter/PanelItem.qml</file>
         <file>qml/presenter/SongEditor.qml</file>
+        <file>qml/presenter/Slide.qml</file>
+        <file>assets/parallel.jpg</file>
     </qresource>
 </RCC>

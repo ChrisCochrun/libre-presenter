@@ -48,6 +48,9 @@ Item {
                 Controls.ToolButton {
                     text: "Effects"
                 }
+                Controls.ToolButton {
+                    text: "Background"
+                }
             }
         }
 

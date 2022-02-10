@@ -40,13 +40,13 @@ Kirigami.ActionToolBar {
             text: "Go Live"
             onTriggered: {
                 print("Window is loading")
-                presentLoader.active = true
+                presenting = true
             }
         },
 
         Kirigami.Action {
-            icon.name: "sidebar-collapse-right"
-            text: "Close Library"
+            icon.name: libraryOpen ? "sidebar-collapse-right" : "sidebar-expand-right"
+            text: libraryOpen ? "Close Library" : "Open Library"
             onTriggered: toggleLibrary()
         }
 

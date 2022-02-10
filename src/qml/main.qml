@@ -12,6 +12,7 @@ Kirigami.ApplicationWindow {
     id: root
 
     property bool libraryOpen: true
+    property bool presenting: false
         
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
