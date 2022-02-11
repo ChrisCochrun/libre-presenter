@@ -12,6 +12,7 @@ Item {
     anchors.fill: parent
 
     property real textSize: 50
+    property bool editMode: false
     property bool dropShadow: false
     property url imageSource: ""
     property url videoSource: ""
@@ -48,6 +49,14 @@ Item {
             fillMode: Image.PreserveAspectCrop
             clip: true
 
+        }
+
+        FastBlur {
+            id: imageBlue
+            anchors.fill: parent
+            source: backgroundImage
+            radius: blurRadius
+
             Controls.Label {
                 id: lyrics
                 text: "This is some test lyrics" // change to song lyrics of current verse
@@ -68,6 +77,7 @@ Item {
                 color: "#80000000"
                 visible: true
             }
+
         }
     }
 }

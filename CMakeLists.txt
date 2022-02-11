@@ -4,11 +4,14 @@ project(presenter)
 set(KF_MIN_VERSION "5.68.0")
 set(QT_MIN_VERSION "5.12.0")
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
-
-set(CMAKE_AUTOMOC ON)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)

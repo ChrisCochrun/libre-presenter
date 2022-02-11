@@ -16,6 +16,7 @@ Controls.Page {
     property string songTitle: ""
     property string songLyrics: ""
     property string songAuthor: ""
+    property int blurRadius: 0
 
     Item {
         id: mainItem
@@ -41,6 +42,7 @@ Controls.Page {
                 id: leftDock
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.preferredWidth: 200
+                Controls.SplitView.maximumWidth: 300
             }
 
             Presenter.SongEditor {
@@ -59,6 +61,7 @@ Controls.Page {
             }
  
         }
+
     }
 
     Loader {
@@ -69,10 +72,11 @@ Controls.Page {
             title: "presentation-window"
             height: maximumHeight
             width: maximumWidth
-            screen: Qt.application.screens[1]
+            screen: secondScreen
             onClosing: presenting = false
             Component.onCompleted: {
                 presentationWindow.showFullScreen();
+                print(Qt.application.screens[1])
             }
             Presenter.Slide {
                 id: presentationSlide
@@ -83,9 +87,11 @@ Controls.Page {
 
     FileDialog {
         id: fileDialog
-        title: "Please choose a video"
+        title: "Please choose a background"
         folder: shortcuts.home
         selectMultiple: false
+        nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)",
+                      "Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
         onAccepted: {
             print("You chose: " + fileDialog.fileUrls)
             background = fileDialog.fileUrls
@@ -97,5 +103,7 @@ Controls.Page {
             print("Canceled")
             /* Qt.quit() */
         }
+
     }
+
 }

@@ -16,7 +16,7 @@ Item {
         anchors.fill: parent
         columns: 2
         rowSpacing: 5
-        columnSpacing: 20
+        columnSpacing: 0
 
         Controls.ToolBar {
             Layout.fillWidth: true
@@ -51,6 +51,8 @@ Item {
                 Controls.ToolSeparator {}
                 Controls.ToolButton {
                     text: "Effects"
+                    icon.name: "image-auto-adjust"
+                    onClicked: {}
                 }
                 Controls.ToolButton {
                     text: "Background"
@@ -69,6 +71,7 @@ Item {
             Layout.preferredWidth: 300
             Layout.fillWidth: true
             Layout.leftMargin: 20
+            Layout.rightMargin: 20
 
             placeholderText: "Song Title..."
             text: songTitle
@@ -85,19 +88,25 @@ Item {
             Layout.rightMargin: 20
         }
 
-        Controls.TextArea {
+        Controls.ScrollView {
             id: songLyricsField
 
-            Layout.preferredHeight: 500
+            Layout.preferredHeight: 3000
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.leftMargin: 20
 
-            placeholderText: "Put lyrics here..."
-            persistentSelection: true
-            text: songLyrics
-            textFormat: TextEdit.MarkdownText
-            padding: 10
+            rightPadding: 20
+
+            Controls.TextArea {
+                width: parent.width
+
+                placeholderText: "Put lyrics here..."
+                persistentSelection: true
+                text: songLyrics
+                textFormat: TextEdit.MarkdownText
+                padding: 10
+            }
         }
 
         Rectangle {
@@ -117,6 +126,7 @@ Item {
             Layout.fillWidth: true
             Layout.preferredWidth: 300
             Layout.leftMargin: 20
+            Layout.rightMargin: 20
 
             placeholderText: "Author..."
             text: songAuthor

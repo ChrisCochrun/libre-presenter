@@ -9,14 +9,16 @@ import org.kde.kirigami 2.13 as Kirigami
 import "./presenter" as Presenter
 
 Kirigami.ApplicationWindow {
-    id: root
+    id: rootApp
 
     property bool libraryOpen: true
     property bool presenting: false
+    property var secondScreen: null
         
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
-    width: 1280
+    width: 1800
+    height: 900
 
     Presenter.MainWindow {
         id: mainPage
@@ -25,5 +27,7 @@ Kirigami.ApplicationWindow {
     function toggleLibrary() {
         libraryOpen = !libraryOpen
     }
+
+    Component.onCompleted: secondScreen = Qt.application.screens[1]
 
 }
