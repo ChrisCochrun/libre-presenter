@@ -50,6 +50,11 @@ Item {
                 }
                 Controls.ToolButton {
                     text: "Background"
+                    icon.name: "fileopen"
+                    onClicked: {
+                        print("Action button in buttons page clicked");
+                        fileDialog.open()
+                    }
                 }
             }
         }
@@ -57,6 +62,8 @@ Item {
         Controls.TextField {
             implicitWidth: 300
             Layout.leftMargin: 20
+            placeholderText: "Song Title..."
+            text: songTitle
         }
 
         Rectangle {
@@ -72,6 +79,9 @@ Item {
             Layout.bottomMargin: 30
             Layout.leftMargin: 20
             placeholderText: "Put lyrics here..."
+            persistentSelection: true
+            text: songLyrics
+            textFormat: TextEdit.MarkdownText
         }
 
         Rectangle {
@@ -82,5 +92,4 @@ Item {
             Layout.rightMargin: 20
         }
     }
-
 }

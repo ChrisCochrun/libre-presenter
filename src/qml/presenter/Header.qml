@@ -22,19 +22,13 @@ Kirigami.ActionToolBar {
             displayComponent: Component {
                 Kirigami.SearchField {
                     id: searchField
+                    anchors.centerIn: parent
+                    width: parent.width / 3
                     onAccepted: showPassiveNotification(searchField.text, 3000)
                 }
             }
         },
 
-        Kirigami.Action {
-            icon.name: "fileopen"
-            text: "VideoBG"
-            onTriggered: {
-                print("Action button in buttons page clicked");
-                fileDialog.open()
-            }
-        },
         Kirigami.Action {
             icon.name: "view-presentation"
             text: "Go Live"

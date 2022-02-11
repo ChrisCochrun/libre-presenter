@@ -10,14 +10,9 @@ SongListModel::SongListModel(QObject *parent)
 
 int SongListModel::rowCount(const QModelIndex &parent) const
 {
-  // For list models only the root node (an invalid parent) should return the list's size. For all
-  // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
   if (parent.isValid())
     return 0;
-
-  // FIXME: Implement me!
   return m_data.count();
-
 }
 
 QVariant SongListModel::data(const QModelIndex &index, int role) const
@@ -25,7 +20,7 @@ QVariant SongListModel::data(const QModelIndex &index, int role) const
   if (!index.isValid())
     return QVariant();
 
-  // FIXME: Implement me!
+  // this is the returning of song data
   const Data &data = m_data.at(index.row());
   if ( role == TitleRole )
     return data.title;

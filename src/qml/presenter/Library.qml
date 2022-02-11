@@ -25,8 +25,12 @@ Item {
                     label: title
                     subtitle: author
                     hoverEnabled: true
-                    onClicked: ListView.view.currentIndex = index
-
+                    onClicked: {
+                        ListView.view.currentIndex = index
+                        songTitle = title
+                        songLyrics = lyrics
+                        showPassiveNotification(songLyrics, 3000)
+                    }
                 }
             }
 

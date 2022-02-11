@@ -11,7 +11,10 @@ import "./" as Presenter
 Controls.Page {
     id: mainPage
     padding: 0
-    property var video: null
+    property url videoBackground: ""
+    property url imageBackground: ""
+    property string songTitle: ""
+    property string songLyrics: ""
 
     Item {
         id: mainItem
@@ -57,23 +60,6 @@ Controls.Page {
         }
     }
 
-
-    
-    FileDialog {
-        id: fileDialog
-        title: "Please choose a video"
-        folder: shortcuts.home
-        selectMultiple: false
-        onAccepted: {
-            print("You chose: " + fileDialog.fileUrls)
-            video = fileDialog.fileUrl
-        }
-        onRejected: {
-            print("Canceled")
-            /* Qt.quit() */
-        }
-    }
-
     Loader {
         id: presentLoader
         active: presenting
@@ -91,6 +77,24 @@ Controls.Page {
                 id: presentationSlide
                 imageSource: "../../assets/parallel.jpg"
             }
+        }
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a video"
+        folder: shortcuts.home
+        selectMultiple: false
+        onAccepted: {
+            print("You chose: " + fileDialog.fileUrls)
+            background = fileDialog.fileUrls
+
+            
+
+        }
+        onRejected: {
+            print("Canceled")
+            /* Qt.quit() */
         }
     }
 }

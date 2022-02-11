@@ -25,4 +25,5 @@ Kirigami.ApplicationWindow {
     function toggleLibrary() {
         libraryOpen = !libraryOpen
     }
+
 }
