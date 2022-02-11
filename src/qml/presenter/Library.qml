@@ -29,6 +29,7 @@ Item {
                         ListView.view.currentIndex = index
                         songTitle = title
                         songLyrics = lyrics
+                        songAuthor = author
                         showPassiveNotification(songLyrics, 3000)
                     }
                 }

@@ -15,6 +15,7 @@ Controls.Page {
     property url imageBackground: ""
     property string songTitle: ""
     property string songLyrics: ""
+    property string songAuthor: ""
 
     Item {
         id: mainItem

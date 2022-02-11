@@ -13,11 +13,13 @@ Item {
 
     GridLayout {
         id: mainLayout
+        anchors.fill: parent
         columns: 2
         rowSpacing: 5
         columnSpacing: 20
 
         Controls.ToolBar {
+            Layout.fillWidth: true
             Layout.columnSpan: 2
             id: toolbar
             RowLayout {
@@ -45,6 +47,8 @@ Item {
                     text: "U"
                 }
                 Controls.ToolSeparator {}
+                Item { Layout.fillWidth: true }
+                Controls.ToolSeparator {}
                 Controls.ToolButton {
                     text: "Effects"
                 }
@@ -60,36 +64,63 @@ Item {
         }
 
         Controls.TextField {
-            implicitWidth: 300
+            id: songTitleField
+
+            Layout.preferredWidth: 300
+            Layout.fillWidth: true
             Layout.leftMargin: 20
+
             placeholderText: "Song Title..."
             text: songTitle
+            padding: 10
         }
 
         Rectangle {
-            color: "red"
-            implicitWidth: 400
-            implicitHeight: 10
+            id: slideBar
+            color: Kirigami.Theme.highlightColor
+
+            Layout.preferredWidth: 400
+            Layout.preferredHeight: songTitleField.height
+            Layout.fillWidth: true
             Layout.rightMargin: 20
         }
 
         Controls.TextArea {
-            implicitWidth: 300
-            implicitHeight: 500
-            Layout.bottomMargin: 30
+            id: songLyricsField
+
+            Layout.preferredHeight: 500
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             Layout.leftMargin: 20
+
             placeholderText: "Put lyrics here..."
             persistentSelection: true
             text: songLyrics
             textFormat: TextEdit.MarkdownText
+            padding: 10
         }
 
         Rectangle {
+            id: slideEditor
             color: "red"
-            implicitWidth: 400
-            implicitHeight: 500
+            Layout.preferredHeight: 800
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             Layout.bottomMargin: 30
             Layout.rightMargin: 20
+            Layout.rowSpan: 15
+        }
+
+        Controls.TextField {
+            id: songAuthorField
+
+            Layout.fillWidth: true
+            Layout.preferredWidth: 300
+            Layout.leftMargin: 20
+
+            placeholderText: "Author..."
+            text: songAuthor
+            padding: 10
         }
     }
 }
