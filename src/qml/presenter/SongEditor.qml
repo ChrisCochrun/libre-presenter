@@ -106,6 +106,8 @@ Item {
                 text: songLyrics
                 textFormat: TextEdit.MarkdownText
                 padding: 10
+                onEditingFinished: showPassiveNotification("updated...", 2000)
+                onPressed: editorTimer.running = true
             }
         }
 
@@ -132,5 +134,13 @@ Item {
             text: songAuthor
             padding: 10
         }
+    }
+
+    Timer {
+        id: editorTimer
+        interval: 1000
+        repeat: true
+        running: false
+        onTriggered: showPassiveNotification("updating song...")
     }
 }

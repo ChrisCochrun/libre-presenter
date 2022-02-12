@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QUrl>
+#include <QSql>
 #include <QDebug>
 #include <KLocalizedContext>
 #include <KLocalizedString>
