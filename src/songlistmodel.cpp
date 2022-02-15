@@ -5,6 +5,17 @@ SongListModel::SongListModel(QObject *parent)
 {
   m_data
     << Data("10,000 Reasons", "10,000 reasons for my heart to sing", "Matt Redman", "13470183", "")
+    << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "")
+    << Data("10,000 Reasons", "10,000 reasons for my heart to sing", "Matt Redman", "13470183", "")
+    << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "")
+    << Data("10,000 Reasons", "10,000 reasons for my heart to sing", "Matt Redman", "13470183", "")
+    << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "")
+    << Data("10,000 Reasons", "10,000 reasons for my heart to sing", "Matt Redman", "13470183", "")
+    << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "")
+    << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "")
+    << Data("10,000 Reasons", "10,000 reasons for my heart to sing", "Matt Redman", "13470183", "")
+    << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "")
+    << Data("10,000 Reasons", "10,000 reasons for my heart to sing", "Matt Redman", "13470183", "")
     << Data("Marvelous Light", "Into marvelous light I'm running", "Chris Tomlin", "13470183", "");
 }
 

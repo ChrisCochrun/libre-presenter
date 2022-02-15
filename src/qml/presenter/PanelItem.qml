@@ -4,20 +4,20 @@ import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.13 as Kirigami
 
 Item {
+    id: root
     default property var contentItem: null
     property string title: "panel"
-    id: root
+    property bool current: false
     Layout.fillWidth: true
     height: 30
     Layout.fillHeight: current
-    property bool current: false
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
         Rectangle {
             id: bar
             Layout.fillWidth: true
-            height: 30
+            height: 40
             color:  root.current ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor
             Controls.Label {
                 anchors.fill: parent
@@ -37,6 +37,9 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 text: "^"
                 rotation: root.current ? "180" : 0
+                Behavior on rotation {
+                    PropertyAnimation { duration: 100 }
+                }
             }
             MouseArea {
                 anchors.fill: parent

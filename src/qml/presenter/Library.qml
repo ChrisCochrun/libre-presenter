@@ -7,46 +7,208 @@ import "./" as Presenter
 
 Item {
     id: root
-    Presenter.PanelItem {
-        anchors.fill: parent
+
+    /* ColumnLayout { */
+    /*     anchors.fill: parent */
+    /*     spacing: 0 */
+    /*     Rectangle { */
+    /*         id: songLibraryPanel */
+    /*         Layout.preferredHeight: 40 */
+    /*         Layout.fillWidth: true */
+    /*         color: Kirigami.Theme.backgroundColor */
+
+    /*         Controls.Label { */
+    /*             anchors.centerIn: parent */
+    /*             text: "Songs" */
+    /*         } */
+
+    /*         MouseArea { */
+    /*             anchors.fill: parent */
+    /*             onClicked: { */
+    /*                 if (songLibraryList.state == "selected") */
+    /*                     songLibraryList.state = "deselected" */
+    /*                 else */
+    /*                     songLibraryList.state = "selected" */
+    /*             } */
+    /*         } */
+    /*     } */
+
+    /*     ListView { */
+    /*         Layout.fillHeight: true */
+    /*         Layout.fillWidth: true */
+    /*         id: songLibraryList */
+    /*         model: _songListModel */
+    /*         delegate: itemDelegate */
+
+    /*         Component.onCompleted: songLibraryList.state = selected */
+
+    /*         states: [ */
+    /*             State { */
+    /*                 name: "deselected" */
+    /*                 PropertyChanges { target: songLibraryList */
+    /*                                   height: 0 */
+    /*                                   Layout.fillHeight: false */
+    /*                                   visible: false */
+    /*                                 } */
+    /*             }, */
+    /*             State { */
+    /*                 name: "selected" */
+    /*                 PropertyChanges { target: songLibraryList } */
+    /*             } */
+    /*         ] */
+
+    /*         transitions: Transition { */
+    /*             from: "selected" */
+    /*             to: "deselected" */
+    /*             NumberAnimation { */
+    /*                 target: songLibraryList */
+    /*                 properties: "height" */
+    /*                 easing.type: Easing.OutCubic */
+    /*                 duration: 300 */
+    /*             } */
+    /*         } */
+
+    /*         Component { */
+    /*             id: itemDelegate */
+    /*             Kirigami.BasicListItem { */
+    /*                 width: ListView.view.width */
+    /*                 height:40 */
+    /*                 label: title */
+    /*                 subtitle: author */
+    /*                 hoverEnabled: true */
+    /*                 onClicked: { */
+    /*                     ListView.view.currentIndex = index */
+    /*                     songTitle = title */
+    /*                     songLyrics = lyrics */
+    /*                     songAuthor = author */
+    /*                     showPassiveNotification(songLyrics, 3000) */
+    /*                 } */
+    /*             } */
+    /*         } */
+
+    /*         Kirigami.WheelHandler { */
+    /*             id: wheelHandler */
+    /*             target: songLibraryList */
+    /*             filterMouseEvents: true */
+    /*             keyNavigationEnabled: true */
+    /*         } */
+
+    /*         Controls.ScrollBar.vertical: Controls.ScrollBar { */
+    /*             anchors.right: songLibraryList.right */
+    /*             anchors.leftMargin: 10 */
+    /*             active: hovered || pressed */
+    /*         } */
+    /*     } */
+
+    /*     Rectangle { */
+    /*         id: videoLibraryPanel */
+    /*         Layout.preferredHeight: 40 */
+    /*         Layout.fillWidth: true */
+    /*         color: Kirigami.Theme.backgroundColor */
+    /*         opacity: 1.0 */
+
+    /*         Controls.Label { */
+    /*             anchors.centerIn: parent */
+    /*             text: "Videos" */
+    /*         } */
+
+    /*         MouseArea { */
+    /*             anchors.fill: parent */
+    /*         } */
+    /*     } */
+
+    /*     ListView { */
+    /*         id: videoLibraryList */
+    /*         Layout.fillHeight: true */
+    /*         Layout.fillWidth: true */
+
+    /*     } */
+    /*     Rectangle { */
+    /*         id: imageLibraryPanel */
+    /*         Layout.preferredHeight: 40 */
+    /*         Layout.fillWidth: true */
+    /*         color: Kirigami.Theme.backgroundColor */
+
+    /*         Controls.Label { */
+    /*             anchors.centerIn: parent */
+    /*             text: "Images" */
+    /*         } */
+
+    /*         MouseArea { */
+    /*             anchors.fill: parent */
+    /*         } */
+    /*     } */
+
+    /*     ListView { */
+    /*         id: imageLibraryList */
+    /*         Layout.fillHeight: true */
+    /*         Layout.fillWidth: true */
+
+    /*     } */
+    /*     Rectangle { */
+    /*         id: presentationLibraryPanel */
+    /*         Layout.preferredHeight: 40 */
+    /*         Layout.fillWidth: true */
+    /*         color: Kirigami.Theme.backgroundColor */
+
+    /*         Controls.Label { */
+    /*             anchors.centerIn: parent */
+    /*             text: "Presentations" */
+    /*         } */
+
+    /*         MouseArea { */
+    /*             anchors.fill: parent */
+    /*         } */
+    /*     } */
+
+    /*     ListView { */
+    /*         id: presentationLibraryList */
+    /*         Layout.fillHeight: true */
+    /*         Layout.fillWidth: true */
+
+    /*     } */
+    /*     Rectangle { */
+    /*         id: slideLibraryPanel */
+    /*         Layout.preferredHeight: 40 */
+    /*         Layout.fillWidth: true */
+    /*         color: Kirigami.Theme.backgroundColor */
+
+    /*         Controls.Label { */
+    /*             anchors.centerIn: parent */
+    /*             text: "Slides" */
+    /*         } */
+
+    /*         MouseArea { */
+    /*             anchors.fill: parent */
+    /*         } */
+    /*     } */
+
+    /*     ListView { */
+    /*         id: slideLibraryList */
+    /*         Layout.fillHeight: true */
+    /*         Layout.fillWidth: true */
+
+    /*     } */
+    /* } */
+
+    Presenter.LibraryItem {
+        id: songLibrary
         title: "Songs"
-
-        ListView {
-            anchors.fill: parent
-            id: libraryListView
-            model: _songListModel
-            delegate: itemDelegate
-
-            Component {
-                id: itemDelegate
-                Kirigami.BasicListItem {
-                    width: ListView.view.width
-                    height:40
-                    label: title
-                    subtitle: author
-                    hoverEnabled: true
-                    onClicked: {
-                        ListView.view.currentIndex = index
-                        songTitle = title
-                        songLyrics = lyrics
-                        songAuthor = author
-                        showPassiveNotification(songLyrics, 3000)
-                    }
-                }
-            }
-
-            Kirigami.WheelHandler {
-                id: wheelHandler
-                target: libraryListView
-                filterMouseEvents: true
-                keyNavigationEnabled: true
-            }
-
-            Controls.ScrollBar.vertical: Controls.ScrollBar {
-                anchors.right: libraryListView.right
-                anchors.leftMargin: 10
-                active: hovered || pressed
-            }
-        }
+        model: _songListModel
+        open: true
+        /* type: "song" */
+        /* Layout.fillHeight: true */
+        Layout.fillWidth: true
+        /* Layout.preferredHeight: parent.height */
     }
+
+    Presenter.LibraryItem {
+        id: ssongLibrary
+        title: "Songs"
+        model: _songListModel
+        open: false
+        /* type: "song" */
+    }
+
+
 }
