@@ -630,11 +630,11 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Gettext
 FIND_PACKAGE_MESSAGE_DETAILS_Gettext:INTERNAL=[/usr/bin/msgmerge][/usr/bin/msgfmt][v0.21()]
 //Details about finding KF5
-FIND_PACKAGE_MESSAGE_DETAILS_KF5:INTERNAL=[success][cfound components: Kirigami2 I18n CoreAddons ][v5.87.0(5.68.0)]
+FIND_PACKAGE_MESSAGE_DETAILS_KF5:INTERNAL=[success][cfound components: Kirigami2 I18n CoreAddons ][v5.90.0(5.68.0)]
 //Details about finding KF5CoreAddons
 FIND_PACKAGE_MESSAGE_DETAILS_KF5CoreAddons:INTERNAL=[/usr/lib64/cmake/KF5CoreAddons/KF5CoreAddonsConfig.cmake][v5.90.0()]
 //Details about finding KF5I18n
-FIND_PACKAGE_MESSAGE_DETAILS_KF5I18n:INTERNAL=[/usr/lib64/cmake/KF5I18n/KF5I18nConfig.cmake][v5.87.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_KF5I18n:INTERNAL=[/usr/lib64/cmake/KF5I18n/KF5I18nConfig.cmake][v5.90.0()]
 //Details about finding KF5Kirigami2
 FIND_PACKAGE_MESSAGE_DETAILS_KF5Kirigami2:INTERNAL=[/usr/lib64/cmake/KF5Kirigami2/KF5Kirigami2Config.cmake][v5.90.0()]
 //Test HAVE_DATE_TIME

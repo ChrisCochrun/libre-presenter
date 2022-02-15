@@ -28,6 +28,10 @@ Kirigami.ApplicationWindow {
         libraryOpen = !libraryOpen
     }
 
-    Component.onCompleted: secondScreen = Qt.application.screens[1]
+    Component.onCompleted: {
+        print("checking screens")
+        secondScreen = Qt.application.screens[1]
+        print(secondScreen)
+    }
 
 }

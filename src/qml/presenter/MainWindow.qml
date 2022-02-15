@@ -11,8 +11,7 @@ import "./" as Presenter
 Controls.Page {
     id: mainPage
     padding: 0
-    property url videoBackground: ""
-    property url imageBackground: ""
+    property url background: ""
     property string songTitle: ""
     property string songLyrics: ""
     property string songAuthor: ""
@@ -93,10 +92,13 @@ Controls.Page {
         nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)",
                       "Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
         onAccepted: {
-            print("You chose: " + fileDialog.fileUrls)
-            background = fileDialog.fileUrls
+            print("You chose: " + fileDialog.fileUrls);
+            videoBackground = fileDialog.fileUrl;
+            print(videoBackground);
 
-            
+            str = videoBackground.toString();
+            if (str.endsWith("mp4"))
+                videoBackground = fileDialog.fileUrl; print("WE DID IT!!");
 
         }
         onRejected: {
@@ -104,6 +106,10 @@ Controls.Page {
             /* Qt.quit() */
         }
 
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
 
 }

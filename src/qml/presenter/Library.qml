@@ -8,207 +8,353 @@ import "./" as Presenter
 Item {
     id: root
 
-    /* ColumnLayout { */
-    /*     anchors.fill: parent */
-    /*     spacing: 0 */
-    /*     Rectangle { */
-    /*         id: songLibraryPanel */
-    /*         Layout.preferredHeight: 40 */
-    /*         Layout.fillWidth: true */
-    /*         color: Kirigami.Theme.backgroundColor */
+    property string selectedLibrary: "songs"
 
-    /*         Controls.Label { */
-    /*             anchors.centerIn: parent */
-    /*             text: "Songs" */
-    /*         } */
+    Kirigami.Theme.colorSet: Kirigami.Theme.View
 
-    /*         MouseArea { */
-    /*             anchors.fill: parent */
-    /*             onClicked: { */
-    /*                 if (songLibraryList.state == "selected") */
-    /*                     songLibraryList.state = "deselected" */
-    /*                 else */
-    /*                     songLibraryList.state = "selected" */
-    /*             } */
-    /*         } */
-    /*     } */
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
+        Rectangle {
+            id: songLibraryPanel
+            Layout.preferredHeight: 40
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
 
-    /*     ListView { */
-    /*         Layout.fillHeight: true */
-    /*         Layout.fillWidth: true */
-    /*         id: songLibraryList */
-    /*         model: _songListModel */
-    /*         delegate: itemDelegate */
+            Controls.Label {
+                anchors.centerIn: parent
+                text: "Songs"
+            }
 
-    /*         Component.onCompleted: songLibraryList.state = selected */
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (selectedLibrary == "songs")
+                        selectedLibrary = ""
+                    else
+                        selectedLibrary = "songs"
+                    print(selectedLibrary)
+                }
+            }
+        }
 
-    /*         states: [ */
-    /*             State { */
-    /*                 name: "deselected" */
-    /*                 PropertyChanges { target: songLibraryList */
-    /*                                   height: 0 */
-    /*                                   Layout.fillHeight: false */
-    /*                                   visible: false */
-    /*                                 } */
-    /*             }, */
-    /*             State { */
-    /*                 name: "selected" */
-    /*                 PropertyChanges { target: songLibraryList } */
-    /*             } */
-    /*         ] */
+        ListView {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            id: songLibraryList
+            model: _songListModel
+            delegate: itemDelegate
+            state: "selected"
 
-    /*         transitions: Transition { */
-    /*             from: "selected" */
-    /*             to: "deselected" */
-    /*             NumberAnimation { */
-    /*                 target: songLibraryList */
-    /*                 properties: "height" */
-    /*                 easing.type: Easing.OutCubic */
-    /*                 duration: 300 */
-    /*             } */
-    /*         } */
+            Component.onCompleted: print(selectedLibrary)
 
-    /*         Component { */
-    /*             id: itemDelegate */
-    /*             Kirigami.BasicListItem { */
-    /*                 width: ListView.view.width */
-    /*                 height:40 */
-    /*                 label: title */
-    /*                 subtitle: author */
-    /*                 hoverEnabled: true */
-    /*                 onClicked: { */
-    /*                     ListView.view.currentIndex = index */
-    /*                     songTitle = title */
-    /*                     songLyrics = lyrics */
-    /*                     songAuthor = author */
-    /*                     showPassiveNotification(songLyrics, 3000) */
-    /*                 } */
-    /*             } */
-    /*         } */
+            states: [
+                State {
+                    name: "deselected"
+                    when: (selectedLibrary !== "songs")
+                    PropertyChanges { target: songLibraryList
+                                      height: 0
+                                      Layout.fillHeight: false
+                                      visible: false
+                                    }
+                },
+                State {
+                    name: "selected"
+                    when: (selectedLibrary == "songs")
+                    PropertyChanges { target: songLibraryList }
+                }
+            ]
 
-    /*         Kirigami.WheelHandler { */
-    /*             id: wheelHandler */
-    /*             target: songLibraryList */
-    /*             filterMouseEvents: true */
-    /*             keyNavigationEnabled: true */
-    /*         } */
+            transitions: Transition {
+                to: "*"
+                NumberAnimation {
+                    target: songLibraryList
+                    properties: "height"
+                    easing.type: Easing.OutCubic
+                    duration: 300
+                }
+            }
 
-    /*         Controls.ScrollBar.vertical: Controls.ScrollBar { */
-    /*             anchors.right: songLibraryList.right */
-    /*             anchors.leftMargin: 10 */
-    /*             active: hovered || pressed */
-    /*         } */
-    /*     } */
+            Component {
+                id: itemDelegate
+                Kirigami.BasicListItem {
+                    width: ListView.view.width
+                    height:40
+                    label: title
+                    subtitle: author
+                    hoverEnabled: true
+                    onClicked: {
+                        ListView.view.currentIndex = index
+                        songTitle = title
+                        songLyrics = lyrics
+                        songAuthor = author
+                        showPassiveNotification(songLyrics, 3000)
+                    }
+                }
+            }
 
-    /*     Rectangle { */
-    /*         id: videoLibraryPanel */
-    /*         Layout.preferredHeight: 40 */
-    /*         Layout.fillWidth: true */
-    /*         color: Kirigami.Theme.backgroundColor */
-    /*         opacity: 1.0 */
+            Kirigami.WheelHandler {
+                id: wheelHandler
+                target: songLibraryList
+                filterMouseEvents: true
+                keyNavigationEnabled: true
+            }
 
-    /*         Controls.Label { */
-    /*             anchors.centerIn: parent */
-    /*             text: "Videos" */
-    /*         } */
+            Controls.ScrollBar.vertical: Controls.ScrollBar {
+                anchors.right: songLibraryList.right
+                anchors.leftMargin: 10
+                active: hovered || pressed
+            }
+        }
 
-    /*         MouseArea { */
-    /*             anchors.fill: parent */
-    /*         } */
-    /*     } */
+        Rectangle {
+            id: videoLibraryPanel
+            Layout.preferredHeight: 40
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
 
-    /*     ListView { */
-    /*         id: videoLibraryList */
-    /*         Layout.fillHeight: true */
-    /*         Layout.fillWidth: true */
+            Controls.Label {
+                anchors.centerIn: parent
+                text: "Videos"
+            }
 
-    /*     } */
-    /*     Rectangle { */
-    /*         id: imageLibraryPanel */
-    /*         Layout.preferredHeight: 40 */
-    /*         Layout.fillWidth: true */
-    /*         color: Kirigami.Theme.backgroundColor */
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (selectedLibrary == "videos")
+                        selectedLibrary = ""
+                    else
+                        selectedLibrary = "videos"
+                    print(selectedLibrary)
+                }
+            }
+        }
 
-    /*         Controls.Label { */
-    /*             anchors.centerIn: parent */
-    /*             text: "Images" */
-    /*         } */
+        ListView {
+            id: videoLibraryList
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            state: "deselected"
 
-    /*         MouseArea { */
-    /*             anchors.fill: parent */
-    /*         } */
-    /*     } */
+            states: [
+                State {
+                    name: "deselected"
+                    when: (selectedLibrary !== "videos")
+                    PropertyChanges { target: videoLibraryList
+                                      height: 0
+                                      Layout.fillHeight: false
+                                      visible: false
+                                    }
+                },
+                State {
+                    name: "selected"
+                    when: (selectedLibrary == "videos")
+                    PropertyChanges { target: videoLibraryList }
+                }
+            ]
 
-    /*     ListView { */
-    /*         id: imageLibraryList */
-    /*         Layout.fillHeight: true */
-    /*         Layout.fillWidth: true */
+            transitions: Transition {
+                to: "*"
+                NumberAnimation {
+                    target: videoLibraryList
+                    properties: "height"
+                    easing.type: Easing.OutCubic
+                    duration: 300
+                }
+            }
+        }
 
-    /*     } */
-    /*     Rectangle { */
-    /*         id: presentationLibraryPanel */
-    /*         Layout.preferredHeight: 40 */
-    /*         Layout.fillWidth: true */
-    /*         color: Kirigami.Theme.backgroundColor */
+        Rectangle {
+            id: imageLibraryPanel
+            Layout.preferredHeight: 40
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
 
-    /*         Controls.Label { */
-    /*             anchors.centerIn: parent */
-    /*             text: "Presentations" */
-    /*         } */
+            Controls.Label {
+                anchors.centerIn: parent
+                text: "Images"
+            }
 
-    /*         MouseArea { */
-    /*             anchors.fill: parent */
-    /*         } */
-    /*     } */
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (selectedLibrary == "images")
+                        selectedLibrary = ""
+                    else
+                        selectedLibrary = "images"
+                    print(selectedLibrary)
+                }
+            }
+        }
 
-    /*     ListView { */
-    /*         id: presentationLibraryList */
-    /*         Layout.fillHeight: true */
-    /*         Layout.fillWidth: true */
+        ListView {
+            id: imageLibraryList
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            state: "deselected"
 
-    /*     } */
-    /*     Rectangle { */
-    /*         id: slideLibraryPanel */
-    /*         Layout.preferredHeight: 40 */
-    /*         Layout.fillWidth: true */
-    /*         color: Kirigami.Theme.backgroundColor */
+            states: [
+                State {
+                    name: "deselected"
+                    when: (selectedLibrary !== "images")
+                    PropertyChanges { target: imageLibraryList
+                                      height: 0
+                                      Layout.fillHeight: false
+                                      visible: false
+                                    }
+                },
+                State {
+                    name: "selected"
+                    when: (selectedLibrary == "images")
+                    PropertyChanges { target: imageLibraryList }
+                }
+            ]
 
-    /*         Controls.Label { */
-    /*             anchors.centerIn: parent */
-    /*             text: "Slides" */
-    /*         } */
+            transitions: Transition {
+                to: "*"
+                NumberAnimation {
+                    target: imageLibraryList
+                    properties: "height"
+                    easing.type: Easing.OutCubic
+                    duration: 300
+                }
+            }
 
-    /*         MouseArea { */
-    /*             anchors.fill: parent */
-    /*         } */
-    /*     } */
+        }
+        Rectangle {
+            id: presentationLibraryPanel
+            Layout.preferredHeight: 40
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
 
-    /*     ListView { */
-    /*         id: slideLibraryList */
-    /*         Layout.fillHeight: true */
-    /*         Layout.fillWidth: true */
+            Controls.Label {
+                anchors.centerIn: parent
+                text: "Presentations"
+            }
 
-    /*     } */
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (selectedLibrary == "presentations")
+                        selectedLibrary = ""
+                    else
+                        selectedLibrary = "presentations"
+                    print(selectedLibrary)
+                }
+            }
+        }
+
+        ListView {
+            id: presentationLibraryList
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            state: "deselected"
+
+            states: [
+                State {
+                    name: "deselected"
+                    when: (selectedLibrary !== "presentations")
+                    PropertyChanges { target: presentationLibraryList
+                                      height: 0
+                                      Layout.fillHeight: false
+                                      visible: false
+                                    }
+                },
+                State {
+                    name: "selected"
+                    when: (selectedLibrary == "presentations")
+                    PropertyChanges { target: presentationLibraryList }
+                }
+            ]
+
+            transitions: Transition {
+                to: "*"
+                NumberAnimation {
+                    target: presentationLibraryList
+                    properties: "height"
+                    easing.type: Easing.OutCubic
+                    duration: 300
+                }
+            }
+
+        }
+        Rectangle {
+            id: slideLibraryPanel
+            Layout.preferredHeight: 40
+            Layout.fillWidth: true
+            color: Kirigami.Theme.backgroundColor
+
+            Controls.Label {
+                anchors.centerIn: parent
+                text: "Slides"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (selectedLibrary == "slides")
+                        selectedLibrary = ""
+                    else
+                        selectedLibrary = "slides"
+                    print(selectedLibrary)
+                }
+            }
+        }
+
+        ListView {
+            id: slideLibraryList
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            state: "deselected"
+
+            states: [
+                State {
+                    name: "deselected"
+                    when: (selectedLibrary !== "slides")
+                    PropertyChanges { target: slideLibraryList
+                                      height: 0
+                                      Layout.fillHeight: false
+                                      visible: false
+                                    }
+                },
+                State {
+                    name: "selected"
+                    when: (selectedLibrary == "slides")
+                    PropertyChanges { target: slideLibraryList }
+                }
+            ]
+
+            transitions: Transition {
+                to: "*"
+                NumberAnimation {
+                    target: slideLibraryList
+                    properties: "height"
+                    easing.type: Easing.OutCubic
+                    duration: 300
+                }
+            }
+
+        }
+    }
+
+    /* Presenter.LibraryItem { */
+    /*     id: songLibrary */
+    /*     title: "Songs" */
+    /*     model: _songListModel */
+    /*     open: true */
+    /*     /\* type: "song" *\/ */
+    /*     width: parent.width */
+    /*     anchors.top: parent.top */
     /* } */
 
-    Presenter.LibraryItem {
-        id: songLibrary
-        title: "Songs"
-        model: _songListModel
-        open: true
-        /* type: "song" */
-        /* Layout.fillHeight: true */
-        Layout.fillWidth: true
-        /* Layout.preferredHeight: parent.height */
-    }
-
-    Presenter.LibraryItem {
-        id: ssongLibrary
-        title: "Songs"
-        model: _songListModel
-        open: false
-        /* type: "song" */
-    }
-
+    /* Presenter.LibraryItem { */
+    /*     id: ssongLibrary */
+    /*     title: "Songs" */
+    /*     model: _songListModel */
+    /*     open: false */
+    /*     width: parent.width */
+    /*     /\* type: "song" *\/ */
+    /*     anchors.top: songLibrary.bottom */
+    /* } */
 
 }

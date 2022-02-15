@@ -106,14 +106,13 @@ Item {
                 text: songLyrics
                 textFormat: TextEdit.MarkdownText
                 padding: 10
-                onEditingFinished: showPassiveNotification("updated...", 2000)
+                onEditingFinished: editorTimer.running = false
                 onPressed: editorTimer.running = true
             }
         }
 
-        Rectangle {
+        Presenter.SlideEditor {
             id: slideEditor
-            color: "red"
             Layout.preferredHeight: 800
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -138,7 +137,7 @@ Item {
 
     Timer {
         id: editorTimer
-        interval: 1000
+        interval: 2000
         repeat: true
         running: false
         onTriggered: showPassiveNotification("updating song...")

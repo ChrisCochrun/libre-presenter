@@ -2,7 +2,7 @@
 #+AUTHOR: Chris Cochrun
 
 * Church Presenter
-This is an attempt at building a church presentation application in Qt/QML. QML provides a very powerful and easy declarative way of creating a UI so it should also be a very simple method of creating on screen slides and presentations. This experiment is to see how difficult it is to rebuild these applications in QML as opposed to other more complicated systems. After digging through the source code of OpenLP, I discovered they are essentially created a web server and rendering a page onto the screen to show slides. This felt like a waste of resources and added complexity when something so simple and useful as QML exists.
+This is an attempt at building a church presentation application in Qt/QML. QML provides a very powerful and easy declarative way of creating a UI so it should also be a very simple method of creating on screen slides and presentations. This experiment is to see how difficult it is to rebuild these applications in QML as opposed to other more complicated systems. After digging through the source code of OpenLP, I discovered they are essentially created a web server and rendering a webpage onto the screen to show slides. This felt like a waste of resources and added complexity when something so simple and useful as QML exists.
 
 ** Features (planned are in brackets)
 - Presents songs lyrics with image and video backgrounds
