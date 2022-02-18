@@ -6,9 +6,12 @@ import QtQuick.Layouts 1.2
 import QtMultimedia 5.15
 import QtAudioEngine 1.15
 import org.kde.kirigami 2.13 as Kirigami
+import "./" as Presenter
 
 ColumnLayout {
     id: root
+
+    property var selectedItem: serviceItemList.selected
 
     Rectangle {
         id: headerBackground
@@ -31,19 +34,57 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         model: listModel
-        delegate: itemDelegate
+        delegate: Kirigami.DelegateRecycler {
+            width: serviceItemList.width
+            sourceComponent: itemDelegate
+        }
         clip: true
         spacing: 2
-        
+        addDisplaced: Transition {
+            NumberAnimation {properties: "x, y"; duration: 100}
+        }
+        moveDisplaced: Transition {
+            NumberAnimation { properties: "x, y"; duration: 100 }
+        }
+        remove: Transition {
+            NumberAnimation { properties: "x, y"; duration: 100 }
+            NumberAnimation { properties: "opacity"; duration: 100 }
+        }
+
+        removeDisplaced: Transition {
+            NumberAnimation { properties: "x, y"; duration: 100 }
+        }
+
+        displaced: Transition {
+            NumberAnimation {properties: "x, y"; duration: 100}
+        }
+
         Component {
             id: itemDelegate
             Kirigami.BasicListItem {
+                id: serviceItem
                 width: serviceItemList.width
                 height:50
                 label: itemName
                 subtitle: type
                 hoverEnabled: true
+                backgroundColor: serviceDrop.containsDrag ? Kirigami.Theme.highlightColor : Kirigami.Theme.viewBackgroundColor
                 onClicked: serviceItemList.currentIndex = index
+
+                Presenter.DragHandle {
+                    listItem: serviceItem
+                    listView: serviceItemList
+                    onMoveRequested: listModel.move(oldIndex, newIndex, 1)
+                    anchors.fill: parent
+                }
+
+                DropArea {
+                    id: serviceDrop
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    onEntered: showPassiveNotification(drag.source + " has entered")
+                    onDropped: listModel.append(drag.source)
+                }
 
             }
         }
@@ -70,71 +111,8 @@ ColumnLayout {
                 itemName: "Marvelous Light"
                 type: "song"
             }
-            ListElement {
-                itemName: "10 reason to use church presenter"
-                type: "video"
-            }
-            ListElement {
-                itemName: "10,000 Reason"
-                type: "song"
-            }
-            ListElement {
-                itemName: "Marvelous Light"
-                type: "song"
-            }
-            ListElement {
-                itemName: "10 reason to use church presenter"
-                type: "video"
-            }
-            ListElement {
-                itemName: "10,000 Reason"
-                type: "song"
-            }
-            ListElement {
-                itemName: "Marvelous Light"
-                type: "song"
-            }
-            ListElement {
-                itemName: "10 reason to use church presenter"
-                type: "video"
-            }
-            ListElement {
-                itemName: "10,000 Reason"
-                type: "song"
-            }
-            ListElement {
-                itemName: "Marvelous Light"
-                type: "song"
-            }
-            ListElement {
-                itemName: "10 reason to use church presenter"
-                type: "video"
-            }
-            ListElement {
-                itemName: "10,000 Reason"
-                type: "song"
-            }
-            ListElement {
-                itemName: "Marvelous Light"
-                type: "song"
-            }
-            ListElement {
-                itemName: "10 reason to use church presenter"
-                type: "video"
-            }
-            ListElement {
-                itemName: "10,000 Reason"
-                type: "song"
-            }
-             ListElement {
-                 itemName: "Marvelous Light"
-                 type: "song"
-             }
-             ListElement {
-                 itemName: "10 reason to use church presenter"
-                 type: "video"
-             }
          }
-     }
+    }
+
 }
 

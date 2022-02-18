@@ -12,7 +12,7 @@ Item {
     id: root
     anchors.fill: parent
 
-    property real textSize: 50
+    property real textSize: 26
     property bool editMode: false
     property bool dropShadow: false
     property url imageSource: imageBackground
@@ -83,7 +83,7 @@ Item {
             source: imageSource
             fillMode: Image.PreserveAspectCrop
             clip: true
-            visible: false
+            visible: true
 
         }
 
@@ -100,19 +100,18 @@ Item {
                 font.family: chosenFont
                 style: Text.Raised
                 anchors.centerIn: parent
+                clip: true
+
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    horizontalOffset: 5
+                    verticalOffset: 5
+                    radius: 11.0
+                    samples: 24
+                    color: "#80000000"
+                }
             }
 
-            DropShadow {
-                id: textDropShadow
-                source: lyrics
-                anchors.fill: lyrics
-                horizontalOffset: 3
-                verticalOffset: 3
-                radius: 8.0
-                samples: 17
-                color: "#80000000"
-                visible: true
-            }
         }
     }
 }

@@ -78,6 +78,7 @@ Item {
             Component {
                 id: itemDelegate
                 Kirigami.BasicListItem {
+                    id: songListItem
                     width: ListView.view.width
                     height:40
                     label: title
@@ -90,6 +91,34 @@ Item {
                         songLyrics = lyrics
                         songAuthor = author
                         showPassiveNotification(songLyrics, 3000)
+                    }
+
+                    Drag.active: dragHandler.drag.active
+                    Drag.hotSpot.x: width / 2
+                    Drag.hotSpot.y: height / 2
+
+                    MouseArea {
+                        id: dragHandler
+                        anchors.fill: parent
+                        drag {
+                            target: songListItem
+                            onActiveChanged: {
+                                if (dragHandler.drag.active) {
+                                    draggedLibraryItem = songLibraryList.currentItem
+                                    showPassiveNotification(index)
+                                }
+                            }
+                        }
+                    }
+
+                    states: State {
+                        name: "dragged"
+                        when: songListItem.Drag.active
+                        PropertyChanges {
+                            target: songListItem
+                            x: x
+                            y: y
+                        }
                     }
                 }
             }

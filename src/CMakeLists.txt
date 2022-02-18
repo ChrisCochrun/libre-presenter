@@ -4,8 +4,8 @@ target_sources(presenter
  PRIVATE
  main.cpp resources.qrc
  songlistmodel.cpp songlistmodel.h
- mpvobject.h mpvobject.cpp
- qthelper.hpp mpvhelpers.h
+ mpv/mpvobject.h mpv/mpvobject.cpp
+ mpv/qthelper.hpp mpv/mpvhelpers.h
 )
 
 target_link_libraries(presenter

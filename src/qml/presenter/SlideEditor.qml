@@ -10,7 +10,7 @@ import "./" as Presenter
 
 Item {
     id: root
-    
+
     Presenter.Slide {
         id: representation
         editMode: true

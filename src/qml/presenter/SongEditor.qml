@@ -109,9 +109,8 @@ Item {
             id: slideBar
             color: Kirigami.Theme.highlightColor
 
-            Layout.preferredWidth: 400
+            Layout.preferredWidth: 700
             Layout.preferredHeight: songTitleField.height
-            Layout.fillWidth: true
             Layout.rightMargin: 20
         }
 
@@ -140,12 +139,11 @@ Item {
 
         Presenter.SlideEditor {
             id: slideEditor
-            Layout.preferredHeight: 800
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            Layout.preferredWidth: 700
+            Layout.preferredHeight: 394
             Layout.bottomMargin: 30
             Layout.rightMargin: 20
-            Layout.rowSpan: 15
+            Layout.rowSpan: 2
         }
 
         Controls.TextField {

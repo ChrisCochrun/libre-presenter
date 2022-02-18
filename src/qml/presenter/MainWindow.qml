@@ -18,6 +18,7 @@ Controls.Page {
     property string songLyrics: ""
     property string songAuthor: ""
     property int blurRadius: 0
+    property var draggedLibraryItem
 
     Item {
         id: mainItem
@@ -113,7 +114,7 @@ Controls.Page {
         nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
         onAccepted: {
             videoBackground = ""
-            imageBackground = imageFileDialog.fileUrls
+            imageBackground = imageFileDialog.fileUrls[0]
         }
         onRejected: {
             print("Canceled")
