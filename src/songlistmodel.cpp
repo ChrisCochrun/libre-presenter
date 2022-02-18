@@ -1,4 +1,6 @@
 #include "songlistmodel.h"
+#include <QTextStream>
+#include <QDebug>
 
 SongListModel::SongListModel(QObject *parent)
   : QAbstractListModel(parent)
@@ -58,4 +60,11 @@ QHash<int, QByteArray> SongListModel::roleNames() const
   };
 
   return mapping;
+}
+
+void SongListModel::lyricsSlides(QString lyrics)
+{
+  QTextStream stream(&lyrics);
+  QString line = stream.readLine();
+  qDebug() << line;
 }

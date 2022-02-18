@@ -11,7 +11,9 @@ import "./" as Presenter
 Controls.Page {
     id: mainPage
     padding: 0
-    property url background: ""
+    property url imageBackground: ""
+    property url videoBackground: ""
+    property var song
     property string songTitle: ""
     property string songLyrics: ""
     property string songAuthor: ""
@@ -79,27 +81,22 @@ Controls.Page {
             }
             Presenter.Slide {
                 id: presentationSlide
-                imageSource: "../../assets/parallel.jpg"
+                imageSource: imageBackground
+                videoSource: videoBackground
             }
         }
     }
 
     FileDialog {
-        id: fileDialog
+        id: videoFileDialog
         title: "Please choose a background"
         folder: shortcuts.home
         selectMultiple: false
-        nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)",
-                      "Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
+        nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)"]
         onAccepted: {
-            print("You chose: " + fileDialog.fileUrls);
-            videoBackground = fileDialog.fileUrl;
-            print(videoBackground);
-
-            str = videoBackground.toString();
-            if (str.endsWith("mp4"))
-                videoBackground = fileDialog.fileUrl; print("WE DID IT!!");
-
+            imageBackground = ""
+            videoBackground = videoFileDialog.fileUrls[0]
+            print("video background = " + videoFileDialog.fileUrl)
         }
         onRejected: {
             print("Canceled")
@@ -108,8 +105,20 @@ Controls.Page {
 
     }
 
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
+    FileDialog {
+        id: imageFileDialog
+        title: "Please choose a background"
+        folder: shortcuts.home
+        selectMultiple: false
+        nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
+        onAccepted: {
+            videoBackground = ""
+            imageBackground = imageFileDialog.fileUrls
+        }
+        onRejected: {
+            print("Canceled")
+            /* Qt.quit() */
+        }
 
+    }
 }

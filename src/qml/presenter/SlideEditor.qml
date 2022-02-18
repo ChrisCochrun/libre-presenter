@@ -13,6 +13,6 @@ Item {
     
     Presenter.Slide {
         id: representation
-
+        editMode: true
     }
 }

@@ -1,0 +1,14 @@
+{
+    "import-path": [
+        "/lib",
+        "/usr/lib",
+        "src/qml"
+    ],
+    "plugin-path": [
+        "/lib",
+        "/usr/lib",
+        "/usr/lib/qt/qml/org/kde/kirigami.2/",
+        "src/qml"
+    ],
+    "style": "kirigami"
+}

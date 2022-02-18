@@ -36,9 +36,12 @@ public:
 
   QHash<int, QByteArray> roleNames() const override;
 
+
 private:
   QVector< Data > m_data;
 
+public slots:
+  void lyricsSlides(QString lyrics);
 };
 
 #endif // SONGLISTMODEL_H

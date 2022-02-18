@@ -85,6 +85,7 @@ Item {
                     hoverEnabled: true
                     onClicked: {
                         ListView.view.currentIndex = index
+                        song = ListView.view.selected
                         songTitle = title
                         songLyrics = lyrics
                         songAuthor = author

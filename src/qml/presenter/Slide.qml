@@ -1,11 +1,12 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
-import QtMultimedia 5.15
+/* import QtMultimedia 5.15 */
 import QtAudioEngine 1.15
 import QtGraphicalEffects 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
+import mpv 1.0
 
 Item {
     id: root
@@ -14,32 +15,66 @@ Item {
     property real textSize: 50
     property bool editMode: false
     property bool dropShadow: false
-    property url imageSource: ""
-    property url videoSource: ""
+    property url imageSource: imageBackground
+    property url videoSource: videoBackground
     property string chosenFont: "Quicksand"
+    property color backgroundColor
 
     Rectangle {
         id: basePrColor
         anchors.fill: parent
         color: "black"
 
-        MediaPlayer {
-            id: videoPlayer
-            source: videoSource
-            loops: MediaPlayer.Infinite
-            autoPlay: true
-            notifyInterval: 100
+        /* MediaPlayer { */
+        /*     id: mediaPlayer */
+        /*     source: videoSource */
+        /*     loops: MediaPlayer.Infinite */
+        /*     autoPlay: editMode ? false : true */
+        /*     notifyInterval: 100 */
+        /* } */
+
+        /* VideoOutput { */
+        /*     id: videoPlayer */
+        /*     anchors.fill: parent */
+        /*     source: mediaPlayer */
+        /*     /\* flushMode: VideoOutput.LastFrame *\/ */
+        /*     MouseArea { */
+        /*         id: playArea */
+        /*         anchors.fill: parent */
+        /*         onPressed: mediaPlayer.play(); */
+        /*     } */
+        /* } */
+
+        MpvObject {
+            id: mpv
+	    objectName: "mpv"
+            anchors.fill: parent
+            useHwdec: true
+            Component.onCompleted: mpvLoadingTimer.start()
+            onFileLoaded: {
+                print(videoSource + " has been loaded");
+                mpv.setProperty("loop", "inf");
+                print(mpv.getProperty("loop"));
+            }
+
+            MouseArea {
+                id: playArea
+                anchors.fill: parent
+                onPressed: mpv.loadFile(videoSource.toString());
+            }
+
+            /* Controls.ProgressBar { */
+            /*     anchors.centerIn: parent */
+            /*     width: parent.width - 400 */
+            /*     value: mpv.position */
+            /*     to: mpv.duration */
+            /* } */
         }
 
-        VideoOutput {
-            id: videoOutput
-            anchors.fill: parent
-            source: videoPlayer
-        }
-        MouseArea {
-            id: playArea
-            anchors.fill: parent
-            onPressed: videoPlayer.play();
+        Timer {
+            id: mpvLoadingTimer
+            interval: 100
+            onTriggered: mpv.loadFile(videoSource.toString())
         }
 
         Image {
@@ -48,13 +83,14 @@ Item {
             source: imageSource
             fillMode: Image.PreserveAspectCrop
             clip: true
+            visible: false
 
         }
 
         FastBlur {
             id: imageBlue
             anchors.fill: parent
-            source: backgroundImage
+            source: imageSource == "" ? mpv : backgroundImage
             radius: blurRadius
 
             Controls.Label {
@@ -77,7 +113,6 @@ Item {
                 color: "#80000000"
                 visible: true
             }
-
         }
     }
 }

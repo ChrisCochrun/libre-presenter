@@ -4,6 +4,8 @@ target_sources(presenter
  PRIVATE
  main.cpp resources.qrc
  songlistmodel.cpp songlistmodel.h
+ mpvobject.h mpvobject.cpp
+ qthelper.hpp mpvhelpers.h
 )
 
 target_link_libraries(presenter
@@ -13,8 +15,10 @@ target_link_libraries(presenter
         Qt5::QuickControls2
         Qt5::Widgets
         Qt5::Sql
+        Qt5::X11Extras
         KF5::Kirigami2
         KF5::I18n
+        mpv
 )
 
 target_compile_options (presenter PUBLIC -fexceptions)

@@ -55,11 +55,38 @@ Item {
                     onClicked: {}
                 }
                 Controls.ToolButton {
+                    id: backgroundButton
                     text: "Background"
                     icon.name: "fileopen"
-                    onClicked: {
-                        print("Action button in buttons page clicked");
-                        fileDialog.open()
+                    onClicked: backgroundType.open()
+                }
+
+                Controls.Popup {
+                    id: backgroundType
+                    x: backgroundButton.x
+                    y: backgroundButton.y + backgroundButton.height + 20
+                    width: 200
+                    height: 100
+                    modal: true
+                    focus: true
+                    dim: false
+                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    ColumnLayout {
+                        anchors.fill: parent
+                        Controls.ToolButton {
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            text: "Video"
+                            icon.name: "emblem-videos-symbolic"
+                            onClicked: videoFileDialog.open() & backgroundType.close()
+                        }
+                        Controls.ToolButton {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            text: "Image"
+                            icon.name: "folder-pictures-symbolic"
+                            onClicked: imageFileDialog.open() & backgroundType.close()
+                        }
                     }
                 }
             }
@@ -106,7 +133,7 @@ Item {
                 text: songLyrics
                 textFormat: TextEdit.MarkdownText
                 padding: 10
-                onEditingFinished: editorTimer.running = false
+                onEditingFinished: song.lyricsSlides(text)
                 onPressed: editorTimer.running = true
             }
         }
