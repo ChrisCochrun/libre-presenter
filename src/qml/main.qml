@@ -13,6 +13,7 @@ Kirigami.ApplicationWindow {
 
     property bool libraryOpen: true
     property bool presenting: false
+    property bool presentMode: true
     property var secondScreen: null
         
     pageStack.initialPage: mainPage
@@ -30,6 +31,7 @@ Kirigami.ApplicationWindow {
 
     Component.onCompleted: {
         print("checking screens")
+        print("Present Mode is " + presentMode)
         secondScreen = Qt.application.screens[1]
         print(secondScreen)
     }

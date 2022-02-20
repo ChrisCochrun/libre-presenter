@@ -3,7 +3,6 @@ import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
 import QtQuick.Layouts 1.2
-import QtMultimedia 5.15
 import QtAudioEngine 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
@@ -65,11 +64,15 @@ Item {
                     id: backgroundType
                     x: backgroundButton.x
                     y: backgroundButton.y + backgroundButton.height + 20
-                    width: 200
-                    height: 100
                     modal: true
                     focus: true
                     dim: false
+                    background: Rectangle {
+                        Kirigami.Theme.colorSet: Kirigami.Theme.Tooltip
+                        color: Kirigami.Theme.backgroundColor
+                        border.color: Kirigami.Theme.activeBackgroundColor
+                        border.width: 2
+                    }
                     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                     ColumnLayout {
                         anchors.fill: parent
@@ -92,79 +95,98 @@ Item {
             }
         }
 
-        Controls.TextField {
-            id: songTitleField
-
-            Layout.preferredWidth: 300
-            Layout.fillWidth: true
-            Layout.leftMargin: 20
-            Layout.rightMargin: 20
-
-            placeholderText: "Song Title..."
-            text: songTitle
-            padding: 10
-        }
-
-        Rectangle {
-            id: slideBar
-            color: Kirigami.Theme.highlightColor
-
-            Layout.preferredWidth: 700
-            Layout.preferredHeight: songTitleField.height
-            Layout.rightMargin: 20
-        }
-
-        Controls.ScrollView {
-            id: songLyricsField
-
-            Layout.preferredHeight: 3000
-            Layout.fillWidth: true
+        Controls.SplitView {
             Layout.fillHeight: true
-            Layout.leftMargin: 20
-
-            rightPadding: 20
-
-            Controls.TextArea {
-                width: parent.width
-
-                placeholderText: "Put lyrics here..."
-                persistentSelection: true
-                text: songLyrics
-                textFormat: TextEdit.MarkdownText
-                padding: 10
-                onEditingFinished: song.lyricsSlides(text)
-                onPressed: editorTimer.running = true
-            }
-        }
-
-        Presenter.SlideEditor {
-            id: slideEditor
-            Layout.preferredWidth: 700
-            Layout.preferredHeight: 394
-            Layout.bottomMargin: 30
-            Layout.rightMargin: 20
-            Layout.rowSpan: 2
-        }
-
-        Controls.TextField {
-            id: songAuthorField
-
             Layout.fillWidth: true
-            Layout.preferredWidth: 300
-            Layout.leftMargin: 20
-            Layout.rightMargin: 20
+            Layout.columnSpan: 2
 
-            placeholderText: "Author..."
-            text: songAuthor
-            padding: 10
-        }
+            ColumnLayout {
+                Controls.SplitView.fillHeight: true
+                Controls.SplitView.preferredWidth: 500
+                Controls.SplitView.minimumWidth: 500
+
+                Controls.TextField {
+                    id: songTitleField
+
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    placeholderText: "Song Title..."
+                    text: songTitle
+                    padding: 10
+                }
+
+                Controls.ScrollView {
+                    id: songLyricsField
+
+                    Layout.preferredHeight: 3000
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.leftMargin: 20
+
+                    rightPadding: 20
+
+                    Controls.TextArea {
+                        width: parent.width
+
+                        placeholderText: "Put lyrics here..."
+                        persistentSelection: true
+                        text: songLyrics
+                        textFormat: TextEdit.MarkdownText
+                        padding: 10
+                        onEditingFinished: song.lyricsSlides(text)
+                        onPressed: editorTimer.running = true
+                    }
+                }
+                Controls.TextField {
+                    id: songAuthorField
+
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 300
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    placeholderText: "Author..."
+                    text: songAuthor
+                    padding: 10
+                }
+
+            }
+            ColumnLayout {
+                Controls.SplitView.fillHeight: true
+                Controls.SplitView.preferredWidth: 500
+                Controls.SplitView.minimumWidth: 300
+
+                Rectangle {
+                    id: slideBar
+                    color: Kirigami.Theme.highlightColor
+
+                    Layout.preferredWidth: 500
+                    Layout.preferredHeight: songTitleField.height
+                    Layout.rightMargin: 20
+                    Layout.leftMargin: 20
+                }
+
+                Presenter.SlideEditor {
+                    id: slideEditor
+                    Layout.preferredWidth: 500
+                    Layout.preferredHeight: 292
+                    Layout.bottomMargin: 30
+                    Layout.rightMargin: 20
+                    Layout.leftMargin: 20
+                }
+
+            }
     }
 
-    Timer {
-        id: editorTimer
-        interval: 2000
-        repeat: true
-        running: false
-        onTriggered: showPassiveNotification("updating song...")
+    }
+        Timer {
+            id: editorTimer
+            interval: 2000
+            repeat: true
+            running: false
+            onTriggered: showPassiveNotification("updating song...")
     }
 }

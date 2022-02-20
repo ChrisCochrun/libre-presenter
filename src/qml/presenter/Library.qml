@@ -12,379 +12,363 @@ Item {
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
-    ColumnLayout {
+    Rectangle {
         anchors.fill: parent
-        spacing: 0
-        Rectangle {
-            id: songLibraryPanel
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
+        color: Kirigami.Theme.backgroundColor
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 0
+            Rectangle {
+                id: songLibraryPanel
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                color: Kirigami.Theme.backgroundColor
 
-            Controls.Label {
-                anchors.centerIn: parent
-                text: "Songs"
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (selectedLibrary == "songs")
-                        selectedLibrary = ""
-                    else
-                        selectedLibrary = "songs"
-                    print(selectedLibrary)
+                Controls.Label {
+                    anchors.centerIn: parent
+                    text: "Songs"
                 }
-            }
-        }
 
-        ListView {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            id: songLibraryList
-            model: _songListModel
-            delegate: itemDelegate
-            state: "selected"
-
-            Component.onCompleted: print(selectedLibrary)
-
-            states: [
-                State {
-                    name: "deselected"
-                    when: (selectedLibrary !== "songs")
-                    PropertyChanges { target: songLibraryList
-                                      height: 0
-                                      Layout.fillHeight: false
-                                      visible: false
-                                    }
-                },
-                State {
-                    name: "selected"
-                    when: (selectedLibrary == "songs")
-                    PropertyChanges { target: songLibraryList }
-                }
-            ]
-
-            transitions: Transition {
-                to: "*"
-                NumberAnimation {
-                    target: songLibraryList
-                    properties: "height"
-                    easing.type: Easing.OutCubic
-                    duration: 300
-                }
-            }
-
-            Component {
-                id: itemDelegate
-                Kirigami.BasicListItem {
-                    id: songListItem
-                    width: ListView.view.width
-                    height:40
-                    label: title
-                    subtitle: author
-                    hoverEnabled: true
+                MouseArea {
+                    anchors.fill: parent
                     onClicked: {
-                        ListView.view.currentIndex = index
-                        song = ListView.view.selected
-                        songTitle = title
-                        songLyrics = lyrics
-                        songAuthor = author
-                        showPassiveNotification(songLyrics, 3000)
+                        if (selectedLibrary == "songs")
+                            selectedLibrary = ""
+                        else
+                            selectedLibrary = "songs"
+                        print(selectedLibrary)
                     }
+                }
+            }
 
-                    Drag.active: dragHandler.drag.active
-                    Drag.hotSpot.x: width / 2
-                    Drag.hotSpot.y: height / 2
+            ListView {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                id: songLibraryList
+                model: _songListModel
+                delegate: itemDelegate
+                state: "selected"
 
-                    MouseArea {
-                        id: dragHandler
-                        anchors.fill: parent
-                        drag {
-                            target: songListItem
-                            onActiveChanged: {
-                                if (dragHandler.drag.active) {
-                                    draggedLibraryItem = songLibraryList.currentItem
-                                    showPassiveNotification(index)
+                Component.onCompleted: print(selectedLibrary)
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "songs")
+                        PropertyChanges { target: songLibraryList
+                                          height: 0
+                                          Layout.fillHeight: false
+                                          visible: false
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "songs")
+                        PropertyChanges { target: songLibraryList }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: songLibraryList
+                        properties: "height"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+
+                Component {
+                    id: itemDelegate
+
+                    Kirigami.BasicListItem {
+                        id: songListItem
+                        width: ListView.view.width
+                        height: 40
+                        label: title
+                        subtitle: author
+                        hoverEnabled: true
+                        onClicked: {
+                            ListView.view.currentIndex = index
+                            song = ListView.view.selected
+                            songTitle = title
+                            songLyrics = lyrics
+                            songAuthor = author
+                            showPassiveNotification(songLyrics, 3000)
+                        }
+
+                        MouseArea {
+                            id: dragHandler
+                            anchors.fill: parent
+                            drag {
+                                target: songListItem
+                                onActiveChanged: {
+                                    if (dragHandler.drag.active) {
+                                        draggedLibraryItem = songLibraryList.currentItem
+                                        showPassiveNotification(index)
+                                    }
                                 }
                             }
                         }
-                    }
+                        Drag.active: dragHandler.drag.active
+                        Drag.hotSpot.x: width / 2
+                        Drag.hotSpot.y: height / 2
 
-                    states: State {
-                        name: "dragged"
-                        when: songListItem.Drag.active
-                        PropertyChanges {
-                            target: songListItem
-                            x: x
-                            y: y
+                        states: State {
+                            name: "dragged"
+                            when: songListItem.Drag.active
+                            PropertyChanges {
+                                target: songListItem
+                                x: x
+                                y: y
+                            }
                         }
                     }
                 }
-            }
 
-            Kirigami.WheelHandler {
-                id: wheelHandler
-                target: songLibraryList
-                filterMouseEvents: true
-                keyNavigationEnabled: true
-            }
-
-            Controls.ScrollBar.vertical: Controls.ScrollBar {
-                anchors.right: songLibraryList.right
-                anchors.leftMargin: 10
-                active: hovered || pressed
-            }
-        }
-
-        Rectangle {
-            id: videoLibraryPanel
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
-
-            Controls.Label {
-                anchors.centerIn: parent
-                text: "Videos"
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (selectedLibrary == "videos")
-                        selectedLibrary = ""
-                    else
-                        selectedLibrary = "videos"
-                    print(selectedLibrary)
+                Kirigami.WheelHandler {
+                    id: wheelHandler
+                    target: songLibraryList
+                    filterMouseEvents: true
+                    keyNavigationEnabled: true
                 }
-            }
-        }
 
-        ListView {
-            id: videoLibraryList
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            state: "deselected"
-
-            states: [
-                State {
-                    name: "deselected"
-                    when: (selectedLibrary !== "videos")
-                    PropertyChanges { target: videoLibraryList
-                                      height: 0
-                                      Layout.fillHeight: false
-                                      visible: false
-                                    }
-                },
-                State {
-                    name: "selected"
-                    when: (selectedLibrary == "videos")
-                    PropertyChanges { target: videoLibraryList }
-                }
-            ]
-
-            transitions: Transition {
-                to: "*"
-                NumberAnimation {
-                    target: videoLibraryList
-                    properties: "height"
-                    easing.type: Easing.OutCubic
-                    duration: 300
-                }
-            }
-        }
-
-        Rectangle {
-            id: imageLibraryPanel
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
-
-            Controls.Label {
-                anchors.centerIn: parent
-                text: "Images"
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (selectedLibrary == "images")
-                        selectedLibrary = ""
-                    else
-                        selectedLibrary = "images"
-                    print(selectedLibrary)
-                }
-            }
-        }
-
-        ListView {
-            id: imageLibraryList
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            state: "deselected"
-
-            states: [
-                State {
-                    name: "deselected"
-                    when: (selectedLibrary !== "images")
-                    PropertyChanges { target: imageLibraryList
-                                      height: 0
-                                      Layout.fillHeight: false
-                                      visible: false
-                                    }
-                },
-                State {
-                    name: "selected"
-                    when: (selectedLibrary == "images")
-                    PropertyChanges { target: imageLibraryList }
-                }
-            ]
-
-            transitions: Transition {
-                to: "*"
-                NumberAnimation {
-                    target: imageLibraryList
-                    properties: "height"
-                    easing.type: Easing.OutCubic
-                    duration: 300
+                Controls.ScrollBar.vertical: Controls.ScrollBar {
+                    anchors.right: songLibraryList.right
+                    anchors.leftMargin: 10
+                    active: hovered || pressed
                 }
             }
 
-        }
-        Rectangle {
-            id: presentationLibraryPanel
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
+            Rectangle {
+                id: videoLibraryPanel
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                color: Kirigami.Theme.backgroundColor
 
-            Controls.Label {
-                anchors.centerIn: parent
-                text: "Presentations"
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (selectedLibrary == "presentations")
-                        selectedLibrary = ""
-                    else
-                        selectedLibrary = "presentations"
-                    print(selectedLibrary)
+                Controls.Label {
+                    anchors.centerIn: parent
+                    text: "Videos"
                 }
-            }
-        }
 
-        ListView {
-            id: presentationLibraryList
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            state: "deselected"
-
-            states: [
-                State {
-                    name: "deselected"
-                    when: (selectedLibrary !== "presentations")
-                    PropertyChanges { target: presentationLibraryList
-                                      height: 0
-                                      Layout.fillHeight: false
-                                      visible: false
-                                    }
-                },
-                State {
-                    name: "selected"
-                    when: (selectedLibrary == "presentations")
-                    PropertyChanges { target: presentationLibraryList }
-                }
-            ]
-
-            transitions: Transition {
-                to: "*"
-                NumberAnimation {
-                    target: presentationLibraryList
-                    properties: "height"
-                    easing.type: Easing.OutCubic
-                    duration: 300
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (selectedLibrary == "videos")
+                            selectedLibrary = ""
+                        else
+                            selectedLibrary = "videos"
+                        print(selectedLibrary)
+                    }
                 }
             }
 
-        }
-        Rectangle {
-            id: slideLibraryPanel
-            Layout.preferredHeight: 40
-            Layout.fillWidth: true
-            color: Kirigami.Theme.backgroundColor
+            ListView {
+                id: videoLibraryList
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                state: "deselected"
 
-            Controls.Label {
-                anchors.centerIn: parent
-                text: "Slides"
-            }
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "videos")
+                        PropertyChanges { target: videoLibraryList
+                                          height: 0
+                                          Layout.fillHeight: false
+                                          visible: false
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "videos")
+                        PropertyChanges { target: videoLibraryList }
+                    }
+                ]
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (selectedLibrary == "slides")
-                        selectedLibrary = ""
-                    else
-                        selectedLibrary = "slides"
-                    print(selectedLibrary)
-                }
-            }
-        }
-
-        ListView {
-            id: slideLibraryList
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            state: "deselected"
-
-            states: [
-                State {
-                    name: "deselected"
-                    when: (selectedLibrary !== "slides")
-                    PropertyChanges { target: slideLibraryList
-                                      height: 0
-                                      Layout.fillHeight: false
-                                      visible: false
-                                    }
-                },
-                State {
-                    name: "selected"
-                    when: (selectedLibrary == "slides")
-                    PropertyChanges { target: slideLibraryList }
-                }
-            ]
-
-            transitions: Transition {
-                to: "*"
-                NumberAnimation {
-                    target: slideLibraryList
-                    properties: "height"
-                    easing.type: Easing.OutCubic
-                    duration: 300
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: videoLibraryList
+                        properties: "height"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
                 }
             }
 
-        }
+            Rectangle {
+                id: imageLibraryPanel
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                color: Kirigami.Theme.backgroundColor
+
+                Controls.Label {
+                    anchors.centerIn: parent
+                    text: "Images"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (selectedLibrary == "images")
+                            selectedLibrary = ""
+                        else
+                            selectedLibrary = "images"
+                        print(selectedLibrary)
+                    }
+                }
+            }
+
+            ListView {
+                id: imageLibraryList
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "images")
+                        PropertyChanges { target: imageLibraryList
+                                          height: 0
+                                          Layout.fillHeight: false
+                                          visible: false
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "images")
+                        PropertyChanges { target: imageLibraryList }
+                    }
+                ]
+
+                    transitions: Transition {
+                        to: "*"
+                        NumberAnimation {
+                            target: imageLibraryList
+                            properties: "height"
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+
+                }
+                Rectangle {
+                    id: presentationLibraryPanel
+                    Layout.preferredHeight: 40
+                    Layout.fillWidth: true
+                    color: Kirigami.Theme.backgroundColor
+
+                    Controls.Label {
+                        anchors.centerIn: parent
+                        text: "Presentations"
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (selectedLibrary == "presentations")
+                                selectedLibrary = ""
+                            else
+                                selectedLibrary = "presentations"
+                            print(selectedLibrary)
+                        }
+                    }
+                }
+
+                ListView {
+                    id: presentationLibraryList
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    state: "deselected"
+
+                    states: [
+                        State {
+                            name: "deselected"
+                            when: (selectedLibrary !== "presentations")
+                            PropertyChanges { target: presentationLibraryList
+                                              height: 0
+                                              Layout.fillHeight: false
+                                              visible: false
+                                            }
+                        },
+                        State {
+                            name: "selected"
+                            when: (selectedLibrary == "presentations")
+                            PropertyChanges { target: presentationLibraryList }
+                        }
+                    ]
+
+                    transitions: Transition {
+                        to: "*"
+                        NumberAnimation {
+                            target: presentationLibraryList
+                            properties: "height"
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+
+                }
+                Rectangle {
+                    id: slideLibraryPanel
+                    Layout.preferredHeight: 40
+                    Layout.fillWidth: true
+                    color: Kirigami.Theme.backgroundColor
+
+                    Controls.Label {
+                        anchors.centerIn: parent
+                        text: "Slides"
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (selectedLibrary == "slides")
+                                selectedLibrary = ""
+                            else
+                                selectedLibrary = "slides"
+                            print(selectedLibrary)
+                        }
+                    }
+                }
+
+                ListView {
+                    id: slideLibraryList
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    state: "deselected"
+
+                    states: [
+                        State {
+                            name: "deselected"
+                            when: (selectedLibrary !== "slides")
+                            PropertyChanges { target: slideLibraryList
+                                              height: 0
+                                              Layout.fillHeight: false
+                                              visible: false
+                                            }
+                        },
+                        State {
+                            name: "selected"
+                            when: (selectedLibrary == "slides")
+                            PropertyChanges { target: slideLibraryList }
+                        }
+                    ]
+
+                    transitions: Transition {
+                        to: "*"
+                        NumberAnimation {
+                            target: slideLibraryList
+                            properties: "height"
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+
+                }
+            }
     }
-
-    /* Presenter.LibraryItem { */
-    /*     id: songLibrary */
-    /*     title: "Songs" */
-    /*     model: _songListModel */
-    /*     open: true */
-    /*     /\* type: "song" *\/ */
-    /*     width: parent.width */
-    /*     anchors.top: parent.top */
-    /* } */
-
-    /* Presenter.LibraryItem { */
-    /*     id: ssongLibrary */
-    /*     title: "Songs" */
-    /*     model: _songListModel */
-    /*     open: false */
-    /*     width: parent.width */
-    /*     /\* type: "song" *\/ */
-    /*     anchors.top: songLibrary.bottom */
-    /* } */
 
 }

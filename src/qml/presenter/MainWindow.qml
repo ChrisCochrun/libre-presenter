@@ -11,6 +11,8 @@ import "./" as Presenter
 Controls.Page {
     id: mainPage
     padding: 0
+
+    // properties passed around for the slides
     property url imageBackground: ""
     property url videoBackground: ""
     property var song
@@ -18,6 +20,9 @@ Controls.Page {
     property string songLyrics: ""
     property string songAuthor: ""
     property int blurRadius: 0
+    property Item slideItem
+
+
     property var draggedLibraryItem
 
     Item {
@@ -29,14 +34,11 @@ Controls.Page {
             anchors.fill: parent
             handle: Item{
                 implicitWidth: 6
-
                 Rectangle {
                     height: parent.height
                     anchors.horizontalCenter: parent.horizontalCenter
-                    implicitWidth: 2
+                    implicitWidth: 1
                     color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
-                    //Controls.SplitHandle.pressed ? Kirigami.Theme.focusColor
-                    //: (Controls.Splithandle.hovered ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor)
                 }
             }
 
@@ -46,14 +48,22 @@ Controls.Page {
                 Controls.SplitView.preferredWidth: 200
                 Controls.SplitView.maximumWidth: 300
             }
-
+            
             Presenter.SongEditor {
-                id: rightMainArea
+                id: songEditor
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 500
             }
+
+            /* Presenter.Presentation { */
+            /*     id: presentation */
+            /*     Controls.SplitView.fillHeight: true */
+            /*     Controls.SplitView.fillWidth: true */
+            /*     Controls.SplitView.preferredWidth: 700 */
+            /*     Controls.SplitView.minimumWidth: 500 */
+            /* } */
 
             Presenter.Library {
                 id: library
@@ -63,7 +73,6 @@ Controls.Page {
             }
  
         }
-
     }
 
     Loader {
@@ -76,14 +85,18 @@ Controls.Page {
             width: maximumWidth
             screen: secondScreen
             onClosing: presenting = false
+
             Component.onCompleted: {
                 presentationWindow.showFullScreen();
                 print(Qt.application.screens[1])
             }
+
             Presenter.Slide {
                 id: presentationSlide
                 imageSource: imageBackground
                 videoSource: videoBackground
+
+                Component.onCompleted: slideItem = presentationSlide
             }
         }
     }

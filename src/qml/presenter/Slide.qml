@@ -12,38 +12,24 @@ Item {
     id: root
     anchors.fill: parent
 
-    property real textSize: 26
+    // Let's make this slide editable
     property bool editMode: false
+
+    // These properties are for the slides visuals
+    property real textSize: 26
     property bool dropShadow: false
     property url imageSource: imageBackground
     property url videoSource: videoBackground
     property string chosenFont: "Quicksand"
     property color backgroundColor
 
+    // These properties help to determine the state of the slide
+    property string itemType
+
     Rectangle {
         id: basePrColor
         anchors.fill: parent
         color: "black"
-
-        /* MediaPlayer { */
-        /*     id: mediaPlayer */
-        /*     source: videoSource */
-        /*     loops: MediaPlayer.Infinite */
-        /*     autoPlay: editMode ? false : true */
-        /*     notifyInterval: 100 */
-        /* } */
-
-        /* VideoOutput { */
-        /*     id: videoPlayer */
-        /*     anchors.fill: parent */
-        /*     source: mediaPlayer */
-        /*     /\* flushMode: VideoOutput.LastFrame *\/ */
-        /*     MouseArea { */
-        /*         id: playArea */
-        /*         anchors.fill: parent */
-        /*         onPressed: mediaPlayer.play(); */
-        /*     } */
-        /* } */
 
         MpvObject {
             id: mpv
@@ -60,15 +46,17 @@ Item {
             MouseArea {
                 id: playArea
                 anchors.fill: parent
+                enabled: editMode
                 onPressed: mpv.loadFile(videoSource.toString());
             }
 
-            /* Controls.ProgressBar { */
-            /*     anchors.centerIn: parent */
-            /*     width: parent.width - 400 */
-            /*     value: mpv.position */
-            /*     to: mpv.duration */
-            /* } */
+            Controls.ProgressBar {
+                anchors.centerIn: parent
+                visible: editMode
+                width: parent.width - 400
+                value: mpv.position
+                to: mpv.duration
+            }
         }
 
         Timer {
@@ -111,7 +99,10 @@ Item {
                     color: "#80000000"
                 }
             }
-
         }
+    }
+
+    function changeText(text) {
+        lyrics.text = text
     }
 }

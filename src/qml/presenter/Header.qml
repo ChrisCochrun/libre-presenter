@@ -30,6 +30,12 @@ Kirigami.ActionToolBar {
         },
 
         Kirigami.Action {
+            icon.name: "edit"
+            text: presentMode ? "Edit" : "Preview"
+            onTriggered: presentMode = !presentMode
+        },
+        
+        Kirigami.Action {
             icon.name: "view-presentation"
             text: "Go Live"
             onTriggered: {
