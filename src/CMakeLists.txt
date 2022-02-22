@@ -4,6 +4,7 @@ target_sources(presenter
  PRIVATE
  main.cpp resources.qrc
  songlistmodel.cpp songlistmodel.h
+ songsqlmodel.cpp songsqlmodel.h
  mpv/mpvobject.h mpv/mpvobject.cpp
  mpv/qthelper.hpp mpv/mpvhelpers.h
 )

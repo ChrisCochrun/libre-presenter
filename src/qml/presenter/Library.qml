@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0 as Controls
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
+import org.presenter 1.0
 
 Item {
     id: root
@@ -25,8 +26,18 @@ Item {
                 color: Kirigami.Theme.backgroundColor
 
                 Controls.Label {
+                    id: songlable
                     anchors.centerIn: parent
                     text: "Songs"
+                }
+
+                Controls.Label {
+                    anchors {left: songlable.right
+                             verticalCenter: songlable.verticalCenter
+                             leftMargin: 15}
+                    text: songsqlmodel.rowCount()
+                    font.pixelSize: 15
+                    color: Kirigami.Theme.disabledTextColor
                 }
 
                 MouseArea {
@@ -41,15 +52,19 @@ Item {
                 }
             }
 
+            SongSqlModel {
+                id: songsqlmodel
+            }
+
             ListView {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 id: songLibraryList
-                model: _songListModel
+                model: songsqlmodel
                 delegate: itemDelegate
                 state: "selected"
 
-                Component.onCompleted: print(selectedLibrary)
+                /* Component.onCompleted: print(selectedLibrary) */
 
                 states: [
                     State {

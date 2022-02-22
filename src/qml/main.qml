@@ -14,7 +14,7 @@ Kirigami.ApplicationWindow {
     property bool libraryOpen: true
     property bool presenting: false
     property bool presentMode: true
-    property var secondScreen: null
+    property var screens
         
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
@@ -30,10 +30,16 @@ Kirigami.ApplicationWindow {
     }
 
     Component.onCompleted: {
-        print("checking screens")
-        print("Present Mode is " + presentMode)
-        secondScreen = Qt.application.screens[1]
-        print(secondScreen)
+        print("checking screens");
+        print("Present Mode is " + presentMode);
+        screens = Qt.application.screens;
+        for (let i = 0; i < screens.length; i++) {
+            print(screens[i].name);
+            print("width of screen: " + (screens[i].width * screens[i].devicePixelRatio));
+            print("height of screen: " + (screens[i].height * screens[i].devicePixelRatio));
+            print("pixeldensity of screen: " + screens[i].pixelDensity);
+            print("pixelratio of screen: " + screens[i].devicePixelRatio);
+        }
     }
 
 }

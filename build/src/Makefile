@@ -178,6 +178,30 @@ main.cpp.s:
 	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+mpv/mpvobject.o: mpv/mpvobject.cpp.o
+.PHONY : mpv/mpvobject.o
+
+# target to build an object file
+mpv/mpvobject.cpp.o:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/mpv/mpvobject.cpp.o
+.PHONY : mpv/mpvobject.cpp.o
+
+mpv/mpvobject.i: mpv/mpvobject.cpp.i
+.PHONY : mpv/mpvobject.i
+
+# target to preprocess a source file
+mpv/mpvobject.cpp.i:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/mpv/mpvobject.cpp.i
+.PHONY : mpv/mpvobject.cpp.i
+
+mpv/mpvobject.s: mpv/mpvobject.cpp.s
+.PHONY : mpv/mpvobject.s
+
+# target to generate assembly for a file
+mpv/mpvobject.cpp.s:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/mpv/mpvobject.cpp.s
+.PHONY : mpv/mpvobject.cpp.s
+
 presenter_autogen/EWIEGA46WW/qrc_resources.o: presenter_autogen/EWIEGA46WW/qrc_resources.cpp.o
 .PHONY : presenter_autogen/EWIEGA46WW/qrc_resources.o
 
@@ -250,6 +274,30 @@ songlistmodel.cpp.s:
 	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songlistmodel.cpp.s
 .PHONY : songlistmodel.cpp.s
 
+songsqlmodel.o: songsqlmodel.cpp.o
+.PHONY : songsqlmodel.o
+
+# target to build an object file
+songsqlmodel.cpp.o:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songsqlmodel.cpp.o
+.PHONY : songsqlmodel.cpp.o
+
+songsqlmodel.i: songsqlmodel.cpp.i
+.PHONY : songsqlmodel.i
+
+# target to preprocess a source file
+songsqlmodel.cpp.i:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songsqlmodel.cpp.i
+.PHONY : songsqlmodel.cpp.i
+
+songsqlmodel.s: songsqlmodel.cpp.s
+.PHONY : songsqlmodel.s
+
+# target to generate assembly for a file
+songsqlmodel.cpp.s:
+	cd /home/chris/dev/church-presenter/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/presenter.dir/build.make src/CMakeFiles/presenter.dir/songsqlmodel.cpp.s
+.PHONY : songsqlmodel.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -264,6 +312,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mpv/mpvobject.o"
+	@echo "... mpv/mpvobject.i"
+	@echo "... mpv/mpvobject.s"
 	@echo "... presenter_autogen/EWIEGA46WW/qrc_resources.o"
 	@echo "... presenter_autogen/EWIEGA46WW/qrc_resources.i"
 	@echo "... presenter_autogen/EWIEGA46WW/qrc_resources.s"
@@ -273,6 +324,9 @@ help:
 	@echo "... songlistmodel.o"
 	@echo "... songlistmodel.i"
 	@echo "... songlistmodel.s"
+	@echo "... songsqlmodel.o"
+	@echo "... songsqlmodel.i"
+	@echo "... songsqlmodel.s"
 .PHONY : help
 
 
