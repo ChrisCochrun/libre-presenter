@@ -17,24 +17,23 @@ static void createTable()
   }
 
   QSqlQuery query;
-  if (!query.exec(
-                  "CREATE TABLE IF NOT EXISTS 'songs' ("
+  if (!query.exec("CREATE TABLE IF NOT EXISTS 'songs' ("
                   "  'title' TEXT NOT NULL,"
                   "  'lyrics' TEXT,"
                   "  'author' TEXT,"
                   "  'ccli' TEXT,"
                   "  'audio' TEXT,"
-                  "  PRIMARY KEY(title))"
-                  )) {
-    qFatal("Failed to query database: %s", qPrintable(query.lastError().text()));
+                  "  PRIMARY KEY(title))")) {
+    qFatal("Failed to query database: %s",
+           qPrintable(query.lastError().text()));
   }
 
   query.exec("INSERT INTO songs VALUES ('10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '')");
   query.exec("INSERT INTO songs VALUES ('River', 'Im going down to the river', 'Jordan Feliz', '13470183', '')");
   query.exec("INSERT INTO songs VALUES ('Marvelous Light', 'Into marvelous light Im running', 'Chris Tomlin', '13470183', '')");
 
-  query.exec("select * from songs");
-  qDebug() << query.lastQuery();
+  // query.exec("select * from songs");
+  // qDebug() << query.lastQuery();
 }
 
 SongSqlModel::SongSqlModel(QObject *parent)
@@ -43,16 +42,17 @@ SongSqlModel::SongSqlModel(QObject *parent)
   createTable();
   setTable(songsTableName);
   setEditStrategy(QSqlTableModel::OnFieldChange);
+  // make sure to call select else the model won't fill
   select();
 }
 
 QVariant SongSqlModel::data(const QModelIndex &index, int role) const {
   if (role < Qt::UserRole) {
-    qDebug() << role;
+    // qDebug() << role;
     return QSqlTableModel::data(index, role);
   }
 
-  qDebug() << role;
+  // qDebug() << role;
   const QSqlRecord sqlRecord = record(index.row());
   return sqlRecord.value(role - Qt::UserRole);
 }

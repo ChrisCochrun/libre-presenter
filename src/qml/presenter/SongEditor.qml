@@ -136,7 +136,7 @@ Item {
                         text: songLyrics
                         textFormat: TextEdit.MarkdownText
                         padding: 10
-                        onEditingFinished: song.lyricsSlides(text)
+                        onEditingFinished: mainPage.updateLyrics(text)
                         onPressed: editorTimer.running = true
                     }
                 }
@@ -172,7 +172,8 @@ Item {
                 Presenter.SlideEditor {
                     id: slideEditor
                     Layout.preferredWidth: 500
-                    Layout.preferredHeight: 292
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: slideEditor.width / 16 * 9
                     Layout.bottomMargin: 30
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20

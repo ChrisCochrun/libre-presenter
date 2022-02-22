@@ -23,6 +23,7 @@ Item {
                 id: songLibraryPanel
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 color: Kirigami.Theme.backgroundColor
 
                 Controls.Label {
@@ -32,12 +33,29 @@ Item {
                 }
 
                 Controls.Label {
+                    id: songCount
                     anchors {left: songlable.right
                              verticalCenter: songlable.verticalCenter
                              leftMargin: 15}
                     text: songsqlmodel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
+                }
+
+                Kirigami.Icon {
+                    id: drawerArrow
+                    anchors {right: parent.right
+                             verticalCenter: songCount.verticalCenter
+                             rightMargin: 10}
+                    source: "arrow-down"
+                    rotation: selectedLibrary == "songs" ? 0 : 180
+
+                    Behavior on rotation {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
                 }
 
                 MouseArea {
@@ -52,28 +70,22 @@ Item {
                 }
             }
 
-            SongSqlModel {
-                id: songsqlmodel
-            }
-
             ListView {
-                Layout.fillHeight: true
+                Layout.preferredHeight: parent.height - 200
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 id: songLibraryList
                 model: songsqlmodel
-                delegate: itemDelegate
+                delegate: songDelegate
                 state: "selected"
 
-                /* Component.onCompleted: print(selectedLibrary) */
-
+                Component.onCompleted: songList = songLibraryList
                 states: [
                     State {
                         name: "deselected"
                         when: (selectedLibrary !== "songs")
                         PropertyChanges { target: songLibraryList
-                                          height: 0
-                                          Layout.fillHeight: false
-                                          visible: false
+                                          Layout.preferredHeight: 0
                                         }
                     },
                     State {
@@ -87,34 +99,38 @@ Item {
                     to: "*"
                     NumberAnimation {
                         target: songLibraryList
-                        properties: "height"
+                        properties: "preferredHeight"
                         easing.type: Easing.OutCubic
                         duration: 300
                     }
                 }
 
                 Component {
-                    id: itemDelegate
+                    id: songDelegate
 
                     Kirigami.BasicListItem {
                         id: songListItem
-                        width: ListView.view.width
-                        height: 40
+                        implicitWidth: ListView.view.width
+                        height: selectedLibrary == "songs" ? 40 : 0
+                        clip: true
                         label: title
                         subtitle: author
                         hoverEnabled: true
-                        onClicked: {
-                            ListView.view.currentIndex = index
-                            song = ListView.view.selected
-                            songTitle = title
-                            songLyrics = lyrics
-                            songAuthor = author
-                            showPassiveNotification(songLyrics, 3000)
-                        }
 
+                        Behavior on height {
+                            NumberAnimation {
+                                easing.type: Easing.OutCubic
+                                duration: 300
+                            }
+                        }
                         MouseArea {
                             id: dragHandler
                             anchors.fill: parent
+                            /* width: parent.width */
+                            /* height: parent.height */
+                            /* Layout.alignment: Qt.AlignTop */
+                            /* x: parent.x */
+                            /* y: parent.y */
                             drag {
                                 target: songListItem
                                 onActiveChanged: {
@@ -124,6 +140,15 @@ Item {
                                     }
                                 }
                             }
+                            onClicked: {
+                                showPassiveNotification(title, 3000)
+                                songLibraryList.currentIndex = index
+                                song = songLibraryList.selected
+                                songTitle = title
+                                songLyrics = lyrics
+                                songAuthor = author
+                            }
+
                         }
                         Drag.active: dragHandler.drag.active
                         Drag.hotSpot.x: width / 2
@@ -159,7 +184,9 @@ Item {
                 id: videoLibraryPanel
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 color: Kirigami.Theme.backgroundColor
+                opacity: 1.0
 
                 Controls.Label {
                     anchors.centerIn: parent
@@ -180,8 +207,9 @@ Item {
 
             ListView {
                 id: videoLibraryList
-                Layout.fillHeight: true
+                Layout.preferredHeight: parent.height - 200
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 state: "deselected"
 
                 states: [
@@ -189,9 +217,7 @@ Item {
                         name: "deselected"
                         when: (selectedLibrary !== "videos")
                         PropertyChanges { target: videoLibraryList
-                                          height: 0
-                                          Layout.fillHeight: false
-                                          visible: false
+                                          Layout.preferredHeight: 0
                                         }
                     },
                     State {
@@ -205,7 +231,7 @@ Item {
                     to: "*"
                     NumberAnimation {
                         target: videoLibraryList
-                        properties: "height"
+                        properties: "preferredHeight"
                         easing.type: Easing.OutCubic
                         duration: 300
                     }
@@ -216,6 +242,7 @@ Item {
                 id: imageLibraryPanel
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 color: Kirigami.Theme.backgroundColor
 
                 Controls.Label {
@@ -237,8 +264,9 @@ Item {
 
             ListView {
                 id: imageLibraryList
-                Layout.fillHeight: true
+                Layout.preferredHeight: parent.height - 200
                 Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
                 state: "deselected"
 
                 states: [
@@ -246,9 +274,7 @@ Item {
                         name: "deselected"
                         when: (selectedLibrary !== "images")
                         PropertyChanges { target: imageLibraryList
-                                          height: 0
-                                          Layout.fillHeight: false
-                                          visible: false
+                                          Layout.preferredHeight: 0
                                         }
                     },
                     State {
@@ -262,7 +288,7 @@ Item {
                         to: "*"
                         NumberAnimation {
                             target: imageLibraryList
-                            properties: "height"
+                            properties: "preferredHeight"
                             easing.type: Easing.OutCubic
                             duration: 300
                         }
@@ -273,6 +299,7 @@ Item {
                     id: presentationLibraryPanel
                     Layout.preferredHeight: 40
                     Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
                     color: Kirigami.Theme.backgroundColor
 
                     Controls.Label {
@@ -294,8 +321,9 @@ Item {
 
                 ListView {
                     id: presentationLibraryList
-                    Layout.fillHeight: true
+                    Layout.preferredHeight: parent.height - 200
                     Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
                     state: "deselected"
 
                     states: [
@@ -303,9 +331,7 @@ Item {
                             name: "deselected"
                             when: (selectedLibrary !== "presentations")
                             PropertyChanges { target: presentationLibraryList
-                                              height: 0
-                                              Layout.fillHeight: false
-                                              visible: false
+                                              Layout.preferredHeight: 0
                                             }
                         },
                         State {
@@ -319,7 +345,7 @@ Item {
                         to: "*"
                         NumberAnimation {
                             target: presentationLibraryList
-                            properties: "height"
+                            properties: "preferredHeight"
                             easing.type: Easing.OutCubic
                             duration: 300
                         }
@@ -330,6 +356,7 @@ Item {
                     id: slideLibraryPanel
                     Layout.preferredHeight: 40
                     Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
                     color: Kirigami.Theme.backgroundColor
 
                     Controls.Label {
@@ -351,8 +378,9 @@ Item {
 
                 ListView {
                     id: slideLibraryList
-                    Layout.fillHeight: true
+                    Layout.preferredHeight: parent.height - 200
                     Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
                     state: "deselected"
 
                     states: [
@@ -360,9 +388,7 @@ Item {
                             name: "deselected"
                             when: (selectedLibrary !== "slides")
                             PropertyChanges { target: slideLibraryList
-                                              height: 0
-                                              Layout.fillHeight: false
-                                              visible: false
+                                              Layout.preferredHeight: 0
                                             }
                         },
                         State {
@@ -376,7 +402,7 @@ Item {
                         to: "*"
                         NumberAnimation {
                             target: slideLibraryList
-                            properties: "height"
+                            properties: "preferredHeight"
                             easing.type: Easing.OutCubic
                             duration: 300
                         }

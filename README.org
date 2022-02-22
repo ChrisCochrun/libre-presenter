@@ -20,7 +20,7 @@ cd church-presenter
 
 Then build.
 #+BEGIN_SRC
-cmake -B build/ . && cmake --build build/
+cmake -B build/ . && make --dir build/
 #+END_SRC
 
 Then run.

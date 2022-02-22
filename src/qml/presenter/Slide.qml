@@ -16,7 +16,7 @@ Item {
     property bool editMode: false
 
     // These properties are for the slides visuals
-    property real textSize: 26
+    property real textSize: 72
     property bool dropShadow: false
     property url imageSource: imageBackground
     property url videoSource: videoBackground
@@ -85,9 +85,12 @@ Item {
                 id: lyrics
                 text: "This is some test lyrics" // change to song lyrics of current verse
                 font.pointSize: textSize
+                minimumPointSize: 5
+                fontSizeMode: Text.Fit
                 font.family: chosenFont
                 style: Text.Raised
                 anchors.centerIn: parent
+                /* width: parent.width */
                 clip: true
 
                 layer.enabled: true

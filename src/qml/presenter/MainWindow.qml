@@ -7,6 +7,7 @@ import QtMultimedia 5.15
 import QtAudioEngine 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
+import org.presenter 1.0
 
 Controls.Page {
     id: mainPage
@@ -15,15 +16,17 @@ Controls.Page {
     // properties passed around for the slides
     property url imageBackground: ""
     property url videoBackground: ""
-    property var song
     property string songTitle: ""
     property string songLyrics: ""
     property string songAuthor: ""
     property int blurRadius: 0
+    property ListView songList
+
     property Item slideItem
-
-
+    property var song
     property var draggedLibraryItem
+
+    signal songUpdated(string title, string lyrics, string author, string ccli, string audio)
 
     Item {
         id: mainItem
@@ -83,7 +86,7 @@ Controls.Page {
             title: "presentation-window"
             height: maximumHeight
             width: maximumWidth
-            screen: secondScreen
+            screen: screens[1].name
             onClosing: presenting = false
 
             Component.onCompleted: {
@@ -134,5 +137,16 @@ Controls.Page {
             /* Qt.quit() */
         }
 
+    }
+
+
+    SongSqlModel {
+        id: songsqlmodel
+    }
+
+    function updateLyrics(lyrics) {
+        showPassiveNotification("adding lyrics...")
+        songList.model.lyrics = lyrics;
+        showPassiveNotification("added lyrics:\n " + lyrics)
     }
 }
