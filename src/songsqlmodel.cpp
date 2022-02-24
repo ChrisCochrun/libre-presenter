@@ -22,27 +22,34 @@ static void createTable()
 
   QSqlQuery query;
   if (!query.exec("CREATE TABLE IF NOT EXISTS 'songs' ("
+                  "  'id' INT NOT NULL,"
                   "  'title' TEXT NOT NULL,"
                   "  'lyrics' TEXT,"
                   "  'author' TEXT,"
                   "  'ccli' TEXT,"
                   "  'audio' TEXT,"
-                  "  PRIMARY KEY(title))")) {
+                  "  'vorder' TEXT,"
+                  "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
   }
+  qDebug() << query.lastQuery();
+  qDebug() << "inserting into songs";
 
-  query.exec("INSERT INTO songs VALUES ('10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '')");
-  query.exec("INSERT INTO songs VALUES ('River', 'Im going down to the river', 'Jordan Feliz', '13470183', '')");
-  query.exec("INSERT INTO songs VALUES ('Marvelous Light', 'Into marvelous light Im running', 'Chris Tomlin', '13470183', '')");
+  query.exec("INSERT INTO songs VALUES (1, '10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '', '')");
+  qDebug() << query.lastQuery();
+  query.exec("INSERT INTO songs VALUES (2, 'River', 'Im going down to the river', 'Jordan Feliz', '13470183', '', '')");
+  query.exec("INSERT INTO songs VALUES (3, 'Marvelous Light', 'Into marvelous "
+             "light Im running', 'Chris Tomlin', '13470183', '', '')");
 
-  // query.exec("select * from songs");
-  // qDebug() << query.lastQuery();
+  query.exec("select * from songs");
+  qDebug() << query.lastQuery();
 }
 
 SongSqlModel::SongSqlModel(QObject *parent)
     : QSqlTableModel(parent)
 {
+  qDebug() << "creating table";
   createTable();
   setTable(songsTableName);
   setEditStrategy(QSqlTableModel::OnFieldChange);
@@ -64,12 +71,36 @@ QVariant SongSqlModel::data(const QModelIndex &index, int role) const {
 QHash<int, QByteArray> SongSqlModel::roleNames() const
 {
     QHash<int, QByteArray> names;
-    names[Qt::UserRole] = "title";
-    names[Qt::UserRole + 1] = "lyrics";
-    names[Qt::UserRole + 2] = "author";
-    names[Qt::UserRole + 3] = "ccli";
-    names[Qt::UserRole + 4] = "audio";
+    names[Qt::UserRole] = "id";
+    names[Qt::UserRole + 1] = "title";
+    names[Qt::UserRole + 2] = "lyrics";
+    names[Qt::UserRole + 3] = "author";
+    names[Qt::UserRole + 4] = "ccli";
+    names[Qt::UserRole + 5] = "audio";
+    names[Qt::UserRole + 6] = "vorder";
     return names;
+}
+
+void SongSqlModel::newSong() {
+  qDebug() << "starting to add new song";
+  int rows = rowCount();
+  
+  qDebug() << rows;
+  QSqlRecord recorddata = record(rows);
+  recorddata.setValue("id", rows + 1);
+  recorddata.setValue("title", "new song");
+  qDebug() << recorddata;
+
+  if (insertRecord(rows, recorddata)) {
+    submitAll();
+    select();
+  }else {
+    qDebug() << lastError();
+  }
+}
+
+int SongSqlModel::id() const {
+  return m_id;
 }
 
 QString SongSqlModel::title() const {
@@ -81,6 +112,18 @@ void SongSqlModel::setTitle(const QString &title) {
     return;
   
   m_title = title;
+
+  select();
+  emit titleChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateTitle(const int &row, const QString &title) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("title", title);
+  setRecord(row, rowdata);
+  submitAll();
 
   select();
   emit titleChanged();
@@ -100,6 +143,18 @@ void SongSqlModel::setAuthor(const QString &author) {
   emit authorChanged();
 }
 
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateAuthor(const int &row, const QString &author) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("author", author);
+  setRecord(row, rowdata);
+  submitAll();
+
+  select();
+  emit authorChanged();
+}
+
 QString SongSqlModel::lyrics() const {
   return m_lyrics;
 }
@@ -114,7 +169,8 @@ void SongSqlModel::setLyrics(const QString &lyrics) {
   emit lyricsChanged();
 }
 
-void SongSqlModel::setLyrics(const int &row, const QString &lyrics) {
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateLyrics(const int &row, const QString &lyrics) {
   qDebug() << "Row is " << row;
   QSqlRecord rowdata = record(row);
   rowdata.setValue("lyrics", lyrics);
@@ -123,7 +179,6 @@ void SongSqlModel::setLyrics(const int &row, const QString &lyrics) {
 
   select();
   emit lyricsChanged();
-
 }
 
 QString SongSqlModel::ccli() const {
@@ -135,6 +190,18 @@ void SongSqlModel::setCcli(const QString &ccli) {
     return;
   
   m_ccli = ccli;
+
+  select();
+  emit ccliChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateCcli(const int &row, const QString &ccli) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("ccli", ccli);
+  setRecord(row, rowdata);
+  submitAll();
 
   select();
   emit ccliChanged();
@@ -152,4 +219,40 @@ void SongSqlModel::setAudio(const QString &audio) {
 
   select();
   emit audioChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateAudio(const int &row, const QString &audio) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("audio", audio);
+  setRecord(row, rowdata);
+  submitAll();
+
+  select();
+  emit audioChanged();
+}
+
+QString SongSqlModel::vorder() const { return m_vorder; }
+
+void SongSqlModel::setVerseOrder(const QString &vorder) {
+  if (vorder == m_vorder)
+    return;
+
+  m_vorder = vorder;
+
+  select();
+  emit vorderChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateVerseOrder(const int &row, const QString &vorder) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("vorder", vorder);
+  setRecord(row, rowdata);
+  submitAll();
+
+  select();
+  emit vorderChanged();
 }

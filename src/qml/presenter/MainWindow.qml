@@ -17,6 +17,7 @@ Controls.Page {
     property string songTitle: ""
     property string songLyrics: ""
     property string songAuthor: ""
+    property string songVorder: ""
     property int blurRadius: 0
 
     property Item slideItem
@@ -145,10 +146,26 @@ Controls.Page {
     }
 
     function updateLyrics(lyrics) {
-        showPassiveNotification("song id " + song);
+        songsqlmodel.updateLyrics(song, lyrics);
+    }
 
-        songsqlmodel.setLyrics(song, lyrics);
+    function updateTitle(title) {
+        songsqlmodel.updateTitle(song, title)
+    }
 
-        showPassiveNotification("did we do it?");
+    function updateAuthor(author) {
+        songsqlmodel.updateAuthor(song, author)
+    }
+
+    function updateAudio(audio) {
+        songsqlmodel.updateAudio(song, audio)
+    }
+
+    function updateCcli(ccli) {
+        songsqlmodel.updateCcli(song, ccli)
+    }
+
+    function updateVerseOrder(vorder) {
+        songsqlmodel.updateVerseOrder(song, vorder)
     }
 }

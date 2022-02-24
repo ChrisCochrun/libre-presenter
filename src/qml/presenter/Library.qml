@@ -103,9 +103,43 @@ Item {
                     }
                 }
 
+                header: Component {
+                    Kirigami.ActionToolBar {
+                        height: selectedLibrary == "songs" ? 40 : 0
+                        width: parent.width
+                        display: IconOnly
+                        actions: [
+                            Kirigami.Action {
+                                icon.name: "document-new"
+                                text: "New Song"
+                                tooltip: "Add a new song"
+                                onTriggered: songLibraryList.newSong()
+                            },
+                            
+                            Kirigami.Action {
+                                displayComponent: Component {
+                                    Kirigami.SearchField {
+                                        id: searchField
+                                        width: parent.width - 40
+                                        onAccepted: showPassiveNotification(searchField.text, 3000)
+                                    }
+                                }
+                            }
+                        ]
+
+                        Behavior on height {
+                            NumberAnimation {
+                                easing.type: Easing.OutCubic
+                                duration: 300
+                            }
+                        }
+                    }
+                }
+
+                headerPositioning: ListView.OverlayHeader
+
                 Component {
                     id: songDelegate
-
                     Kirigami.BasicListItem {
                         id: songListItem
                         implicitWidth: ListView.view.width
@@ -114,6 +148,15 @@ Item {
                         label: title
                         subtitle: author
                         hoverEnabled: true
+                        ListView.onAdd: {
+                            showPassiveNotification(title, 3000)
+                            songLibraryList.currentIndex = index
+                            song = index
+                            songTitle = title
+                            songLyrics = lyrics
+                            songAuthor = author
+                            songVorder = vorder
+                        }
 
                         Behavior on height {
                             NumberAnimation {
@@ -124,6 +167,7 @@ Item {
                         MouseArea {
                             id: dragHandler
                             anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
                             /* width: parent.width */
                             /* height: parent.height */
                             /* Layout.alignment: Qt.AlignTop */
@@ -139,12 +183,17 @@ Item {
                                 }
                             }
                             onClicked: {
-                                showPassiveNotification(title, 3000)
-                                songLibraryList.currentIndex = index
-                                song = index
-                                songTitle = title
-                                songLyrics = lyrics
-                                songAuthor = author
+                                if(mouse.button == Qt.RightButton)
+                                    showPassiveNotification("Delete me!");
+                                else{
+                                    showPassiveNotification(title, 3000)
+                                    songLibraryList.currentIndex = index
+                                    song = index
+                                    songTitle = title
+                                    songLyrics = lyrics
+                                    songAuthor = author
+                                    songVorder = vorder
+                                }
                             }
 
                         }
@@ -175,6 +224,12 @@ Item {
                     anchors.right: songLibraryList.right
                     anchors.leftMargin: 10
                     active: hovered || pressed
+                }
+
+                function newSong() {
+                    songsqlmodel.newSong();
+                    songLibraryList.currentIndex = songsqlmodel.rowCount();
+                    showPassiveNotification("newest song index: " + songLibraryList.currentIndex)
                 }
             }
 

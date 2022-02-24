@@ -113,6 +113,20 @@ Item {
                     placeholderText: "Song Title..."
                     text: songTitle
                     padding: 10
+                    onEditingFinished: updateTitle(text);
+                }
+                Controls.TextField {
+                    id: songVorderField
+
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    placeholderText: "verse order..."
+                    text: songVorder
+                    padding: 10
+                    onEditingFinished: updateVerseOrder(text);
                 }
 
                 Controls.ScrollView {
@@ -126,15 +140,18 @@ Item {
                     rightPadding: 20
 
                     Controls.TextArea {
+                        id: lyricsEditor
                         width: parent.width
-
                         placeholderText: "Put lyrics here..."
                         persistentSelection: true
                         text: songLyrics
                         textFormat: TextEdit.MarkdownText
                         padding: 10
-                        onEditingFinished: mainPage.updateLyrics(text)
-                        /* onPressed: editorTimer.running = true */
+                        onEditingFinished: {
+                            updateLyrics(text);
+                            editorTimer.running = false;
+                        }
+                        onPressed: editorTimer.running = true
                     }
                 }
                 Controls.TextField {
@@ -148,6 +165,7 @@ Item {
                     placeholderText: "Author..."
                     text: songAuthor
                     padding: 10
+                    onEditingFinished: updateAuthor(text)
                 }
 
             }
@@ -182,9 +200,9 @@ Item {
     }
         Timer {
             id: editorTimer
-            interval: 2000
+            interval: 1000
             repeat: true
             running: false
-            onTriggered: showPassiveNotification("updating song...")
+            onTriggered: updateLyrics(lyricsEditor.text)
         }
 }
