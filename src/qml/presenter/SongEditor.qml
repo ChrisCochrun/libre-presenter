@@ -1,9 +1,6 @@
 import QtQuick 2.13
-import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
-import QtQuick.Window 2.13
 import QtQuick.Layouts 1.2
-import QtAudioEngine 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 
@@ -137,7 +134,7 @@ Item {
                         textFormat: TextEdit.MarkdownText
                         padding: 10
                         onEditingFinished: mainPage.updateLyrics(text)
-                        onPressed: editorTimer.running = true
+                        /* onPressed: editorTimer.running = true */
                     }
                 }
                 Controls.TextField {
@@ -189,5 +186,5 @@ Item {
             repeat: true
             running: false
             onTriggered: showPassiveNotification("updating song...")
-    }
+        }
 }

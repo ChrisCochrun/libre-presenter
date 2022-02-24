@@ -3,8 +3,6 @@ import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
 import QtQuick.Layouts 1.2
-import QtMultimedia 5.15
-import QtAudioEngine 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
@@ -20,13 +18,16 @@ Controls.Page {
     property string songLyrics: ""
     property string songAuthor: ""
     property int blurRadius: 0
-    property ListView songList
 
     property Item slideItem
     property var song
     property var draggedLibraryItem
 
-    signal songUpdated(string title, string lyrics, string author, string ccli, string audio)
+    signal songLyricsUpdated(string lyrics)
+
+    Component.onCompleted: {
+        mainPage.songLyricsUpdated.connect(library.updateSongLyrics)
+    }
 
     Item {
         id: mainItem
@@ -139,14 +140,15 @@ Controls.Page {
 
     }
 
-
     SongSqlModel {
         id: songsqlmodel
     }
 
     function updateLyrics(lyrics) {
-        showPassiveNotification("adding lyrics...")
-        songList.model.lyrics = lyrics;
-        showPassiveNotification("added lyrics:\n " + lyrics)
+        showPassiveNotification("song id " + song);
+
+        songsqlmodel.setLyrics(song, lyrics);
+
+        showPassiveNotification("did we do it?");
     }
 }

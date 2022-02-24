@@ -30,6 +30,9 @@ Kirigami.ApplicationWindow {
     }
 
     Component.onCompleted: {
+        showPassiveNotification(Kirigami.Settings.style);
+        Kirigami.Settings.style = "Plasma";
+        showPassiveNotification(Kirigami.Settings.style);
         print("checking screens");
         print("Present Mode is " + presentMode);
         screens = Qt.application.screens;

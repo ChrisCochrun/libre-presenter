@@ -2,7 +2,9 @@
 #define SONGSQLMODEL_H
 
 #include <QSqlTableModel>
+#include <qabstractitemmodel.h>
 #include <qqml.h>
+#include <qvariant.h>
 
 class SongSqlModel : public QSqlTableModel
 {
@@ -25,6 +27,7 @@ public:
 
   void setTitle(const QString &title);
   void setLyrics(const QString &lyrics);
+  void setLyrics(const int &row, const QString &lyrics);
   void setAuthor(const QString &author);
   void setCcli(const QString &ccli);
   void setAudio(const QString &audio);

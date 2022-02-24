@@ -7,6 +7,10 @@
 #include <QSqlQuery>
 #include <QSql>
 #include <QSqlDatabase>
+#include <qabstractitemmodel.h>
+#include <qdebug.h>
+#include <qobjectdefs.h>
+#include <qsqlrecord.h>
 
 static const char *songsTableName = "songs";
 
@@ -108,6 +112,18 @@ void SongSqlModel::setLyrics(const QString &lyrics) {
 
   select();
   emit lyricsChanged();
+}
+
+void SongSqlModel::setLyrics(const int &row, const QString &lyrics) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("lyrics", lyrics);
+  setRecord(row, rowdata);
+  submitAll();
+
+  select();
+  emit lyricsChanged();
+
 }
 
 QString SongSqlModel::ccli() const {

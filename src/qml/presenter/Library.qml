@@ -1,5 +1,4 @@
 import QtQuick 2.13
-import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.0 as Controls
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.13 as Kirigami
@@ -79,7 +78,6 @@ Item {
                 delegate: songDelegate
                 state: "selected"
 
-                Component.onCompleted: songList = songLibraryList
                 states: [
                     State {
                         name: "deselected"
@@ -143,7 +141,7 @@ Item {
                             onClicked: {
                                 showPassiveNotification(title, 3000)
                                 songLibraryList.currentIndex = index
-                                song = songLibraryList.selected
+                                song = index
                                 songTitle = title
                                 songLyrics = lyrics
                                 songAuthor = author
@@ -412,4 +410,8 @@ Item {
             }
     }
 
+    function updateSongLyrics(lyrics) {
+        showPassiveNotification("library function" + lyrics)
+        showPassiveNotification("WE DID IT!")
+    }
 }
