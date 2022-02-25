@@ -26,15 +26,15 @@ Item {
                 color: Kirigami.Theme.backgroundColor
 
                 Controls.Label {
-                    id: songlable
+                    id: songLabel
                     anchors.centerIn: parent
                     text: "Songs"
                 }
 
                 Controls.Label {
                     id: songCount
-                    anchors {left: songlable.right
-                             verticalCenter: songlable.verticalCenter
+                    anchors {left: songLabel.right
+                             verticalCenter: songLabel.verticalCenter
                              leftMargin: 15}
                     text: songsqlmodel.rowCount()
                     font.pixelSize: 15
