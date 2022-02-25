@@ -45,6 +45,7 @@ public:
   Q_INVOKABLE void updateVerseOrder(const int &row, const QString &vorder);
 
   Q_INVOKABLE void newSong();
+  Q_INVOKABLE void deleteSong(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;

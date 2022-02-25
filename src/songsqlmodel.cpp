@@ -22,7 +22,7 @@ static void createTable()
 
   QSqlQuery query;
   if (!query.exec("CREATE TABLE IF NOT EXISTS 'songs' ("
-                  "  'id' INT NOT NULL,"
+                  "  'id' INTEGER NOT NULL,"
                   "  'title' TEXT NOT NULL,"
                   "  'lyrics' TEXT,"
                   "  'author' TEXT,"
@@ -36,10 +36,10 @@ static void createTable()
   qDebug() << query.lastQuery();
   qDebug() << "inserting into songs";
 
-  query.exec("INSERT INTO songs VALUES (1, '10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '', '')");
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder) VALUES ('10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '', '')");
   qDebug() << query.lastQuery();
-  query.exec("INSERT INTO songs VALUES (2, 'River', 'Im going down to the river', 'Jordan Feliz', '13470183', '', '')");
-  query.exec("INSERT INTO songs VALUES (3, 'Marvelous Light', 'Into marvelous "
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder) VALUES ('River', 'Im going down to the river', 'Jordan Feliz', '13470183', '', '')");
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder) VALUES ('Marvelous Light', 'Into marvelous "
              "light Im running', 'Chris Tomlin', '13470183', '', '')");
 
   query.exec("select * from songs");
@@ -52,7 +52,7 @@ SongSqlModel::SongSqlModel(QObject *parent)
   qDebug() << "creating table";
   createTable();
   setTable(songsTableName);
-  setEditStrategy(QSqlTableModel::OnFieldChange);
+  setEditStrategy(QSqlTableModel::OnManualSubmit);
   // make sure to call select else the model won't fill
   select();
 }
@@ -86,17 +86,24 @@ void SongSqlModel::newSong() {
   int rows = rowCount();
   
   qDebug() << rows;
-  QSqlRecord recorddata = record(rows);
-  recorddata.setValue("id", rows + 1);
+  QSqlRecord recorddata = record();
   recorddata.setValue("title", "new song");
   qDebug() << recorddata;
 
   if (insertRecord(rows, recorddata)) {
     submitAll();
-    select();
   }else {
     qDebug() << lastError();
   }
+}
+
+void SongSqlModel::deleteSong(const int &row) {
+  QSqlRecord recordData = record(row);
+  if (recordData.isEmpty())
+    return;
+
+  removeRow(row);
+  submitAll();
 }
 
 int SongSqlModel::id() const {
@@ -121,11 +128,11 @@ void SongSqlModel::setTitle(const QString &title) {
 void SongSqlModel::updateTitle(const int &row, const QString &title) {
   qDebug() << "Row is " << row;
   QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
   rowdata.setValue("title", title);
   setRecord(row, rowdata);
+  qDebug() << rowdata;
   submitAll();
-
-  select();
   emit titleChanged();
 }
 
@@ -150,8 +157,6 @@ void SongSqlModel::updateAuthor(const int &row, const QString &author) {
   rowdata.setValue("author", author);
   setRecord(row, rowdata);
   submitAll();
-
-  select();
   emit authorChanged();
 }
 
@@ -176,8 +181,6 @@ void SongSqlModel::updateLyrics(const int &row, const QString &lyrics) {
   rowdata.setValue("lyrics", lyrics);
   setRecord(row, rowdata);
   submitAll();
-
-  select();
   emit lyricsChanged();
 }
 
@@ -202,8 +205,6 @@ void SongSqlModel::updateCcli(const int &row, const QString &ccli) {
   rowdata.setValue("ccli", ccli);
   setRecord(row, rowdata);
   submitAll();
-
-  select();
   emit ccliChanged();
 }
 
@@ -228,8 +229,6 @@ void SongSqlModel::updateAudio(const int &row, const QString &audio) {
   rowdata.setValue("audio", audio);
   setRecord(row, rowdata);
   submitAll();
-
-  select();
   emit audioChanged();
 }
 
@@ -252,7 +251,5 @@ void SongSqlModel::updateVerseOrder(const int &row, const QString &vorder) {
   rowdata.setValue("vorder", vorder);
   setRecord(row, rowdata);
   submitAll();
-
-  select();
   emit vorderChanged();
 }

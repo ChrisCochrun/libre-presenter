@@ -140,39 +140,72 @@ Item {
 
                 Component {
                     id: songDelegate
-                    Kirigami.BasicListItem {
-                        id: songListItem
+                    Item{
                         implicitWidth: ListView.view.width
-                        height: selectedLibrary == "songs" ? 40 : 0
-                        clip: true
-                        label: title
-                        subtitle: author
-                        hoverEnabled: true
-                        ListView.onAdd: {
-                            showPassiveNotification(title, 3000)
-                            songLibraryList.currentIndex = index
-                            song = index
-                            songTitle = title
-                            songLyrics = lyrics
-                            songAuthor = author
-                            songVorder = vorder
+                        height: selectedLibrary == "songs" ? 50 : 0
+                        Kirigami.BasicListItem {
+                            id: songListItem
+
+                            property bool rightMenu: false
+
+                            implicitWidth: ListView.view.width
+                            height: selectedLibrary == "songs" ? 50 : 0
+                            clip: true
+                            label: title
+                            subtitle: author
+                            supportsMouseEvents: false
+                            backgroundColor: {
+                                if (parent.ListView.isCurrentItem) {
+                                    Kirigami.Theme.highlightColor;
+                                } else if (dragHandler.containsMouse){
+                                    Kirigami.Theme.hoverColor;
+                                 } else {
+                                     Kirigami.Theme.backgroundColor;
+                                 }
+                            }
+                            textColor: {
+                                if (parent.ListView.isCurrentItem || dragHandler.containsMouse)
+                                    activeTextColor;
+                                else
+                                    Kirigami.Theme.textColor;
+                            }
+
+                            /* onAdd: { */
+                            /*     showPassiveNotification(title, 3000) */
+                            /*     songLibraryList.currentIndex = index */
+                            /*     song = index */
+                            /*     songTitle = title */
+                            /*     songLyrics = lyrics */
+                            /*     songAuthor = author */
+                            /*     songVorder = vorder */
+                            /* } */
+
+                            Behavior on height {
+                                NumberAnimation {
+                                    easing.type: Easing.OutCubic
+                                    duration: 300
+                                }
+                            }
+                            Drag.active: dragHandler.drag.active
+                            Drag.hotSpot.x: width / 2
+                            Drag.hotSpot.y: height / 2
+
+                            states: State {
+                                name: "dragged"
+                                when: songListItem.Drag.active
+                                PropertyChanges {
+                                    target: songListItem
+                                    x: x
+                                    y: y
+                                }
+                            }
+
                         }
 
-                        Behavior on height {
-                            NumberAnimation {
-                                easing.type: Easing.OutCubic
-                                duration: 300
-                            }
-                        }
                         MouseArea {
                             id: dragHandler
                             anchors.fill: parent
-                            acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            /* width: parent.width */
-                            /* height: parent.height */
-                            /* Layout.alignment: Qt.AlignTop */
-                            /* x: parent.x */
-                            /* y: parent.y */
+                            hoverEnabled: true
                             drag {
                                 target: songListItem
                                 onActiveChanged: {
@@ -181,33 +214,36 @@ Item {
                                         showPassiveNotification(index)
                                     }
                                 }
+                                filterChildren: true
+                                threshold: 10
                             }
-                            onClicked: {
-                                if(mouse.button == Qt.RightButton)
-                                    showPassiveNotification("Delete me!");
-                                else{
-                                    showPassiveNotification(title, 3000)
-                                    songLibraryList.currentIndex = index
-                                    song = index
-                                    songTitle = title
-                                    songLyrics = lyrics
-                                    songAuthor = author
-                                    songVorder = vorder
+                            MouseArea {
+                                id: clickHandler
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                onClicked: {
+                                    if(mouse.button == Qt.RightButton)
+                                        rightClickSongMenu.popup()
+                                    else{
+                                        showPassiveNotification(title, 3000)
+                                        songLibraryList.currentIndex = index
+                                        song = index
+                                        songTitle = title
+                                        songLyrics = lyrics
+                                        songAuthor = author
+                                        songVorder = vorder
+                                    }
                                 }
+
                             }
-
                         }
-                        Drag.active: dragHandler.drag.active
-                        Drag.hotSpot.x: width / 2
-                        Drag.hotSpot.y: height / 2
-
-                        states: State {
-                            name: "dragged"
-                            when: songListItem.Drag.active
-                            PropertyChanges {
-                                target: songListItem
-                                x: x
-                                y: y
+                        Controls.Menu {
+                            id: rightClickSongMenu
+                            x: clickHandler.mouseX
+                            y: clickHandler.mouseY + 10
+                            Kirigami.Action {
+                                text: "delete"
+                                onTriggered: songsqlmodel.deleteSong(index)
                             }
                         }
                     }
@@ -463,10 +499,5 @@ Item {
 
                 }
             }
-    }
-
-    function updateSongLyrics(lyrics) {
-        showPassiveNotification("library function" + lyrics)
-        showPassiveNotification("WE DID IT!")
     }
 }

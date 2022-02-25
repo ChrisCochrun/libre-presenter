@@ -67,6 +67,7 @@ Item {
                     background: Rectangle {
                         Kirigami.Theme.colorSet: Kirigami.Theme.Tooltip
                         color: Kirigami.Theme.backgroundColor
+                        radius: 10
                         border.color: Kirigami.Theme.activeBackgroundColor
                         border.width: 2
                     }
