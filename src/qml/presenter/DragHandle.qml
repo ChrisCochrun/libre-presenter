@@ -17,6 +17,7 @@ Item {
      * The id of the ListView the delegates belong to.
      */
     property ListView listView
+    property bool containsMouse
 
     /**
      * Emitted when the drag handle wants to move the item in the model
@@ -36,7 +37,7 @@ Item {
     signal dropped()
 
     // Emitted when clicking to activate underneath mousearea
-    signal activated()
+    signal clicked()
 
     MouseArea {
         id: mouseArea
@@ -126,7 +127,10 @@ Item {
         MouseArea {
             id: clickArea
             anchors.fill: parent
-            onClicked: root.activated()
+            onClicked: root.clicked()
+            hoverEnabled: true
+            onEntered: root.containsMouse = true
+            onExited: root.containsMouse = false
         }
     }
 }

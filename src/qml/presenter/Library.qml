@@ -107,7 +107,7 @@ Item {
                     Kirigami.ActionToolBar {
                         height: selectedLibrary == "songs" ? 40 : 0
                         width: parent.width
-                        display: IconOnly
+                        display: Button.IconOnly
                         actions: [
                             Kirigami.Action {
                                 icon.name: "document-new"
@@ -148,7 +148,7 @@ Item {
 
                             property bool rightMenu: false
 
-                            implicitWidth: ListView.view.width
+                            implicitWidth: songLibraryList.width
                             height: selectedLibrary == "songs" ? 50 : 0
                             clip: true
                             label: title
@@ -158,8 +158,8 @@ Item {
                                 if (parent.ListView.isCurrentItem) {
                                     Kirigami.Theme.highlightColor;
                                 } else if (dragHandler.containsMouse){
-                                    Kirigami.Theme.hoverColor;
-                                 } else {
+                                    Kirigami.Theme.highlightColor;
+                                } else {
                                      Kirigami.Theme.backgroundColor;
                                  }
                             }

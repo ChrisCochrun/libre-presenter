@@ -3,6 +3,4 @@
 
 ((nil . ((projectile-project-run-cmd . "./build/bin/presenter")
          (compilation-read-command . (nil))
-         (projectile-project-compilation-cmd . "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B buld/ . && make --dir build/")))
- (qml-mode . ((completion-at-point-functions . (list
-                                                (cape-super-capf #'cape-dabbrev #'cape-dict))))))
+         (projectile-project-compilation-cmd . "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B buld/ . && make --dir build/"))))

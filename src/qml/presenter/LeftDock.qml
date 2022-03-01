@@ -71,38 +71,48 @@ ColumnLayout {
             Component {
                 id: itemDelegate
                 Item {
-                    implicitWidth: ListView.view.width
+                    id: serviceItem
+                    implicitWidth: serviceItemList.width
                     height: 50
                     Kirigami.BasicListItem {
-                        id: serviceItem
-                        width: serviceItemList.width
-                        height: 50
+                        anchors.fill: parent
                         label: name
                         subtitle: type
                         hoverEnabled: true
                         supportsMouseEvents: false
                         backgroundColor: {
-                            if (serviceDrop.containsDrag | isCurrentItem) {
-                                Kirigami.Theme.highlightColor
-                            } else
-                                Kirigami.Theme.viewBackgroundColor
+                            if (parent.ListView.isCurrentItem) {
+                                Kirigami.Theme.highlightColor;
+                                /* } else if (serviceDrop.constainsDrag){ */
+                                /*     Kirigami.Theme.hoverColor; */
+                            } else if (mouseHandler.containsMouse){
+                                Kirigami.Theme.highlightColor;
+                            } else {
+                                Kirigami.Theme.backgroundColor;
+                            }
                         }
-                        /* onClicked: serviceItemList.currentIndex = index && showPassiveNotification(serviceItemList.currentIndex) */
-
+                        textColor: {
+                            if (parent.ListView.isCurrentItem || mouseHandler.containsMouse)
+                                activeTextColor;
+                            else
+                                Kirigami.Theme.textColor;
+                        }
                     }
                     Presenter.DragHandle {
-                        width: serviceItemList.width
-                        height: 50
-                        /* anchors.fill: parent */
+                        id: mouseHandler
+                        anchors.fill: parent
                         listItem: serviceItem
                         listView: serviceItemList
                         onMoveRequested: serviceListModel.move(oldIndex, newIndex, 1)
-                        onActivated: serviceItemList.currentIndex = index && showPassiveNotification(serviceItemList.currentIndex)
+                        onClicked: {
+                            serviceItemList.currentIndex = index;
+                            showPassiveNotification(serviceItemList.currentIndex);
+                        }
                     }
+
                     DropArea {
                         id: serviceDrop
-                        width: serviceItemList.width
-                        height: 50
+                        anchors.fill: parent
                         onDropped: {
                             serviceListModel.insert(index, {"name": dragSongTitle, "type": "song"});
                             showPassiveNotification(index);
@@ -121,11 +131,28 @@ ColumnLayout {
 
             Controls.ScrollBar.vertical: Controls.ScrollBar {
                 anchors.right: serviceItemList.right
-                anchors.leftMargin: 10
+                anchors.rightMargin: 0
                 active: hovered || pressed
             }
+
             ListModel {
                 id: serviceListModel
+                ListElement {
+                    name: "10,000 Reason"
+                    type: "song"
+                }
+                ListElement {
+                    name: "Marvelous Light"
+                    type: "song"
+                }
+                ListElement {
+                    name: "10,000 Reason"
+                    type: "song"
+                }
+                ListElement {
+                    name: "Marvelous Light"
+                    type: "song"
+                }
                 ListElement {
                     name: "10,000 Reason"
                     type: "song"
