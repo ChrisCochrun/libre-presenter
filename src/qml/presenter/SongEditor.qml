@@ -97,7 +97,16 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.columnSpan: 2
-
+            handle: Item{
+                implicitWidth: 6
+                Rectangle {
+                    height: parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 1
+                    color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
+                }
+            }
+            
             ColumnLayout {
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.preferredWidth: 500

@@ -29,90 +29,123 @@ ColumnLayout {
         }
     }
 
-    ListView {
-        id: serviceItemList
-        Layout.fillWidth: true
+    DropArea {
+        id: serviceDropEnd
         Layout.fillHeight: true
-        model: listModel
-        delegate: Kirigami.DelegateRecycler {
-            width: serviceItemList.width
-            sourceComponent: itemDelegate
+        Layout.fillWidth: true
+        onDropped: {
+            serviceListModel.append({"name": dragSongTitle, "type": "song"});
         }
-        clip: true
-        spacing: 2
-        addDisplaced: Transition {
-            NumberAnimation {properties: "x, y"; duration: 100}
-        }
-        moveDisplaced: Transition {
-            NumberAnimation { properties: "x, y"; duration: 100 }
-        }
-        remove: Transition {
-            NumberAnimation { properties: "x, y"; duration: 100 }
-            NumberAnimation { properties: "opacity"; duration: 100 }
-        }
+        keys: ["library"]
 
-        removeDisplaced: Transition {
-            NumberAnimation { properties: "x, y"; duration: 100 }
-        }
-
-        displaced: Transition {
-            NumberAnimation {properties: "x, y"; duration: 100}
-        }
-
-        Component {
-            id: itemDelegate
-            Kirigami.BasicListItem {
-                id: serviceItem
+        ListView {
+            id: serviceItemList
+            anchors.fill: parent
+            model: serviceListModel
+            delegate: Kirigami.DelegateRecycler {
                 width: serviceItemList.width
-                height:50
-                label: itemName
-                subtitle: type
-                hoverEnabled: true
-                backgroundColor: serviceDrop.containsDrag ? Kirigami.Theme.highlightColor : Kirigami.Theme.viewBackgroundColor
-                onClicked: serviceItemList.currentIndex = index
+                sourceComponent: itemDelegate
+            }
+            clip: true
+            spacing: 3
 
-                Presenter.DragHandle {
-                    listItem: serviceItem
-                    listView: serviceItemList
-                    onMoveRequested: listModel.move(oldIndex, newIndex, 1)
-                    anchors.fill: parent
+            addDisplaced: Transition {
+                NumberAnimation {properties: "x, y"; duration: 100}
+            }
+            moveDisplaced: Transition {
+                NumberAnimation { properties: "x, y"; duration: 100 }
+            }
+            remove: Transition {
+                NumberAnimation { properties: "x, y"; duration: 100 }
+                NumberAnimation { properties: "opacity"; duration: 100 }
+            }
+
+            removeDisplaced: Transition {
+                NumberAnimation { properties: "x, y"; duration: 100 }
+            }
+
+            displaced: Transition {
+                NumberAnimation {properties: "x, y"; duration: 100}
+            }
+
+            Component {
+                id: itemDelegate
+                Item {
+                    implicitWidth: ListView.view.width
+                    height: 50
+                    Kirigami.BasicListItem {
+                        id: serviceItem
+                        width: serviceItemList.width
+                        height: 50
+                        label: name
+                        subtitle: type
+                        hoverEnabled: true
+                        supportsMouseEvents: false
+                        backgroundColor: {
+                            if (serviceDrop.containsDrag | isCurrentItem) {
+                                Kirigami.Theme.highlightColor
+                            } else
+                                Kirigami.Theme.viewBackgroundColor
+                        }
+                        /* onClicked: serviceItemList.currentIndex = index && showPassiveNotification(serviceItemList.currentIndex) */
+
+                    }
+                    Presenter.DragHandle {
+                        width: serviceItemList.width
+                        height: 50
+                        /* anchors.fill: parent */
+                        listItem: serviceItem
+                        listView: serviceItemList
+                        onMoveRequested: serviceListModel.move(oldIndex, newIndex, 1)
+                        onActivated: serviceItemList.currentIndex = index && showPassiveNotification(serviceItemList.currentIndex)
+                    }
+                    DropArea {
+                        id: serviceDrop
+                        width: serviceItemList.width
+                        height: 50
+                        onDropped: {
+                            serviceListModel.insert(index, {"name": dragSongTitle, "type": "song"});
+                            showPassiveNotification(index);
+                        }
+                        keys: ["library"]
+                    }
                 }
+            }
 
-                DropArea {
-                    id: serviceDrop
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    onEntered: showPassiveNotification(drag.source + " has entered")
-                    onDropped: listModel.append(drag.source)
+            Kirigami.WheelHandler {
+                id: wheelHandler
+                target: serviceItemList
+                filterMouseEvents: true
+                keyNavigationEnabled: true
+            }
+
+            Controls.ScrollBar.vertical: Controls.ScrollBar {
+                anchors.right: serviceItemList.right
+                anchors.leftMargin: 10
+                active: hovered || pressed
+            }
+            ListModel {
+                id: serviceListModel
+                ListElement {
+                    name: "10,000 Reason"
+                    type: "song"
                 }
-
+                ListElement {
+                    name: "Marvelous Light"
+                    type: "song"
+                }
+                ListElement {
+                    name: "10,000 Reason"
+                    type: "song"
+                }
+                ListElement {
+                    name: "Marvelous Light"
+                    type: "song"
+                }
             }
+
         }
 
-        Kirigami.WheelHandler {
-            id: wheelHandler
-            target: serviceItemList
-            filterMouseEvents: true
-            keyNavigationEnabled: true
-        }
-
-        Controls.ScrollBar.vertical: Controls.ScrollBar {
-            anchors.right: serviceItemList.right
-            anchors.leftMargin: 10
-            active: hovered || pressed
-        }
-        ListModel {
-            id: listModel
-            ListElement {
-                itemName: "10,000 Reason"
-                type: "song"
-            }
-            ListElement {
-                itemName: "Marvelous Light"
-                type: "song"
-            }
-         }
     }
-
 }
 

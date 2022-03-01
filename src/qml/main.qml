@@ -21,6 +21,10 @@ Kirigami.ApplicationWindow {
     width: 1800
     height: 900
 
+    Rectangle {
+
+    }
+
     Presenter.MainWindow {
         id: mainPage
     }

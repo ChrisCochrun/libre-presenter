@@ -35,6 +35,9 @@ Item {
      */
     signal dropped()
 
+    // Emitted when clicking to activate underneath mousearea
+    signal activated()
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent
@@ -43,6 +46,7 @@ Item {
             axis: Drag.YAxis
             minimumY: 0
             maximumY: listView.height - listItem.height
+            filterChildren: true
         }
         /* cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor */
 
@@ -60,8 +64,9 @@ Item {
             }
         }
 
-        preventStealing: true
+        preventStealing: false
         onPressed: {
+            listView.interactive = false;
             mouseArea.originalParent = listItem.parent;
             listItem.parent = listView;
             listItem.y = mouseArea.originalParent.mapToItem(listItem.parent, listItem.x, listItem.y).y;
@@ -81,6 +86,7 @@ Item {
                                    listItem.y > listView.height - mouseArea.autoScrollThreshold);
         }
         onReleased: {
+            listView.interactive = true;
             listItem.y = mouseArea.originalParent.mapFromItem(listItem, 0, 0).y;
             listItem.parent = mouseArea.originalParent;
             dropAnimation.running = true;
@@ -115,6 +121,12 @@ Item {
                 }
                 mouseArea.arrangeItem();
             }
+        }
+
+        MouseArea {
+            id: clickArea
+            anchors.fill: parent
+            onClicked: root.activated()
         }
     }
 }

@@ -189,6 +189,7 @@ Item {
                             Drag.active: dragHandler.drag.active
                             Drag.hotSpot.x: width / 2
                             Drag.hotSpot.y: height / 2
+                            Drag.keys: [ "library" ]
 
                             states: State {
                                 name: "dragged"
@@ -210,8 +211,10 @@ Item {
                                 target: songListItem
                                 onActiveChanged: {
                                     if (dragHandler.drag.active) {
-                                        draggedLibraryItem = songLibraryList.currentItem
-                                        showPassiveNotification(index)
+                                        dragSongTitle = title
+                                        showPassiveNotification(dragSongTitle)
+                                    } else {
+                                        songListItem.Drag.drop()
                                     }
                                 }
                                 filterChildren: true

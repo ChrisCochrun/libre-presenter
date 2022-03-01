@@ -1,3 +1,8 @@
-;; ((nil . ((projectile-project-run-cmd . "cmake -B buld/ . && make --dir build/ && ./build/bin/presenter")
-;;          (compilation-read-command nil)
-;;          (projectile-project-compilation-cmd . "cmake -B buld/ . && make --dir build/"))))
+;;; Directory Local Variables
+;;; For more information see (info "(emacs) Directory Variables")
+
+((nil . ((projectile-project-run-cmd . "./build/bin/presenter")
+         (compilation-read-command . (nil))
+         (projectile-project-compilation-cmd . "cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B buld/ . && make --dir build/")))
+ (qml-mode . ((completion-at-point-functions . (list
+                                                (cape-super-capf #'cape-dabbrev #'cape-dict))))))

@@ -20,6 +20,8 @@ Controls.Page {
     property string songVorder: ""
     property int blurRadius: 0
 
+    property string dragSongTitle: ""
+
     property Item slideItem
     property var song
     property var draggedLibraryItem
@@ -42,7 +44,7 @@ Controls.Page {
                 Rectangle {
                     height: parent.height
                     anchors.horizontalCenter: parent.horizontalCenter
-                    implicitWidth: 1
+                    width: 1
                     color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
                 }
             }
