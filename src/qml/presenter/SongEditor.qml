@@ -1,5 +1,6 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.15 as Controls
+import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
@@ -22,7 +23,10 @@ Item {
                 anchors.fill: parent 
 
                 Controls.ComboBox {
-                    model: ["VictorMono", "Calibri", "Arial", "Quicksand"]
+                    model: Qt.fontFamilies()
+                    implicitWidth: 300
+                    editable: true
+                    onCurrentIndexChanged: showPassiveNotification(currentText)
                 }
                 Controls.SpinBox {
                     editable: true
