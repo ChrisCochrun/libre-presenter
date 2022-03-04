@@ -10,7 +10,6 @@ import mpv 1.0
 
 Item {
     id: root
-    anchors.fill: parent
 
     // Let's make this slide editable
     property bool editMode: false

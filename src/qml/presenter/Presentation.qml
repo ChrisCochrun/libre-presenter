@@ -46,22 +46,39 @@ Item {
             }
         }
 
-        Kirigami.Icon {
-            source: "arrow-left"
+        Item {
+            /* Layout.preferredHeight: 200 */
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.preferredWidth: 25
+            Layout.columnSpan: 3
+        }
+
+        Kirigami.Icon {
+            source: "arrow-left"
+            Layout.preferredWidth: 200
+            Layout.preferredHeight: 200
+            Layout.alignment: Qt.AlignRight
         }
 
         Presenter.Slide {
-            Layout.preferredWidth: 50
+            Layout.preferredWidth: 700
+            Layout.preferredHeight: 500
+            Layout.alignment: Qt.AlignCenter
         }
 
         Kirigami.Icon {
             source: "arrow-right"
+            Layout.preferredWidth: 200
+            Layout.preferredHeight: 200
+            Layout.alignment: Qt.AlignLeft
+        }
+
+        Item {
+            /* Layout.preferredHeight: 200 */
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.preferredWidth: 25
+            Layout.columnSpan: 3
         }
+
     }
 }

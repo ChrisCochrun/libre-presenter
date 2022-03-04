@@ -22,6 +22,8 @@ Controls.Page {
 
     property string dragSongTitle: ""
 
+    property bool editing: true
+
     property Item slideItem
     property var song
     property var draggedLibraryItem
@@ -56,21 +58,15 @@ Controls.Page {
                 Controls.SplitView.maximumWidth: 300
             }
             
-            Presenter.SongEditor {
-                id: songEditor
+            Controls.StackView {
+                id: mainPageArea
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 500
+                initialItem: presenterComp
+                
             }
-
-            /* Presenter.Presentation { */
-            /*     id: presentation */
-            /*     Controls.SplitView.fillHeight: true */
-            /*     Controls.SplitView.fillWidth: true */
-            /*     Controls.SplitView.preferredWidth: 700 */
-            /*     Controls.SplitView.minimumWidth: 500 */
-            /* } */
 
             Presenter.Library {
                 id: library
@@ -81,6 +77,21 @@ Controls.Page {
  
         }
     }
+
+    Component {
+        id: songEditorComp
+        Presenter.SongEditor {
+            id: songEditor
+        }
+    }
+
+    Component {
+        id: presenterComp
+        Presenter.Presentation {
+            id: presentation
+        }
+    }
+
 
     Loader {
         id: presentLoader

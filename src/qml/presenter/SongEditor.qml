@@ -26,7 +26,7 @@ Item {
                     model: Qt.fontFamilies()
                     implicitWidth: 300
                     editable: true
-                    onCurrentIndexChanged: showPassiveNotification(currentText)
+                    onCurrentTextChanged: showPassiveNotification(currentText)
                 }
                 Controls.SpinBox {
                     editable: true
