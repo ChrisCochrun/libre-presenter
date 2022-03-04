@@ -20,6 +20,7 @@ Item {
     property url imageSource: imageBackground
     property url videoSource: videoBackground
     property string chosenFont: "Quicksand"
+    property string text: "This is demo text"
     property color backgroundColor
 
     // These properties help to determine the state of the slide
@@ -82,9 +83,9 @@ Item {
 
             Controls.Label {
                 id: lyrics
-                text: "This is some test lyrics" // change to song lyrics of current verse
-                font.pointSize: textSize
-                minimumPointSize: 5
+                text: root.text
+                font.pixelSize: textSize
+                /* minimumPointSize: 5 */
                 fontSizeMode: Text.Fit
                 font.family: chosenFont
                 style: Text.Raised

@@ -107,6 +107,7 @@ ColumnLayout {
                         onClicked: {
                             serviceItemList.currentIndex = index;
                             showPassiveNotification(serviceItemList.currentIndex);
+                            changeSlideText(text);
                         }
                     }
 
@@ -140,10 +141,12 @@ ColumnLayout {
                 ListElement {
                     name: "10,000 Reason"
                     type: "song"
+                    text: "YIP YIP!"
                 }
                 ListElement {
                     name: "Marvelous Light"
                     type: "song"
+                    text: "YIP YIP!"
                 }
                 ListElement {
                     name: "10,000 Reason"

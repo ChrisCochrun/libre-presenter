@@ -13,7 +13,8 @@ Item {
 
     Presenter.Slide {
         id: representation
-        textSize: 48
+        anchors.fill: parent
+        textSize: width / 15
         editMode: true
     }
 }

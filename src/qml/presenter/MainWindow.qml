@@ -31,7 +31,7 @@ Controls.Page {
     signal songLyricsUpdated(string lyrics)
 
     Component.onCompleted: {
-        mainPage.songLyricsUpdated.connect(library.updateSongLyrics)
+        mainPage.songLyricsUpdated.connect(library.updateSongLyrics);
     }
 
     Item {
@@ -64,8 +64,7 @@ Controls.Page {
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 500
-                initialItem: presenterComp
-                
+                initialItem: Presenter.Presentation { id: presentation }
             }
 
             Presenter.Library {
@@ -85,14 +84,6 @@ Controls.Page {
         }
     }
 
-    Component {
-        id: presenterComp
-        Presenter.Presentation {
-            id: presentation
-        }
-    }
-
-
     Loader {
         id: presentLoader
         active: presenting
@@ -106,13 +97,15 @@ Controls.Page {
 
             Component.onCompleted: {
                 presentationWindow.showFullScreen();
-                print(Qt.application.screens[1])
+                print(screens[1].name)
             }
 
             Presenter.Slide {
                 id: presentationSlide
+                anchors.fill: parent
                 imageSource: imageBackground
                 videoSource: videoBackground
+                text: "good"
 
                 Component.onCompleted: slideItem = presentationSlide
             }
@@ -156,6 +149,21 @@ Controls.Page {
 
     SongSqlModel {
         id: songsqlmodel
+    }
+
+    function changeSlideText(text) {
+        showPassiveNotification("used to be: " + presentation.text);
+        presentation.text = text;
+        showPassiveNotification("next");
+        presentationSlide.text = text;
+        showPassiveNotification("last");
+    }
+
+    function editSwitch(edit) {
+        if (edit)
+            mainPageArea.push(songEditorComp, Controls.StackView.Immediate)
+        else
+            mainPageArea.pop(Controls.StackView.Immediate)
     }
 
     function updateLyrics(lyrics) {

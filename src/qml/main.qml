@@ -13,9 +13,12 @@ Kirigami.ApplicationWindow {
 
     property bool libraryOpen: true
     property bool presenting: false
-    property bool presentMode: true
     property var screens
-        
+
+    property bool editMode: false
+
+    signal edit()
+
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
     width: 1800
@@ -23,6 +26,11 @@ Kirigami.ApplicationWindow {
 
     Presenter.MainWindow {
         id: mainPage
+    }
+
+    function toggleEditMode() {
+        editMode = !editMode;
+        mainPage.editSwitch(editMode);
     }
 
     function toggleLibrary() {

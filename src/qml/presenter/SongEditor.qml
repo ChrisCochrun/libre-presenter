@@ -185,7 +185,7 @@ Item {
             }
             ColumnLayout {
                 Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 500
+                Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 300
 
                 Rectangle {

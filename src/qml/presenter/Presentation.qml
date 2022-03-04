@@ -10,6 +10,8 @@ import "./" as Presenter
 Item {
     id: root
 
+    property string text: "GOOD"
+
     GridLayout {
         anchors.fill: parent
         columns: 3
@@ -61,9 +63,11 @@ Item {
         }
 
         Presenter.Slide {
-            Layout.preferredWidth: 700
-            Layout.preferredHeight: 500
+            Layout.preferredWidth: 900
+            Layout.preferredHeight: width / 16 * 9
             Layout.alignment: Qt.AlignCenter
+            textSize: width / 15
+            text: root.text
         }
 
         Kirigami.Icon {
