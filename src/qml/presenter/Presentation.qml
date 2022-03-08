@@ -27,9 +27,11 @@ Item {
 
                 Controls.ToolButton {
                     text: "Grid"
+                    hoverEnabled: true
                 }
                 Controls.ToolButton {
                     text: "Solo"
+                    hoverEnabled: true
                 }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
@@ -37,12 +39,14 @@ Item {
                 Controls.ToolButton {
                     text: "Effects"
                     icon.name: "image-auto-adjust"
+                    hoverEnabled: true
                     onClicked: {}
                 }
                 Controls.ToolButton {
                     id: backgroundButton
                     text: "Background"
                     icon.name: "fileopen"
+                    hoverEnabled: true
                     onClicked: backgroundType.open()
                 }
             }

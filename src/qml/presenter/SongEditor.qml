@@ -26,25 +26,31 @@ Item {
                     model: Qt.fontFamilies()
                     implicitWidth: 300
                     editable: true
+                    hoverEnabled: true
                     onCurrentTextChanged: showPassiveNotification(currentText)
                 }
                 Controls.SpinBox {
                     editable: true
                     from: 5
                     to: 72
+                    hoverEnabled: true
                 }
                 Controls.ComboBox {
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
+                    hoverEnabled: true
                 }
                 Controls.ToolButton {
                     text: "B"
+                    hoverEnabled: true
                 }
                 Controls.ToolButton {
                     text: "I"
+                    hoverEnabled: true
                 }
                 Controls.ToolButton {
                     text: "U"
+                    hoverEnabled: true
                 }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
@@ -52,12 +58,14 @@ Item {
                 Controls.ToolButton {
                     text: "Effects"
                     icon.name: "image-auto-adjust"
+                    hoverEnabled: true
                     onClicked: {}
                 }
                 Controls.ToolButton {
                     id: backgroundButton
                     text: "Background"
                     icon.name: "fileopen"
+                    hoverEnabled: true
                     onClicked: backgroundType.open()
                 }
 
