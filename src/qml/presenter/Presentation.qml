@@ -10,7 +10,9 @@ import "./" as Presenter
 Item {
     id: root
 
-    property string text: "GOOD"
+    property string text
+    property url imagebackground
+    property url vidbackground
 
     GridLayout {
         anchors.fill: parent
@@ -61,22 +63,25 @@ Item {
 
         Kirigami.Icon {
             source: "arrow-left"
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: 100
             Layout.preferredHeight: 200
             Layout.alignment: Qt.AlignRight
         }
 
         Presenter.Slide {
+            id: previewSlide
             Layout.preferredWidth: 900
             Layout.preferredHeight: width / 16 * 9
             Layout.alignment: Qt.AlignCenter
             textSize: width / 15
             text: root.text
+            imageSource: imagebackground
+            videoSource: vidbackground
         }
 
         Kirigami.Icon {
             source: "arrow-right"
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: 100
             Layout.preferredHeight: 200
             Layout.alignment: Qt.AlignLeft
         }
@@ -88,5 +93,9 @@ Item {
             Layout.columnSpan: 3
         }
 
+    }
+
+    function loadVideo() {
+        previewSlide.loadVideo();
     }
 }

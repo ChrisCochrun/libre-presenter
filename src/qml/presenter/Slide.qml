@@ -39,7 +39,8 @@ Item {
             Component.onCompleted: mpvLoadingTimer.start()
             onFileLoaded: {
                 print(videoSource + " has been loaded");
-                mpv.setProperty("loop", "inf");
+                if (itemType == "song")
+                    mpv.setProperty("loop", "inf");
                 print(mpv.getProperty("loop"));
             }
 
@@ -107,5 +108,9 @@ Item {
 
     function changeText(text) {
         lyrics.text = text
+    }
+
+    function loadVideo() {
+        mpvLoadingTimer.restart()
     }
 }

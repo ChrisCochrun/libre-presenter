@@ -62,8 +62,8 @@ Controls.Page {
                 id: mainPageArea
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.fillWidth: true
-                Controls.SplitView.preferredWidth: 700
-                Controls.SplitView.minimumWidth: 500
+                Controls.SplitView.preferredWidth: 500
+                Controls.SplitView.minimumWidth: 200
                 initialItem: Presenter.Presentation { id: presentation }
             }
 
@@ -152,11 +152,25 @@ Controls.Page {
     }
 
     function changeSlideText(text) {
-        showPassiveNotification("used to be: " + presentation.text);
+        /* showPassiveNotification("used to be: " + presentation.text); */
         presentation.text = text;
-        showPassiveNotification("next");
+        /* showPassiveNotification("next"); */
         presentationSlide.text = text;
-        showPassiveNotification("last");
+        /* showPassiveNotification("last"); */
+    }
+
+    function changeSlideBackground(background, type) {
+        showPassiveNotification("starting background change..");
+        showPassiveNotification(background);
+        showPassiveNotification(type);
+        if (type == "image") {
+            presentation.vidbackground = "";
+            presentation.imagebackground = background;
+        } else {
+            presentation.imagebackground = "";
+            presentation.vidbackground = background;
+            presentation.loadVideo()
+        }
     }
 
     function editSwitch(edit) {

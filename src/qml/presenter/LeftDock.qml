@@ -107,6 +107,7 @@ ColumnLayout {
                         onClicked: {
                             serviceItemList.currentIndex = index;
                             showPassiveNotification(serviceItemList.currentIndex);
+                            changeSlideBackground(background, backgroundType);
                             changeSlideText(text);
                         }
                     }
@@ -142,15 +143,22 @@ ColumnLayout {
                     name: "10,000 Reason"
                     type: "song"
                     text: "YIP YIP!"
+                    backgroundType: "image"
+                    background: "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg"
                 }
                 ListElement {
                     name: "Marvelous Light"
                     type: "song"
-                    text: "YIP YIP!"
+                    text: "HALLELUJAH!"
+                    backgroundType: "video"
+                    background: "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4"
                 }
                 ListElement {
-                    name: "10,000 Reason"
-                    type: "song"
+                    name: "Test"
+                    type: "video"
+                    text: ""
+                    backgroundType: "video"
+                    background: "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4"
                 }
                 ListElement {
                     name: "Marvelous Light"
