@@ -66,6 +66,11 @@ Item {
             Layout.preferredWidth: 100
             Layout.preferredHeight: 200
             Layout.alignment: Qt.AlignRight
+            MouseArea {
+                anchors.fill: parent
+                onPressed: changeSlidePrevious()
+                cursorShape: Qt.PointingHandCursor
+            }
         }
 
         Presenter.Slide {
@@ -77,6 +82,7 @@ Item {
             text: root.text
             imageSource: imagebackground
             videoSource: vidbackground
+            preview: true 
         }
 
         Kirigami.Icon {
@@ -84,6 +90,11 @@ Item {
             Layout.preferredWidth: 100
             Layout.preferredHeight: 200
             Layout.alignment: Qt.AlignLeft
+            MouseArea {
+                anchors.fill: parent
+                onPressed: changeSlideNext()
+                cursorShape: Qt.PointingHandCursor
+            }
         }
 
         Item {

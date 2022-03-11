@@ -23,8 +23,14 @@ Item {
     property string text: "This is demo text"
     property color backgroundColor
 
+    //these properties are for giving video info to parents
+    property int mpvPosition: mpv.position
+    property int mpvDuration: mpv.duration
+    property var mpvLoop: mpv.getProperty("loop")
+
     // These properties help to determine the state of the slide
     property string itemType
+    property bool preview: false
 
     Rectangle {
         id: basePrColor
@@ -36,6 +42,7 @@ Item {
 	    objectName: "mpv"
             anchors.fill: parent
             useHwdec: true
+            enableAudio: !preview
             Component.onCompleted: mpvLoadingTimer.start()
             onFileLoaded: {
                 print(videoSource + " has been loaded");
@@ -49,6 +56,7 @@ Item {
                 anchors.fill: parent
                 enabled: editMode
                 onPressed: mpv.loadFile(videoSource.toString());
+                cursorShape: preview ? Qt.ArrowCursor : Qt.BlankCursor
             }
 
             Controls.ProgressBar {
@@ -112,5 +120,9 @@ Item {
 
     function loadVideo() {
         mpvLoadingTimer.restart()
+    }
+
+    function stopVideo() {
+        mpv.stop() 
     }
 }

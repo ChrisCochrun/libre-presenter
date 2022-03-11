@@ -1,6 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Dialogs 1.0
-import QtQuick.Controls 2.0 as Controls
+import QtQuick.Controls 2.15 as Controls
+import Qt.labs.platform 1.1 as Labs
 import QtQuick.Window 2.13
 import QtQuick.Layouts 1.2
 import QtMultimedia 5.15
@@ -21,6 +22,29 @@ Kirigami.ApplicationWindow {
 
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
+    /* Loader { */
+    /*     Labs.MenuBar { */
+    /*         Labs.Menu { */
+    /*             title: qsTr("File") */
+    /*             Labs.MenuItem { text: qsTr("New...") } */
+    /*             Labs.MenuItem { text: qsTr("Open...") } */
+    /*             Labs.MenuItem { text: qsTr("Save") } */
+    /*             Labs.MenuItem { text: qsTr("Save As...") } */
+    /*             Labs.MenuSeparator { } */
+    /*             Labs.MenuItem { text: qsTr("Quit") } */
+    /*         } */
+    /*         Labs.Menu { */
+    /*             title: qsTr("Edit") */
+    /*             Labs.MenuItem { text: qsTr("Cut") } */
+    /*             Labs.MenuItem { text: qsTr("Copy") } */
+    /*             Labs.MenuItem { text: qsTr("Paste") } */
+    /*         } */
+    /*         Labs.Menu { */
+    /*             title: qsTr("Help") */
+    /*             Labs.MenuItem { text: qsTr("About") } */
+    /*         } */
+    /*     } */
+    /* } */
     width: 1800
     height: 900
 

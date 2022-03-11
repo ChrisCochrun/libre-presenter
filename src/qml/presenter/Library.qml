@@ -120,6 +120,7 @@ Item {
                                 displayComponent: Component {
                                     Kirigami.SearchField {
                                         id: searchField
+                                        height: parent.height
                                         width: parent.width - 40
                                         onAccepted: showPassiveNotification(searchField.text, 3000)
                                     }

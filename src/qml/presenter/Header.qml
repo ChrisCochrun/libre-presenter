@@ -37,7 +37,7 @@ Kirigami.ActionToolBar {
         
         Kirigami.Action {
             icon.name: "view-presentation"
-            text: "Go Live"
+            text: presenting ? "Presenting" : "Go Live" 
             onTriggered: {
                 print("Window is loading")
                 presenting = true

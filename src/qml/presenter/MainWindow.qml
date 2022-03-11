@@ -155,7 +155,8 @@ Controls.Page {
         /* showPassiveNotification("used to be: " + presentation.text); */
         presentation.text = text;
         /* showPassiveNotification("next"); */
-        presentationSlide.text = text;
+        if (slideItem)
+            slideItem.text = text;
         /* showPassiveNotification("last"); */
     }
 
@@ -166,11 +167,29 @@ Controls.Page {
         if (type == "image") {
             presentation.vidbackground = "";
             presentation.imagebackground = background;
+            if (slideItem) {
+                slideItem.videoSource = "";
+                slideItem.stopVideo();
+                slideItem.imageSource = background;
+            }
         } else {
             presentation.imagebackground = "";
             presentation.vidbackground = background;
             presentation.loadVideo()
+            if (slideItem) {
+                slideItem.imageSource = "";
+                slideItem.videoSource = background;
+                slideItem.loadVideo()
+            }
         }
+    }
+
+    function changeSlideNext() {
+        showPassiveNotification("next slide please")
+    }
+
+    function changeSlidePrevious() {
+        showPassiveNotification("previous slide please")
     }
 
     function editSwitch(edit) {
