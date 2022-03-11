@@ -88,6 +88,11 @@ Kirigami.ApplicationWindow {
         libraryOpen = !libraryOpen
     }
 
+    function togglePresenting() {
+        presenting = !presenting
+        mainPage.present(presenting);
+    }
+
     function openSettings() {
         settingsSheet.open()
     }
@@ -96,12 +101,15 @@ Kirigami.ApplicationWindow {
         /* showPassiveNotification(Kirigami.Settings.style); */
         /* Kirigami.Settings.style = "Plasma"; */
         /* showPassiveNotification(Kirigami.Settings.style); */
-        print(Qt.platform.os);
-        print("checking screens");
+        print("OS is: " + Qt.platform.os);
+        /* print("checking screens"); */
         print("Present Mode is " + presenting);
+        /* print(Qt.application.state); */
         screens = Qt.application.screens;
+        presentationScreen = screens[1]
         for (let i = 0; i < screens.length; i++) {
-            print(screens[i].name);
+            /* print(screens[i]); */
+            /* print(screens[i].name); */
             screenModel.append({
                 "name": screens[i].name,
                 "width": (screens[i].width * screens[i].devicePixelRatio),
@@ -109,19 +117,23 @@ Kirigami.ApplicationWindow {
                 "pixeldensity": screens[i].pixelDensity,
                 "pixelratio": screens[i].devicePixelRatio
             })
-            print("width of screen: " + (screens[i].width * screens[i].devicePixelRatio));
-            print("height of screen: " + (screens[i].height * screens[i].devicePixelRatio));
-            print("pixeldensity of screen: " + screens[i].pixelDensity);
-            print("pixelratio of screen: " + screens[i].devicePixelRatio);
+            /* print("width of screen: " + (screens[i].width * screens[i].devicePixelRatio)); */
+            /* print("height of screen: " + (screens[i].height * screens[i].devicePixelRatio)); */
+            /* print("pixeldensity of screen: " + screens[i].pixelDensity); */
+            /* print("pixelratio of screen: " + screens[i].devicePixelRatio); */
+            if (i == 0)
+                print("Current Screens available: ");
+            print(screenModel.get(i).name);
         }
-    }
-
-    Presenter.Settings {
-        id: settingsSheet
-        model: screenModel
     }
 
     ListModel {
         id: screenModel
     }
+
+    Presenter.Settings {
+        id: settingsSheet
+        theModel: screenModel
+    }
+    
 }

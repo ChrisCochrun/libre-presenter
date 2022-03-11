@@ -161,8 +161,11 @@ ColumnLayout {
                     background: "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4"
                 }
                 ListElement {
-                    name: "Marvelous Light"
-                    type: "song"
+                    name: "facebook"
+                    type: "video"
+                    text: ""
+                    backgroundType: "video"
+                    background: "file:/home/chris/nextcloud/tfc/videos/facebook-ukraine-vid.mkv"
                 }
                 ListElement {
                     name: "10,000 Reason"

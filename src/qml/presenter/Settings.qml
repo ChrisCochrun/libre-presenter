@@ -8,19 +8,26 @@ import org.presenter 1.0
 
 Kirigami.OverlaySheet {
 
-    property ListModel model
+    property ListModel theModel
 
     id: root
     header: Kirigami.Heading {
         text: "Settings"
     }
+
+    /* Component.onCompleted: { */
+    /*     showPassiveNotification(screenModel.get(1).name) */
+    /* } */
+
     Kirigami.FormLayout {
 	Controls.ComboBox {
 	    id: screenSelectionField
-	    Kirigami.FormData.label: i18nc("@label:textbox", "Screen:")
-            model: model
-            textRole: name
-	    onAccepted: descriptionField.forceActiveFocus()
+	    Kirigami.FormData.label: i18nc("@label:textbox", "Presentation Screen:")
+            model: screens
+            textRole: "name"
+	    onActivated: {
+                presentationScreen = screens[currentIndex];
+            }
 	}
 	Controls.TextField {
 	    id: descriptionField

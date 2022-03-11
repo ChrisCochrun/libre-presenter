@@ -16,6 +16,7 @@
 #include <QtGlobal>
 #include <QOpenGLContext>
 #include <QGuiApplication>
+#include <QQuickStyle>
 
 #include <QtGui/QOpenGLFramebufferObject>
 
@@ -23,9 +24,11 @@
 #include <QtQuick/QQuickView>
 #include <qdir.h>
 #include <qglobal.h>
+#include <qguiapplication.h>
 #include <qqml.h>
 #include <qsqldatabase.h>
 #include <qsqlquery.h>
+#include <qstringliteral.h>
 
 #include "songlistmodel.h"
 #include "mpv/mpvobject.h"
@@ -62,12 +65,20 @@ static void connectToDatabase() {
 int main(int argc, char *argv[])
 {
   QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication app(argc, argv);
+  QGuiApplication app(argc, argv);
   KLocalizedString::setApplicationDomain("presenter");
   QCoreApplication::setOrganizationName(QStringLiteral("presenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Church Presenter"));
 
+#ifdef Q_OS_WINDOWS
+  QIcon::setFallbackThemeName("breeze");
+  QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
+#else
+  QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+#endif
+
+  QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   // apparently mpv needs this class set
   std::setlocale(LC_NUMERIC, "C");
   qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");

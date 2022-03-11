@@ -28,12 +28,6 @@ Controls.Page {
     property var song
     property var draggedLibraryItem
 
-    signal songLyricsUpdated(string lyrics)
-
-    Component.onCompleted: {
-        mainPage.songLyricsUpdated.connect(library.updateSongLyrics);
-    }
-
     Item {
         id: mainItem
         anchors.fill: parent
@@ -97,12 +91,13 @@ Controls.Page {
             title: "presentation-window"
             height: maximumHeight
             width: maximumWidth
-            screen: screens[0]
+            screen: presentationScreen
+            flags: Qt.X11BypassWindowManagerHint
             onClosing: presenting = false
 
             Component.onCompleted: {
                 presentationWindow.showFullScreen();
-                print(screens[1].name)
+                print(screen.name);
             }
 
             Presenter.Slide {
@@ -110,13 +105,13 @@ Controls.Page {
                 anchors.fill: parent
                 imageSource: imageBackground
                 videoSource: videoBackground
-                text: "good"
+                text: ""
 
                 Component.onCompleted: slideItem = presentationSlide
             }
         }
-
     }
+
 
     FileDialog {
         id: videoFileDialog
@@ -203,6 +198,13 @@ Controls.Page {
             mainPageArea.push(songEditorComp, Controls.StackView.Immediate)
         else
             mainPageArea.pop(Controls.StackView.Immediate)
+    }
+
+    function present(present) {
+        if (present)
+            presentationWindow.showFullScreen();
+        else
+            presentationWindow.close();
     }
 
     function updateLyrics(lyrics) {
