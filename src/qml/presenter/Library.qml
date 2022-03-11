@@ -105,15 +105,17 @@ Item {
 
                 header: Component {
                     Kirigami.ActionToolBar {
-                        height: selectedLibrary == "songs" ? 40 : 0
+                        height: 40
                         width: parent.width
                         display: Button.IconOnly
+                        visible: selectedLibrary == "songs"
                         actions: [
                             Kirigami.Action {
                                 icon.name: "document-new"
                                 text: "New Song"
                                 tooltip: "Add a new song"
                                 onTriggered: songLibraryList.newSong()
+                                /* visible: selectedLibrary == "songs" */
                             },
                             
                             Kirigami.Action {
@@ -125,8 +127,9 @@ Item {
                                         onAccepted: showPassiveNotification(searchField.text, 3000)
                                     }
                                 }
+                                /* visible: selectedLibrary == "songs" */
                             }
-                        ]
+                            ]
 
                         Behavior on height {
                             NumberAnimation {
@@ -269,6 +272,13 @@ Item {
                 function newSong() {
                     songsqlmodel.newSong();
                     songLibraryList.currentIndex = songsqlmodel.rowCount();
+                    if (!editMode)
+                        toggleEditMode();
+                    song = songLibraryList.currentItem
+                    songTitle = songLibraryList.currentItem.title
+                    songLyrics = songLibraryList.currentItem.lyrics
+                    songAuthor = songLibraryList.currentItem.author
+                    songVorder = songLibraryList.currentItem.vorder
                     showPassiveNotification("newest song index: " + songLibraryList.currentIndex)
                 }
             }
