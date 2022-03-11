@@ -14,6 +14,9 @@ Kirigami.ApplicationWindow {
 
     property bool libraryOpen: true
     property bool presenting: false
+
+    property var presentationScreen
+
     property var screens
 
     property bool editMode: false
@@ -22,29 +25,53 @@ Kirigami.ApplicationWindow {
 
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
-    /* Loader { */
-    /*     Labs.MenuBar { */
-    /*         Labs.Menu { */
-    /*             title: qsTr("File") */
-    /*             Labs.MenuItem { text: qsTr("New...") } */
-    /*             Labs.MenuItem { text: qsTr("Open...") } */
-    /*             Labs.MenuItem { text: qsTr("Save") } */
-    /*             Labs.MenuItem { text: qsTr("Save As...") } */
-    /*             Labs.MenuSeparator { } */
-    /*             Labs.MenuItem { text: qsTr("Quit") } */
-    /*         } */
-    /*         Labs.Menu { */
-    /*             title: qsTr("Edit") */
-    /*             Labs.MenuItem { text: qsTr("Cut") } */
-    /*             Labs.MenuItem { text: qsTr("Copy") } */
-    /*             Labs.MenuItem { text: qsTr("Paste") } */
-    /*         } */
-    /*         Labs.Menu { */
-    /*             title: qsTr("Help") */
-    /*             Labs.MenuItem { text: qsTr("About") } */
-    /*         } */
-    /*     } */
-    /* } */
+
+    menuBar: Controls.MenuBar {
+        Controls.Menu {
+            title: qsTr("File")
+            Controls.MenuItem { text: qsTr("New...") }
+            Controls.MenuItem { text: qsTr("Open...") }
+            Controls.MenuItem { text: qsTr("Save") }
+            Controls.MenuItem { text: qsTr("Save As...") }
+            Controls.MenuSeparator { }
+            Controls.MenuItem { text: qsTr("Quit") }
+        }
+        Controls.Menu {
+            title: qsTr("Settings")
+            Controls.MenuItem {
+                text: qsTr("Configure")
+                onTriggered: openSettings()
+            }
+        }
+        Controls.Menu {
+            title: qsTr("Help")
+            Controls.MenuItem { text: qsTr("About") }
+        }
+    }
+
+    Labs.MenuBar {
+        Labs.Menu {
+            title: qsTr("File")
+            Labs.MenuItem { text: qsTr("New...") }
+            Labs.MenuItem { text: qsTr("Open...") }
+            Labs.MenuItem { text: qsTr("Save") }
+            Labs.MenuItem { text: qsTr("Save As...") }
+            Labs.MenuSeparator { }
+            Labs.MenuItem { text: qsTr("Quit") }
+        }
+        Labs.Menu {
+            title: qsTr("Settings")
+            Labs.MenuItem {
+                text: qsTr("Configure")
+                onTriggered: openSettings()
+            }
+        }
+        Labs.Menu {
+            title: qsTr("Help")
+            Labs.MenuItem { text: qsTr("About") }
+        }
+    }
+
     width: 1800
     height: 900
 
@@ -61,15 +88,27 @@ Kirigami.ApplicationWindow {
         libraryOpen = !libraryOpen
     }
 
+    function openSettings() {
+        settingsSheet.open()
+    }
+
     Component.onCompleted: {
-        showPassiveNotification(Kirigami.Settings.style);
-        Kirigami.Settings.style = "Plasma";
-        showPassiveNotification(Kirigami.Settings.style);
+        /* showPassiveNotification(Kirigami.Settings.style); */
+        /* Kirigami.Settings.style = "Plasma"; */
+        /* showPassiveNotification(Kirigami.Settings.style); */
+        print(Qt.platform.os);
         print("checking screens");
-        print("Present Mode is " + presentMode);
+        print("Present Mode is " + presenting);
         screens = Qt.application.screens;
         for (let i = 0; i < screens.length; i++) {
             print(screens[i].name);
+            screenModel.append({
+                "name": screens[i].name,
+                "width": (screens[i].width * screens[i].devicePixelRatio),
+                "height": (screens[i].height * screens[i].devicePixelRatio),
+                "pixeldensity": screens[i].pixelDensity,
+                "pixelratio": screens[i].devicePixelRatio
+            })
             print("width of screen: " + (screens[i].width * screens[i].devicePixelRatio));
             print("height of screen: " + (screens[i].height * screens[i].devicePixelRatio));
             print("pixeldensity of screen: " + screens[i].pixelDensity);
@@ -77,4 +116,12 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    Presenter.Settings {
+        id: settingsSheet
+        model: screenModel
+    }
+
+    ListModel {
+        id: screenModel
+    }
 }

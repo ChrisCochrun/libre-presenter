@@ -87,12 +87,17 @@ Controls.Page {
     Loader {
         id: presentLoader
         active: presenting
-        sourceComponent: Window {
+        sourceComponent: presentationComponent
+    }
+
+    Component {
+        id: presentationComponent
+        Window {
             id: presentationWindow
             title: "presentation-window"
             height: maximumHeight
             width: maximumWidth
-            screen: screens[1].name
+            screen: screens[0]
             onClosing: presenting = false
 
             Component.onCompleted: {
@@ -110,6 +115,7 @@ Controls.Page {
                 Component.onCompleted: slideItem = presentationSlide
             }
         }
+
     }
 
     FileDialog {
