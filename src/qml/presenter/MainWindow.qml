@@ -20,6 +20,8 @@ Controls.Page {
     property string songVorder: ""
     property int blurRadius: 0
 
+    /* property var video */
+
     property string dragSongTitle: ""
 
     property bool editing: true
@@ -75,6 +77,20 @@ Controls.Page {
         id: songEditorComp
         Presenter.SongEditor {
             id: songEditor
+        }
+    }
+
+    Component {
+        id: videoEditorComp
+        Presenter.VideoEditor {
+            id: videoEditor
+        }
+    }
+
+    Component {
+        id: imageEditorComp
+        Presenter.ImageEditor {
+            id: imageEditor
         }
     }
 
@@ -152,6 +168,19 @@ Controls.Page {
         id: songsqlmodel
     }
 
+    VideoSqlModel {
+        id: videosqlmodel
+    }
+
+    function changeSlideType(type) {
+        /* showPassiveNotification("used to be: " + presentation.text); */
+        presentation.itemType = type;
+        /* showPassiveNotification("next"); */
+        if (slideItem)
+            slideItem.itemType = type;
+        /* showPassiveNotification("last"); */
+    }
+
     function changeSlideText(text) {
         /* showPassiveNotification("used to be: " + presentation.text); */
         presentation.text = text;
@@ -193,11 +222,24 @@ Controls.Page {
         showPassiveNotification("previous slide please")
     }
 
-    function editSwitch(edit) {
-        if (edit)
-            mainPageArea.push(songEditorComp, Controls.StackView.Immediate)
-        else
-            mainPageArea.pop(Controls.StackView.Immediate)
+    function editSwitch(editType, item) {
+        if (editMode) {
+            switch (editType) {
+            case "song" :
+                mainPageArea.push(songEditorComp, Controls.StackView.Immediate);
+                break;
+            case "video" :
+                mainPageArea.push(videoEditorComp, {"video": item}, Controls.StackView.Immediate);
+                break;
+            case "image" :
+                mainPageArea.push(imageEditorComp, Controls.StackView.Immediate);
+                break;
+            default:
+                mainPageArea.pop(Controls.StackView.Immediate);
+                editMode = false;
+            }
+        } else
+            mainPageArea.pop(Controls.StackView.Immediate);
     }
 
     function present(present) {

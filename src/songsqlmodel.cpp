@@ -92,9 +92,9 @@ void SongSqlModel::newSong() {
 
   if (insertRecord(rows, recorddata)) {
     submitAll();
-  }else {
+  } else {
     qDebug() << lastError();
-  }
+  };
 }
 
 void SongSqlModel::deleteSong(const int &row) {

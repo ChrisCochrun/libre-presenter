@@ -1,6 +1,8 @@
 #include "mpvobject.h"
 
 // std
+#include <qdir.h>
+#include <qvariant.h>
 #include <stdexcept>
 #include <clocale>
 
@@ -19,6 +21,7 @@
 #include <QtX11Extras/QX11Info>
 
 #include <QDebug>
+#include <QStandardPaths>
 
 // libmpv
 #include <mpv/client.h>
@@ -28,6 +31,7 @@
 #include "qthelper.hpp"
 
 
+const QDir writeDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
 //--- MpvRenderer
 void* MpvRenderer::get_proc_address(void *ctx, const char *name) {
@@ -261,11 +265,13 @@ void MpvObject::doUpdate()
 
 void MpvObject::command(const QVariant& params)
 {
+  // qDebug() << params;
   mpv::qt::command(mpv, params);
 }
 
 void MpvObject::commandAsync(const QVariant& params)
 {
+  qDebug() << params;
   mpv::qt::command_async(mpv, params);
 }
 
@@ -520,6 +526,17 @@ void MpvObject::loadFile(QVariant urls)
 {
   qDebug() << "Url being loaded: " << urls;
   command(QVariantList() << "loadfile" << urls);
+}
+
+void MpvObject::screenshotToFile(QUrl url) {
+  qDebug() << "Url of screenshot to be taken: " << url;
+  QDir dir = writeDir.absolutePath() + "/presenter/Church Presenter/thumbnails";
+  qDebug() << "thumbnails dir: " << dir;
+  QDir absDir = writeDir.absolutePath() + "/presenter/Church Presenter";
+  if (!dir.exists())
+    absDir.mkdir("thumbnails");
+  QString file = url.path() + ".jpg";
+  commandAsync(QVariantList() << "screenshot-to-file" << file << "video");
 }
 
 void MpvObject::subAdd(QVariant urls)

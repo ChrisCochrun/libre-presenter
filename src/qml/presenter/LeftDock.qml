@@ -109,6 +109,7 @@ ColumnLayout {
                             showPassiveNotification(serviceItemList.currentIndex);
                             changeSlideBackground(background, backgroundType);
                             changeSlideText(text);
+                            changeSlideType(type);
                         }
                     }
 

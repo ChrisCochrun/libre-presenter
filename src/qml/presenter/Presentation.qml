@@ -11,6 +11,7 @@ Item {
     id: root
 
     property string text
+    property string itemType
     property url imagebackground
     property url vidbackground
 
@@ -80,6 +81,7 @@ Item {
             Layout.alignment: Qt.AlignCenter
             textSize: width / 15
             text: root.text
+            itemType: root.itemType
             imageSource: imagebackground
             videoSource: vidbackground
             preview: true 

@@ -30,9 +30,9 @@
 #include <qsqlquery.h>
 #include <qstringliteral.h>
 
-#include "songlistmodel.h"
 #include "mpv/mpvobject.h"
 #include "songsqlmodel.h"
+#include "videosqlmodel.h"
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -44,6 +44,7 @@ static void connectToDatabase() {
   }
 
   const QDir writeDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+  qDebug() << "dir location " << writeDir.absolutePath();
 
   if (!writeDir.mkpath(".")) {
     qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
@@ -79,21 +80,21 @@ int main(int argc, char *argv[])
 #endif
 
   QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
+
   // apparently mpv needs this class set
+  // let's register mpv as well
   std::setlocale(LC_NUMERIC, "C");
   qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
-  //register our song model from sql
+  //register our models
   qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
-
-  SongListModel songListModel;
+  qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
 
   connectToDatabase();
 
   QQmlApplicationEngine engine;
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
-  engine.rootContext()->setContextProperty("_songListModel", &songListModel);
   engine.load(QUrl(QStringLiteral("qrc:qml/main.qml")));
 
   // QQuickView *view = new QQuickView;

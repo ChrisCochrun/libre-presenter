@@ -2,7 +2,6 @@
 #define SONGSQLMODEL_H
 
 #include <QSqlTableModel>
-#include <qabstractitemmodel.h>
 #include <qobjectdefs.h>
 #include <qqml.h>
 #include <qvariant.h>

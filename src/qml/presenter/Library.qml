@@ -1,14 +1,17 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.0 as Controls
 import QtQuick.Layouts 1.2
+import Qt.labs.platform 1.1 as Labs
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
+import mpv 1.0
 
 Item {
     id: root
 
     property string selectedLibrary: "songs"
+    property bool overlay: false
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
@@ -292,8 +295,35 @@ Item {
                 opacity: 1.0
 
                 Controls.Label {
+                    id: videoLabel
                     anchors.centerIn: parent
                     text: "Videos"
+                }
+
+                Controls.Label {
+                    id: videoCount
+                    anchors {left: videoLabel.right
+                             verticalCenter: videoLabel.verticalCenter
+                             leftMargin: 15}
+                    text: videosqlmodel.rowCount()
+                    font.pixelSize: 15
+                    color: Kirigami.Theme.disabledTextColor
+                }
+
+                Kirigami.Icon {
+                    id: videoDrawerArrow
+                    anchors {right: parent.right
+                             verticalCenter: videoCount.verticalCenter
+                             rightMargin: 10}
+                    source: "arrow-down"
+                    rotation: selectedLibrary == "videos" ? 0 : 180
+
+                    Behavior on rotation {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
                 }
 
                 MouseArea {
@@ -313,6 +343,9 @@ Item {
                 Layout.preferredHeight: parent.height - 200
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
+                model: videosqlmodel
+                delegate: videoDelegate
+                clip: true
                 state: "deselected"
 
                 states: [
@@ -337,6 +370,109 @@ Item {
                         properties: "preferredHeight"
                         easing.type: Easing.OutCubic
                         duration: 300
+                    }
+                }
+
+                Component {
+                    id: videoDelegate
+                    Item{
+                        implicitWidth: ListView.view.width
+                        height: selectedLibrary == "videos" ? 50 : 0
+                        Kirigami.BasicListItem {
+                            id: videoListItem
+
+                            property bool rightMenu: false
+
+                            implicitWidth: videoLibraryList.width
+                            height: selectedLibrary == "videos" ? 50 : 0
+                            clip: true
+                            label: title
+                            /* subtitle: author */
+                            supportsMouseEvents: false
+                            backgroundColor: {
+                                if (parent.ListView.isCurrentItem) {
+                                    Kirigami.Theme.highlightColor;
+                                } else if (videoDragHandler.containsMouse){
+                                    Kirigami.Theme.highlightColor;
+                                } else {
+                                    Kirigami.Theme.backgroundColor;
+                                }
+                            }
+                            textColor: {
+                                if (parent.ListView.isCurrentItem || videoDragHandler.containsMouse)
+                                    activeTextColor;
+                                else
+                                    Kirigami.Theme.textColor;
+                            }
+
+                            Behavior on height {
+                                NumberAnimation {
+                                    easing.type: Easing.OutCubic
+                                    duration: 300
+                                }
+                            }
+                            Drag.active: videoDragHandler.drag.active
+                            Drag.hotSpot.x: width / 2
+                            Drag.hotSpot.y: height / 2
+                            Drag.keys: [ "library" ]
+
+                            states: State {
+                                name: "dragged"
+                                when: videoListItem.Drag.active
+                                PropertyChanges {
+                                    target: videoListItem
+                                    x: x
+                                    y: y
+                                }
+                            }
+
+                        }
+
+                        MouseArea {
+                            id: videoDragHandler
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag {
+                                target: videoListItem
+                                onActiveChanged: {
+                                    if (videoDragHandler.drag.active) {
+                                        dragVideoTitle = title
+                                        showPassiveNotification(dragVideoTitle)
+                                    } else {
+                                        videoListItem.Drag.drop()
+                                    }
+                                }
+                                filterChildren: true
+                                threshold: 10
+                            }
+                            MouseArea {
+                                id: videoClickHandler
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                onClicked: {
+                                    if(mouse.button == Qt.RightButton)
+                                        rightClickVideoMenu.popup()
+                                    else{
+                                        videoLibraryList.currentIndex = index
+                                        const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
+                                        /* showPassiveNotification("selected video: " + video); */
+                                        if (!editMode)
+                                            editMode = true;
+                                        editSwitch("video", video);
+                                    }
+                                }
+
+                            }
+                        }
+                        Controls.Menu {
+                            id: rightClickVideoMenu
+                            x: videoClickHandler.mouseX
+                            y: videoClickHandler.mouseY + 10
+                            Kirigami.Action {
+                                text: "delete"
+                                onTriggered: videosqlmodel.deleteVideo(index)
+                            }
+                        }
                     }
                 }
             }
@@ -513,5 +649,59 @@ Item {
 
                 }
             }
+        DropArea {
+            id: fileDropArea
+            anchors.fill: parent
+            onDropped: drop => {
+                overlay = false;
+                showPassiveNotification("dropped");
+                print(drop.urls);
+                /* thumbnailer.loadFile(drop.urls[0]); */
+                addVideo(drop.urls[0]);
+            }
+            onEntered: overlay = true
+            onExited: overlay = false
+
+            function addVideo(url) {
+                videosqlmodel.newVideo(url);
+                selectedLibrary = "videos";
+                videoLibraryList.currentIndex = videosqlmodel.rowCount();
+                print(videosqlmodel.getVideo(videoLibraryList.currentIndex));
+                const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
+                showPassiveNotification("newest video: " + video);
+                if (!editMode)
+                    editMode = true;
+                editSwitch("video", video);
+            }
+        }
+
+        Rectangle {
+            id: fileDropOverlay
+            color: overlay ? Kirigami.Theme.highlightColor : "#00000000"
+            anchors.fill: parent
+            border.width: 8
+            border.color: overlay ? Kirigami.Theme.hoverColor : "#00000000"
+        }
+
+        MpvObject {
+            id: thumbnailer
+            useHwdec: true
+            enableAudio: false
+            width: 0
+            height: 0
+            Component.onCompleted: print("ready")
+            onFileLoaded: {
+                thumbnailer.pause();
+                print("FILE: " + thumbnailer.mediaTitle);
+                thumbnailer.screenshotToFile(thumbnailFile(thumbnailer.mediaTitle));
+                showPassiveNotification("Screenshot Taken to: " + thumbnailFile(thumbnailer.mediaTitle));
+                thumbnailer.stop();
+            }
+            function thumbnailFile(title) {
+                const thumbnailFolder = Labs.StandardPaths.writableLocation(Labs.StandardPaths.AppDataLocation) + "/thumbnails/";
+                return Qt.resolvedUrl(thumbnailFolder + title);
+            }
+        }
+
     }
 }

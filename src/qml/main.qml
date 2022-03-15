@@ -26,28 +26,28 @@ Kirigami.ApplicationWindow {
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
 
-    menuBar: Controls.MenuBar {
-        Controls.Menu {
-            title: qsTr("File")
-            Controls.MenuItem { text: qsTr("New...") }
-            Controls.MenuItem { text: qsTr("Open...") }
-            Controls.MenuItem { text: qsTr("Save") }
-            Controls.MenuItem { text: qsTr("Save As...") }
-            Controls.MenuSeparator { }
-            Controls.MenuItem { text: qsTr("Quit") }
-        }
-        Controls.Menu {
-            title: qsTr("Settings")
-            Controls.MenuItem {
-                text: qsTr("Configure")
-                onTriggered: openSettings()
-            }
-        }
-        Controls.Menu {
-            title: qsTr("Help")
-            Controls.MenuItem { text: qsTr("About") }
-        }
-    }
+    /* menuBar: Qt.platform.os !== "linux" ? Controls.MenuBar { */
+    /*     Controls.Menu { */
+    /*         title: qsTr("File") */
+    /*         Controls.MenuItem { text: qsTr("New...") } */
+    /*         Controls.MenuItem { text: qsTr("Open...") } */
+    /*         Controls.MenuItem { text: qsTr("Save") } */
+    /*         Controls.MenuItem { text: qsTr("Save As...") } */
+    /*         Controls.MenuSeparator { } */
+    /*         Controls.MenuItem { text: qsTr("Quit") } */
+    /*     } */
+    /*     Controls.Menu { */
+    /*         title: qsTr("Settings") */
+    /*         Controls.MenuItem { */
+    /*             text: qsTr("Configure") */
+    /*             onTriggered: openSettings() */
+    /*         } */
+    /*     } */
+    /*     Controls.Menu { */
+    /*         title: qsTr("Help") */
+    /*         Controls.MenuItem { text: qsTr("About") } */
+    /*     } */
+    /* } : null */
 
     Labs.MenuBar {
         Labs.Menu {
@@ -81,7 +81,7 @@ Kirigami.ApplicationWindow {
 
     function toggleEditMode() {
         editMode = !editMode;
-        mainPage.editSwitch(editMode);
+        mainPage.editSwitch();
     }
 
     function toggleLibrary() {

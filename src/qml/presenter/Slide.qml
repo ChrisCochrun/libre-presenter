@@ -45,10 +45,10 @@ Item {
             enableAudio: !preview
             Component.onCompleted: mpvLoadingTimer.start()
             onFileLoaded: {
-                print(videoSource + " has been loaded");
+                showPassiveNotification(videoSource + " has been loaded");
                 if (itemType == "song")
                     mpv.setProperty("loop", "inf");
-                print(mpv.getProperty("loop"));
+                showPassiveNotification(mpv.getProperty("loop"));
             }
 
             MouseArea {

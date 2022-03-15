@@ -2,7 +2,7 @@
 Type=Application
 Name=present
 GenericName=Church Presentation
-Comment=A Kirigami base church presenter
+Comment=A Kirigami based church presenter
 Exec=present %U
 TryExec=present
 Icon=present
