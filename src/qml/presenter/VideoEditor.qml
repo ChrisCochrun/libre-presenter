@@ -87,7 +87,7 @@ Item {
                         border.color: Kirigami.Theme.activeBackgroundColor
                         border.width: 2
                     }
-                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent
                     ColumnLayout {
                         anchors.fill: parent
                         Controls.ToolButton {
@@ -171,7 +171,6 @@ Item {
                     onFileLoaded: {
                         showPassiveNotification(video.title + " has been loaded");
                         videoPreview.pause();
-                        /* showPassiveNotification(mpv.getProperty("loop")); */
                     }
                 }
                 Rectangle {
@@ -202,7 +201,7 @@ Item {
                             from: 0
                             to: videoPreview.duration
                             /* value: videoPreview.postion */
-                            live: false
+                            live: true
                             onMoved: videoPreview.seek(value);
                         }
                     }
@@ -224,4 +223,6 @@ Item {
             /* showPassiveNotification(video[0]); */
         }
     }
+
+    function prePop() { videoPreview.stop() }
 }

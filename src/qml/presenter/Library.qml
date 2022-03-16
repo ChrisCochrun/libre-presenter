@@ -110,7 +110,7 @@ Item {
                     Kirigami.ActionToolBar {
                         height: 40
                         width: parent.width
-                        display: Button.IconOnly
+                        display: Controls.Button.IconOnly
                         visible: selectedLibrary == "songs"
                         actions: [
                             Kirigami.Action {
@@ -455,7 +455,6 @@ Item {
                                     else{
                                         videoLibraryList.currentIndex = index
                                         const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
-                                        /* showPassiveNotification("selected video: " + video); */
                                         if (!editMode)
                                             editMode = true;
                                         editSwitch("video", video);
@@ -673,6 +672,7 @@ Item {
                     editMode = true;
                 editSwitch("video", video);
             }
+
         }
 
         Rectangle {

@@ -84,6 +84,7 @@ Controls.Page {
         id: videoEditorComp
         Presenter.VideoEditor {
             id: videoEditor
+            Controls.StackView.onDeactivating: prePop()
         }
     }
 
@@ -226,12 +227,15 @@ Controls.Page {
         if (editMode) {
             switch (editType) {
             case "song" :
+                mainPageArea.pop(Controls.StackView.Immediate);
                 mainPageArea.push(songEditorComp, Controls.StackView.Immediate);
                 break;
             case "video" :
+                mainPageArea.pop(Controls.StackView.Immediate);
                 mainPageArea.push(videoEditorComp, {"video": item}, Controls.StackView.Immediate);
                 break;
             case "image" :
+                mainPageArea.pop(Controls.StackView.Immediate);
                 mainPageArea.push(imageEditorComp, Controls.StackView.Immediate);
                 break;
             default:

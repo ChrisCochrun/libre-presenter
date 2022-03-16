@@ -159,7 +159,7 @@ void VideoSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
 QVariantList VideoSqlModel::getVideo(const int &row) {
   qDebug() << "Row we are getting is " << row;
   QVariantList video;
-  QSqlRecord rec = record(row - 1);
+  QSqlRecord rec = record(row);
   qDebug() << rec.value("title");
   video.append(rec.value("title"));
   video.append(rec.value("filePath"));

@@ -502,7 +502,7 @@ void MpvObject::playPause()
 
 void MpvObject::stop()
 {
-  command(QVariantList() << "stop" << "keep-playlist");
+  command(QVariantList() << "stop");
 }
 
 void MpvObject::stepBackward()
