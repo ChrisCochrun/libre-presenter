@@ -9,6 +9,7 @@ import mpv 1.0
 Item {
     id: root
 
+    property string type: "video"
     property var video
     property bool audioOn: true
 
@@ -169,7 +170,7 @@ Item {
                     Component.onCompleted: mpvLoadingTimer.start()
                     onPositionChanged: videoSlider.value = position
                     onFileLoaded: {
-                        showPassiveNotification(video.title + " has been loaded");
+                        showPassiveNotification(video[0] + " has been loaded");
                         videoPreview.pause();
                     }
                 }
@@ -224,5 +225,18 @@ Item {
         }
     }
 
-    function prePop() { videoPreview.stop() }
+    function changeVideo(video) {
+        root.video = video;
+        mpvLoadingTimer.restart();
+    }
+
+    function prePop() {
+        print("stopping video");
+        videoSlider.to = 0;
+        /* videoSlider.position = 0; */
+        /* videoSlider.onMoved = null; */
+        videoPreview.quit();
+        print("quit mpv");
+
+    }
 }

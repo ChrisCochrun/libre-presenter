@@ -30,6 +30,8 @@ Controls.Page {
     property var song
     property var draggedLibraryItem
 
+    property Item editStackItem
+
     Item {
         id: mainItem
         anchors.fill: parent
@@ -60,7 +62,7 @@ Controls.Page {
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.preferredWidth: 500
                 Controls.SplitView.minimumWidth: 200
-                initialItem: Presenter.Presentation { id: presentation }
+                initialItem: Presenter.Presentation {id: presentation}
             }
 
             Presenter.Library {
@@ -70,6 +72,13 @@ Controls.Page {
                 Controls.SplitView.maximumWidth: 350
             }
  
+        }
+    }
+
+    Component {
+        id: presentationComp
+        Presenter.Presentation {
+            id: presentation
         }
     }
 
@@ -84,7 +93,6 @@ Controls.Page {
         id: videoEditorComp
         Presenter.VideoEditor {
             id: videoEditor
-            Controls.StackView.onDeactivating: prePop()
         }
     }
 
@@ -98,11 +106,11 @@ Controls.Page {
     Loader {
         id: presentLoader
         active: presenting
-        sourceComponent: presentationComponent
+        sourceComponent: presentWindowComp
     }
 
     Component {
-        id: presentationComponent
+        id: presentWindowComp
         Window {
             id: presentationWindow
             title: "presentation-window"
@@ -173,6 +181,12 @@ Controls.Page {
         id: videosqlmodel
     }
 
+    Timer {
+        id: popTimer
+        interval: 800
+        onTriggered: mainPageArea.push(presentationComp, Controls.StackView.Immediate)
+    }
+
     function changeSlideType(type) {
         /* showPassiveNotification("used to be: " + presentation.text); */
         presentation.itemType = type;
@@ -231,19 +245,40 @@ Controls.Page {
                 mainPageArea.push(songEditorComp, Controls.StackView.Immediate);
                 break;
             case "video" :
-                mainPageArea.pop(Controls.StackView.Immediate);
-                mainPageArea.push(videoEditorComp, {"video": item}, Controls.StackView.Immediate);
+                if (mainPageArea.currentItem.type === "video") {
+                    print(mainPageArea.currentItem.type);
+                    mainPageArea.currentItem.changeVideo(item);
+                } else {
+                    print(mainPageArea.depth);
+                    mainPageArea.pop(Controls.StackView.Immediate);
+                    print(mainPageArea.depth);
+                    mainPageArea.push(videoEditorComp, {"video": item}, Controls.StackView.Immediate);
+                }
                 break;
             case "image" :
                 mainPageArea.pop(Controls.StackView.Immediate);
                 mainPageArea.push(imageEditorComp, Controls.StackView.Immediate);
                 break;
             default:
-                mainPageArea.pop(Controls.StackView.Immediate);
+                if (mainPageArea.currentItem.type === "video") {
+                    print(mainPageArea.currentItem.type);
+                    mainPageArea.currentItem.prePop();
+                }
+                popTimer.restart();
+                print(mainPageArea.depth);
                 editMode = false;
             }
-        } else
-            mainPageArea.pop(Controls.StackView.Immediate);
+        } else {
+            if (mainPageArea.currentItem.type === "video") {
+                print(mainPageArea.currentItem.type);
+                mainPageArea.currentItem.prePop();
+            }
+            editStackItem = mainPageArea.currentItem;
+            print(mainPageArea.depth);
+            popTimer.restart();
+            print(mainPageArea.depth);
+            editMode = false;
+        }
     }
 
     function present(present) {

@@ -653,12 +653,19 @@ Item {
             anchors.fill: parent
             onDropped: drop => {
                 overlay = false;
-                showPassiveNotification("dropped");
+                print("dropped");
                 print(drop.urls);
                 /* thumbnailer.loadFile(drop.urls[0]); */
-                addVideo(drop.urls[0]);
+                if (drop.urls.length !== 0){
+                    print("dropping a real file!!")
+                    addVideo(drop.urls[0]);
+                } else
+                    print("this is not a real file!")
             }
-            onEntered: overlay = true
+            onEntered: {
+                if (isDragFile(drag.urls[0]))
+                    overlay = true;
+            }
             onExited: overlay = false
 
             function addVideo(url) {
@@ -673,6 +680,17 @@ Item {
                 editSwitch("video", video);
             }
 
+            function isDragFile(item) {
+                var extension = item.split('.').pop();
+                var valid = false;
+
+                if(extension) {
+                    print(extension);
+                    valid = true;
+                }
+
+                return valid;
+            }
         }
 
         Rectangle {

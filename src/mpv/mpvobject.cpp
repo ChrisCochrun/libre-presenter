@@ -1,6 +1,7 @@
 #include "mpvobject.h"
 
 // std
+#include <mpv/render.h>
 #include <qdir.h>
 #include <qvariant.h>
 #include <stdexcept>
@@ -271,7 +272,7 @@ void MpvObject::command(const QVariant& params)
 
 void MpvObject::commandAsync(const QVariant& params)
 {
-  qDebug() << params;
+  // qDebug() << params;
   mpv::qt::command_async(mpv, params);
 }
 
@@ -503,6 +504,12 @@ void MpvObject::playPause()
 void MpvObject::stop()
 {
   command(QVariantList() << "stop");
+}
+
+void MpvObject::quit()
+{
+  command(QVariantList() << "quit");
+  qDebug() << "We quit mpv";
 }
 
 void MpvObject::stepBackward()

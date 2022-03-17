@@ -131,6 +131,7 @@ public slots:
   void play();
   void pause();
   void stop();
+  void quit();
   void stepBackward();
   void stepForward();
   void seek(double pos);
