@@ -56,13 +56,28 @@ Controls.Page {
                 Controls.SplitView.maximumWidth: 300
             }
             
-            Controls.StackView {
+            Item {
                 id: mainPageArea
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.preferredWidth: 500
                 Controls.SplitView.minimumWidth: 200
-                initialItem: Presenter.Presentation {id: presentation}
+                
+                Presenter.Presentation { 
+                  id: presentation
+                  anchors.fill: parent
+                }
+                Presenter.SongEditor {
+                  id: songEditor
+                  visible: false
+                  anchors.fill: parent
+                }
+                
+                Presenter.VideoEditor {
+                  id: videoEditor
+                  visible: false
+                  anchors.fill: parent
+                }
             }
 
             Presenter.Library {
@@ -72,34 +87,6 @@ Controls.Page {
                 Controls.SplitView.maximumWidth: 350
             }
  
-        }
-    }
-
-    Component {
-        id: presentationComp
-        Presenter.Presentation {
-            id: presentation
-        }
-    }
-
-    Component {
-        id: songEditorComp
-        Presenter.SongEditor {
-            id: songEditor
-        }
-    }
-
-    Component {
-        id: videoEditorComp
-        Presenter.VideoEditor {
-            id: videoEditor
-        }
-    }
-
-    Component {
-        id: imageEditorComp
-        Presenter.ImageEditor {
-            id: imageEditor
         }
     }
 
@@ -136,7 +123,6 @@ Controls.Page {
             }
         }
     }
-
 
     FileDialog {
         id: videoFileDialog
@@ -179,12 +165,6 @@ Controls.Page {
 
     VideoSqlModel {
         id: videosqlmodel
-    }
-
-    Timer {
-        id: popTimer
-        interval: 800
-        onTriggered: mainPageArea.push(presentationComp, Controls.StackView.Immediate)
     }
 
     function changeSlideType(type) {
@@ -241,43 +221,27 @@ Controls.Page {
         if (editMode) {
             switch (editType) {
             case "song" :
-                mainPageArea.pop(Controls.StackView.Immediate);
-                mainPageArea.push(songEditorComp, Controls.StackView.Immediate);
+                presentation.visible = false;
+                videoEditor.visible = false;
+                songEditor.visible = true;
                 break;
             case "video" :
-                if (mainPageArea.currentItem.type === "video") {
-                    print(mainPageArea.currentItem.type);
-                    mainPageArea.currentItem.changeVideo(item);
-                } else {
-                    print(mainPageArea.depth);
-                    mainPageArea.pop(Controls.StackView.Immediate);
-                    print(mainPageArea.depth);
-                    mainPageArea.push(videoEditorComp, {"video": item}, Controls.StackView.Immediate);
-                }
+                presentation.visible = false;
+                songEditor.visible = false;
+                videoEditor.visible = true;
                 break;
             case "image" :
                 mainPageArea.pop(Controls.StackView.Immediate);
                 mainPageArea.push(imageEditorComp, Controls.StackView.Immediate);
                 break;
             default:
-                if (mainPageArea.currentItem.type === "video") {
-                    print(mainPageArea.currentItem.type);
-                    mainPageArea.currentItem.prePop();
-                }
-                popTimer.restart();
-                print(mainPageArea.depth);
-                editMode = false;
+videoEditor
             }
         } else {
-            if (mainPageArea.currentItem.type === "video") {
-                print(mainPageArea.currentItem.type);
-                mainPageArea.currentItem.prePop();
-            }
-            editStackItem = mainPageArea.currentItem;
-            print(mainPageArea.depth);
-            popTimer.restart();
-            print(mainPageArea.depth);
-            editMode = false;
+              videoEditor.visible = false;
+              songEditor.visible = false;
+              presentation.visible = true;
+              editMode = false;
         }
     }
 
