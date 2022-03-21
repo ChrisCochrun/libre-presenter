@@ -230,13 +230,9 @@ Item {
         mpvLoadingTimer.restart();
     }
 
-    function prePop() {
+    function stop() {
         print("stopping video");
-        videoSlider.to = 0;
-        /* videoSlider.position = 0; */
-        /* videoSlider.onMoved = null; */
-        videoPreview.quit();
+        videoPreview.pause();
         print("quit mpv");
-
     }
 }

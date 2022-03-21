@@ -29,6 +29,8 @@ static void createTable()
                   "  'ccli' TEXT,"
                   "  'audio' TEXT,"
                   "  'vorder' TEXT,"
+                  "  'background' TEXT,"
+                  "  'backgroundType' TEXT,"
                   "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
@@ -36,11 +38,11 @@ static void createTable()
   qDebug() << query.lastQuery();
   qDebug() << "inserting into songs";
 
-  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder) VALUES ('10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '', '')");
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, background, backgroundType) VALUES ('10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '', '', '', '')");
   qDebug() << query.lastQuery();
-  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder) VALUES ('River', 'Im going down to the river', 'Jordan Feliz', '13470183', '', '')");
-  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder) VALUES ('Marvelous Light', 'Into marvelous "
-             "light Im running', 'Chris Tomlin', '13470183', '', '')");
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, background, backgroundType) VALUES ('River', 'Im going down to the river', 'Jordan Feliz', '13470183', '', '', '', '')");
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, background, backgroundType) VALUES ('Marvelous Light', 'Into marvelous "
+             "light Im running', 'Chris Tomlin', '13470183', '', '', '', '')");
 
   query.exec("select * from songs");
   qDebug() << query.lastQuery();
@@ -78,6 +80,8 @@ QHash<int, QByteArray> SongSqlModel::roleNames() const
     names[Qt::UserRole + 4] = "ccli";
     names[Qt::UserRole + 5] = "audio";
     names[Qt::UserRole + 6] = "vorder";
+    names[Qt::UserRole + 7] = "background";
+    names[Qt::UserRole + 8] = "backgroundType";
     return names;
 }
 
@@ -104,6 +108,27 @@ void SongSqlModel::deleteSong(const int &row) {
 
   removeRow(row);
   submitAll();
+}
+
+QVariantList SongSqlModel::getSong(const int &row) {
+  QSqlRecord recordData = record(row);
+  if (recordData.isEmpty()) {
+    qDebug() << "this is not a song";
+    QVariantList empty;
+    return empty;
+  }
+
+  QVariantList song;
+  song.append(recordData.value("title"));
+  song.append(recordData.value("lyrics"));
+  song.append(recordData.value("author"));
+  song.append(recordData.value("ccli"));
+  song.append(recordData.value("audio"));
+  song.append(recordData.value("vorder"));
+  song.append(recordData.value("background"));
+  song.append(recordData.value("backgroundType"));
+
+  return song;
 }
 
 int SongSqlModel::id() const {
@@ -252,4 +277,48 @@ void SongSqlModel::updateVerseOrder(const int &row, const QString &vorder) {
   setRecord(row, rowdata);
   submitAll();
   emit vorderChanged();
+}
+
+QString SongSqlModel::background() const { return m_background; }
+
+void SongSqlModel::setBackground(const QString &background) {
+  if (background == m_background)
+    return;
+
+  m_background = background;
+
+  select();
+  emit backgroundChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateBackground(const int &row, const QString &background) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("background", background);
+  setRecord(row, rowdata);
+  submitAll();
+  emit backgroundChanged();
+}
+
+QString SongSqlModel::backgroundType() const { return m_backgroundType; }
+
+void SongSqlModel::setBackgroundType(const QString &backgroundType) {
+  if (backgroundType == m_backgroundType)
+    return;
+
+  m_backgroundType = backgroundType;
+
+  select();
+  emit backgroundTypeChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateBackgroundType(const int &row, const QString &backgroundType) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  rowdata.setValue("backgroundType", backgroundType);
+  setRecord(row, rowdata);
+  submitAll();
+  emit backgroundTypeChanged();
 }

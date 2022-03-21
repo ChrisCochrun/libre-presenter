@@ -34,7 +34,11 @@ ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
         onDropped: {
-            serviceListModel.append({"name": dragSongTitle, "type": "song"});
+            appendItem(dragItemTitle,
+                       dragItemType,
+                       dragItemText,
+                       dragItemBackgroundType,
+                       dragItemBackground);
         }
         keys: ["library"]
 
@@ -106,7 +110,7 @@ ColumnLayout {
                         onMoveRequested: serviceListModel.move(oldIndex, newIndex, 1)
                         onClicked: {
                             serviceItemList.currentIndex = index;
-                            showPassiveNotification(serviceItemList.currentIndex);
+                            /* showPassiveNotification(serviceItemList.currentIndex); */
                             changeSlideBackground(background, backgroundType);
                             changeSlideText(text);
                             changeSlideType(type);
@@ -117,8 +121,12 @@ ColumnLayout {
                         id: serviceDrop
                         anchors.fill: parent
                         onDropped: {
-                            serviceListModel.insert(index, {"name": dragSongTitle, "type": "song"});
-                            showPassiveNotification(index);
+                            addItem(index,
+                                    dragItemTitle,
+                                    dragItemType,
+                                    dragItemText,
+                                    dragItemBackgroundType,
+                                    dragItemBackground);
                         }
                         keys: ["library"]
                     }
@@ -161,33 +169,26 @@ ColumnLayout {
                     backgroundType: "video"
                     background: "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4"
                 }
-                ListElement {
-                    name: "facebook"
-                    type: "video"
-                    text: ""
-                    backgroundType: "video"
-                    background: "file:/home/chris/nextcloud/tfc/videos/facebook-ukraine-vid.mkv"
-                }
-                ListElement {
-                    name: "10,000 Reason"
-                    type: "song"
-                }
-                ListElement {
-                    name: "Marvelous Light"
-                    type: "song"
-                }
-                ListElement {
-                    name: "10,000 Reason"
-                    type: "song"
-                }
-                ListElement {
-                    name: "Marvelous Light"
-                    type: "song"
-                }
             }
-
         }
+    }
 
+    function addItem(index, name, type, text, backgroundType, background) {
+        serviceListModel.insert(index, {
+            "name": name,
+            "type": type,
+            "text": text,
+            "backgroundType": backgroundType,
+            "background": background})
+    }
+
+    function appendItem(name, type, text, backgroundType, background) {
+        serviceListModel.append({
+            "name": name,
+            "type": type,
+            "text": text,
+            "backgroundType": backgroundType,
+            "background": background})
     }
 }
 

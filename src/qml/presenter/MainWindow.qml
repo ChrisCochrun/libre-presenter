@@ -14,15 +14,15 @@ Controls.Page {
     // properties passed around for the slides
     property url imageBackground: ""
     property url videoBackground: ""
-    property string songTitle: ""
-    property string songLyrics: ""
-    property string songAuthor: ""
-    property string songVorder: ""
     property int blurRadius: 0
 
     /* property var video */
 
-    property string dragSongTitle: ""
+    property string dragItemTitle: ""
+    property string dragItemType: ""
+    property string dragItemText: ""
+    property string dragItemBackgroundType: ""
+    property string dragItemBackground: ""
 
     property bool editing: true
 
@@ -30,7 +30,7 @@ Controls.Page {
     property var song
     property var draggedLibraryItem
 
-    property Item editStackItem
+    property string editType
 
     Item {
         id: mainItem
@@ -64,19 +64,19 @@ Controls.Page {
                 Controls.SplitView.minimumWidth: 200
                 
                 Presenter.Presentation { 
-                  id: presentation
-                  anchors.fill: parent
+                    id: presentation
+                    anchors.fill: parent
                 }
                 Presenter.SongEditor {
-                  id: songEditor
-                  visible: false
-                  anchors.fill: parent
+                    id: songEditor
+                    visible: false
+                    anchors.fill: parent
                 }
                 
                 Presenter.VideoEditor {
-                  id: videoEditor
-                  visible: false
-                  anchors.fill: parent
+                    id: videoEditor
+                    visible: false
+                    anchors.fill: parent
                 }
             }
 
@@ -124,41 +124,6 @@ Controls.Page {
         }
     }
 
-    FileDialog {
-        id: videoFileDialog
-        title: "Please choose a background"
-        folder: shortcuts.home
-        selectMultiple: false
-        nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)"]
-        onAccepted: {
-            imageBackground = ""
-            videoBackground = videoFileDialog.fileUrls[0]
-            print("video background = " + videoFileDialog.fileUrl)
-        }
-        onRejected: {
-            print("Canceled")
-            /* Qt.quit() */
-        }
-
-    }
-
-    FileDialog {
-        id: imageFileDialog
-        title: "Please choose a background"
-        folder: shortcuts.home
-        selectMultiple: false
-        nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
-        onAccepted: {
-            videoBackground = ""
-            imageBackground = imageFileDialog.fileUrls[0]
-        }
-        onRejected: {
-            print("Canceled")
-            /* Qt.quit() */
-        }
-
-    }
-
     SongSqlModel {
         id: songsqlmodel
     }
@@ -168,21 +133,15 @@ Controls.Page {
     }
 
     function changeSlideType(type) {
-        /* showPassiveNotification("used to be: " + presentation.text); */
         presentation.itemType = type;
-        /* showPassiveNotification("next"); */
         if (slideItem)
             slideItem.itemType = type;
-        /* showPassiveNotification("last"); */
     }
 
     function changeSlideText(text) {
-        /* showPassiveNotification("used to be: " + presentation.text); */
         presentation.text = text;
-        /* showPassiveNotification("next"); */
         if (slideItem)
             slideItem.text = text;
-        /* showPassiveNotification("last"); */
     }
 
     function changeSlideBackground(background, type) {
@@ -217,31 +176,40 @@ Controls.Page {
         showPassiveNotification("previous slide please")
     }
 
-    function editSwitch(editType, item) {
+    function editSwitch(item) {
         if (editMode) {
             switch (editType) {
             case "song" :
                 presentation.visible = false;
                 videoEditor.visible = false;
+                videoEditor.stop();
                 songEditor.visible = true;
+                songEditor.changeSong(item);
                 break;
             case "video" :
                 presentation.visible = false;
                 songEditor.visible = false;
                 videoEditor.visible = true;
+                videoEditor.changeVideo(item);
                 break;
             case "image" :
                 mainPageArea.pop(Controls.StackView.Immediate);
                 mainPageArea.push(imageEditorComp, Controls.StackView.Immediate);
+                videoEditor.stop();
                 break;
             default:
-videoEditor
+                videoEditor.visible = false;
+                videoEditor.stop();
+                songEditor.visible = false;
+                presentation.visible = true;
+                editMode = false;
             }
         } else {
-              videoEditor.visible = false;
-              songEditor.visible = false;
-              presentation.visible = true;
-              editMode = false;
+            videoEditor.visible = false;
+            videoEditor.stop();
+            songEditor.visible = false;
+            presentation.visible = true;
+            editMode = false;
         }
     }
 
@@ -250,29 +218,5 @@ videoEditor
             presentationWindow.showFullScreen();
         else
             presentationWindow.close();
-    }
-
-    function updateLyrics(lyrics) {
-        songsqlmodel.updateLyrics(song, lyrics);
-    }
-
-    function updateTitle(title) {
-        songsqlmodel.updateTitle(song, title)
-    }
-
-    function updateAuthor(author) {
-        songsqlmodel.updateAuthor(song, author)
-    }
-
-    function updateAudio(audio) {
-        songsqlmodel.updateAudio(song, audio)
-    }
-
-    function updateCcli(ccli) {
-        songsqlmodel.updateCcli(song, ccli)
-    }
-
-    function updateVerseOrder(vorder) {
-        songsqlmodel.updateVerseOrder(song, vorder)
     }
 }

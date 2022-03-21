@@ -164,28 +164,18 @@ Item {
                             backgroundColor: {
                                 if (parent.ListView.isCurrentItem) {
                                     Kirigami.Theme.highlightColor;
-                                } else if (dragHandler.containsMouse){
+                                } else if (songDragHandler.containsMouse){
                                     Kirigami.Theme.highlightColor;
                                 } else {
                                      Kirigami.Theme.backgroundColor;
                                  }
                             }
                             textColor: {
-                                if (parent.ListView.isCurrentItem || dragHandler.containsMouse)
+                                if (parent.ListView.isCurrentItem || songDragHandler.containsMouse)
                                     activeTextColor;
                                 else
                                     Kirigami.Theme.textColor;
                             }
-
-                            /* onAdd: { */
-                            /*     showPassiveNotification(title, 3000) */
-                            /*     songLibraryList.currentIndex = index */
-                            /*     song = index */
-                            /*     songTitle = title */
-                            /*     songLyrics = lyrics */
-                            /*     songAuthor = author */
-                            /*     songVorder = vorder */
-                            /* } */
 
                             Behavior on height {
                                 NumberAnimation {
@@ -193,7 +183,7 @@ Item {
                                     duration: 300
                                 }
                             }
-                            Drag.active: dragHandler.drag.active
+                            Drag.active: songDragHandler.drag.active
                             Drag.hotSpot.x: width / 2
                             Drag.hotSpot.y: height / 2
                             Drag.keys: [ "library" ]
@@ -211,15 +201,18 @@ Item {
                         }
 
                         MouseArea {
-                            id: dragHandler
+                            id: songDragHandler
                             anchors.fill: parent
                             hoverEnabled: true
                             drag {
                                 target: songListItem
                                 onActiveChanged: {
-                                    if (dragHandler.drag.active) {
-                                        dragSongTitle = title
-                                        showPassiveNotification(dragSongTitle)
+                                    if (songDragHandler.drag.active) {
+                                        dragItemTitle = title;
+                                        dragItemType = "song";
+                                        dragItemBackgroundType = "image";
+                                        dragItemBackground = "";
+                                        /* showPassiveNotification(dragSongTitle) */
                                     } else {
                                         songListItem.Drag.drop()
                                     }
@@ -228,7 +221,7 @@ Item {
                                 threshold: 10
                             }
                             MouseArea {
-                                id: clickHandler
+                                id: songClickHandler
                                 anchors.fill: parent
                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                                 onClicked: {
@@ -237,11 +230,10 @@ Item {
                                     else{
                                         showPassiveNotification(title, 3000)
                                         songLibraryList.currentIndex = index
-                                        song = index
-                                        songTitle = title
-                                        songLyrics = lyrics
-                                        songAuthor = author
-                                        songVorder = vorder
+                                        if (!editMode)
+                                            editMode = true;
+                                        editType = "song";
+                                        editSwitch(index);
                                     }
                                 }
 
@@ -249,8 +241,8 @@ Item {
                         }
                         Controls.Menu {
                             id: rightClickSongMenu
-                            x: clickHandler.mouseX
-                            y: clickHandler.mouseY + 10
+                            x: songClickHandler.mouseX
+                            y: songClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
                                 onTriggered: songsqlmodel.deleteSong(index)
@@ -274,15 +266,11 @@ Item {
 
                 function newSong() {
                     songsqlmodel.newSong();
-                    songLibraryList.currentIndex = songsqlmodel.rowCount();
+                    songLibraryList.currentIndex = songsqlmodel.rowCount() - 1;
                     if (!editMode)
-                        toggleEditMode();
-                    song = songLibraryList.currentItem
-                    songTitle = songLibraryList.currentItem.title
-                    songLyrics = songLibraryList.currentItem.lyrics
-                    songAuthor = songLibraryList.currentItem.author
-                    songVorder = songLibraryList.currentItem.vorder
-                    showPassiveNotification("newest song index: " + songLibraryList.currentIndex)
+                        editMode = true;
+                    editType = "song";
+                    editSwitch(songLibraryList.currentIndex);
                 }
             }
 
@@ -436,8 +424,11 @@ Item {
                                 target: videoListItem
                                 onActiveChanged: {
                                     if (videoDragHandler.drag.active) {
-                                        dragVideoTitle = title
-                                        showPassiveNotification(dragVideoTitle)
+                                        dragItemTitle = title;
+                                        dragItemType = "video";
+                                        dragItemText = "";
+                                        dragItemBackgroundType = "video";
+                                        dragItemBackground = filePath;
                                     } else {
                                         videoListItem.Drag.drop()
                                     }
@@ -457,7 +448,8 @@ Item {
                                         const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
-                                        editSwitch("video", video);
+                                        editType = "video";
+                                        editSwitch(video);
                                     }
                                 }
 
@@ -522,132 +514,132 @@ Item {
                     }
                 ]
 
-                    transitions: Transition {
-                        to: "*"
-                        NumberAnimation {
-                            target: imageLibraryList
-                            properties: "preferredHeight"
-                            easing.type: Easing.OutCubic
-                            duration: 300
-                        }
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: imageLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
                     }
-
-                }
-                Rectangle {
-                    id: presentationLibraryPanel
-                    Layout.preferredHeight: 40
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
-                    color: Kirigami.Theme.backgroundColor
-
-                    Controls.Label {
-                        anchors.centerIn: parent
-                        text: "Presentations"
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (selectedLibrary == "presentations")
-                                selectedLibrary = ""
-                            else
-                                selectedLibrary = "presentations"
-                            print(selectedLibrary)
-                        }
-                    }
-                }
-
-                ListView {
-                    id: presentationLibraryList
-                    Layout.preferredHeight: parent.height - 200
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
-                    state: "deselected"
-
-                    states: [
-                        State {
-                            name: "deselected"
-                            when: (selectedLibrary !== "presentations")
-                            PropertyChanges { target: presentationLibraryList
-                                              Layout.preferredHeight: 0
-                                            }
-                        },
-                        State {
-                            name: "selected"
-                            when: (selectedLibrary == "presentations")
-                            PropertyChanges { target: presentationLibraryList }
-                        }
-                    ]
-
-                    transitions: Transition {
-                        to: "*"
-                        NumberAnimation {
-                            target: presentationLibraryList
-                            properties: "preferredHeight"
-                            easing.type: Easing.OutCubic
-                            duration: 300
-                        }
-                    }
-
-                }
-                Rectangle {
-                    id: slideLibraryPanel
-                    Layout.preferredHeight: 40
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
-                    color: Kirigami.Theme.backgroundColor
-
-                    Controls.Label {
-                        anchors.centerIn: parent
-                        text: "Slides"
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (selectedLibrary == "slides")
-                                selectedLibrary = ""
-                            else
-                                selectedLibrary = "slides"
-                            print(selectedLibrary)
-                        }
-                    }
-                }
-
-                ListView {
-                    id: slideLibraryList
-                    Layout.preferredHeight: parent.height - 200
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
-                    state: "deselected"
-
-                    states: [
-                        State {
-                            name: "deselected"
-                            when: (selectedLibrary !== "slides")
-                            PropertyChanges { target: slideLibraryList
-                                              Layout.preferredHeight: 0
-                                            }
-                        },
-                        State {
-                            name: "selected"
-                            when: (selectedLibrary == "slides")
-                            PropertyChanges { target: slideLibraryList }
-                        }
-                    ]
-
-                    transitions: Transition {
-                        to: "*"
-                        NumberAnimation {
-                            target: slideLibraryList
-                            properties: "preferredHeight"
-                            easing.type: Easing.OutCubic
-                            duration: 300
-                        }
-                    }
-
                 }
             }
+
+            Rectangle {
+                id: presentationLibraryPanel
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                color: Kirigami.Theme.backgroundColor
+
+                Controls.Label {
+                    anchors.centerIn: parent
+                    text: "Presentations"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (selectedLibrary == "presentations")
+                            selectedLibrary = ""
+                        else
+                            selectedLibrary = "presentations"
+                        print(selectedLibrary)
+                    }
+                }
+            }
+
+            ListView {
+                id: presentationLibraryList
+                Layout.preferredHeight: parent.height - 200
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "presentations")
+                        PropertyChanges { target: presentationLibraryList
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "presentations")
+                        PropertyChanges { target: presentationLibraryList }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: presentationLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+            }
+
+            Rectangle {
+                id: slideLibraryPanel
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                color: Kirigami.Theme.backgroundColor
+
+                Controls.Label {
+                    anchors.centerIn: parent
+                    text: "Slides"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (selectedLibrary == "slides")
+                            selectedLibrary = ""
+                        else
+                            selectedLibrary = "slides"
+                        print(selectedLibrary)
+                    }
+                }
+            }
+
+            ListView {
+                id: slideLibraryList
+                Layout.preferredHeight: parent.height - 200
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "slides")
+                        PropertyChanges { target: slideLibraryList
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "slides")
+                        PropertyChanges { target: slideLibraryList }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: slideLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+            }
+        }
+
         DropArea {
             id: fileDropArea
             anchors.fill: parent

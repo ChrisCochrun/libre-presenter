@@ -11,10 +11,15 @@ import "./" as Presenter
 Item {
     id: root
 
+    property string imageBackground
+    property string videoBackground
+
     Presenter.Slide {
         id: representation
         anchors.fill: parent
         textSize: width / 15
         editMode: true
+        imageSource: imageBackground
+        videoSource: videoBackground
     }
 }

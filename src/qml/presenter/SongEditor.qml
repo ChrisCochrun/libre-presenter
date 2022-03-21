@@ -8,6 +8,16 @@ import "./" as Presenter
 Item {
     id: root
 
+    property int songIndex
+    property string songTitle
+    property string songLyrics
+    property string songAuthor
+    property string songCcli
+    property string songAudio
+    property string songVorder
+    property string songBackground
+    property string songBackgroundType
+
     GridLayout {
         id: mainLayout
         anchors.fill: parent
@@ -66,11 +76,11 @@ Item {
                     text: "Background"
                     icon.name: "fileopen"
                     hoverEnabled: true
-                    onClicked: backgroundType.open()
+                    onClicked: backgroundTypePopup.open()
                 }
 
                 Controls.Popup {
-                    id: backgroundType
+                    id: backgroundTypePopup
                     x: backgroundButton.x
                     y: backgroundButton.y + backgroundButton.height + 20
                     modal: true
@@ -83,7 +93,7 @@ Item {
                         border.color: Kirigami.Theme.activeBackgroundColor
                         border.width: 2
                     }
-                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent
                     ColumnLayout {
                         anchors.fill: parent
                         Controls.ToolButton {
@@ -91,14 +101,14 @@ Item {
                             Layout.fillWidth: true
                             text: "Video"
                             icon.name: "emblem-videos-symbolic"
-                            onClicked: videoFileDialog.open() & backgroundType.close()
+                            onClicked: videoFileDialog.open() & backgroundTypePopup.close()
                         }
                         Controls.ToolButton {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             text: "Image"
                             icon.name: "folder-pictures-symbolic"
-                            onClicked: imageFileDialog.open() & backgroundType.close()
+                            onClicked: imageFileDialog.open() & backgroundTypePopup.close()
                         }
                     }
                 }
@@ -196,15 +206,15 @@ Item {
                 Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 300
 
-                Rectangle {
-                    id: slideBar
-                    color: Kirigami.Theme.highlightColor
+                /* Rectangle { */
+                /*     id: slideBar */
+                /*     color: Kirigami.Theme.highlightColor */
 
-                    Layout.preferredWidth: 500
-                    Layout.preferredHeight: songTitleField.height
-                    Layout.rightMargin: 20
-                    Layout.leftMargin: 20
-                }
+                /*     Layout.preferredWidth: 500 */
+                /*     Layout.preferredHeight: songTitleField.height */
+                /*     Layout.rightMargin: 20 */
+                /*     Layout.leftMargin: 20 */
+                /* } */
 
                 Presenter.SlideEditor {
                     id: slideEditor
@@ -215,16 +225,98 @@ Item {
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
                 }
-
             }
+        }
     }
 
+    Timer {
+        id: editorTimer
+        interval: 1000
+        repeat: true
+        running: false
+        onTriggered: updateLyrics(lyricsEditor.text)
     }
-        Timer {
-            id: editorTimer
-            interval: 1000
-            repeat: true
-            running: false
-            onTriggered: updateLyrics(lyricsEditor.text)
+
+    FileDialog {
+        id: videoFileDialog
+        title: "Please choose a background"
+        folder: shortcuts.home
+        selectMultiple: false
+        nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)"]
+        onAccepted: {
+            updateBackground(videoFileDialog.fileUrls[0], "video");
+            print("video background = " + videoFileDialog.fileUrls[0]);
         }
+        onRejected: {
+            print("Canceled")
+        }
+
+    }
+
+    FileDialog {
+        id: imageFileDialog
+        title: "Please choose a background"
+        folder: shortcuts.home
+        selectMultiple: false
+        nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
+        onAccepted: {
+            updateBackground(imageFileDialog.fileUrls[0], "image");
+            print("image background = " + imageFileDialog.fileUrls[0]);
+        }
+        onRejected: {
+            print("Canceled")
+        }
+
+    }
+
+    function changeSong(index) {
+        const song = songsqlmodel.getSong(index);
+        songIndex = index;
+        songTitle = song[0];
+        songLyrics = song[1];
+        songAuthor = song[2];
+        songCcli = song[3];
+        songAudio = song[4];
+        songVorder = song[5];
+        songBackground = song[6];
+        songBackgroundType = song[7];
+        if (songBackgroundType == "image") {
+            slideEditor.videoBackground = "";
+            slideEditor.imageBackground = songBackground;
+        } else {
+            slideEditor.imageBackground = "";
+            slideEditor.videoBackground = songBackground;
+        }
+        print(song);
+    }
+
+    function updateLyrics(lyrics) {
+        songsqlmodel.updateLyrics(songIndex, lyrics);
+    }
+
+    function updateTitle(title) {
+        songsqlmodel.updateTitle(songIndex, title)
+    }
+
+    function updateAuthor(author) {
+        songsqlmodel.updateAuthor(songIndex, author)
+    }
+
+    function updateAudio(audio) {
+        songsqlmodel.updateAudio(songIndex, audio)
+    }
+
+    function updateCcli(ccli) {
+        songsqlmodel.updateCcli(songIndex, ccli)
+    }
+
+    function updateVerseOrder(vorder) {
+        songsqlmodel.updateVerseOrder(songIndex, vorder)
+    }
+
+    function updateBackground(background, backgroundType) {
+        songsqlmodel.updateBackground(songIndex, background);
+        songsqlmodel.updateBackgroundType(songIndex, backgroundType);
+        print("changed background");
+    }
 }

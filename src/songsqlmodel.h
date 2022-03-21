@@ -16,6 +16,8 @@ class SongSqlModel : public QSqlTableModel
   Q_PROPERTY(QString ccli READ ccli WRITE setCcli NOTIFY ccliChanged)
   Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
   Q_PROPERTY(QString vorder READ vorder WRITE setVerseOrder NOTIFY vorderChanged)
+  Q_PROPERTY(QString background READ background WRITE setBackground NOTIFY backgroundChanged)
+  Q_PROPERTY(QString backgroundType READ backgroundType WRITE setBackgroundType NOTIFY backgroundTypeChanged)
   QML_ELEMENT
 
 public:
@@ -28,6 +30,8 @@ public:
   QString ccli() const;
   QString audio() const;
   QString vorder() const;
+  QString background() const;
+  QString backgroundType() const;
 
   void setTitle(const QString &title);
   void setLyrics(const QString &lyrics);
@@ -35,6 +39,8 @@ public:
   void setCcli(const QString &ccli);
   void setAudio(const QString &audio);
   void setVerseOrder(const QString &vorder);
+  void setBackground(const QString &background);
+  void setBackgroundType(const QString &backgroundType);
 
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateLyrics(const int &row, const QString &lyrics);
@@ -42,9 +48,12 @@ public:
   Q_INVOKABLE void updateCcli(const int &row, const QString &ccli);
   Q_INVOKABLE void updateAudio(const int &row, const QString &audio);
   Q_INVOKABLE void updateVerseOrder(const int &row, const QString &vorder);
+  Q_INVOKABLE void updateBackground(const int &row, const QString &background);
+  Q_INVOKABLE void updateBackgroundType(const int &row, const QString &backgroundType);
 
   Q_INVOKABLE void newSong();
   Q_INVOKABLE void deleteSong(const int &row);
+  Q_INVOKABLE QVariantList getSong(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;
@@ -56,6 +65,8 @@ signals:
     void ccliChanged();
     void audioChanged();
     void vorderChanged();
+    void backgroundChanged();
+    void backgroundTypeChanged();
 
 private:
     int m_id;
@@ -65,6 +76,8 @@ private:
     QString m_ccli;
     QString m_audio;
     QString m_vorder;
+    QString m_background;
+    QString m_backgroundType;
 };
 
 #endif //SONGSQLMODEL_H
