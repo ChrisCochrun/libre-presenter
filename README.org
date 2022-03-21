@@ -6,9 +6,13 @@ This is an attempt at building a church presentation application in Qt/QML. QML 
 
 ** Features (planned are in parentheses)
 - Presents songs lyrics with image and video backgrounds
-- Presents slides
+- Use MPV as a rendering system for videos
+- (Present Slides)
 - (Custom slide builder)
 - (Simple song creation with a powerful text parser)
+
+** MPV
+You will need MPV installed in order to use this. All videos run through it. This, however, enables us to make videos work very well and with a lot of control and since it uses ffmpeg underneath, nearly any codec regardless of underlying system. This prevents the need for the user to go and install other codecs to work with Windows or MacOS. It also means a much easier control system and the potential to stream web content as well.
 
 * Build and Run
 First get the source code
@@ -27,3 +31,6 @@ Then run.
 #+BEGIN_SRC
 ./build/bin/presenter
 #+END_SRC
+
+* Contact Me
+If, for whatever reason, you need to contact me and get something ironed out, please do so at chris@tfcconnection.org
