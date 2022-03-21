@@ -33,4 +33,4 @@ Then run.
 #+END_SRC
 
 * Contact Me
-If, for whatever reason, you need to contact me and get something ironed out, please do so at chris@tfcconnection.org
+If, for whatever reason, you need to contact me and get something ironed out, please do so at mailto:chris@tfcconnection.org
