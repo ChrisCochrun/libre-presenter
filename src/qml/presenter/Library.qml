@@ -210,9 +210,8 @@ Item {
                                     if (songDragHandler.drag.active) {
                                         dragItemTitle = title;
                                         dragItemType = "song";
-                                        dragItemBackgroundType = "image";
-                                        dragItemBackground = "";
-                                        /* showPassiveNotification(dragSongTitle) */
+                                        dragItemBackgroundType = backgroundType;
+                                        dragItemBackground = background;
                                     } else {
                                         songListItem.Drag.drop()
                                     }

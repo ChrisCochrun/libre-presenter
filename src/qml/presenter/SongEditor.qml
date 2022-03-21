@@ -206,16 +206,6 @@ Item {
                 Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 300
 
-                /* Rectangle { */
-                /*     id: slideBar */
-                /*     color: Kirigami.Theme.highlightColor */
-
-                /*     Layout.preferredWidth: 500 */
-                /*     Layout.preferredHeight: songTitleField.height */
-                /*     Layout.rightMargin: 20 */
-                /*     Layout.leftMargin: 20 */
-                /* } */
-
                 Presenter.SlideEditor {
                     id: slideEditor
                     Layout.preferredWidth: 500
