@@ -26,49 +26,62 @@ Kirigami.ApplicationWindow {
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
 
-    /* menuBar: Qt.platform.os !== "linux" ? Controls.MenuBar { */
-    /*     Controls.Menu { */
-    /*         title: qsTr("File") */
-    /*         Controls.MenuItem { text: qsTr("New...") } */
-    /*         Controls.MenuItem { text: qsTr("Open...") } */
-    /*         Controls.MenuItem { text: qsTr("Save") } */
-    /*         Controls.MenuItem { text: qsTr("Save As...") } */
-    /*         Controls.MenuSeparator { } */
-    /*         Controls.MenuItem { text: qsTr("Quit") } */
-    /*     } */
-    /*     Controls.Menu { */
-    /*         title: qsTr("Settings") */
-    /*         Controls.MenuItem { */
-    /*             text: qsTr("Configure") */
-    /*             onTriggered: openSettings() */
-    /*         } */
-    /*     } */
-    /*     Controls.Menu { */
-    /*         title: qsTr("Help") */
-    /*         Controls.MenuItem { text: qsTr("About") } */
-    /*     } */
-    /* } : null */
-
-    Labs.MenuBar {
-        Labs.Menu {
+    menuBar: Controls.MenuBar {
+        visible: !Kirigami.Settings.hasPlatformMenuBar
+        Controls.Menu {
             title: qsTr("File")
-            Labs.MenuItem { text: qsTr("New...") }
-            Labs.MenuItem { text: qsTr("Open...") }
-            Labs.MenuItem { text: qsTr("Save") }
-            Labs.MenuItem { text: qsTr("Save As...") }
-            Labs.MenuSeparator { }
-            Labs.MenuItem { text: qsTr("Quit") }
+            Controls.MenuItem { text: qsTr("New...") }
+            Controls.MenuItem { text: qsTr("Open...") }
+            Controls.MenuItem { text: qsTr("Save") }
+            Controls.MenuItem { text: qsTr("Save As...") }
+            Controls.MenuSeparator { }
+            Controls.MenuItem { text: qsTr("Quit") }
         }
-        Labs.Menu {
+        Controls.Menu {
             title: qsTr("Settings")
-            Labs.MenuItem {
+            Controls.MenuItem {
                 text: qsTr("Configure")
                 onTriggered: openSettings()
             }
         }
-        Labs.Menu {
+        Controls.Menu {
             title: qsTr("Help")
-            Labs.MenuItem { text: qsTr("About") }
+            Controls.MenuItem { text: qsTr("About") }
+        }
+    }
+
+    Loader {
+        id: menuLoader
+        active: Kirigami.Settings.hasPlatformMenuBar
+        sourceComponent: globalMenuComponent
+        onLoaded: print("Loaded global menu")
+    }
+
+    Component {
+        id: globalMenuComponent
+        Labs.MenuBar {
+            id: globalMenu
+            Labs.Menu {
+                title: qsTr("File")
+                Labs.MenuItem { text: qsTr("New...") }
+                Labs.MenuItem { text: qsTr("Open...") }
+                Labs.MenuItem { text: qsTr("Save") }
+                Labs.MenuItem { text: qsTr("Save As...") }
+                Labs.MenuSeparator { }
+                Labs.MenuItem { text: qsTr("Quit") }
+            }
+            Labs.Menu {
+                title: qsTr("Settings")
+                Labs.MenuItem {
+                    text: qsTr("Configure")
+                    shortcut: "Ctrl+Shift+I"
+                    onTriggered: openSettings()
+                }
+            }
+            Labs.Menu {
+                title: qsTr("Help")
+                Labs.MenuItem { text: qsTr("About") }
+            }
         }
     }
 
@@ -102,6 +115,7 @@ Kirigami.ApplicationWindow {
         /* Kirigami.Settings.style = "Plasma"; */
         /* showPassiveNotification(Kirigami.Settings.style); */
         print("OS is: " + Qt.platform.os);
+        print("MENU " + Kirigami.Settings.hasPlatformMenuBar)
         /* print("checking screens"); */
         print("Present Mode is " + presenting);
         /* print(Qt.application.state); */

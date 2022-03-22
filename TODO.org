@@ -1,0 +1,8 @@
+#+TITLE: Todo List
+* Inbox
+** TODO Need to make ListModel capable of bringing in a string list
+
+[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::/* showPassiveNotification(serviceItemList.currentIndex); */]]
+** TODO Parse Lyrics to create a list of strings for slides
+
+[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::/* showPassiveNotification(serviceItemList.currentIndex); */]]
