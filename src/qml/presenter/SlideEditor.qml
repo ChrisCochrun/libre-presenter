@@ -21,5 +21,6 @@ Item {
         editMode: true
         imageSource: imageBackground
         videoSource: videoBackground
+        preview: true
     }
 }
