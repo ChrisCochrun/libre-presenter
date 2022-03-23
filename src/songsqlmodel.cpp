@@ -9,7 +9,9 @@
 #include <QSqlDatabase>
 #include <qabstractitemmodel.h>
 #include <qdebug.h>
+#include <qglobal.h>
 #include <qobjectdefs.h>
+#include <qsqlquery.h>
 #include <qsqlrecord.h>
 
 static const char *songsTableName = "songs";
@@ -131,6 +133,23 @@ QVariantList SongSqlModel::getSong(const int &row) {
   return song;
 }
 
+QStringList SongSqlModel::getLyricList(const int &row) {
+  QSqlRecord recordData = record(row);
+  if (recordData.isEmpty()) {
+    qDebug() << "this is not a song";
+    QStringList empty;
+    return empty;
+  }
+
+  QString rawLyrics = recordData.value("lyrics").toString();
+  qDebug() << rawLyrics;
+
+  QStringList lyrics = rawLyrics.split("\n");
+  qDebug() << lyrics;
+
+  return lyrics;
+}
+
 int SongSqlModel::id() const {
   return m_id;
 }
@@ -203,7 +222,9 @@ void SongSqlModel::setLyrics(const QString &lyrics) {
 void SongSqlModel::updateLyrics(const int &row, const QString &lyrics) {
   qDebug() << "Row is " << row;
   QSqlRecord rowdata = record(row);
+  qDebug() << lyrics;
   rowdata.setValue("lyrics", lyrics);
+  qDebug() << rowdata.value("lyrics");
   setRecord(row, rowdata);
   submitAll();
   emit lyricsChanged();

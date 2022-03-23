@@ -18,6 +18,7 @@ Controls.Page {
 
     /* property var video */
 
+    property int dragItemIndex
     property string dragItemTitle: ""
     property string dragItemType: ""
     property string dragItemText: ""

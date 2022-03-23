@@ -54,6 +54,7 @@ public:
   Q_INVOKABLE void newSong();
   Q_INVOKABLE void deleteSong(const int &row);
   Q_INVOKABLE QVariantList getSong(const int &row);
+  Q_INVOKABLE QStringList getLyricList(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;

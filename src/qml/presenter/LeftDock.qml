@@ -38,7 +38,8 @@ ColumnLayout {
                        dragItemType,
                        dragItemText,
                        dragItemBackgroundType,
-                       dragItemBackground);
+                       dragItemBackground,
+                       dragItemIndex);
         }
         keys: ["library"]
 
@@ -126,7 +127,8 @@ ColumnLayout {
                                     dragItemType,
                                     dragItemText,
                                     dragItemBackgroundType,
-                                    dragItemBackground);
+                                    dragItemBackground,
+                                    dragItemIndex);
                         }
                         keys: ["library"]
                     }
@@ -173,7 +175,7 @@ ColumnLayout {
         }
     }
 
-    function addItem(index, name, type, text, backgroundType, background) {
+    function addItem(index, name, type, text, backgroundType, background, itemID) {
         serviceListModel.insert(index, {
             "name": name,
             "type": type,
@@ -182,13 +184,19 @@ ColumnLayout {
             "background": background})
     }
 
-    function appendItem(name, type, text, backgroundType, background) {
+    function appendItem(name, type, text, backgroundType, background, itemID) {
         serviceListModel.append({
             "name": name,
             "type": type,
             "text": text,
             "backgroundType": backgroundType,
-            "background": background})
+            "background": background});
+
+        if (type == "song") {
+            const lyrics = songsqlmodel.getLyricList(itemID);
+            print(lyrics);
+        }
+
     }
 }
 

@@ -177,13 +177,14 @@ Item {
                         placeholderText: "Put lyrics here..."
                         persistentSelection: true
                         text: songLyrics
-                        textFormat: TextEdit.MarkdownText
+                        textFormat: TextEdit.PlainText
                         padding: 10
                         onEditingFinished: {
-                            updateLyrics(text);
+                            updateLyrics(lyricsEditor.getText(0,lyricsEditor.length));
                             editorTimer.running = false;
                         }
                         onPressed: editorTimer.running = true
+                        /* Component.onCompleted: text = songsqlmodel.getLyrics(songIndex); */
                     }
                 }
                 Controls.TextField {
@@ -215,6 +216,12 @@ Item {
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
                 }
+                Controls.Button {
+                    text: "update lyrics"
+                    onClicked: {
+                        print(lyricsEditor.getText(0,lyricsEditor.length));
+                    }
+                }
             }
         }
     }
@@ -224,7 +231,9 @@ Item {
         interval: 1000
         repeat: true
         running: false
-        onTriggered: updateLyrics(lyricsEditor.text)
+        onTriggered: {
+            updateLyrics(lyricsEditor.getText(0,lyricsEditor.length));
+        }
     }
 
     FileDialog {
@@ -282,6 +291,7 @@ Item {
 
     function updateLyrics(lyrics) {
         songsqlmodel.updateLyrics(songIndex, lyrics);
+        print(lyrics);
     }
 
     function updateTitle(title) {

@@ -4,5 +4,6 @@
 
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::/* showPassiveNotification(serviceItemList.currentIndex); */]]
 ** TODO Parse Lyrics to create a list of strings for slides
+SCHEDULED: <2022-03-23 Wed 10:00>
 
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::/* showPassiveNotification(serviceItemList.currentIndex); */]]
