@@ -180,7 +180,7 @@ Item {
                         textFormat: TextEdit.PlainText
                         padding: 10
                         onEditingFinished: {
-                            updateLyrics(lyricsEditor.getText(0,lyricsEditor.length));
+                            updateLyrics(text);
                             editorTimer.running = false;
                         }
                         onPressed: editorTimer.running = true
@@ -216,12 +216,6 @@ Item {
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
                 }
-                Controls.Button {
-                    text: "update lyrics"
-                    onClicked: {
-                        print(lyricsEditor.getText(0,lyricsEditor.length));
-                    }
-                }
             }
         }
     }
@@ -232,7 +226,7 @@ Item {
         repeat: true
         running: false
         onTriggered: {
-            updateLyrics(lyricsEditor.getText(0,lyricsEditor.length));
+            updateLyrics(lyricsEditor.text);
         }
     }
 
