@@ -194,7 +194,7 @@ ColumnLayout {
 
         if (type == "song") {
             const lyrics = songsqlmodel.getLyricList(itemID);
-            print(lyrics);
+            /* print(lyrics); */
         }
 
     }

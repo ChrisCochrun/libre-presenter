@@ -184,7 +184,6 @@ Item {
                             editorTimer.running = false;
                         }
                         onPressed: editorTimer.running = true
-                        /* Component.onCompleted: text = songsqlmodel.getLyrics(songIndex); */
                     }
                 }
                 Controls.TextField {
