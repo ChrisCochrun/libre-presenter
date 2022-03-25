@@ -52,17 +52,15 @@ Controls.Page {
 
             Presenter.LeftDock {
                 id: leftDock
-                Controls.SplitView.fillHeight: true
                 Controls.SplitView.preferredWidth: 200
                 Controls.SplitView.maximumWidth: 300
             }
             
             Item {
                 id: mainPageArea
-                Controls.SplitView.fillHeight: true
                 Controls.SplitView.fillWidth: true
-                Controls.SplitView.preferredWidth: 500
-                Controls.SplitView.minimumWidth: 200
+                /* Controls.SplitView.preferredWidth: 500 */
+                Controls.SplitView.minimumWidth: 100
                 
                 Presenter.Presentation { 
                     id: presentation
@@ -83,7 +81,6 @@ Controls.Page {
 
             Presenter.Library {
                 id: library
-                Controls.SplitView.fillHeight: true
                 Controls.SplitView.preferredWidth: libraryOpen ? 200 : 0
                 Controls.SplitView.maximumWidth: 350
             }

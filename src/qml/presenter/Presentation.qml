@@ -76,8 +76,9 @@ Item {
 
         Presenter.Slide {
             id: previewSlide
-            Layout.preferredWidth: 900
+            Layout.preferredWidth: 700
             Layout.preferredHeight: width / 16 * 9
+            Layout.minimumWidth: 300
             Layout.alignment: Qt.AlignCenter
             textSize: width / 15
             text: root.text
