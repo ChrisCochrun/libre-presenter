@@ -154,22 +154,34 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   int endIndex;
   QString line;
   QString verse;
+  qDebug() << vorder.contains("C1");
+  qDebug() << vorder.indexOf("C1");
+  foreach (QString vstr, vorder) {
+    foreach (line, rawLyrics) {
+      if (line.startsWith(vstr.at(0)) && line.endsWith(vstr.at(1))) {
+          qDebug() << line;
+          startIndex = rawLyrics.indexOf(line);
+      }
+      if (rawLyrics.indexOf(line) > startIndex)
+        verse.append(line + "\n");
+    }
+  }
   foreach (line, rawLyrics) {
     if (line.trimmed() == "Chorus 1") {
       startIndex = rawLyrics.indexOf(line) + 1;
-      qDebug() << line;
-      qDebug() << startIndex;
+      // qDebug() << line;
+      // qDebug() << startIndex;
     }
     if (line.trimmed() == "Verse 1") {
       endIndex = rawLyrics.indexOf(line);
-      qDebug() << endIndex;
+      // qDebug() << endIndex;
       break;
     }
     if (rawLyrics.indexOf(line) == startIndex - 1) {
       continue;
     }
     verse.append(line + "\n");
-    qDebug() << verse;
+    // qDebug() << verse;
   }
 
   lyrics.append(verse);

@@ -59,7 +59,6 @@ Controls.Page {
             Item {
                 id: mainPageArea
                 Controls.SplitView.fillWidth: true
-                /* Controls.SplitView.preferredWidth: 500 */
                 Controls.SplitView.minimumWidth: 100
                 
                 Presenter.Presentation { 
