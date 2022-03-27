@@ -11,6 +11,7 @@
 #include <qdebug.h>
 #include <qglobal.h>
 #include <qobjectdefs.h>
+#include <qregexp.h>
 #include <qsqlquery.h>
 #include <qsqlrecord.h>
 
@@ -142,61 +143,60 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   }
 
   QStringList rawLyrics = recordData.value("lyrics").toString().split("\n");
-  qDebug() << rawLyrics;
-
   QStringList lyrics;
-  // qDebug() << lyrics;
 
   QStringList vorder = recordData.value("vorder").toString().split(" ");
   qDebug() << vorder;
 
-  int endIndex;
-  QString line;
   QStringList keywords = {"Verse 1", "Verse 2", "Verse 3", "Verse 4",
                           "Verse 5", "Verse 6", "Verse 7", "Verse 8",
                           "Chorus 1", "Chorus 2", "Chorus 3", "Chorus 4",
                           "Bridge 1", "Bridge 2", "Bridge 3", "Bridge 4",
-                          "Intro 1", "Outro 2", "Ending 1", "Other 1"};
+                          "Intro 1", "Intro 2", "Ending 1", "Ending 2",
+                          "Other 1", "Other 2", "Other 3", "Other 4"};
 
-  foreach (const QString &vstr, vorder) {
-    int startIndex;
-    QString verse;
-    qDebug() << vstr;
-    foreach (line, rawLyrics) {
+  bool recordVerse;
+  bool firstItem = true;
+  QString verse;
+  QString vtitle;
+  QString line;
+  QMap<QString, QString> verses;
+
+  // This first function pulls out each verse into our verses map
+  foreach (line, rawLyrics) {
+    if (firstItem) {
       if (keywords.contains(line)) {
-        if (line.startsWith(vstr.at(0)) && line.endsWith(vstr.at(1))) {
-          qDebug() << vstr << line;
-          startIndex = rawLyrics.indexOf(line);
-          continue;
-        }
-        qDebug() << "Break out";
-        break;
+        recordVerse = true;
+        firstItem = false;
+        vtitle = line;
+        continue;
       }
-      qDebug() << line;
-      // verse.append(line + "\n");
-      // qDebug() << verse;
+    } else if (keywords.contains(line)) {
+      verses.insert(vtitle, verse);
+      verse.clear();
+      vtitle = line;
+      recordVerse = false;
+    } else if (rawLyrics.endsWith(line)) {
+      verses.insert(vtitle, verse);
+      break;
     }
-  // lyrics.append(verse);
-  // qDebug() << verse;
+    if (recordVerse) {
+      verse.append(line.trimmed() + "\n");
+    }
+    recordVerse = true;
   }
-  // foreach (line, rawLyrics) {
-  //   if (line.trimmed() == "Chorus 1") {
-  //     startIndex = rawLyrics.indexOf(line) + 1;
-  //     // qDebug() << line;
-  //     // qDebug() << startIndex;
-  //   }
-  //   if (line.trimmed() == "Verse 1") {
-  //     endIndex = rawLyrics.indexOf(line);
-  //     // qDebug() << endIndex;
-  //     break;
-  //   }
-  //   if (rawLyrics.indexOf(line) == startIndex - 1) {
-  //     continue;
-  //   }
-  //   verse.append(line + "\n");
-  //   // qDebug() << verse;
-  // }
+  qDebug() << verses;
 
+  // this function appends the verse that matches the verse order from the map
+  foreach (const QString &vstr, vorder) {
+    foreach (line, rawLyrics) {
+      if (line.startsWith(vstr.at(0)) && line.endsWith(vstr.at(1))) {
+        lyrics.append(verses[line]);
+      }
+    }
+  }
+
+  qDebug() << lyrics;
 
   return lyrics;
 }
