@@ -129,6 +129,10 @@ Controls.Page {
         id: videosqlmodel
     }
 
+    ServiceItemModel {
+        id: serviceItemModel
+    }
+
     function changeSlideType(type) {
         presentation.itemType = type;
         if (slideItem)

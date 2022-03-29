@@ -1,9 +1,9 @@
 #+TITLE: Todo List
 * Inbox
-** TODO Need to make ListModel capable of bringing in a string list
+** TODO Need to make ListModel capable of bringing in a string list [1/2] [50%]
+- [X] Create a Model
+- [ ] Create a class that we'll make a list of in the model
 
-[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::/* showPassiveNotification(serviceItemList.currentIndex); */]]
-** TODO Parse Lyrics to create a list of strings for slides
+** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>
 
-[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::/* showPassiveNotification(serviceItemList.currentIndex); */]]

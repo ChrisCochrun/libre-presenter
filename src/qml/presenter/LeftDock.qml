@@ -36,9 +36,9 @@ ColumnLayout {
         onDropped: {
             appendItem(dragItemTitle,
                        dragItemType,
-                       dragItemText,
-                       dragItemBackgroundType,
                        dragItemBackground,
+                       dragItemBackgroundType,
+                       dragItemText,
                        dragItemIndex);
         }
         keys: ["library"]
@@ -46,7 +46,7 @@ ColumnLayout {
         ListView {
             id: serviceItemList
             anchors.fill: parent
-            model: serviceListModel
+            model: serviceItemModel
             delegate: Kirigami.DelegateRecycler {
                 width: serviceItemList.width
                 sourceComponent: itemDelegate
@@ -108,7 +108,7 @@ ColumnLayout {
                         anchors.fill: parent
                         listItem: serviceItem
                         listView: serviceItemList
-                        onMoveRequested: serviceListModel.move(oldIndex, newIndex, 1)
+                        onMoveRequested: serviceItemModel.move(oldIndex, newIndex)
                         onClicked: {
                             serviceItemList.currentIndex = index;
                             /* showPassiveNotification(serviceItemList.currentIndex); */
@@ -147,56 +147,27 @@ ColumnLayout {
                 anchors.rightMargin: 0
                 active: hovered || pressed
             }
-
-            ListModel {
-                id: serviceListModel
-                ListElement {
-                    name: "10,000 Reason"
-                    type: "song"
-                    text: "YIP YIP!"
-                    backgroundType: "image"
-                    background: "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg"
-                }
-                ListElement {
-                    name: "Marvelous Light"
-                    type: "song"
-                    text: "HALLELUJAH!"
-                    backgroundType: "video"
-                    background: "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4"
-                }
-                ListElement {
-                    name: "Test"
-                    type: "video"
-                    text: ""
-                    backgroundType: "video"
-                    background: "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4"
-                }
-            }
         }
     }
 
-    function addItem(index, name, type, text, backgroundType, background, itemID) {
-        serviceListModel.insert(index, {
-            "name": name,
-            "type": type,
-            "text": text,
-            "backgroundType": backgroundType,
-            "background": background})
+    function addItem(index, name, type,
+                     background, backgroundType, text, itemID) {
+        serviceItemModel.insertItem(index, name,
+                                    type, text, background,
+                                    backgroundType)
     }
 
-    function appendItem(name, type, text, backgroundType, background, itemID) {
-        serviceListModel.append({
-            "name": name,
-            "type": type,
-            "text": text,
-            "backgroundType": backgroundType,
-            "background": background});
-
+    function appendItem(name, type, background, backgroundType, text, itemID) {
+        let lyrics;
         if (type == "song") {
-            const lyrics = songsqlmodel.getLyricList(itemID);
-            /* print(lyrics); */
+            lyrics = songsqlmodel.getLyricList(itemID);
+            print(lyrics);
         }
 
+        print(background);
+        print(backgroundType);
+
+        serviceItemModel.addItem(name, type, background,
+                                 backgroundType, lyrics);
     }
 }
-

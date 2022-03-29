@@ -1,54 +1,51 @@
 #ifndef SERVICEITEM_H
 #define SERVICEITEM_H
 
-#include <QAbstractListModel>
-#include <qnamespace.h>
+#include <QObject>
+#include <qobject.h>
 
-struct Data {
-  Data() {}
-  Data( const QString& name,
-        const QString& type,
-        const QString& background,
-        const QString& backgroundType,
-        const QStringList& text)
-    : name(name), type(type), background(background),
-      backgroundType(backgroundType), text(text) {}
-  QString name;
-  QString type;
-  QString background;
-  QString backgroundType;
-  QStringList text;
-};
-
-class ServiceItem : public QAbstractListModel
+class ServiceItem : public QObject
 {
   Q_OBJECT
+  Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+  Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
+  Q_PROPERTY(QString background READ background WRITE setBackground NOTIFY backgroundChanged)
+  Q_PROPERTY(QString backgroundType READ backgroundType WRITE setBackgroundType NOTIFY backgroundTypeChanged)
+  Q_PROPERTY(QStringList text READ text WRITE setText NOTIFY textChanged)
 
 public:
   explicit ServiceItem(QObject *parent = nullptr);
+  ServiceItem(const QString &name, const QString &type, QObject * parent = nullptr);
+  ServiceItem(const QString &name, const QString &type, const QString &background,
+              const QString &backgroundType, QObject * parent = nullptr);
+  ServiceItem(const QString &name, const QString &type, const QString &background,
+              const QString &backgroundType, const QStringList &text, QObject * parent = nullptr);
 
-  enum Roles {
-    NameRole = Qt::UserRole,
-    TypeRole,
-    BackgroundRole,
-    BackgroundTypeRole,
-    TextRole,
-    SlidesRole
-  };
+  QString name() const;
+  QString type() const;
+  QString background() const;
+  QString backgroundType() const;
+  QStringList text() const;
 
-  // Basic functionality:
-  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-  QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-  QHash<int, QByteArray> roleNames() const override;
+  void setName(QString name);
+  void setType(QString type);
+  void setBackground(QString background);
+  void setBackgroundType(QString backgroundType);
+  void setText(QStringList text);
 
-  // Editable:
-  bool setData(const QModelIndex &index, const QVariant &value,
-               int role = Qt::EditRole) override;
-
-  Qt::ItemFlags flags(const QModelIndex& index) const override;
+signals:
+  void nameChanged(QString name);
+  void typeChanged(QString type);
+  void backgroundChanged(QString background);
+  void backgroundTypeChanged(QString backgroundType);
+  void textChanged(QStringList text);
 
 private:
-  QVector<Data> m_data;
+  QString m_name;
+  QString m_type;
+  QString m_background;
+  QString m_backgroundType;
+  QStringList m_text;
 };
 
 #endif // SERVICEITEM_H
