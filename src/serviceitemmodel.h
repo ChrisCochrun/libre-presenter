@@ -56,6 +56,7 @@ public:
                               const QString &backgroundType, const QStringList &text);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool move(int sourceIndex, int destIndex);
+  Q_INVOKABLE QVariantMap getItem(int index) const;
 
 private:
   QList<ServiceItem *> m_items;

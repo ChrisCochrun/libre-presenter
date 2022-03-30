@@ -10,10 +10,13 @@ import "./" as Presenter
 Item {
     id: root
 
-    property string text
+    property var text
+    property int textIndex: 0
     property string itemType
     property url imagebackground
     property url vidbackground
+
+    Component.onCompleted: nextSlideText()
 
     GridLayout {
         anchors.fill: parent
@@ -81,7 +84,6 @@ Item {
             Layout.minimumWidth: 300
             Layout.alignment: Qt.AlignCenter
             textSize: width / 15
-            text: root.text
             itemType: root.itemType
             imageSource: imagebackground
             videoSource: vidbackground
@@ -95,7 +97,7 @@ Item {
             Layout.alignment: Qt.AlignLeft
             MouseArea {
                 anchors.fill: parent
-                onPressed: changeSlideNext()
+                onPressed: nextSlideText()
                 cursorShape: Qt.PointingHandCursor
             }
         }
@@ -111,5 +113,25 @@ Item {
 
     function loadVideo() {
         previewSlide.loadVideo();
+    }
+
+    function nextSlideText() {
+        if (textIndex === 0) {
+            previewSlide.text = root.text[textIndex];
+            print(root.text[textIndex]);
+            textIndex++;
+        } else if (textIndex < root.text.length) {
+            previewSlide.text = root.text[textIndex];
+            print(root.text[textIndex]);
+            textIndex++;
+        } else {
+            print("Next slide time");
+            nextSlide();
+            textIndex = 0;
+        }
+    }
+
+    function nextSlide() {
+        print(slideItem);
     }
 }

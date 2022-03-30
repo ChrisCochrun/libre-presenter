@@ -15,13 +15,15 @@ Item {
     property bool editMode: false
 
     // These properties are for the slides visuals
-    property real textSize: 72
+    property real textSize: 50
     property bool dropShadow: false
     property url imageSource: imageBackground
     property url videoSource: videoBackground
     property string chosenFont: "Quicksand"
-    property string text: "This is demo text"
+    property var text: "This is demo text"
     property color backgroundColor
+    property var horizontalAlignment
+    property var verticalAlignment
 
     //these properties are for giving video info to parents
     property int mpvPosition: mpv.position
@@ -97,9 +99,10 @@ Item {
                 /* minimumPointSize: 5 */
                 fontSizeMode: Text.Fit
                 font.family: chosenFont
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 style: Text.Raised
-                anchors.centerIn: parent
-                /* width: parent.width */
+                anchors.fill: parent
                 clip: true
 
                 layer.enabled: true

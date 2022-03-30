@@ -133,48 +133,29 @@ Controls.Page {
         id: serviceItemModel
     }
 
-    function changeSlideType(type) {
-        presentation.itemType = type;
-        if (slideItem)
-            slideItem.itemType = type;
-    }
+    function changeServiceItem(index) {
+        const item = serviceItemModel.getItem(index);
 
-    function changeSlideText(text) {
-        presentation.text = text;
-        if (slideItem)
-            slideItem.text = text;
-    }
-
-    function changeSlideBackground(background, type) {
-        showPassiveNotification("starting background change..");
-        showPassiveNotification(background);
-        showPassiveNotification(type);
-        if (type == "image") {
+        presentation.itemType = item.type;
+        
+        if (item.backgroundType === "image") {
             presentation.vidbackground = "";
-            presentation.imagebackground = background;
-            if (slideItem) {
-                slideItem.videoSource = "";
-                slideItem.stopVideo();
-                slideItem.imageSource = background;
-            }
+            presentation.imagebackground = item.background;
         } else {
             presentation.imagebackground = "";
-            presentation.vidbackground = background;
+            presentation.vidbackground = item.background;
             presentation.loadVideo()
-            if (slideItem) {
-                slideItem.imageSource = "";
-                slideItem.videoSource = background;
-                slideItem.loadVideo()
-            }
         }
-    }
 
-    function changeSlideNext() {
-        showPassiveNotification("next slide please")
-    }
+        if (item.text.length === 0) {
+            presentation.text = [""];
+        }
+        else
+            presentation.text = item.text;
+        presentation.textIndex = 0;
+        presentation.nextSlideText();
 
-    function changeSlidePrevious() {
-        showPassiveNotification("previous slide please")
+        print("Slide changed to: " + item.name);
     }
 
     function editSwitch(item) {

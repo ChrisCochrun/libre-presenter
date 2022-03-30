@@ -111,10 +111,7 @@ ColumnLayout {
                         onMoveRequested: serviceItemModel.move(oldIndex, newIndex)
                         onClicked: {
                             serviceItemList.currentIndex = index;
-                            /* showPassiveNotification(serviceItemList.currentIndex); */
-                            changeSlideBackground(background, backgroundType);
-                            changeSlideText(text);
-                            changeSlideType(type);
+                            changeServiceItem(index);
                         }
                     }
 
@@ -125,9 +122,9 @@ ColumnLayout {
                             addItem(index,
                                     dragItemTitle,
                                     dragItemType,
-                                    dragItemText,
-                                    dragItemBackgroundType,
                                     dragItemBackground,
+                                    dragItemBackgroundType,
+                                    dragItemText,
                                     dragItemIndex);
                         }
                         keys: ["library"]
@@ -152,9 +149,10 @@ ColumnLayout {
 
     function addItem(index, name, type,
                      background, backgroundType, text, itemID) {
+        const newtext = songsqlmodel.getLyricList(itemID);
         serviceItemModel.insertItem(index, name,
-                                    type, text, background,
-                                    backgroundType)
+                                    type, background,
+                                    backgroundType, newtext);
     }
 
     function appendItem(name, type, background, backgroundType, text, itemID) {

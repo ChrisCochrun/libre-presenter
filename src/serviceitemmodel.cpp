@@ -121,7 +121,7 @@ void ServiceItemModel::addItem(ServiceItem *item) {
 }
 
 void ServiceItemModel::insertItem(const int &index, ServiceItem *item) {
-  beginInsertRows(this->index(index), index, index);
+  beginInsertRows(this->index(index).parent(), index, index);
   m_items.insert(index, item);
   endInsertRows();
   qDebug() << "Success";
@@ -164,7 +164,7 @@ void ServiceItemModel::insertItem(const int &index, const QString &name, const Q
                                const QStringList &text) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
   insertItem(index, item);
-  qDebug() << name << type << background;
+  qDebug() << name << type << background << text;
 }
 
 void ServiceItemModel::removeItem(int index) {
@@ -187,4 +187,21 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
   endMoveRows();
   // qDebug() << success;
   return true;
+}
+
+QVariantMap ServiceItemModel::getItem(int index) const {
+  QVariantMap data;
+  const QModelIndex idx = this->index(index,0);
+  qDebug() << idx;
+  if( !idx.isValid() )
+    return data;
+  const QHash<int,QByteArray> rn = roleNames();
+  qDebug() << rn;
+  QHashIterator<int,QByteArray> it(rn);
+  while (it.hasNext()) {
+    it.next();
+    qDebug() << it.key() << ":" << it.value();
+    data[it.value()] = idx.data(it.key());
+  }
+  return data;
 }
