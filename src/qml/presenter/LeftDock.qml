@@ -113,6 +113,17 @@ ColumnLayout {
                             serviceItemList.currentIndex = index;
                             changeServiceItem(index);
                         }
+                        onRightClicked: rightClickMenu.popup()
+                    }
+
+                    Controls.Menu {
+                        id: rightClickMenu
+                        x: mouseHandler.mouseX
+                        y: mouseHandler.mouseY + 10
+                        Kirigami.Action {
+                            text: "delete"
+                            onTriggered: serviceItemModel.removeItem(index)
+                        }
                     }
 
                     DropArea {

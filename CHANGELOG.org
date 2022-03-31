@@ -1,0 +1,4 @@
+#+TITLE: Changelog
+* Changelog
+** [2022-03-31 Thu 06:25] Initial Changelog - Nothing worth adding here yet. Once we have a base then the changelog with be appended to
+[[file:~/dev/church-presenter/CHANGELOG.org::+TITLE: Changelog]]

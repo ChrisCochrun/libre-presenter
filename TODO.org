@@ -1,8 +1,26 @@
 #+TITLE: Todo List
 * Inbox
-** TODO Need to make ListModel capable of bringing in a string list [1/2] [50%]
+** TODO Fix file dialog using basic QT theme
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]
+** TODO Make toolbar functional for songeditor
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
+** TODO Finish toolbar
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
+** TODO Find a way to maths the textsize
+[[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::property real textSize: 50]]
+
+** TODO Make nextSlideText a nextAction function to incorporate other types of items
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlideText() {]]
+
+** TODO Create a nextslide function to be used after the end of the list of slides
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
+
+** TODO Fix broken append when importing River song
+[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::function appendItem(name, type, background, backgroundType, text, itemID) {]]
+
+** DONE Need to make ListModel capable of bringing in a string list [2/2] [100%]
 - [X] Create a Model
-- [ ] Create a class that we'll make a list of in the model
+- [X] Create a class that we'll make a list of in the model
 
 ** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>

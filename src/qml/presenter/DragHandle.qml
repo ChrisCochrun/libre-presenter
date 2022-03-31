@@ -38,6 +38,7 @@ Item {
 
     // Emitted when clicking to activate underneath mousearea
     signal clicked()
+    signal rightClicked()
 
     MouseArea {
         id: mouseArea
@@ -127,10 +128,16 @@ Item {
         MouseArea {
             id: clickArea
             anchors.fill: parent
-            onClicked: root.clicked()
             hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             onEntered: root.containsMouse = true
             onExited: root.containsMouse = false
+            onClicked: {
+                if (mouse.button === Qt.RightButton)
+                    root.rightClicked();
+                else
+                    root.clicked();
+            }
         }
     }
 }

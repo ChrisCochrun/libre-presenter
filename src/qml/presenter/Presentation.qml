@@ -32,11 +32,18 @@ Item {
                 anchors.fill: parent 
 
                 Controls.ToolButton {
-                    text: "Grid"
+                    text: "Solo"
+                    icon.name: "viewimage"
                     hoverEnabled: true
                 }
                 Controls.ToolButton {
-                    text: "Solo"
+                    text: "Grid"
+                    icon.name: "view-app-grid-symbolic"
+                    hoverEnabled: true
+                }
+                Controls.ToolButton {
+                    text: "Details"
+                    icon.name: "view-list-details"
                     hoverEnabled: true
                 }
                 Controls.ToolSeparator {}
