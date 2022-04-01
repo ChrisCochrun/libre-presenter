@@ -90,35 +90,7 @@ Controls.Page {
     Loader {
         id: presentLoader
         active: presenting
-        sourceComponent: presentWindowComp
-    }
-
-    Component {
-        id: presentWindowComp
-        Window {
-            id: presentationWindow
-            title: "presentation-window"
-            height: maximumHeight
-            width: maximumWidth
-            screen: presentationScreen
-            flags: Qt.X11BypassWindowManagerHint
-            onClosing: presenting = false
-
-            Component.onCompleted: {
-                presentationWindow.showFullScreen();
-                print(screen.name);
-            }
-
-            Presenter.Slide {
-                id: presentationSlide
-                anchors.fill: parent
-                imageSource: imageBackground
-                videoSource: videoBackground
-                text: ""
-
-                Component.onCompleted: slideItem = presentationSlide
-            }
-        }
+        source: "PresentationWindow.qml"
     }
 
     SongSqlModel {

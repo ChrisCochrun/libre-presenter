@@ -174,17 +174,15 @@ void ServiceItemModel::removeItem(int index) {
 }
 
 bool ServiceItemModel::move(int sourceIndex, int destIndex) {
-  qDebug() << "starting move";
+  qDebug() << "starting move of: " << "source: " << sourceIndex << "dest: " << destIndex;
+  qDebug() << index(sourceIndex).row();
+  qDebug() << index(destIndex).row();
   QModelIndex parent = index(sourceIndex).parent();
-  bool begsuc = beginMoveRows(parent, sourceIndex, sourceIndex, parent, destIndex);
-  qDebug() << begsuc;
-  if (!begsuc) {
-    qDebug() << "Failed to start moving rows";
-    m_items.move(sourceIndex, destIndex);
-    return false;
-  }
-  // bool success = moveRow(index(sourceIndex).parent(), sourceIndex, index(destIndex).parent(), destIndex);
-  endMoveRows();
+  // bool begsuc = beginMoveRows(parent, sourceIndex, sourceIndex, parent, destIndex);
+  beginResetModel();
+  m_items.move(sourceIndex, destIndex);
+  // endMoveRows();
+  endResetModel();
   // qDebug() << success;
   return true;
 }
@@ -192,11 +190,11 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
 QVariantMap ServiceItemModel::getItem(int index) const {
   QVariantMap data;
   const QModelIndex idx = this->index(index,0);
-  qDebug() << idx;
+  // qDebug() << idx;
   if( !idx.isValid() )
     return data;
   const QHash<int,QByteArray> rn = roleNames();
-  qDebug() << rn;
+  // qDebug() << rn;
   QHashIterator<int,QByteArray> it(rn);
   while (it.hasNext()) {
     it.next();

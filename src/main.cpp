@@ -22,10 +22,13 @@
 
 #include <QtQuick/QQuickWindow>
 #include <QtQuick/QQuickView>
+#include <qapplication.h>
+#include <qcoreapplication.h>
 #include <qdir.h>
 #include <qglobal.h>
 #include <qguiapplication.h>
 #include <qqml.h>
+#include <qquickstyle.h>
 #include <qsqldatabase.h>
 #include <qsqlquery.h>
 #include <qstringliteral.h>
@@ -67,17 +70,20 @@ static void connectToDatabase() {
 int main(int argc, char *argv[])
 {
   QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QGuiApplication app(argc, argv);
-  KLocalizedString::setApplicationDomain("presenter");
-  QCoreApplication::setOrganizationName(QStringLiteral("presenter"));
+  QApplication app(argc, argv);
+  KLocalizedString::setApplicationDomain("librepresenter");
+  QCoreApplication::setOrganizationName(QStringLiteral("librepresenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
-  QCoreApplication::setApplicationName(QStringLiteral("Church Presenter"));
+  QCoreApplication::setApplicationName(QStringLiteral("Libre Presenter"));
 
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
+  QApplication::setStyle(QStringLiteral("breeze"));
 #else
+  QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+  QQuickStyle::setFallbackStyle(QStringLiteral("breeze"));
 #endif
 
   QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));

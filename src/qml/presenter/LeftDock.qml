@@ -108,7 +108,12 @@ ColumnLayout {
                         anchors.fill: parent
                         listItem: serviceItem
                         listView: serviceItemList
-                        onMoveRequested: serviceItemModel.move(oldIndex, newIndex)
+                        onMoveRequested: {
+                            print(oldIndex, newIndex);
+                            serviceItemModel.move(oldIndex, newIndex);
+                        }
+                        onDropped: {
+                        }
                         onClicked: {
                             serviceItemList.currentIndex = index;
                             changeServiceItem(index);

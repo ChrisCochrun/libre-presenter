@@ -1,11 +1,16 @@
 #+TITLE: Todo List
 * Inbox
-** TODO Fix file dialog using basic QT theme
-[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]
+** TODO Fix possible bug in arrangingItems in draghandler
+[[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
+** TODO [#A] Make Presentation Window follow the presenter component
+[[file:~/dev/church-presenter/src/qml/presenter/MainWindow.qml::Presenter.Slide {]]
+
 ** TODO Make toolbar functional for songeditor
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
+
 ** TODO Finish toolbar
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
+
 ** TODO Find a way to maths the textsize
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::property real textSize: 50]]
 
@@ -24,4 +29,7 @@
 
 ** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>
+
+** DONE Fix file dialog using basic QT theme
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]
 
