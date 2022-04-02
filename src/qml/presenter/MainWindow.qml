@@ -12,6 +12,7 @@ Controls.Page {
     padding: 0
 
     // properties passed around for the slides
+    property int currentServiceItem
     property url imageBackground: ""
     property url videoBackground: ""
     property int blurRadius: 0

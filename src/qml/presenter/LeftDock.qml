@@ -116,6 +116,7 @@ ColumnLayout {
                         }
                         onClicked: {
                             serviceItemList.currentIndex = index;
+                            currentServiceItem = index;
                             changeServiceItem(index);
                         }
                         onRightClicked: rightClickMenu.popup()

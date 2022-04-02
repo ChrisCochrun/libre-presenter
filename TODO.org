@@ -1,5 +1,7 @@
 #+TITLE: Todo List
 * Inbox
+** TODO Make sure the video gets changed in a proper manner to not have left over video showing from previous items
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::currentServiceItem++;]]
 ** TODO Fix possible bug in arrangingItems in draghandler
 [[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
 ** TODO [#A] Make Presentation Window follow the presenter component
@@ -14,11 +16,10 @@
 ** TODO Find a way to maths the textsize
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::property real textSize: 50]]
 
-** TODO Make nextSlideText a nextAction function to incorporate other types of items
-[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlideText() {]]
-
 ** TODO Create a nextslide function to be used after the end of the list of slides
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
+
+- [ ] Check to make sure this works in all conditions but I believe it works ok.
 
 ** TODO Fix broken append when importing River song
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::function appendItem(name, type, background, backgroundType, text, itemID) {]]
@@ -29,6 +30,9 @@
 
 ** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>
+
+** DONE Make nextSlideText a nextAction function to incorporate other types of items
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlideText() {]]
 
 ** DONE Fix file dialog using basic QT theme
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]

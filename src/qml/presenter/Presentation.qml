@@ -135,6 +135,7 @@ Item {
             } else {
                 print("Next slide time");
                 textIndex = 0;
+                previewSlide.text = "";
                 nextSlide();
             }
         } else if (itemType === "video")
@@ -144,6 +145,8 @@ Item {
     }
 
     function nextSlide() {
+        currentServiceItem++;
+        changeServiceItem(currentServiceItem);
         print(slideItem);
     }
 }
