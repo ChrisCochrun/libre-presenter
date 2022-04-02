@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
-  QApplication::setStyle(QStringLiteral("breeze"));
+  // QApplication::setStyle(QStringLiteral("breeze"));
 #else
   QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
@@ -87,6 +87,8 @@ int main(int argc, char *argv[])
 #endif
 
   QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
+  qDebug() << QQuickStyle::availableStyles();
+  qDebug() << QIcon::themeName();
 
   // apparently mpv needs this class set
   // let's register mpv as well

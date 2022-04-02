@@ -104,7 +104,7 @@ Item {
             Layout.alignment: Qt.AlignLeft
             MouseArea {
                 anchors.fill: parent
-                onPressed: nextSlideText()
+                onPressed: nextSlideAction()
                 cursorShape: Qt.PointingHandCursor
             }
         }
@@ -122,20 +122,25 @@ Item {
         previewSlide.loadVideo();
     }
 
-    function nextSlideText() {
-        if (textIndex === 0) {
-            previewSlide.text = root.text[textIndex];
-            print(root.text[textIndex]);
-            textIndex++;
-        } else if (textIndex < root.text.length) {
-            previewSlide.text = root.text[textIndex];
-            print(root.text[textIndex]);
-            textIndex++;
-        } else {
-            print("Next slide time");
+    function nextSlideAction() {
+        if (itemType === "song") {
+            if (textIndex === 0) {
+                previewSlide.text = root.text[textIndex];
+                print(root.text[textIndex]);
+                textIndex++;
+            } else if (textIndex < root.text.length) {
+                previewSlide.text = root.text[textIndex];
+                print(root.text[textIndex]);
+                textIndex++;
+            } else {
+                print("Next slide time");
+                textIndex = 0;
+                nextSlide();
+            }
+        } else if (itemType === "video")
             nextSlide();
-            textIndex = 0;
-        }
+        else if (itemType === "image")
+            nextSlide();
     }
 
     function nextSlide() {

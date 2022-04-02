@@ -121,6 +121,7 @@ Kirigami.ApplicationWindow {
         /* print(Qt.application.state); */
         screens = Qt.application.screens;
         presentationScreen = screens[1]
+        print(Kirigami.Settings.Style);
         for (let i = 0; i < screens.length; i++) {
             /* print(screens[i]); */
             /* print(screens[i].name); */

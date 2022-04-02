@@ -125,7 +125,7 @@ Controls.Page {
         else
             presentation.text = item.text;
         presentation.textIndex = 0;
-        presentation.nextSlideText();
+        presentation.nextSlideAction();
 
         print("Slide changed to: " + item.name);
     }
