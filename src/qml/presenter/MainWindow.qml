@@ -109,7 +109,9 @@ Controls.Page {
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
 
+        presentation.stopVideo()
         presentation.itemType = item.type;
+        print("Time to start changing");
         
         if (item.backgroundType === "image") {
             presentation.vidbackground = "";

@@ -1,7 +1,15 @@
 #+TITLE: Todo List
 * Inbox
+** TODO Build out a slide preview system so we can see each slide in the song or image slideshow
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 ** TODO Make sure the video gets changed in a proper manner to not have left over video showing from previous items
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::currentServiceItem++;]]
+
+- [X] Build a basic system that changes to black first and then switches to the video
+- [ ] Build out a loading system that will load the next video if it needs to and then the switch can be instant.
+
+  The second option is the best, but requires a lot more work. I have the first already working so I'll come back to this once I have more of an idea of how to do it.
+
 ** TODO Fix possible bug in arrangingItems in draghandler
 [[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
 ** TODO [#A] Make Presentation Window follow the presenter component
@@ -10,8 +18,10 @@
 ** TODO Make toolbar functional for songeditor
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
+- [ ] Will likely need to modify the model to persist the effects stored to the songs
 ** TODO Finish toolbar
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
+
 
 ** TODO Find a way to maths the textsize
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::property real textSize: 50]]

@@ -13,6 +13,7 @@ Item {
 
     property string imageBackground
     property string videoBackground
+    property string textAlignment
 
     Presenter.Slide {
         id: representation
@@ -22,5 +23,24 @@ Item {
         imageSource: imageBackground
         videoSource: videoBackground
         preview: true
+    }
+
+    Component.onCompleted: updateHAlignment(textAlignment)
+
+    function updateHAlignment(alignment) {
+        switch (alignment) {
+        case "left" :
+            representation.horizontalAlignment = Text.AlignLeft;
+            break;
+        case "center" :
+            representation.horizontalAlignment = Text.AlignHCenter;
+            break;
+        case "right" :
+            representation.horizontalAlignment = Text.AlignRight;
+            break;
+        case "justify" :
+            representation.horizontalAlignment = Text.AlignJustify;
+            break;
+        }
     }
 }

@@ -18,6 +18,7 @@ class SongSqlModel : public QSqlTableModel
   Q_PROPERTY(QString vorder READ vorder WRITE setVerseOrder NOTIFY vorderChanged)
   Q_PROPERTY(QString background READ background WRITE setBackground NOTIFY backgroundChanged)
   Q_PROPERTY(QString backgroundType READ backgroundType WRITE setBackgroundType NOTIFY backgroundTypeChanged)
+  Q_PROPERTY(QString textAlignment READ textAlignment WRITE setTextAlignment NOTIFY textAlignmentChanged)
   QML_ELEMENT
 
 public:
@@ -32,6 +33,7 @@ public:
   QString vorder() const;
   QString background() const;
   QString backgroundType() const;
+  QString textAlignment() const;
 
   void setTitle(const QString &title);
   void setLyrics(const QString &lyrics);
@@ -41,6 +43,7 @@ public:
   void setVerseOrder(const QString &vorder);
   void setBackground(const QString &background);
   void setBackgroundType(const QString &backgroundType);
+  void setTextAlignment(const QString &background);
 
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateLyrics(const int &row, const QString &lyrics);
@@ -50,6 +53,7 @@ public:
   Q_INVOKABLE void updateVerseOrder(const int &row, const QString &vorder);
   Q_INVOKABLE void updateBackground(const int &row, const QString &background);
   Q_INVOKABLE void updateBackgroundType(const int &row, const QString &backgroundType);
+  Q_INVOKABLE void updateTextAlignment(const int &row, const QString &textAlignment);
 
   Q_INVOKABLE void newSong();
   Q_INVOKABLE void deleteSong(const int &row);
@@ -68,6 +72,7 @@ signals:
     void vorderChanged();
     void backgroundChanged();
     void backgroundTypeChanged();
+    void textAlignmentChanged();
 
 private:
     int m_id;
@@ -79,6 +84,7 @@ private:
     QString m_vorder;
     QString m_background;
     QString m_backgroundType;
+    QString m_textAlignment;
 };
 
 #endif //SONGSQLMODEL_H

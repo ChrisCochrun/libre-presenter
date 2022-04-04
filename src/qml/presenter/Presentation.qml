@@ -16,7 +16,7 @@ Item {
     property url imagebackground
     property url vidbackground
 
-    Component.onCompleted: nextSlideText()
+    Component.onCompleted: nextSlideAction()
 
     GridLayout {
         anchors.fill: parent
@@ -122,6 +122,10 @@ Item {
         previewSlide.loadVideo();
     }
 
+    function stopVideo() {
+        previewSlide.stopVideo()
+    }
+
     function nextSlideAction() {
         if (itemType === "song") {
             if (textIndex === 0) {
@@ -135,18 +139,26 @@ Item {
             } else {
                 print("Next slide time");
                 textIndex = 0;
-                previewSlide.text = "";
+                clearText();
                 nextSlide();
             }
-        } else if (itemType === "video")
+        } else if (itemType === "video") {
+            clearText();
             nextSlide();
-        else if (itemType === "image")
+        }
+        else if (itemType === "image") {
+            clearText();
             nextSlide();
+        }
     }
 
     function nextSlide() {
         currentServiceItem++;
         changeServiceItem(currentServiceItem);
         print(slideItem);
+    }
+
+    function clearText() {
+        previewSlide.text = "";
     }
 }

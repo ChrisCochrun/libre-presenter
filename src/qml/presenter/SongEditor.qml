@@ -18,6 +18,7 @@ Item {
     property string songVorder
     property string songBackground
     property string songBackgroundType
+    property string songHAlignment
 
     GridLayout {
         id: mainLayout
@@ -50,18 +51,28 @@ Item {
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
                     hoverEnabled: true
+                    onCurrentTextChanged: updateTextAlignment(currentText.toLowerCase());
+                }
+                Controls.ComboBox {
+                    model: ["Top", "Center", "Bottom"]
+                    implicitWidth: 100
+                    hoverEnabled: true
+                    onCurrentTextChanged: print(currentText.toLowerCase());
                 }
                 Controls.ToolButton {
                     text: "B"
                     hoverEnabled: true
+                    visible: false
                 }
                 Controls.ToolButton {
                     text: "I"
                     hoverEnabled: true
+                    visible: false
                 }
                 Controls.ToolButton {
                     text: "U"
                     hoverEnabled: true
+                    visible: false
                 }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
@@ -215,6 +226,7 @@ Item {
                     Layout.bottomMargin: 30
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
+                    textAlignment: songHAlignment
                 }
             }
         }
@@ -273,6 +285,7 @@ Item {
         songVorder = song[5];
         songBackground = song[6];
         songBackgroundType = song[7];
+        songHAlignment = song[8];
         if (songBackgroundType == "image") {
             slideEditor.videoBackground = "";
             slideEditor.imageBackground = songBackground;
@@ -312,5 +325,9 @@ Item {
         songsqlmodel.updateBackground(songIndex, background);
         songsqlmodel.updateBackgroundType(songIndex, backgroundType);
         print("changed background");
+    }
+
+    function updateTextAlignment(textAlignment) {
+        songsqlmodel.updateTextAlignment(songIndex, textAlignment)
     }
 }

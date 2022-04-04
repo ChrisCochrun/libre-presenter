@@ -72,8 +72,26 @@ Item {
 
         Timer {
             id: mpvLoadingTimer
-            interval: 100
-            onTriggered: mpv.loadFile(videoSource.toString())
+            interval: 2
+            onTriggered: {
+                mpv.loadFile(videoSource.toString());
+                blackTimer.restart();
+            }
+        }
+
+        Timer {
+            id: blackTimer
+            interval: 400
+            onTriggered: {
+                black.visible = false;
+            }
+        }
+
+        Rectangle {
+            id: black
+            color: "Black"
+            anchors.fill: parent
+            visible: false
         }
 
         Image {
@@ -89,7 +107,7 @@ Item {
         FastBlur {
             id: imageBlue
             anchors.fill: parent
-            source: imageSource == "" ? mpv : backgroundImage
+            source: imageSource === "" ? mpv : backgroundImage
             radius: blurRadius
 
             Controls.Label {
@@ -126,6 +144,8 @@ Item {
     }
 
     function stopVideo() {
-        mpv.stop() 
+        mpv.stop();
+        black.visible = true;
+        showPassiveNotification("Black is: " + black.visible);
     }
 }
