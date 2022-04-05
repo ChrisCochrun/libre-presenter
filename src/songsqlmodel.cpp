@@ -122,26 +122,41 @@ void SongSqlModel::deleteSong(const int &row) {
   submitAll();
 }
 
-QVariantList SongSqlModel::getSong(const int &row) {
-  QSqlRecord recordData = record(row);
-  if (recordData.isEmpty()) {
-    qDebug() << "this is not a song";
-    QVariantList empty;
-    return empty;
+QVariantMap SongSqlModel::getSong(const int &row) {
+  // QSqlRecord recordData = record(row);
+  // if (recordData.isEmpty()) {
+  //   qDebug() << "this is not a song";
+  //   QVariantList empty;
+  //   return empty;
+  // }
+
+  // QVariantList song;
+  // song.append(recordData.value("title"));
+  // song.append(recordData.value("lyrics"));
+  // song.append(recordData.value("author"));
+  // song.append(recordData.value("ccli"));
+  // song.append(recordData.value("audio"));
+  // song.append(recordData.value("vorder"));
+  // song.append(recordData.value("background"));
+  // song.append(recordData.value("backgroundType"));
+  // song.append(recordData.value("textAlignment"));
+
+  // return song;
+
+  QVariantMap data;
+  const QModelIndex idx = this->index(row,0);
+  // qDebug() << idx;
+  if( !idx.isValid() )
+    return data;
+  const QHash<int,QByteArray> rn = roleNames();
+  // qDebug() << rn;
+  QHashIterator<int,QByteArray> it(rn);
+  while (it.hasNext()) {
+    it.next();
+    qDebug() << it.key() << ":" << it.value();
+    data[it.value()] = idx.data(it.key());
   }
-
-  QVariantList song;
-  song.append(recordData.value("title"));
-  song.append(recordData.value("lyrics"));
-  song.append(recordData.value("author"));
-  song.append(recordData.value("ccli"));
-  song.append(recordData.value("audio"));
-  song.append(recordData.value("vorder"));
-  song.append(recordData.value("background"));
-  song.append(recordData.value("backgroundType"));
-  song.append(recordData.value("textAlignment"));
-
-  return song;
+  return data;
 }
 
 QStringList SongSqlModel::getLyricList(const int &row) {

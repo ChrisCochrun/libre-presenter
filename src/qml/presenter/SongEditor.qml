@@ -277,21 +277,22 @@ Item {
     function changeSong(index) {
         const song = songsqlmodel.getSong(index);
         songIndex = index;
-        songTitle = song[0];
-        songLyrics = song[1];
-        songAuthor = song[2];
-        songCcli = song[3];
-        songAudio = song[4];
-        songVorder = song[5];
-        songBackground = song[6];
-        songBackgroundType = song[7];
-        songHAlignment = song[8];
+        songTitle = song.title;
+        songLyrics = song.lyrics;
+        songAuthor = song.author;
+        songCcli = song.ccli;
+        songAudio = song.audio;
+        songVorder = song.vorder;
+        songBackground = song.background;
+        songBackgroundType = song.backgroundType;
+        songHAlignment = song.textAlignment;
         if (songBackgroundType == "image") {
             slideEditor.videoBackground = "";
             slideEditor.imageBackground = songBackground;
         } else {
             slideEditor.imageBackground = "";
             slideEditor.videoBackground = songBackground;
+            slideEditor.loadVideo();
         }
         print(song);
     }

@@ -47,10 +47,12 @@ Item {
             enableAudio: !preview
             Component.onCompleted: mpvLoadingTimer.start()
             onFileLoaded: {
-                showPassiveNotification(videoSource + " has been loaded");
+                /* showPassiveNotification(videoSource + " has been loaded"); */
                 if (itemType == "song")
                     mpv.setProperty("loop", "inf");
-                showPassiveNotification(mpv.getProperty("loop"));
+                else
+                    mpv.setProperty("loop", "no");
+                /* showPassiveNotification(mpv.getProperty("loop")); */
             }
 
             MouseArea {
@@ -147,5 +149,9 @@ Item {
         mpv.stop();
         black.visible = true;
         showPassiveNotification("Black is: " + black.visible);
+    }
+
+    function pauseVideo() {
+        mpv.pause();
     }
 }

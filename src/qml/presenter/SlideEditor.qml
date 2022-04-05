@@ -27,6 +27,11 @@ Item {
 
     Component.onCompleted: updateHAlignment(textAlignment)
 
+    function loadVideo() {
+        representation.loadVideo();
+        representation.pause();
+    }
+
     function updateHAlignment(alignment) {
         switch (alignment) {
         case "left" :
