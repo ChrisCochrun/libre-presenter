@@ -44,17 +44,18 @@ static void createTable()
 
   query.exec(
       "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
-      "background, backgroundType) VALUES ('10,000 Reasons', '10,000 reasons "
+      "background, backgroundType, textAlignment) VALUES ('10,000 Reasons', '10,000 reasons "
       "for my heart to sing', 'Matt Redman', '13470183', '', '', '', '', 'center')");
   qDebug() << query.lastQuery();
   query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
-             "background, backgroundType) VALUES ('River', 'Im going down to "
+             "background, backgroundType, textAlignment) VALUES ('River', 'Im going down to "
              "the river', 'Jordan Feliz', '13470183', '', '', '', '', 'center')");
   query.exec(
       "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
-      "background, backgroundType) VALUES ('Marvelous Light', 'Into marvelous "
+      "background, backgroundType, textAlignment) VALUES ('Marvelous Light', 'Into marvelous "
       "light Im running', 'Chris Tomlin', '13470183', '', '', '', '', 'center')");
 
+  qDebug() << query.lastQuery();
   query.exec("select * from songs");
   qDebug() << query.lastQuery();
 }

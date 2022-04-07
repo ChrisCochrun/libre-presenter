@@ -195,9 +195,14 @@ Item {
                                     target: songListItem
                                     x: x
                                     y: y
+                                    width: width
+                                    height: height
+                                }
+                                ParentChange {
+                                    target: videoListItem
+                                    parent: rootApp.overlay
                                 }
                             }
-
                         }
 
                         MouseArea {
@@ -411,6 +416,12 @@ Item {
                                     target: videoListItem
                                     x: x
                                     y: y
+                                    width: width
+                                    height: height
+                                }
+                                ParentChange {
+                                    target: videoListItem
+                                    parent: rootApp.overlay
                                 }
                             }
 

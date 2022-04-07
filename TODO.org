@@ -1,6 +1,11 @@
 #+TITLE: Todo List
+:PROPERTIES:
+:CATEGORY: dev
+:END:
+
 * Inbox
-** TODO BUG in dropping and then selecting song will duplicate entries
+** TODO BUG in dropping and then selecting song will duplicate entries :dev:
+SCHEDULED: <2022-04-05 Tue>
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::Layout.fillHeight: true]]
 
 or at least turns the entry above it into the same as itself while retaining it's title?
