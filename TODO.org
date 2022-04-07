@@ -3,7 +3,7 @@
 ** TODO BUG in dropping and then selecting song will duplicate entries
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::Layout.fillHeight: true]]
 
-or at least turns the entry above it into the same as itself while retaining it's title.
+or at least turns the entry above it into the same as itself while retaining it's title?
 
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]

@@ -1,6 +1,7 @@
 #include "serviceitemmodel.h"
 #include "serviceitem.h"
 #include <qabstractitemmodel.h>
+#include <qglobal.h>
 #include <qnamespace.h>
 #include <qvariant.h>
 #include <qdebug.h>
@@ -115,8 +116,15 @@ Qt::ItemFlags ServiceItemModel::flags(const QModelIndex &index) const {
 
 void ServiceItemModel::addItem(ServiceItem *item) {
   const int index = m_items.size();
+  qDebug() << index;
+  // foreach (item, m_items) {
+  //   qDebug() << item;
+  // }
   beginInsertRows(QModelIndex(), index, index);
   m_items.append(item);
+  foreach (item, m_items) {
+    qDebug() << item;
+  }
   endInsertRows();
 }
 
@@ -177,7 +185,7 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
   qDebug() << "starting move of: " << "source: " << sourceIndex << "dest: " << destIndex;
   qDebug() << index(sourceIndex).row();
   qDebug() << index(destIndex).row();
-  QModelIndex parent = index(sourceIndex).parent();
+  // QModelIndex parent = index(sourceIndex).parent();
   // bool begsuc = beginMoveRows(parent, sourceIndex, sourceIndex, parent, destIndex);
   beginResetModel();
   m_items.move(sourceIndex, destIndex);

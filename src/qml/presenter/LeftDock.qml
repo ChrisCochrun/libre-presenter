@@ -34,6 +34,7 @@ ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
         onDropped: {
+            print("DROPPED AT END");
             appendItem(dragItemTitle,
                        dragItemType,
                        dragItemBackground,
@@ -136,6 +137,7 @@ ColumnLayout {
                         id: serviceDrop
                         anchors.fill: parent
                         onDropped: {
+                            print("DROPPED IN ITEM AREA");
                             addItem(index,
                                     dragItemTitle,
                                     dragItemType,
@@ -174,7 +176,7 @@ ColumnLayout {
 
     function appendItem(name, type, background, backgroundType, text, itemID) {
         let lyrics;
-        if (type == "song") {
+        if (type === "song") {
             lyrics = songsqlmodel.getLyricList(itemID);
             print(lyrics);
         }
