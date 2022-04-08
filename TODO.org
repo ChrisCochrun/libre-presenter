@@ -4,6 +4,8 @@
 :END:
 
 * Inbox
+** TODO Images stored in sql need to have aspect saved and applied dynamically here
+[[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
 ** TODO Make an image sql model
 [[file:~/dev/church-presenter/src/videosqlmodel.h::ifndef VIDEOSQLMODEL_H]]
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow

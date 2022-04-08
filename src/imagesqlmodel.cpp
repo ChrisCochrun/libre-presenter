@@ -37,10 +37,10 @@ static void createImageTable()
   qDebug() << query.lastQuery();
   qDebug() << "inserting into images";
 
-  query.exec("INSERT INTO images (title, filePath) VALUES ('Dec 180', '/home/chris/nextcloud/tfc/openlp/180-dec.png')");
+  query.exec("INSERT INTO images (title, filePath) VALUES ('Dec 180', 'file:///home/chris/nextcloud/tfc/openlp/180-dec.png')");
   qDebug() << query.lastQuery();
   query.exec("INSERT INTO images (title, filePath) VALUES ('No TFC', "
-             "'/home/chris/nextcloud/tfc/openlp/No TFC.png')");
+             "'file:///home/chris/nextcloud/tfc/openlp/No TFC.png')");
 
   query.exec("select * from images");
   qDebug() << query.lastQuery();

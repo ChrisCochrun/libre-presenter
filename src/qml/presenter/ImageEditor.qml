@@ -163,7 +163,7 @@ Item {
                     Layout.preferredHeight: Layout.preferredWidth / 16 * 9
                     Layout.alignment: Qt.AlignCenter
                     fillMode: Image.PreserveAspectFit
-                    source: "file://" + image.toString()
+                    source: image
                 }
                 Item {
                     id: botEmpty

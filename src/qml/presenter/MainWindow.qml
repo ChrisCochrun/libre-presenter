@@ -175,6 +175,7 @@ Controls.Page {
                 videoEditor.visible = false;
                 videoEditor.stop();
                 songEditor.visible = false;
+                imageEditor.visible = false;
                 presentation.visible = true;
                 editMode = false;
             }
