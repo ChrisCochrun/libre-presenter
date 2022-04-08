@@ -4,12 +4,8 @@
 :END:
 
 * Inbox
-** TODO BUG in dropping and then selecting song will duplicate entries :dev:
-SCHEDULED: <2022-04-05 Tue>
-[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::Layout.fillHeight: true]]
-
-or at least turns the entry above it into the same as itself while retaining it's title?
-
+** TODO Make an image sql model
+[[file:~/dev/church-presenter/src/videosqlmodel.h::ifndef VIDEOSQLMODEL_H]]
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 
@@ -52,6 +48,12 @@ or at least turns the entry above it into the same as itself while retaining it'
 
 ** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>
+
+** DONE BUG in dropping and then selecting song will duplicate entries :dev:
+SCHEDULED: <2022-04-05 Tue>
+[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::Layout.fillHeight: true]]
+
+or at least turns the entry above it into the same as itself while retaining it's title?
 
 ** DONE Make nextSlideText a nextAction function to incorporate other types of items
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlideText() {]]

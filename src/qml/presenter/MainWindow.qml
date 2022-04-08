@@ -66,14 +66,21 @@ Controls.Page {
                     id: presentation
                     anchors.fill: parent
                 }
+
                 Presenter.SongEditor {
                     id: songEditor
                     visible: false
                     anchors.fill: parent
                 }
-                
+
                 Presenter.VideoEditor {
                     id: videoEditor
+                    visible: false
+                    anchors.fill: parent
+                }
+
+                Presenter.ImageEditor {
+                    id: imageEditor
                     visible: false
                     anchors.fill: parent
                 }
@@ -100,6 +107,10 @@ Controls.Page {
 
     VideoSqlModel {
         id: videosqlmodel
+    }
+
+    ImageSqlModel {
+        id: imagesqlmodel
     }
 
     ServiceItemModel {
@@ -141,19 +152,24 @@ Controls.Page {
                 presentation.visible = false;
                 videoEditor.visible = false;
                 videoEditor.stop();
+                imageEditor.visible = false;
                 songEditor.visible = true;
                 songEditor.changeSong(item);
                 break;
             case "video" :
                 presentation.visible = false;
                 songEditor.visible = false;
+                imageEditor.visible = false;
                 videoEditor.visible = true;
                 videoEditor.changeVideo(item);
                 break;
             case "image" :
-                mainPageArea.pop(Controls.StackView.Immediate);
-                mainPageArea.push(imageEditorComp, Controls.StackView.Immediate);
+                presentation.visible = false;
+                videoEditor.visible = false;
                 videoEditor.stop();
+                songEditor.visible = false;
+                imageEditor.visible = true;
+                imageEditor.changeImage(item);
                 break;
             default:
                 videoEditor.visible = false;

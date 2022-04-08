@@ -8,6 +8,9 @@ import "./" as Presenter
 Item {
     id: root
 
+    property string type: "image"
+    property var image
+
     GridLayout {
         id: mainLayout
         anchors.fill: parent
@@ -83,15 +86,15 @@ Item {
                         border.color: Kirigami.Theme.activeBackgroundColor
                         border.width: 2
                     }
-                    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                    closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent
                     ColumnLayout {
                         anchors.fill: parent
                         Controls.ToolButton {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
-                            text: "Video"
-                            icon.name: "emblem-videos-symbolic"
-                            onClicked: videoFileDialog.open() & backgroundType.close()
+                            text: "Image"
+                            icon.name: "emblem-images-symbolic"
+                            onClicked: imageFileDialog.open() & backgroundType.close()
                         }
                         Controls.ToolButton {
                             Layout.fillWidth: true
@@ -121,11 +124,11 @@ Item {
             
             ColumnLayout {
                 Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 500
-                Controls.SplitView.minimumWidth: 500
+                Controls.SplitView.preferredWidth: 300
+                Controls.SplitView.minimumWidth: 100
 
                 Controls.TextField {
-                    id: songTitleField
+                    id: imageTitleField
 
                     Layout.preferredWidth: 300
                     Layout.fillWidth: true
@@ -133,98 +136,46 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Song Title..."
-                    text: songTitle
+                    text: "idk"
                     padding: 10
-                    onEditingFinished: updateTitle(text);
-                }
-                Controls.TextField {
-                    id: songVorderField
-
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    placeholderText: "verse order..."
-                    text: songVorder
-                    padding: 10
-                    onEditingFinished: updateVerseOrder(text);
+                    /* onEditingFinished: updateTitle(text); */
                 }
 
-                Controls.ScrollView {
-                    id: songLyricsField
-
-                    Layout.preferredHeight: 3000
-                    Layout.fillWidth: true
+                Item {
+                    id: empty
                     Layout.fillHeight: true
-                    Layout.leftMargin: 20
-
-                    rightPadding: 20
-
-                    Controls.TextArea {
-                        id: lyricsEditor
-                        width: parent.width
-                        placeholderText: "Put lyrics here..."
-                        persistentSelection: true
-                        text: songLyrics
-                        textFormat: TextEdit.MarkdownText
-                        padding: 10
-                        onEditingFinished: {
-                            updateLyrics(text);
-                            editorTimer.running = false;
-                        }
-                        onPressed: editorTimer.running = true
-                    }
                 }
-                Controls.TextField {
-                    id: songAuthorField
-
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 300
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    placeholderText: "Author..."
-                    text: songAuthor
-                    padding: 10
-                    onEditingFinished: updateAuthor(text)
-                }
-
             }
             ColumnLayout {
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.preferredWidth: 700
                 Controls.SplitView.minimumWidth: 300
+                spacing: 5
 
-                Rectangle {
-                    id: slideBar
-                    color: Kirigami.Theme.highlightColor
-
-                    Layout.preferredWidth: 500
-                    Layout.preferredHeight: songTitleField.height
-                    Layout.rightMargin: 20
-                    Layout.leftMargin: 20
+                Item {
+                    id: topEmpty
+                    Layout.fillHeight: true
                 }
 
-                Presenter.SlideEditor {
-                    id: slideEditor
-                    Layout.preferredWidth: 500
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: slideEditor.width / 16 * 9
-                    Layout.bottomMargin: 30
-                    Layout.rightMargin: 20
-                    Layout.leftMargin: 20
+                Image {
+                    id: imagePreview
+                    Layout.preferredWidth: 600
+                    Layout.preferredHeight: Layout.preferredWidth / 16 * 9
+                    Layout.alignment: Qt.AlignCenter
+                    fillMode: Image.PreserveAspectFit
+                    source: "file://" + image.toString()
+                }
+                Item {
+                    id: botEmpty
+                    Layout.fillHeight: true
                 }
 
             }
+        }
     }
 
+    function changeImage(image) {
+        root.image = image;
+        print(image.toString());
     }
-        Timer {
-            id: editorTimer
-            interval: 1000
-            repeat: true
-            running: false
-            onTriggered: updateLyrics(lyricsEditor.text)
-        }
 }

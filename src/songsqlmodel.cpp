@@ -39,14 +39,14 @@ static void createTable()
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
   }
-  qDebug() << query.lastQuery();
-  qDebug() << "inserting into songs";
+  // qDebug() << query.lastQuery();
+  // qDebug() << "inserting into songs";
 
   query.exec(
       "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
       "background, backgroundType, textAlignment) VALUES ('10,000 Reasons', '10,000 reasons "
       "for my heart to sing', 'Matt Redman', '13470183', '', '', '', '', 'center')");
-  qDebug() << query.lastQuery();
+  // qDebug() << query.lastQuery();
   query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
              "background, backgroundType, textAlignment) VALUES ('River', 'Im going down to "
              "the river', 'Jordan Feliz', '13470183', '', '', '', '', 'center')");
@@ -55,15 +55,15 @@ static void createTable()
       "background, backgroundType, textAlignment) VALUES ('Marvelous Light', 'Into marvelous "
       "light Im running', 'Chris Tomlin', '13470183', '', '', '', '', 'center')");
 
-  qDebug() << query.lastQuery();
+  // qDebug() << query.lastQuery();
   query.exec("select * from songs");
-  qDebug() << query.lastQuery();
+  // qDebug() << query.lastQuery();
 }
 
 SongSqlModel::SongSqlModel(QObject *parent)
     : QSqlTableModel(parent)
 {
-  qDebug() << "creating table";
+  // qDebug() << "creating table";
   createTable();
   setTable(songsTableName);
   setEditStrategy(QSqlTableModel::OnManualSubmit);

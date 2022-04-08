@@ -7,6 +7,7 @@ target_sources(presenter
  serviceitemmodel.cpp serviceitemmodel.h
  serviceitem.cpp serviceitem.h
  videosqlmodel.cpp videosqlmodel.h
+ imagesqlmodel.cpp imagesqlmodel.h
  mpv/mpvobject.h mpv/mpvobject.cpp
  mpv/qthelper.hpp mpv/mpvhelpers.h
 )

@@ -37,6 +37,7 @@
 #include "serviceitemmodel.h"
 #include "songsqlmodel.h"
 #include "videosqlmodel.h"
+#include "imagesqlmodel.h"
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -98,6 +99,7 @@ int main(int argc, char *argv[])
   //register our models
   qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
+  qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
 
   connectToDatabase();

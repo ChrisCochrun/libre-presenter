@@ -1,5 +1,5 @@
-#ifndef VIDEOSQLMODEL_H
-#define VIDEOSQLMODEL_H
+#ifndef IMAGESQLMODEL_H
+#define IMAGESQLMODEL_H
 
 #include <QSqlTableModel>
 #include <qobject.h>
@@ -8,7 +8,7 @@
 #include <qurl.h>
 #include <qvariant.h>
 
-class VideoSqlModel : public QSqlTableModel
+class ImageSqlModel : public QSqlTableModel
 {
   Q_OBJECT
   Q_PROPERTY(int id READ id)
@@ -17,7 +17,7 @@ class VideoSqlModel : public QSqlTableModel
   QML_ELEMENT
 
 public:
-  VideoSqlModel(QObject *parent = 0);
+    ImageSqlModel(QObject *parent = 0);
 
   int id() const;
   QString title() const;
@@ -29,9 +29,9 @@ public:
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateFilePath(const int &row, const QUrl &filePath);
 
-  Q_INVOKABLE void newVideo(const QUrl &filePath);
-  Q_INVOKABLE void deleteVideo(const int &row);
-  Q_INVOKABLE QVariantList getVideo(const int &row);
+  Q_INVOKABLE void newImage(const QUrl &filePath);
+  Q_INVOKABLE void deleteImage(const int &row);
+  Q_INVOKABLE QUrl getImage(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;
@@ -46,4 +46,4 @@ private:
     QUrl m_filePath;
 };
 
-#endif //VIDEOSQLMODEL_H
+#endif //IMAGESQLMODEL_H

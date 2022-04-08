@@ -116,15 +116,12 @@ Qt::ItemFlags ServiceItemModel::flags(const QModelIndex &index) const {
 
 void ServiceItemModel::addItem(ServiceItem *item) {
   const int index = m_items.size();
-  qDebug() << index;
+  // qDebug() << index;
   // foreach (item, m_items) {
   //   qDebug() << item;
   // }
   beginInsertRows(QModelIndex(), index, index);
   m_items.append(item);
-  foreach (item, m_items) {
-    qDebug() << item;
-  }
   endInsertRows();
 }
 
