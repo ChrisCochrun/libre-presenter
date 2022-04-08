@@ -152,6 +152,19 @@ Item {
         }
     }
 
+    function changeSlide() {
+        if (itemType === "song") {
+            previewSlide.text = root.text[textIndex];
+            print(root.text[textIndex]);
+            textIndex++;
+        } else if (itemType === "video") {
+            clearText();
+        }
+        else if (itemType === "image") {
+            clearText();
+        }
+    }
+
     function nextSlide() {
         currentServiceItem++;
         changeServiceItem(currentServiceItem);

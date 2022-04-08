@@ -108,6 +108,7 @@ Controls.Page {
 
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
+        print("index grabbed: " + index);
 
         presentation.stopVideo()
         presentation.itemType = item.type;
@@ -128,7 +129,7 @@ Controls.Page {
         else
             presentation.text = item.text;
         presentation.textIndex = 0;
-        presentation.nextSlideAction();
+        presentation.changeSlide();
 
         print("Slide changed to: " + item.name);
     }
