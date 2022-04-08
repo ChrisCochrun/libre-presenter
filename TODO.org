@@ -6,8 +6,10 @@
 * Inbox
 ** TODO Images stored in sql need to have aspect saved and applied dynamically here
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
-** TODO Make an image sql model
+
+** DONE Make an image sql model
 [[file:~/dev/church-presenter/src/videosqlmodel.h::ifndef VIDEOSQLMODEL_H]]
+
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 
@@ -22,7 +24,7 @@
 
 - [ ] Will likely need to modify the model to persist the effects stored to the songs. Alignment is done, need vertical alignment, font, and effects
 
-** TODO Finish toolbar
+** TODO Finish toolbar in presentation display
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
 
 ** TODO Find a way to maths the textsize
