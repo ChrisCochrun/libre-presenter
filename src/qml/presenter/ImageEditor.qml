@@ -43,18 +43,6 @@ Item {
                     implicitWidth: 100
                     hoverEnabled: true
                 }
-                Controls.ToolButton {
-                    text: "B"
-                    hoverEnabled: true
-                }
-                Controls.ToolButton {
-                    text: "I"
-                    hoverEnabled: true
-                }
-                Controls.ToolButton {
-                    text: "U"
-                    hoverEnabled: true
-                }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
@@ -66,7 +54,7 @@ Item {
                 }
                 Controls.ToolButton {
                     id: backgroundButton
-                    text: "Background"
+                    text: "Select Image"
                     icon.name: "fileopen"
                     hoverEnabled: true
                     onClicked: backgroundType.open()
@@ -175,7 +163,7 @@ Item {
     }
 
     function changeImage(image) {
-        root.image = image;
-        print(image.toString());
+        root.image = image.filePath;
+        print(image.filePath.toString());
     }
 }

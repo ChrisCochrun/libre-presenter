@@ -820,7 +820,7 @@ Item {
                 videoLibraryList.currentIndex = videosqlmodel.rowCount();
                 print(videosqlmodel.getVideo(videoLibraryList.currentIndex));
                 const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
-                showPassiveNotification("newest video: " + video);
+                showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
                     editMode = true;
                 editSwitch("video", video);

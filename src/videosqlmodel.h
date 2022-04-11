@@ -31,7 +31,7 @@ public:
 
   Q_INVOKABLE void newVideo(const QUrl &filePath);
   Q_INVOKABLE void deleteVideo(const int &row);
-  Q_INVOKABLE QVariantList getVideo(const int &row);
+  Q_INVOKABLE QVariantMap getVideo(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;

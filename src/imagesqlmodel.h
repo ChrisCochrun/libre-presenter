@@ -31,7 +31,7 @@ public:
 
   Q_INVOKABLE void newImage(const QUrl &filePath);
   Q_INVOKABLE void deleteImage(const int &row);
-  Q_INVOKABLE QUrl getImage(const int &row);
+  Q_INVOKABLE QVariantMap getImage(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;

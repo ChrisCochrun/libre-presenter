@@ -138,7 +138,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Song Title..."
-                    text: video[0]
+                    text: video.title
                     padding: 10
                     /* onEditingFinished: updateTitle(text); */
                 }
@@ -170,7 +170,7 @@ Item {
                     Component.onCompleted: mpvLoadingTimer.start()
                     onPositionChanged: videoSlider.value = position
                     onFileLoaded: {
-                        showPassiveNotification(video[0] + " has been loaded");
+                        showPassiveNotification(video.title + " has been loaded");
                         videoPreview.pause();
                     }
                 }
@@ -220,7 +220,7 @@ Item {
         id: mpvLoadingTimer
         interval: 100
         onTriggered: {
-            videoPreview.loadFile(video[1].toString());
+            videoPreview.loadFile(video.filePath.toString());
             /* showPassiveNotification(video[0]); */
         }
     }

@@ -157,13 +157,28 @@ void ImageSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   emit filePathChanged();
 }
 
-QUrl ImageSqlModel::getImage(const int &row) {
-  qDebug() << "Row we are getting is " << row;
-  QUrl image;
-  QSqlRecord rec = record(row);
-  qDebug() << rec.value("filePath").toUrl();
-  // image.append(rec.value("title"));
-  // image.append(rec.value("filePath"));
-  image = rec.value("filePath").toUrl();
-  return image;
+QVariantMap ImageSqlModel::getImage(const int &row) {
+  // qDebug() << "Row we are getting is " << row;
+  // QUrl image;
+  // QSqlRecord rec = record(row);
+  // qDebug() << rec.value("filePath").toUrl();
+  // // image.append(rec.value("title"));
+  // // image.append(rec.value("filePath"));
+  // image = rec.value("filePath").toUrl();
+  // return image;
+
+  QVariantMap data;
+  const QModelIndex idx = this->index(row,0);
+  // qDebug() << idx;
+  if( !idx.isValid() )
+    return data;
+  const QHash<int,QByteArray> rn = roleNames();
+  // qDebug() << rn;
+  QHashIterator<int,QByteArray> it(rn);
+  while (it.hasNext()) {
+    it.next();
+    qDebug() << it.key() << ":" << it.value();
+    data[it.value()] = idx.data(it.key());
+  }
+  return data;
 }
