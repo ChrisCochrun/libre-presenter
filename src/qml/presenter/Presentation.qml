@@ -79,7 +79,7 @@ Item {
             Layout.alignment: Qt.AlignRight
             MouseArea {
                 anchors.fill: parent
-                onPressed: changeSlidePrevious()
+                onPressed: previousSlideAction()
                 cursorShape: Qt.PointingHandCursor
             }
         }
@@ -152,6 +152,20 @@ Item {
         }
     }
 
+    function nextSlide() {
+        changeServiceItem(currentServiceItem++);
+        print(slideItem);
+    }
+
+    function previousSlideAction() {
+
+    }
+
+    function previousSlide() {
+        changeServiceItem(--currentServiceItem);
+        print(slideItem);
+    }
+
     function changeSlide() {
         if (itemType === "song") {
             previewSlide.text = root.text[textIndex];
@@ -163,12 +177,6 @@ Item {
         else if (itemType === "image") {
             clearText();
         }
-    }
-
-    function nextSlide() {
-        currentServiceItem++;
-        changeServiceItem(currentServiceItem);
-        print(slideItem);
     }
 
     function clearText() {

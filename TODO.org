@@ -4,6 +4,8 @@
 :END:
 
 * Inbox
+** TODO implement previousSlide and previousAction
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
 ** TODO Check for edge cases in inputing wrong vorder and lyrics
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
 
