@@ -17,7 +17,7 @@ class ImageSqlModel : public QSqlTableModel
   QML_ELEMENT
 
 public:
-    ImageSqlModel(QObject *parent = 0);
+  ImageSqlModel(QObject *parent = 0);
 
   int id() const;
   QString title() const;

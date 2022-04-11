@@ -124,7 +124,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Song Title..."
-                    text: "idk"
+                    text: image.title
                     padding: 10
                     /* onEditingFinished: updateTitle(text); */
                 }
@@ -151,7 +151,7 @@ Item {
                     Layout.preferredHeight: Layout.preferredWidth / 16 * 9
                     Layout.alignment: Qt.AlignCenter
                     fillMode: Image.PreserveAspectFit
-                    source: image
+                    source: image.filePath
                 }
                 Item {
                     id: botEmpty
@@ -163,7 +163,7 @@ Item {
     }
 
     function changeImage(image) {
-        root.image = image.filePath;
+        root.image = image;
         print(image.filePath.toString());
     }
 }
