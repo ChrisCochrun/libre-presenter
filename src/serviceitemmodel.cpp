@@ -116,7 +116,7 @@ Qt::ItemFlags ServiceItemModel::flags(const QModelIndex &index) const {
 
 void ServiceItemModel::addItem(ServiceItem *item) {
   const int index = m_items.size();
-  // qDebug() << index;
+  qDebug() << index;
   // foreach (item, m_items) {
   //   qDebug() << item;
   // }
@@ -179,15 +179,19 @@ void ServiceItemModel::removeItem(int index) {
 }
 
 bool ServiceItemModel::move(int sourceIndex, int destIndex) {
-  qDebug() << "starting move of: " << "source: " << sourceIndex << "dest: " << destIndex;
   qDebug() << index(sourceIndex).row();
   qDebug() << index(destIndex).row();
-  // QModelIndex parent = index(sourceIndex).parent();
-  // bool begsuc = beginMoveRows(parent, sourceIndex, sourceIndex, parent, destIndex);
-  beginResetModel();
-  m_items.move(sourceIndex, destIndex);
-  // endMoveRows();
-  endResetModel();
+  // beginResetModel();
+  QModelIndex parent = index(sourceIndex).parent();
+  if (sourceIndex >= 0 && sourceIndex != destIndex && destIndex >= 0 && destIndex < rowCount() && sourceIndex < rowCount()) {
+    qDebug() << "starting move of: " << "source: " << sourceIndex << "dest: " << destIndex;
+    bool begsuc = beginMoveRows(QModelIndex(), sourceIndex, sourceIndex, QModelIndex(), destIndex);
+    if (begsuc)
+      m_items.move(sourceIndex, destIndex);
+    endMoveRows();
+  }
+  // endResetModel();
+  // emit dataChanged(index(sourceIndex), QModelIndex());
   // qDebug() << success;
   return true;
 }

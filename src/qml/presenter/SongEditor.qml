@@ -39,7 +39,7 @@ Item {
                     implicitWidth: 300
                     editable: true
                     hoverEnabled: true
-                    onCurrentTextChanged: showPassiveNotification(currentText)
+                    /* onCurrentTextChanged: showPassiveNotification(currentText) */
                 }
                 Controls.SpinBox {
                     editable: true

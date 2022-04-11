@@ -56,12 +56,15 @@ Item {
         property int mouseDownY
         property Item originalParent
         property int autoScrollThreshold: (listView.contentHeight > listView.height) ? listItem.height * 3 : 0
-        opacity: mouseArea.pressed || (!Kirigami.Settings.tabletMode && listItem.hovered) ? 1 : 0.6
 
         function arrangeItem() {
-            var newIndex = listView.indexAt(1, listView.contentItem.mapFromItem(listItem, 0, 0).y + mouseArea.mouseDownY);
+            var newIndex = listView.indexAt(1,
+                                            listView.contentItem.mapFromItem(listItem, 0, 0).y +
+                                            mouseArea.mouseDownY);
 
-            if (Math.abs(listItem.y - mouseArea.startY) > height && newIndex > -1 && newIndex !== index) {
+            if (Math.abs(listItem.y - mouseArea.startY) > height && newIndex > -1 &&
+                newIndex !== index) {
+                print("old index is: " + index + " and new index is: " + newIndex);
                 root.moveRequested(index, newIndex);
             }
         }
