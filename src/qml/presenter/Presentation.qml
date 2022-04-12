@@ -160,7 +160,7 @@ Item {
             } else if (textIndex <= root.text.length) {
                 previewSlide.text = root.text[textIndex];
                 print(root.text[textIndex]);
-                --textIndex
+                --textIndex;
             }
         } else if (itemType === "video") {
             clearText();

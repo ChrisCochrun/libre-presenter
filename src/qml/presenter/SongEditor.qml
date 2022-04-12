@@ -19,6 +19,7 @@ Item {
     property string songBackground
     property string songBackgroundType
     property string songHAlignment
+    property string songVAlignment
 
     GridLayout {
         id: mainLayout
@@ -48,16 +49,18 @@ Item {
                     hoverEnabled: true
                 }
                 Controls.ComboBox {
+                    id: hAlignmentBox
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
                     hoverEnabled: true
-                    onCurrentTextChanged: updateTextAlignment(currentText.toLowerCase());
+                    onCurrentTextChanged: updateHorizontalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ComboBox {
+                    id: vAlignmentBox
                     model: ["Top", "Center", "Bottom"]
                     implicitWidth: 100
                     hoverEnabled: true
-                    onCurrentTextChanged: print(currentText.toLowerCase());
+                    onCurrentTextChanged: updateVerticalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ToolButton {
                     text: "B"
@@ -226,7 +229,6 @@ Item {
                     Layout.bottomMargin: 30
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
-                    textAlignment: songHAlignment
                 }
             }
         }
@@ -285,7 +287,9 @@ Item {
         songVorder = song.vorder;
         songBackground = song.background;
         songBackgroundType = song.backgroundType;
-        songHAlignment = song.textAlignment;
+        songHAlignment = song.horizontalTextAlignment;
+        songVAlignment = song.verticalTextAlignment;
+
         if (songBackgroundType == "image") {
             slideEditor.videoBackground = "";
             slideEditor.imageBackground = songBackground;
@@ -294,6 +298,10 @@ Item {
             slideEditor.videoBackground = songBackground;
             slideEditor.loadVideo();
         }
+
+        changeSlideHAlignment(songHAlignment);
+        changeSlideVAlignment(songVAlignment);
+
         print(song);
     }
 
@@ -328,7 +336,54 @@ Item {
         print("changed background");
     }
 
-    function updateTextAlignment(textAlignment) {
-        songsqlmodel.updateTextAlignment(songIndex, textAlignment)
+
+    function updateHorizontalTextAlignment(textAlignment) {
+        changeSlideHAlignment(textAlignment);
+        songsqlmodel.updateHorizontalTextAlignment(songIndex, textAlignment);
+    }
+
+    function updateVerticalTextAlignment(textAlignment) {
+        changeSlideVAlignment(textAlignment);
+        songsqlmodel.updateVerticalTextAlignment(songIndex, textAlignment)
+    }
+
+    function changeSlideHAlignment(alignment) {
+        print("AHHHHHHHHHHH")
+        switch (alignment) {
+        case "left" :
+            hAlignmentBox.currentIndex = 0;
+            slideEditor.hTextAlignment = Text.AlignLeft;
+            break;
+        case "center" :
+            hAlignmentBox.currentIndex = 1;
+            slideEditor.hTextAlignment = Text.AlignHCenter;
+            break;
+        case "right" :
+            hAlignmentBox.currentIndex = 2;
+            slideEditor.hTextAlignment = Text.AlignRight;
+            break;
+        case "justify" :
+            hAlignmentBox.currentIndex = 3;
+            slideEditor.hTextAlignment = Text.AlignJustify;
+            break;
+        }
+    }
+
+    function changeSlideVAlignment(alignment) {
+        print("AHHHHHHHHHHH")
+        switch (alignment) {
+        case "top" :
+            vAlignmentBox.currentIndex = 0;
+            slideEditor.vTextAlignment = Text.AlignBottom;
+            break;
+        case "center" :
+            vAlignmentBox.currentIndex = 1;
+            slideEditor.vTextAlignment = Text.AlignVCenter;
+            break;
+        case "bottom" :
+            vAlignmentBox.currentIndex = 2;
+            slideEditor.vTextAlignment = Text.AlignBottom;
+            break;
+        }
     }
 }

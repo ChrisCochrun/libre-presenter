@@ -22,8 +22,8 @@ Item {
     property string chosenFont: "Quicksand"
     property var text: "This is demo text"
     property color backgroundColor
-    property var horizontalAlignment
-    property var verticalAlignment
+    property var horizontalAlignment: Text.AlignHCenter
+    property var verticalAlignment: Text.AlignVCenter
 
     //these properties are for giving video info to parents
     property int mpvPosition: mpv.position
@@ -119,8 +119,8 @@ Item {
                 /* minimumPointSize: 5 */
                 fontSizeMode: Text.Fit
                 font.family: chosenFont
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: horizontalAlignment
+                verticalAlignment: verticalAlignment
                 style: Text.Raised
                 anchors.fill: parent
                 clip: true

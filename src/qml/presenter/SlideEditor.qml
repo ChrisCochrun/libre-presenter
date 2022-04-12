@@ -13,7 +13,8 @@ Item {
 
     property string imageBackground
     property string videoBackground
-    property string textAlignment
+    property var hTextAlignment
+    property var vTextAlignment
 
     Presenter.Slide {
         id: representation
@@ -22,14 +23,17 @@ Item {
         editMode: true
         imageSource: imageBackground
         videoSource: videoBackground
+        horizontalAlignment: hTextAlignment
+        verticalAlignment: vTextAlignment
         preview: true
     }
 
-    Component.onCompleted: updateHAlignment(textAlignment)
+    Component.onCompleted: {
+    }
 
     function loadVideo() {
         representation.loadVideo();
-        representation.pause();
+        representation.pauseVideo();
     }
 
     function updateHAlignment(alignment) {
@@ -45,6 +49,20 @@ Item {
             break;
         case "justify" :
             representation.horizontalAlignment = Text.AlignJustify;
+            break;
+        }
+    }
+
+    function updateVAlignment(alignment) {
+        switch (alignment) {
+        case "top" :
+            representation.verticalAlignment = Text.AlignBottom;
+            break;
+        case "center" :
+            representation.verticalAlignment = Text.AlignVCenter;
+            break;
+        case "bottom" :
+            representation.verticalAlignment = Text.AlignBottom;
             break;
         }
     }
