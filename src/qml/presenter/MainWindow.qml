@@ -134,6 +134,7 @@ Controls.Page {
             presentation.loadVideo()
         }
 
+        print(item.text.length)
         if (item.text.length === 0) {
             presentation.text = [""];
         }

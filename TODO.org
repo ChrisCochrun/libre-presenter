@@ -4,8 +4,9 @@
 :END:
 
 * Inbox
-** TODO implement previousSlide and previousAction
-[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
+** TODO bug in changing slides with the arrows
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
+
 ** TODO Check for edge cases in inputing wrong vorder and lyrics
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
 
@@ -56,6 +57,9 @@
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::function appendItem(name, type, background, backgroundType, text, itemID) {]]
 
 This was due to the song not having a vorder. Need to protect from edge cases of the user inputing the formatted text that doesn't fit what's expected in code.
+
+** DONE implement previousSlide and previousAction
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
 
 ** DONE Need to make ListModel capable of bringing in a string list [2/2] [100%]
 - [X] Create a Model

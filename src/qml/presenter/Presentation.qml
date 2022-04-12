@@ -55,13 +55,6 @@ Item {
                     hoverEnabled: true
                     onClicked: {}
                 }
-                Controls.ToolButton {
-                    id: backgroundButton
-                    text: "Background"
-                    icon.name: "fileopen"
-                    hoverEnabled: true
-                    onClicked: backgroundType.open()
-                }
             }
         }
 
@@ -127,6 +120,7 @@ Item {
     }
 
     function nextSlideAction() {
+        print(textIndex);
         if (itemType === "song") {
             if (textIndex === 0) {
                 previewSlide.text = root.text[textIndex];
@@ -158,7 +152,24 @@ Item {
     }
 
     function previousSlideAction() {
-
+        print(textIndex);
+        if (itemType === "song") {
+            if (textIndex === 0) {
+                clearText();
+                nextSlide();
+            } else if (textIndex <= root.text.length) {
+                previewSlide.text = root.text[textIndex];
+                print(root.text[textIndex]);
+                --textIndex
+            }
+        } else if (itemType === "video") {
+            clearText();
+            previousSlide();
+        }
+        else if (itemType === "image") {
+            clearText();
+            previousSlide();
+        }
     }
 
     function previousSlide() {
