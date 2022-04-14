@@ -23,8 +23,8 @@ Item {
         editMode: true
         imageSource: imageBackground
         videoSource: videoBackground
-        horizontalAlignment: hTextAlignment
-        verticalAlignment: vTextAlignment
+        hTextAlignment: root.hTextAlignment
+        vTextAlignment: root.vTextAlignment
         preview: true
     }
 
@@ -56,7 +56,7 @@ Item {
     function updateVAlignment(alignment) {
         switch (alignment) {
         case "top" :
-            representation.verticalAlignment = Text.AlignBottom;
+            representation.verticalAlignment = Text.AlignTop;
             break;
         case "center" :
             representation.verticalAlignment = Text.AlignVCenter;

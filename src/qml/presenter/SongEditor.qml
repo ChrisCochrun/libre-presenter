@@ -53,14 +53,14 @@ Item {
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
                     hoverEnabled: true
-                    onCurrentTextChanged: updateHorizontalTextAlignment(currentText.toLowerCase());
+                    onActivated: updateHorizontalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ComboBox {
                     id: vAlignmentBox
                     model: ["Top", "Center", "Bottom"]
                     implicitWidth: 100
                     hoverEnabled: true
-                    onCurrentTextChanged: updateVerticalTextAlignment(currentText.toLowerCase());
+                    onActivated: updateVerticalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ToolButton {
                     text: "B"
@@ -290,6 +290,8 @@ Item {
         songHAlignment = song.horizontalTextAlignment;
         songVAlignment = song.verticalTextAlignment;
 
+        alignmentSetTimer.restart();
+
         if (songBackgroundType == "image") {
             slideEditor.videoBackground = "";
             slideEditor.imageBackground = songBackground;
@@ -338,17 +340,20 @@ Item {
 
 
     function updateHorizontalTextAlignment(textAlignment) {
+        if (alignmentSetTimer.running)
+            return;
         changeSlideHAlignment(textAlignment);
         songsqlmodel.updateHorizontalTextAlignment(songIndex, textAlignment);
     }
 
     function updateVerticalTextAlignment(textAlignment) {
+        if (alignmentSetTimer.running)
+            return;
         changeSlideVAlignment(textAlignment);
         songsqlmodel.updateVerticalTextAlignment(songIndex, textAlignment)
     }
 
     function changeSlideHAlignment(alignment) {
-        print("AHHHHHHHHHHH")
         switch (alignment) {
         case "left" :
             hAlignmentBox.currentIndex = 0;
@@ -370,11 +375,10 @@ Item {
     }
 
     function changeSlideVAlignment(alignment) {
-        print("AHHHHHHHHHHH")
         switch (alignment) {
         case "top" :
             vAlignmentBox.currentIndex = 0;
-            slideEditor.vTextAlignment = Text.AlignBottom;
+            slideEditor.vTextAlignment = Text.AlignTop;
             break;
         case "center" :
             vAlignmentBox.currentIndex = 1;
