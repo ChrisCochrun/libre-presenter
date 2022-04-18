@@ -4,8 +4,20 @@
 :END:
 
 * Inbox
+** TODO Make toolbar functional for songeditor [1/4] [25%]
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
+
+- [X] alignment
+- [ ] font
+- [ ] fontsize
+- [ ] effects?
+
 ** TODO bug in changing slides with the arrows
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
+
+slides are inconsistent in changing from one slide to the next or previous. Both functions need looked at.
+
+Maybe my best solution would be to architect a model or class for both the presentation controller and the presentation window to follow and do all the heavy lifting in there.
 
 ** TODO Check for edge cases in inputing wrong vorder and lyrics
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
@@ -25,11 +37,6 @@
 
 ** TODO [#A] Make Presentation Window follow the presenter component
 [[file:~/dev/church-presenter/src/qml/presenter/MainWindow.qml::Presenter.Slide {]]
-
-** TODO Make toolbar functional for songeditor
-[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
-
-- [ ] Will likely need to modify the model to persist the effects stored to the songs. Alignment is done, need vertical alignment, font, and effects
 
 ** TODO Finish toolbar in presentation display
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
