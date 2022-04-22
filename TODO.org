@@ -4,12 +4,12 @@
 :END:
 
 * Inbox
-** TODO Make toolbar functional for songeditor [1/4] [25%]
+** TODO Make toolbar functional for songeditor [3/4] [75%]
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
 - [X] alignment
-- [ ] font
-- [ ] fontsize
+- [X] font
+- [X] fontsize
 - [ ] effects?
 
 ** TODO bug in changing slides with the arrows

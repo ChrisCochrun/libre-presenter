@@ -10,16 +10,7 @@ Item {
     id: root
 
     property int songIndex
-    property string songTitle
-    property string songLyrics
-    property string songAuthor
-    property string songCcli
-    property string songAudio
-    property string songVorder
-    property string songBackground
-    property string songBackgroundType
-    property string songHAlignment
-    property string songVAlignment
+    property var song
 
     GridLayout {
         id: mainLayout
@@ -40,7 +31,7 @@ Item {
                     implicitWidth: 300
                     editable: true
                     hoverEnabled: true
-                    /* onCurrentTextChanged: showPassiveNotification(currentText) */
+                    onCurrentTextChanged: showPassiveNotification(currentText)
                 }
                 Controls.SpinBox {
                     editable: true
@@ -158,7 +149,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Song Title..."
-                    text: songTitle
+                    text: song.title
                     padding: 10
                     onEditingFinished: updateTitle(text);
                 }
@@ -171,7 +162,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "verse order..."
-                    text: songVorder
+                    text: song.vorder
                     padding: 10
                     onEditingFinished: updateVerseOrder(text);
                 }
@@ -191,7 +182,7 @@ Item {
                         width: parent.width
                         placeholderText: "Put lyrics here..."
                         persistentSelection: true
-                        text: songLyrics
+                        text: song.lyrics
                         textFormat: TextEdit.PlainText
                         padding: 10
                         onEditingFinished: {
@@ -210,7 +201,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Author..."
-                    text: songAuthor
+                    text: song.author
                     padding: 10
                     onEditingFinished: updateAuthor(text)
                 }
@@ -277,32 +268,20 @@ Item {
     }
 
     function changeSong(index) {
-        const song = songsqlmodel.getSong(index);
+        song = songsqlmodel.getSong(index);
         songIndex = index;
-        songTitle = song.title;
-        songLyrics = song.lyrics;
-        songAuthor = song.author;
-        songCcli = song.ccli;
-        songAudio = song.audio;
-        songVorder = song.vorder;
-        songBackground = song.background;
-        songBackgroundType = song.backgroundType;
-        songHAlignment = song.horizontalTextAlignment;
-        songVAlignment = song.verticalTextAlignment;
-
-        alignmentSetTimer.restart();
 
         if (songBackgroundType == "image") {
             slideEditor.videoBackground = "";
-            slideEditor.imageBackground = songBackground;
+            slideEditor.imageBackground = song.background;
         } else {
             slideEditor.imageBackground = "";
-            slideEditor.videoBackground = songBackground;
+            slideEditor.videoBackground = song.background;
             slideEditor.loadVideo();
         }
 
-        changeSlideHAlignment(songHAlignment);
-        changeSlideVAlignment(songVAlignment);
+        changeSlideHAlignment(song.horizontalTextAlignment);
+        changeSlideVAlignment(song.verticalTextAlignment);
 
         print(song);
     }

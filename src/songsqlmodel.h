@@ -20,6 +20,8 @@ class SongSqlModel : public QSqlTableModel
   Q_PROPERTY(QString backgroundType READ backgroundType WRITE setBackgroundType NOTIFY backgroundTypeChanged)
   Q_PROPERTY(QString horizontalTextAlignment READ horizontalTextAlignment WRITE setHorizontalTextAlignment NOTIFY horizontalTextAlignmentChanged)
   Q_PROPERTY(QString verticalTextAlignment READ verticalTextAlignment WRITE setVerticalTextAlignment NOTIFY verticalTextAlignmentChanged)
+  Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
+  Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   QML_ELEMENT
 
 public:
@@ -36,6 +38,8 @@ public:
   QString backgroundType() const;
   QString horizontalTextAlignment() const;
   QString verticalTextAlignment() const;
+  QString font() const;
+  int fontSize() const;
 
   void setTitle(const QString &title);
   void setLyrics(const QString &lyrics);
@@ -45,8 +49,10 @@ public:
   void setVerseOrder(const QString &vorder);
   void setBackground(const QString &background);
   void setBackgroundType(const QString &backgroundType);
-  void setHorizontalTextAlignment(const QString &background);
-  void setVerticalTextAlignment(const QString &background);
+  void setHorizontalTextAlignment(const QString &horizontalTextAlignment);
+  void setVerticalTextAlignment(const QString &verticalTextAlignment);
+  void setFont(const QString &font);
+  void setFontSize(const int &fontSize);
 
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateLyrics(const int &row, const QString &lyrics);
@@ -58,6 +64,8 @@ public:
   Q_INVOKABLE void updateBackgroundType(const int &row, const QString &backgroundType);
   Q_INVOKABLE void updateHorizontalTextAlignment(const int &row, const QString &horizontalTextAlignment);
   Q_INVOKABLE void updateVerticalTextAlignment(const int &row, const QString &horizontalTextAlignment);
+  Q_INVOKABLE void updateFont(const int &row, const QString &font);
+  Q_INVOKABLE void updateFontSize(const int &row, const int &fontSize);
 
   Q_INVOKABLE void newSong();
   Q_INVOKABLE void deleteSong(const int &row);
@@ -78,6 +86,8 @@ signals:
     void backgroundTypeChanged();
     void horizontalTextAlignmentChanged();
     void verticalTextAlignmentChanged();
+    void fontChanged();
+    void fontSizeChanged();
 
 private:
     int m_id;
@@ -91,6 +101,8 @@ private:
     QString m_backgroundType;
     QString m_horizontalTextAlignment;
     QString m_verticalTextAlignment;
+    QString m_font;
+    int m_fontSize;
 };
 
 #endif //SONGSQLMODEL_H

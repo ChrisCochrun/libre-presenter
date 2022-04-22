@@ -36,6 +36,8 @@ static void createTable()
                   "  'backgroundType' TEXT,"
                   "  'horizontalTextAlignment' TEXT,"
                   "  'verticalTextAlignment' TEXT,"
+                  "  'font' TEXT,"
+                  "  'fontSize' INTEGER,"
                   "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
@@ -45,16 +47,16 @@ static void createTable()
 
   query.exec(
       "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
-      "background, backgroundType, horizontalTextAlignment, verticalTextAlignment) VALUES ('10,000 Reasons', '10,000 reasons "
-      "for my heart to sing', 'Matt Redman', '13470183', '', '', '', '', 'center', 'center')");
+      "background, backgroundType, horizontalTextAlignment, verticalTextAlignment, font, fontSize) VALUES ('10,000 Reasons', '10,000 reasons "
+      "for my heart to sing', 'Matt Redman', '13470183', '', '', '', '', 'center', 'center', '', '')");
   // qDebug() << query.lastQuery();
   query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
-             "background, backgroundType, horizontalTextAlignment, verticalTextAlignment) VALUES ('River', 'Im going down to "
-             "the river', 'Jordan Feliz', '13470183', '', '', '', '', 'center', 'center')");
+             "background, backgroundType, horizontalTextAlignment, verticalTextAlignment, font, fontSize) VALUES ('River', 'Im going down to "
+             "the river', 'Jordan Feliz', '13470183', '', '', '', '', 'center', 'center', '', '')");
   query.exec(
       "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
-      "background, backgroundType, horizontalTextAlignment, verticalTextAlignment) VALUES ('Marvelous Light', 'Into marvelous "
-      "light Im running', 'Chris Tomlin', '13470183', '', '', '', '', 'center', 'center')");
+      "background, backgroundType, horizontalTextAlignment, verticalTextAlignment, font, fontSize) VALUES ('Marvelous Light', 'Into marvelous "
+      "light Im running', 'Chris Tomlin', '13470183', '', '', '', '', 'center', 'center', '', '')");
 
   // qDebug() << query.lastQuery();
   query.exec("select * from songs");
@@ -484,4 +486,56 @@ void SongSqlModel::updateVerticalTextAlignment(const int &row, const QString &ve
   qDebug() << rowdata;
   submitAll();
   emit verticalTextAlignmentChanged();
+}
+
+QString SongSqlModel::font() const {
+  return m_font;
+}
+
+void SongSqlModel::setFont(const QString &font) {
+  if (font == m_font)
+    return;
+  
+  m_font = font;
+
+  select();
+  emit fontChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateFont(const int &row, const QString &font) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("font", font);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit fontChanged();
+}
+
+int SongSqlModel::fontSize() const {
+  return m_fontSize;
+}
+
+void SongSqlModel::setFontSize(const QString &fontSize) {
+  if (fontSize == m_fontSize)
+    return;
+  
+  m_fontSize = fontSize;
+
+  select();
+  emit fontSizeChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateFontSize(const int &row, const QString &fontSize) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("fontSize", fontSize);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit fontSizeChanged();
 }
