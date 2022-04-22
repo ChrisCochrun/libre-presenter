@@ -99,6 +99,8 @@ QHash<int, QByteArray> SongSqlModel::roleNames() const
     names[Qt::UserRole + 8] = "backgroundType";
     names[Qt::UserRole + 9] = "horizontalTextAlignment";
     names[Qt::UserRole + 10] = "verticalTextAlignment";
+    names[Qt::UserRole + 11] = "font";
+    names[Qt::UserRole + 12] = "fontSize";
     return names;
 }
 

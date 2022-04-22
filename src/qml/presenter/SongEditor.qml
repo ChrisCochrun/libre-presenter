@@ -33,7 +33,7 @@ Item {
                     editable: true
                     hoverEnabled: true
                     flat: true
-                    onCurrentTextChanged: showPassiveNotification(currentText)
+                    onActivated: updateFont(currentText)
                 }
                 Controls.SpinBox {
                     id: fontSizeBox
@@ -41,6 +41,7 @@ Item {
                     from: 5
                     to: 72
                     hoverEnabled: true
+                    onValueModified: updateFontSize(value)
                 }
                 Controls.ComboBox {
                     id: hAlignmentBox
@@ -290,6 +291,8 @@ Item {
 
         changeSlideHAlignment(song.horizontalTextAlignment);
         changeSlideVAlignment(song.verticalTextAlignment);
+        changeSlideFont(song.font, true);
+        changeSlideFontSize(song.fontSize, true)
 
         print(song);
     }
@@ -336,6 +339,16 @@ Item {
         songsqlmodel.updateVerticalTextAlignment(songIndex, textAlignment)
     }
 
+    function updateFont(font) {
+        changeSlideFont(font, false);
+        songsqlmodel.updateFont(songIndex, font);
+    }
+
+    function updateFontSize(fontSize) {
+        changeSlideFontSize(fontSize, false);
+        songsqlmodel.updateFontSize(songIndex, fontSize);
+    }
+
     function changeSlideHAlignment(alignment) {
         switch (alignment) {
         case "left" :
@@ -372,5 +385,19 @@ Item {
             slideEditor.vTextAlignment = Text.AlignBottom;
             break;
         }
+    }
+
+    function changeSlideFont(font, updateBox) {
+        const fontIndex = fontBox.find(font);
+        print(fontIndex);
+        if (updateBox)
+            fontBox.currentIndex = fontIndex;
+        slideEditor.font = font;
+    }
+
+    function changeSlideFontSize(fontSize, updateBox) {
+        if (updateBox)
+            fontSizeBox.value = fontSize;
+        slideEditor.fontSize = fontSize;
     }
 }

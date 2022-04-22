@@ -15,16 +15,19 @@ Item {
     property string videoBackground
     property var hTextAlignment
     property var vTextAlignment
+    property string font
+    property real fontSize
 
     Presenter.Slide {
         id: representation
         anchors.fill: parent
-        textSize: width / 15
         editMode: true
         imageSource: imageBackground
         videoSource: videoBackground
         hTextAlignment: root.hTextAlignment
         vTextAlignment: root.vTextAlignment
+        chosenFont: font
+        textSize: fontSize
         preview: true
     }
 

@@ -8,9 +8,12 @@
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
 - [X] alignment
-- [X] font
-- [X] fontsize
+- [X] font - Need to finish the UI portion of it
+- [X] fontsize - Need to finish the UI portion of it
 - [ ] effects?
+  For effects, I'm not 100% sure how to do this in an easy to build out way. Should I just do them the same as the other attributes or have effects be individually stored? Which effects to use?
+
+  I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
 
 ** TODO bug in changing slides with the arrows
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
