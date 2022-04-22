@@ -518,7 +518,7 @@ int SongSqlModel::fontSize() const {
   return m_fontSize;
 }
 
-void SongSqlModel::setFontSize(const QString &fontSize) {
+void SongSqlModel::setFontSize(const int &fontSize) {
   if (fontSize == m_fontSize)
     return;
   
@@ -529,7 +529,7 @@ void SongSqlModel::setFontSize(const QString &fontSize) {
 }
 
 // This function is for updating the lyrics from outside the delegate
-void SongSqlModel::updateFontSize(const int &row, const QString &fontSize) {
+void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
   qDebug() << "Row is " << row;
   QSqlRecord rowdata = record(row);
   qDebug() << rowdata;
