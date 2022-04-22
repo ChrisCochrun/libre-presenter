@@ -27,13 +27,16 @@ Item {
                 anchors.fill: parent 
 
                 Controls.ComboBox {
+                    id: fontBox
                     model: Qt.fontFamilies()
                     implicitWidth: 300
                     editable: true
                     hoverEnabled: true
+                    flat: true
                     onCurrentTextChanged: showPassiveNotification(currentText)
                 }
                 Controls.SpinBox {
+                    id: fontSizeBox
                     editable: true
                     from: 5
                     to: 72
@@ -44,6 +47,7 @@ Item {
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
                     hoverEnabled: true
+                    flat: true
                     onActivated: updateHorizontalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ComboBox {
@@ -51,6 +55,7 @@ Item {
                     model: ["Top", "Center", "Bottom"]
                     implicitWidth: 100
                     hoverEnabled: true
+                    flat: true
                     onActivated: updateVerticalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ToolButton {
