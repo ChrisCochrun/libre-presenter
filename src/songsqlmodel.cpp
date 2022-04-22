@@ -128,26 +128,9 @@ void SongSqlModel::deleteSong(const int &row) {
 }
 
 QVariantMap SongSqlModel::getSong(const int &row) {
-  // QSqlRecord recordData = record(row);
-  // if (recordData.isEmpty()) {
-  //   qDebug() << "this is not a song";
-  //   QVariantList empty;
-  //   return empty;
-  // }
-
-  // QVariantList song;
-  // song.append(recordData.value("title"));
-  // song.append(recordData.value("lyrics"));
-  // song.append(recordData.value("author"));
-  // song.append(recordData.value("ccli"));
-  // song.append(recordData.value("audio"));
-  // song.append(recordData.value("vorder"));
-  // song.append(recordData.value("background"));
-  // song.append(recordData.value("backgroundType"));
-  // song.append(recordData.value("horizontalTextAlignment"));
-
-  // return song;
-
+  // this whole function returns all data in the song
+  // regardless of it's length. When new things are added
+  // it will still work without refactoring.
   QVariantMap data;
   const QModelIndex idx = this->index(row,0);
   // qDebug() << idx;

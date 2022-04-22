@@ -10,7 +10,7 @@ Item {
     id: root
 
     property int songIndex
-    property var song
+    property var song 
 
     GridLayout {
         id: mainLayout
@@ -268,10 +268,13 @@ Item {
     }
 
     function changeSong(index) {
-        song = songsqlmodel.getSong(index);
+        const s = songsqlmodel.getSong(index);
+        print(s.font);
+        print(s.title);
+        song = s;
         songIndex = index;
 
-        if (songBackgroundType == "image") {
+        if (song.backgroundType == "image") {
             slideEditor.videoBackground = "";
             slideEditor.imageBackground = song.background;
         } else {
@@ -319,15 +322,11 @@ Item {
 
 
     function updateHorizontalTextAlignment(textAlignment) {
-        if (alignmentSetTimer.running)
-            return;
         changeSlideHAlignment(textAlignment);
         songsqlmodel.updateHorizontalTextAlignment(songIndex, textAlignment);
     }
 
     function updateVerticalTextAlignment(textAlignment) {
-        if (alignmentSetTimer.running)
-            return;
         changeSlideVAlignment(textAlignment);
         songsqlmodel.updateVerticalTextAlignment(songIndex, textAlignment)
     }
