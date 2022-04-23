@@ -275,8 +275,6 @@ Item {
 
     function changeSong(index) {
         const s = songsqlmodel.getSong(index);
-        print(s.font);
-        print(s.title);
         song = s;
         songIndex = index;
 
@@ -293,8 +291,7 @@ Item {
         changeSlideVAlignment(song.verticalTextAlignment);
         changeSlideFont(song.font, true);
         changeSlideFontSize(song.fontSize, true)
-
-        print(song);
+        print(s.title);
     }
 
     function updateLyrics(lyrics) {
@@ -389,7 +386,6 @@ Item {
 
     function changeSlideFont(font, updateBox) {
         const fontIndex = fontBox.find(font);
-        print(fontIndex);
         if (updateBox)
             fontBox.currentIndex = fontIndex;
         slideEditor.font = font;
