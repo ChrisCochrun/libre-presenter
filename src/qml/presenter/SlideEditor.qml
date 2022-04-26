@@ -1,4 +1,4 @@
-import QtQuick 2.13
+import QtQuick 2.15
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
@@ -18,40 +18,65 @@ Item {
     property string font
     property real fontSize
 
-    Presenter.Slide {
-        id: representation
+    property ListModel songs: songModel
+
+    ListView {
+        id: slideList
         anchors.fill: parent
-        editMode: true
-        imageSource: imageBackground
-        videoSource: videoBackground
-        hTextAlignment: root.hTextAlignment
-        vTextAlignment: root.vTextAlignment
-        chosenFont: font
-        textSize: fontSize
-        preview: true
+        model: songModel
+        clip: true
+        cacheBuffer: 900
+        reuseItems: true
+        spacing: Kirigami.Units.gridUnit
+        flickDeceleration: 4000
+        /* boundsMovement: Flickable.StopAtBounds */
+        synchronousDrag: true
+        delegate: Presenter.Slide {
+            id: representation
+            editMode: true
+            imageSource: root.imageBackground
+            videoSource: root.videoBackground
+            hTextAlignment: root.hTextAlignment
+            vTextAlignment: root.vTextAlignment
+            chosenFont: root.font
+            textSize: root.fontSize
+            preview: true
+            text: verse
+            implicitWidth: slideList.width
+            implicitHeight: width * 9 / 16
+        }
+
     }
 
     Component.onCompleted: {
     }
 
-    function loadVideo() {
-        representation.loadVideo();
-        representation.pauseVideo();
+    ListModel {
+        id: songModel
     }
+
+    function appendVerse(verse) {
+        print(verse);
+        songModel.append({"verse": verse})
+    }
+
+    /* function loadVideo() { */
+    /*     representation.loadVideo(); */
+    /* } */
 
     function updateHAlignment(alignment) {
         switch (alignment) {
         case "left" :
-            representation.horizontalAlignment = Text.AlignLeft;
+            root.hTextAlignment = Text.AlignLeft;
             break;
         case "center" :
-            representation.horizontalAlignment = Text.AlignHCenter;
+            root.hTextAlignment = Text.AlignHCenter;
             break;
         case "right" :
-            representation.horizontalAlignment = Text.AlignRight;
+            root.hTextAlignment = Text.AlignRight;
             break;
         case "justify" :
-            representation.horizontalAlignment = Text.AlignJustify;
+            root.hTextAlignment = Text.AlignJustify;
             break;
         }
     }

@@ -87,7 +87,7 @@ MpvRenderer::~MpvRenderer() {
   if (mpv_gl)
     mpv_render_context_free(mpv_gl);
 
-  mpv_terminate_destroy(obj->mpv);
+  // mpv_destroy(obj->mpv);
 }
 
 void MpvRenderer::render() {
@@ -242,7 +242,7 @@ MpvObject::MpvObject(QQuickItem *parent)
 
 MpvObject::~MpvObject()
 {
-
+  // quit();
 }
 
 QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
@@ -340,6 +340,10 @@ void MpvObject::handle_mpv_event(mpv_event *event)
   // See: https://github.com/mpv-player/mpv/blob/master/player/lua.c#L471
 
   switch (event->event_id) {
+  case MPV_EVENT_SHUTDOWN: {
+    mpv_destroy(mpv);
+    break;
+  }
   case MPV_EVENT_LOG_MESSAGE: {
     mpv_event_log_message *logData = (mpv_event_log_message *)event->data;
     Q_EMIT logMessage(
@@ -487,7 +491,7 @@ void MpvObject::pause()
 {
   // qDebug() << "pause";
   if (isPlaying()) {
-    // qDebug() << "!isPlaying";
+    qDebug() << "!isPlaying";
     set_paused(true);
   }
 }

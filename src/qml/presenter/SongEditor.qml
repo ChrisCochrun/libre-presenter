@@ -222,8 +222,9 @@ Item {
                     id: slideEditor
                     Layout.preferredWidth: 500
                     Layout.fillWidth: true
-                    Layout.preferredHeight: slideEditor.width / 16 * 9
+                    Layout.fillHeight: true
                     Layout.bottomMargin: 30
+                    Layout.topMargin: 30
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
                 }
@@ -284,13 +285,14 @@ Item {
         } else {
             slideEditor.imageBackground = "";
             slideEditor.videoBackground = song.background;
-            slideEditor.loadVideo();
+            /* slideEditor.loadVideo(); */
         }
 
         changeSlideHAlignment(song.horizontalTextAlignment);
         changeSlideVAlignment(song.verticalTextAlignment);
         changeSlideFont(song.font, true);
         changeSlideFontSize(song.fontSize, true)
+        changeSlideText(songIndex);
         print(s.title);
     }
 
@@ -395,5 +397,12 @@ Item {
         if (updateBox)
             fontSizeBox.value = fontSize;
         slideEditor.fontSize = fontSize;
+    }
+
+    function changeSlideText(id) {
+        const verses = songsqlmodel.getLyricList(id);
+        print("Here are the verses: " + verses);
+        slideEditor.songs.clear()
+        verses.forEach(slideEditor.appendVerse);
     }
 }

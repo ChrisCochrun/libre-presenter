@@ -34,6 +34,9 @@ Item {
     property string itemType
     property bool preview: false
 
+    implicitWidth: 1920
+    implicitHeight: 1080
+
     Rectangle {
         id: basePrColor
         anchors.fill: parent
@@ -59,12 +62,12 @@ Item {
                 id: playArea
                 anchors.fill: parent
                 enabled: editMode
-                onPressed: mpv.loadFile(videoSource.toString());
+                onPressed: mpv.playPause();
                 cursorShape: preview ? Qt.ArrowCursor : Qt.BlankCursor
             }
 
             Controls.ProgressBar {
-                anchors.centerIn: parent
+                anchors.top: parent.bottom
                 visible: editMode
                 width: parent.width - 400
                 value: mpv.position
@@ -74,11 +77,22 @@ Item {
 
         Timer {
             id: mpvLoadingTimer
-            interval: 2
+            interval: 100
             onTriggered: {
+                /* showPassiveNotification("YIPPEEE!") */
                 mpv.loadFile(videoSource.toString());
+                if (preview) {
+                    print("WHY AREN'T YOU PASUING!");
+                    pauseTimer.restart();
+                }
                 blackTimer.restart();
             }
+        }
+
+        Timer {
+            id: pauseTimer
+            interval: 200
+            onTriggered: mpv.pause()
         }
 
         Timer {
