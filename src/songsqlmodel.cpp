@@ -177,6 +177,8 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   QString line;
   QMap<QString, QString> verses;
 
+  //TODO make sure to split empty line in verse into two slides
+
   // This first function pulls out each verse into our verses map
   foreach (line, rawLyrics) {
     qDebug() << line;
