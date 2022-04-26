@@ -84,14 +84,15 @@ Item {
     function updateVAlignment(alignment) {
         switch (alignment) {
         case "top" :
-            representation.verticalAlignment = Text.AlignTop;
+            root.vTextAlignment = Text.AlignTop;
             break;
         case "center" :
-            representation.verticalAlignment = Text.AlignVCenter;
+            root.vTextAlignment = Text.AlignVCenter;
             break;
         case "bottom" :
-            representation.verticalAlignment = Text.AlignBottom;
+            root.vTextAlignment = Text.AlignBottom;
             break;
         }
     }
+
 }
