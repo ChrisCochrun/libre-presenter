@@ -81,7 +81,7 @@ Item {
             onTriggered: {
                 /* showPassiveNotification("YIPPEEE!") */
                 mpv.loadFile(videoSource.toString());
-                if (preview) {
+                if (editMode) {
                     print("WHY AREN'T YOU PASUING!");
                     pauseTimer.restart();
                 }
