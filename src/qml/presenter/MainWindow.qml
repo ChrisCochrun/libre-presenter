@@ -11,6 +11,7 @@ Controls.Page {
     id: mainPage
     padding: 0
 
+
     // properties passed around for the slides
     property int currentServiceItem
     property url imageBackground: ""
