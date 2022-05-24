@@ -1,6 +1,7 @@
 #include "serviceitemmodel.h"
 #include "serviceitem.h"
 #include <qabstractitemmodel.h>
+#include <qglobal.h>
 #include <qnamespace.h>
 #include <qvariant.h>
 #include <qdebug.h>
@@ -115,13 +116,17 @@ Qt::ItemFlags ServiceItemModel::flags(const QModelIndex &index) const {
 
 void ServiceItemModel::addItem(ServiceItem *item) {
   const int index = m_items.size();
+  qDebug() << index;
+  // foreach (item, m_items) {
+  //   qDebug() << item;
+  // }
   beginInsertRows(QModelIndex(), index, index);
   m_items.append(item);
   endInsertRows();
 }
 
 void ServiceItemModel::insertItem(const int &index, ServiceItem *item) {
-  beginInsertRows(this->index(index), index, index);
+  beginInsertRows(this->index(index).parent(), index, index);
   m_items.insert(index, item);
   endInsertRows();
   qDebug() << "Success";
@@ -164,7 +169,7 @@ void ServiceItemModel::insertItem(const int &index, const QString &name, const Q
                                const QStringList &text) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
   insertItem(index, item);
-  qDebug() << name << type << background;
+  qDebug() << name << type << background << text;
 }
 
 void ServiceItemModel::removeItem(int index) {
@@ -174,17 +179,36 @@ void ServiceItemModel::removeItem(int index) {
 }
 
 bool ServiceItemModel::move(int sourceIndex, int destIndex) {
-  qDebug() << "starting move";
+  qDebug() << index(sourceIndex).row();
+  qDebug() << index(destIndex).row();
+  // beginResetModel();
   QModelIndex parent = index(sourceIndex).parent();
-  bool begsuc = beginMoveRows(parent, sourceIndex, sourceIndex, parent, destIndex);
-  qDebug() << begsuc;
-  if (!begsuc) {
-    qDebug() << "Failed to start moving rows";
-    m_items.move(sourceIndex, destIndex);
-    return false;
+  if (sourceIndex >= 0 && sourceIndex != destIndex && destIndex >= 0 && destIndex < rowCount() && sourceIndex < rowCount()) {
+    qDebug() << "starting move of: " << "source: " << sourceIndex << "dest: " << destIndex;
+    bool begsuc = beginMoveRows(QModelIndex(), sourceIndex, sourceIndex, QModelIndex(), destIndex);
+    if (begsuc)
+      m_items.move(sourceIndex, destIndex);
+    endMoveRows();
   }
-  // bool success = moveRow(index(sourceIndex).parent(), sourceIndex, index(destIndex).parent(), destIndex);
-  endMoveRows();
+  // endResetModel();
+  // emit dataChanged(index(sourceIndex), QModelIndex());
   // qDebug() << success;
   return true;
+}
+
+QVariantMap ServiceItemModel::getItem(int index) const {
+  QVariantMap data;
+  const QModelIndex idx = this->index(index,0);
+  // qDebug() << idx;
+  if( !idx.isValid() )
+    return data;
+  const QHash<int,QByteArray> rn = roleNames();
+  // qDebug() << rn;
+  QHashIterator<int,QByteArray> it(rn);
+  while (it.hasNext()) {
+    it.next();
+    qDebug() << it.key() << ":" << it.value();
+    data[it.value()] = idx.data(it.key());
+  }
+  return data;
 }

@@ -1,11 +1,105 @@
 #+TITLE: Todo List
+:PROPERTIES:
+:CATEGORY: dev
+:END:
+
 * Inbox
-** TODO Need to make ListModel capable of bringing in a string list [2/4] [50%]
+** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
+[[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
+
+** TODO Make toolbar functional for =songeditor= [3/4] [75%] :core:
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
+
+- [X] alignment
+- [X] font - Need to finish the UI portion of it
+- [X] fontsize - Need to finish the UI portion of it
+- [ ] effects?
+  For effects, I'm not 100% sure how to do this in an easy to build out way. Should I just do them the same as the other attributes or have effects be individually stored? Which effects to use?
+
+  I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
+
+** TODO bug in changing slides with the arrows :core:
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
+
+slides are inconsistent in changing from one slide to the next or previous. Both functions need looked at.
+
+Maybe my best solution would be to architect a model or class for both the presentation controller and the presentation window to follow and do all the heavy lifting in there.
+
+** TODO Check for edge cases in inputing wrong vorder and lyrics :core:
+[[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
+
+** TODO Images stored in sql need to have aspect saved and applied dynamically here :core:
+[[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
+
+** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
+
+- [X] Initial ListView with text coming from =getLyricList=
+- [ ] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
+- [ ] Need to perhaps address the MPV crashing problem for a smoother experience.
+  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware.
+
+** TODO Fix possible bug in arrangingItems in draghandler [1/3] [33%] :bug:
+[[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
+
+- [X] Basic fixed drag n drop
+- [ ] Allow for a less buggy interaction
+- [ ] Need to check for edge cases
+
+** PROJ [#A] Make Presentation Window follow the presenter component :core:
+[[file:~/dev/church-presenter/src/qml/presenter/MainWindow.qml::Presenter.Slide {]]
+
+** TODO Finish toolbar in presentation display :ui:
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
+
+** TODO Find a way to maths the textsize :slide:
+[[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::property real textSize: 50]]
+
+This may not be as needed. Apparently the text shrinks to fit it's space.
+
+** TODO Create a nextslide function to be used after the end of the list of slides :slide:
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
+
+- [ ] Check to make sure this works in all conditions but I believe it works ok.
+
+** TODO Make sure the video gets changed in a proper manner to not have left over video showing from previous items :video:slide:
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::currentServiceItem++;]]
+
+- [X] Build a basic system that changes to black first and then switches to the video
+- [ ] Build out a loading system that will load the next video if it needs to and then the switch can be instant.
+
+  The second option is the best, but requires a lot more work. I have the first already working so I'll come back to this once I have more of an idea of how to do it.
+
+** DONE images and videos need a better get system
+[[file:~/dev/church-presenter/src/videosqlmodel.cpp::QVariantList VideoSqlModel::getVideo(const int &row) {]]
+
+** DONE Fix broken append when importing River song
+[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::function appendItem(name, type, background, backgroundType, text, itemID) {]]
+
+This was due to the song not having a vorder. Need to protect from edge cases of the user inputing the formatted text that doesn't fit what's expected in code.
+
+** DONE implement previousSlide and previousAction
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
+
+** DONE Need to make ListModel capable of bringing in a string list [2/2] [100%]
 - [X] Create a Model
 - [X] Create a class that we'll make a list of in the model
-- [ ] Implement move functions
-- [ ] Implement insert functions
+
+** DONE Make an image sql model
+[[file:~/dev/church-presenter/src/videosqlmodel.h::ifndef VIDEOSQLMODEL_H]]
 
 ** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>
+
+** DONE BUG in dropping and then selecting song will duplicate entries :dev:
+SCHEDULED: <2022-04-05 Tue>
+[[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::Layout.fillHeight: true]]
+
+or at least turns the entry above it into the same as itself while retaining it's title?
+
+** DONE Make nextSlideText a nextAction function to incorporate other types of items
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlideText() {]]
+
+** DONE Fix file dialog using basic QT theme
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]
 

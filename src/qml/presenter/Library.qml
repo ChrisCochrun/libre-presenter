@@ -195,9 +195,14 @@ Item {
                                     target: songListItem
                                     x: x
                                     y: y
+                                    width: width
+                                    height: height
+                                }
+                                ParentChange {
+                                    target: videoListItem
+                                    parent: rootApp.overlay
                                 }
                             }
-
                         }
 
                         MouseArea {
@@ -411,6 +416,12 @@ Item {
                                     target: videoListItem
                                     x: x
                                     y: y
+                                    width: width
+                                    height: height
+                                }
+                                ParentChange {
+                                    target: videoListItem
+                                    parent: rootApp.overlay
                                 }
                             }
 
@@ -474,10 +485,38 @@ Item {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 color: Kirigami.Theme.backgroundColor
+                opacity: 1.0
 
                 Controls.Label {
+                    id: imageLabel
                     anchors.centerIn: parent
                     text: "Images"
+                }
+
+                Controls.Label {
+                    id: imageCount
+                    anchors {left: imageLabel.right
+                             verticalCenter: imageLabel.verticalCenter
+                             leftMargin: 15}
+                    text: imagesqlmodel.rowCount()
+                    font.pixelSize: 15
+                    color: Kirigami.Theme.disabledTextColor
+                }
+
+                Kirigami.Icon {
+                    id: imageDrawerArrow
+                    anchors {right: parent.right
+                             verticalCenter: imageCount.verticalCenter
+                             rightMargin: 10}
+                    source: "arrow-down"
+                    rotation: selectedLibrary == "images" ? 0 : 180
+
+                    Behavior on rotation {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
                 }
 
                 MouseArea {
@@ -497,6 +536,9 @@ Item {
                 Layout.preferredHeight: parent.height - 200
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
+                model: imagesqlmodel
+                delegate: imageDelegate
+                clip: true
                 state: "deselected"
 
                 states: [
@@ -521,6 +563,118 @@ Item {
                         properties: "preferredHeight"
                         easing.type: Easing.OutCubic
                         duration: 300
+                    }
+                }
+
+                Component {
+                    id: imageDelegate
+                    Item{
+                        implicitWidth: ListView.view.width
+                        height: selectedLibrary == "images" ? 50 : 0
+                        Kirigami.BasicListItem {
+                            id: imageListItem
+
+                            property bool rightMenu: false
+
+                            implicitWidth: imageLibraryList.width
+                            height: selectedLibrary == "images" ? 50 : 0
+                            clip: true
+                            label: title
+                            /* subtitle: author */
+                            supportsMouseEvents: false
+                            backgroundColor: {
+                                if (parent.ListView.isCurrentItem) {
+                                    Kirigami.Theme.highlightColor;
+                                } else if (imageDragHandler.containsMouse){
+                                    Kirigami.Theme.highlightColor;
+                                } else {
+                                    Kirigami.Theme.backgroundColor;
+                                }
+                            }
+                            textColor: {
+                                if (parent.ListView.isCurrentItem || imageDragHandler.containsMouse)
+                                    activeTextColor;
+                                else
+                                    Kirigami.Theme.textColor;
+                            }
+
+                            Behavior on height {
+                                NumberAnimation {
+                                    easing.type: Easing.OutCubic
+                                    duration: 300
+                                }
+                            }
+                            Drag.active: imageDragHandler.drag.active
+                            Drag.hotSpot.x: width / 2
+                            Drag.hotSpot.y: height / 2
+                            Drag.keys: [ "library" ]
+
+                            states: State {
+                                name: "dragged"
+                                when: imageListItem.Drag.active
+                                PropertyChanges {
+                                    target: imageListItem
+                                    x: x
+                                    y: y
+                                    width: width
+                                    height: height
+                                }
+                                ParentChange {
+                                    target: imageListItem
+                                    parent: rootApp.overlay
+                                }
+                            }
+
+                        }
+
+                        MouseArea {
+                            id: imageDragHandler
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag {
+                                target: imageListItem
+                                onActiveChanged: {
+                                    if (imageDragHandler.drag.active) {
+                                        dragItemTitle = title;
+                                        dragItemType = "image";
+                                        dragItemText = "";
+                                        dragItemBackgroundType = "image";
+                                        dragItemBackground = filePath;
+                                    } else {
+                                        imageListItem.Drag.drop()
+                                    }
+                                }
+                                filterChildren: true
+                                threshold: 10
+                            }
+                            MouseArea {
+                                id: imageClickHandler
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                onClicked: {
+                                    if(mouse.button == Qt.RightButton)
+                                        rightClickImageMenu.popup()
+                                    else{
+                                        imageLibraryList.currentIndex = index
+                                        const image = imagesqlmodel.getImage(imageLibraryList.currentIndex);
+                                        if (!editMode)
+                                            editMode = true;
+                                        editType = "image";
+                                        editSwitch(image);
+                                    }
+                                }
+
+                            }
+                        }
+                        Controls.Menu {
+                            id: rightClickImageMenu
+                            x: imageClickHandler.mouseX
+                            y: imageClickHandler.mouseY + 10
+                            Kirigami.Action {
+                                text: "delete"
+                                onTriggered: imagesqlmodel.deleteImage(index)
+                            }
+                        }
                     }
                 }
             }
@@ -666,7 +820,7 @@ Item {
                 videoLibraryList.currentIndex = videosqlmodel.rowCount();
                 print(videosqlmodel.getVideo(videoLibraryList.currentIndex));
                 const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
-                showPassiveNotification("newest video: " + video);
+                showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
                     editMode = true;
                 editSwitch("video", video);

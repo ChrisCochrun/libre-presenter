@@ -156,12 +156,28 @@ void VideoSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   emit filePathChanged();
 }
 
-QVariantList VideoSqlModel::getVideo(const int &row) {
-  qDebug() << "Row we are getting is " << row;
-  QVariantList video;
-  QSqlRecord rec = record(row);
-  qDebug() << rec.value("title");
-  video.append(rec.value("title"));
-  video.append(rec.value("filePath"));
-  return video;
+QVariantMap VideoSqlModel::getVideo(const int &row) {
+  // qDebug() << "Row we are getting is " << row;
+  // QVariantList video;
+  // QSqlRecord rec = record(row);
+  // qDebug() << rec.value("title");
+  // video.append(rec.value("title"));
+  // video.append(rec.value("filePath"));
+  // return video;
+
+  QVariantMap data;
+  const QModelIndex idx = this->index(row,0);
+  // qDebug() << idx;
+  if( !idx.isValid() )
+    return data;
+  const QHash<int,QByteArray> rn = roleNames();
+  // qDebug() << rn;
+  QHashIterator<int,QByteArray> it(rn);
+  while (it.hasNext()) {
+    it.next();
+    qDebug() << it.key() << ":" << it.value();
+    data[it.value()] = idx.data(it.key());
+  }
+  return data;
+
 }

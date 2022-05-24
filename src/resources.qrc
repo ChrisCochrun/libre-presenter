@@ -17,5 +17,6 @@
         <file>qml/presenter/Presentation.qml</file>
         <file>qml/presenter/Settings.qml</file>
         <file>assets/parallel.jpg</file>
+        <file>assets/black.jpg</file>
     </qresource>
 </RCC>

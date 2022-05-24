@@ -34,27 +34,39 @@ static void createTable()
                   "  'vorder' TEXT,"
                   "  'background' TEXT,"
                   "  'backgroundType' TEXT,"
+                  "  'horizontalTextAlignment' TEXT,"
+                  "  'verticalTextAlignment' TEXT,"
+                  "  'font' TEXT,"
+                  "  'fontSize' INTEGER,"
                   "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
   }
-  qDebug() << query.lastQuery();
-  qDebug() << "inserting into songs";
+  // qDebug() << query.lastQuery();
+  // qDebug() << "inserting into songs";
 
-  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, background, backgroundType) VALUES ('10,000 Reasons', '10,000 reasons for my heart to sing', 'Matt Redman', '13470183', '', '', '', '')");
-  qDebug() << query.lastQuery();
-  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, background, backgroundType) VALUES ('River', 'Im going down to the river', 'Jordan Feliz', '13470183', '', '', '', '')");
-  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, background, backgroundType) VALUES ('Marvelous Light', 'Into marvelous "
-             "light Im running', 'Chris Tomlin', '13470183', '', '', '', '')");
+  query.exec(
+      "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
+      "background, backgroundType, horizontalTextAlignment, verticalTextAlignment, font, fontSize) VALUES ('10,000 Reasons', '10,000 reasons "
+      "for my heart to sing', 'Matt Redman', '13470183', '', '', '', '', 'center', 'center', '', '')");
+  // qDebug() << query.lastQuery();
+  query.exec("INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
+             "background, backgroundType, horizontalTextAlignment, verticalTextAlignment, font, fontSize) VALUES ('River', 'Im going down to "
+             "the river', 'Jordan Feliz', '13470183', '', '', '', '', 'center', 'center', '', '')");
+  query.exec(
+      "INSERT INTO songs (title, lyrics, author, ccli, audio, vorder, "
+      "background, backgroundType, horizontalTextAlignment, verticalTextAlignment, font, fontSize) VALUES ('Marvelous Light', 'Into marvelous "
+      "light Im running', 'Chris Tomlin', '13470183', '', '', '', '', 'center', 'center', '', '')");
 
+  // qDebug() << query.lastQuery();
   query.exec("select * from songs");
-  qDebug() << query.lastQuery();
+  // qDebug() << query.lastQuery();
 }
 
 SongSqlModel::SongSqlModel(QObject *parent)
     : QSqlTableModel(parent)
 {
-  qDebug() << "creating table";
+  // qDebug() << "creating table";
   createTable();
   setTable(songsTableName);
   setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -85,6 +97,10 @@ QHash<int, QByteArray> SongSqlModel::roleNames() const
     names[Qt::UserRole + 6] = "vorder";
     names[Qt::UserRole + 7] = "background";
     names[Qt::UserRole + 8] = "backgroundType";
+    names[Qt::UserRole + 9] = "horizontalTextAlignment";
+    names[Qt::UserRole + 10] = "verticalTextAlignment";
+    names[Qt::UserRole + 11] = "font";
+    names[Qt::UserRole + 12] = "fontSize";
     return names;
 }
 
@@ -113,25 +129,24 @@ void SongSqlModel::deleteSong(const int &row) {
   submitAll();
 }
 
-QVariantList SongSqlModel::getSong(const int &row) {
-  QSqlRecord recordData = record(row);
-  if (recordData.isEmpty()) {
-    qDebug() << "this is not a song";
-    QVariantList empty;
-    return empty;
+QVariantMap SongSqlModel::getSong(const int &row) {
+  // this whole function returns all data in the song
+  // regardless of it's length. When new things are added
+  // it will still work without refactoring.
+  QVariantMap data;
+  const QModelIndex idx = this->index(row,0);
+  // qDebug() << idx;
+  if( !idx.isValid() )
+    return data;
+  const QHash<int,QByteArray> rn = roleNames();
+  // qDebug() << rn;
+  QHashIterator<int,QByteArray> it(rn);
+  while (it.hasNext()) {
+    it.next();
+    qDebug() << it.key() << ":" << it.value();
+    data[it.value()] = idx.data(it.key());
   }
-
-  QVariantList song;
-  song.append(recordData.value("title"));
-  song.append(recordData.value("lyrics"));
-  song.append(recordData.value("author"));
-  song.append(recordData.value("ccli"));
-  song.append(recordData.value("audio"));
-  song.append(recordData.value("vorder"));
-  song.append(recordData.value("background"));
-  song.append(recordData.value("backgroundType"));
-
-  return song;
+  return data;
 }
 
 QStringList SongSqlModel::getLyricList(const int &row) {
@@ -162,8 +177,11 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   QString line;
   QMap<QString, QString> verses;
 
+  //TODO make sure to split empty line in verse into two slides
+
   // This first function pulls out each verse into our verses map
   foreach (line, rawLyrics) {
+    qDebug() << line;
     if (firstItem) {
       if (keywords.contains(line)) {
         recordVerse = true;
@@ -187,6 +205,16 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   }
   qDebug() << verses;
 
+  // let's check to see if there is a verse order, if not return the list given
+  if (vorder.first().isEmpty()) {
+    qDebug() << "NO VORDER";
+    foreach (verse, verses) {
+      qDebug() << verse;
+      lyrics.append(verse);
+    }
+    qDebug() << lyrics;
+    return lyrics;
+  }
   // this function appends the verse that matches the verse order from the map
   foreach (const QString &vstr, vorder) {
     foreach (line, rawLyrics) {
@@ -393,4 +421,108 @@ void SongSqlModel::updateBackgroundType(const int &row, const QString &backgroun
   setRecord(row, rowdata);
   submitAll();
   emit backgroundTypeChanged();
+}
+
+QString SongSqlModel::horizontalTextAlignment() const {
+  return m_horizontalTextAlignment;
+}
+
+void SongSqlModel::setHorizontalTextAlignment(const QString &horizontalTextAlignment) {
+  if (horizontalTextAlignment == m_horizontalTextAlignment)
+    return;
+  
+  m_horizontalTextAlignment = horizontalTextAlignment;
+
+  select();
+  emit horizontalTextAlignmentChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateHorizontalTextAlignment(const int &row, const QString &horizontalTextAlignment) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("horizontalTextAlignment", horizontalTextAlignment);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit horizontalTextAlignmentChanged();
+}
+
+QString SongSqlModel::verticalTextAlignment() const {
+  return m_verticalTextAlignment;
+}
+
+void SongSqlModel::setVerticalTextAlignment(const QString &verticalTextAlignment) {
+  if (verticalTextAlignment == m_verticalTextAlignment)
+    return;
+  
+  m_verticalTextAlignment = verticalTextAlignment;
+
+  select();
+  emit verticalTextAlignmentChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateVerticalTextAlignment(const int &row, const QString &verticalTextAlignment) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("verticalTextAlignment", verticalTextAlignment);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit verticalTextAlignmentChanged();
+}
+
+QString SongSqlModel::font() const {
+  return m_font;
+}
+
+void SongSqlModel::setFont(const QString &font) {
+  if (font == m_font)
+    return;
+  
+  m_font = font;
+
+  select();
+  emit fontChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateFont(const int &row, const QString &font) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("font", font);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit fontChanged();
+}
+
+int SongSqlModel::fontSize() const {
+  return m_fontSize;
+}
+
+void SongSqlModel::setFontSize(const int &fontSize) {
+  if (fontSize == m_fontSize)
+    return;
+  
+  m_fontSize = fontSize;
+
+  select();
+  emit fontSizeChanged();
+}
+
+// This function is for updating the lyrics from outside the delegate
+void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("fontSize", fontSize);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit fontSizeChanged();
 }

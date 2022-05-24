@@ -1,5 +1,6 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.15 as Controls
+import Qt.labs.platform 1.1 as Labs
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.13 as Kirigami
@@ -9,14 +10,7 @@ Item {
     id: root
 
     property int songIndex
-    property string songTitle
-    property string songLyrics
-    property string songAuthor
-    property string songCcli
-    property string songAudio
-    property string songVorder
-    property string songBackground
-    property string songBackgroundType
+    property var song 
 
     GridLayout {
         id: mainLayout
@@ -33,34 +27,52 @@ Item {
                 anchors.fill: parent 
 
                 Controls.ComboBox {
+                    id: fontBox
                     model: Qt.fontFamilies()
                     implicitWidth: 300
                     editable: true
                     hoverEnabled: true
-                    onCurrentTextChanged: showPassiveNotification(currentText)
+                    flat: true
+                    onActivated: updateFont(currentText)
                 }
                 Controls.SpinBox {
+                    id: fontSizeBox
                     editable: true
                     from: 5
                     to: 72
                     hoverEnabled: true
+                    onValueModified: updateFontSize(value)
                 }
                 Controls.ComboBox {
+                    id: hAlignmentBox
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
                     hoverEnabled: true
+                    flat: true
+                    onActivated: updateHorizontalTextAlignment(currentText.toLowerCase());
+                }
+                Controls.ComboBox {
+                    id: vAlignmentBox
+                    model: ["Top", "Center", "Bottom"]
+                    implicitWidth: 100
+                    hoverEnabled: true
+                    flat: true
+                    onActivated: updateVerticalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ToolButton {
                     text: "B"
                     hoverEnabled: true
+                    visible: false
                 }
                 Controls.ToolButton {
                     text: "I"
                     hoverEnabled: true
+                    visible: false
                 }
                 Controls.ToolButton {
                     text: "U"
                     hoverEnabled: true
+                    visible: false
                 }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
@@ -143,7 +155,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Song Title..."
-                    text: songTitle
+                    text: song.title
                     padding: 10
                     onEditingFinished: updateTitle(text);
                 }
@@ -156,7 +168,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "verse order..."
-                    text: songVorder
+                    text: song.vorder
                     padding: 10
                     onEditingFinished: updateVerseOrder(text);
                 }
@@ -176,7 +188,7 @@ Item {
                         width: parent.width
                         placeholderText: "Put lyrics here..."
                         persistentSelection: true
-                        text: songLyrics
+                        text: song.lyrics
                         textFormat: TextEdit.PlainText
                         padding: 10
                         onEditingFinished: {
@@ -195,7 +207,7 @@ Item {
                     Layout.rightMargin: 20
 
                     placeholderText: "Author..."
-                    text: songAuthor
+                    text: song.author
                     padding: 10
                     onEditingFinished: updateAuthor(text)
                 }
@@ -210,8 +222,9 @@ Item {
                     id: slideEditor
                     Layout.preferredWidth: 500
                     Layout.fillWidth: true
-                    Layout.preferredHeight: slideEditor.width / 16 * 9
+                    Layout.fillHeight: true
                     Layout.bottomMargin: 30
+                    Layout.topMargin: 30
                     Layout.rightMargin: 20
                     Layout.leftMargin: 20
                 }
@@ -262,24 +275,25 @@ Item {
     }
 
     function changeSong(index) {
-        const song = songsqlmodel.getSong(index);
+        const s = songsqlmodel.getSong(index);
+        song = s;
         songIndex = index;
-        songTitle = song[0];
-        songLyrics = song[1];
-        songAuthor = song[2];
-        songCcli = song[3];
-        songAudio = song[4];
-        songVorder = song[5];
-        songBackground = song[6];
-        songBackgroundType = song[7];
-        if (songBackgroundType == "image") {
+
+        if (song.backgroundType == "image") {
             slideEditor.videoBackground = "";
-            slideEditor.imageBackground = songBackground;
+            slideEditor.imageBackground = song.background;
         } else {
             slideEditor.imageBackground = "";
-            slideEditor.videoBackground = songBackground;
+            slideEditor.videoBackground = song.background;
+            /* slideEditor.loadVideo(); */
         }
-        print(song);
+
+        changeSlideHAlignment(song.horizontalTextAlignment);
+        changeSlideVAlignment(song.verticalTextAlignment);
+        changeSlideFont(song.font, true);
+        changeSlideFontSize(song.fontSize, true)
+        changeSlideText(songIndex);
+        print(s.title);
     }
 
     function updateLyrics(lyrics) {
@@ -311,5 +325,84 @@ Item {
         songsqlmodel.updateBackground(songIndex, background);
         songsqlmodel.updateBackgroundType(songIndex, backgroundType);
         print("changed background");
+    }
+
+
+    function updateHorizontalTextAlignment(textAlignment) {
+        changeSlideHAlignment(textAlignment);
+        songsqlmodel.updateHorizontalTextAlignment(songIndex, textAlignment);
+    }
+
+    function updateVerticalTextAlignment(textAlignment) {
+        changeSlideVAlignment(textAlignment);
+        songsqlmodel.updateVerticalTextAlignment(songIndex, textAlignment)
+    }
+
+    function updateFont(font) {
+        changeSlideFont(font, false);
+        songsqlmodel.updateFont(songIndex, font);
+    }
+
+    function updateFontSize(fontSize) {
+        changeSlideFontSize(fontSize, false);
+        songsqlmodel.updateFontSize(songIndex, fontSize);
+    }
+
+    function changeSlideHAlignment(alignment) {
+        switch (alignment) {
+        case "left" :
+            hAlignmentBox.currentIndex = 0;
+            slideEditor.hTextAlignment = Text.AlignLeft;
+            break;
+        case "center" :
+            hAlignmentBox.currentIndex = 1;
+            slideEditor.hTextAlignment = Text.AlignHCenter;
+            break;
+        case "right" :
+            hAlignmentBox.currentIndex = 2;
+            slideEditor.hTextAlignment = Text.AlignRight;
+            break;
+        case "justify" :
+            hAlignmentBox.currentIndex = 3;
+            slideEditor.hTextAlignment = Text.AlignJustify;
+            break;
+        }
+    }
+
+    function changeSlideVAlignment(alignment) {
+        switch (alignment) {
+        case "top" :
+            vAlignmentBox.currentIndex = 0;
+            slideEditor.vTextAlignment = Text.AlignTop;
+            break;
+        case "center" :
+            vAlignmentBox.currentIndex = 1;
+            slideEditor.vTextAlignment = Text.AlignVCenter;
+            break;
+        case "bottom" :
+            vAlignmentBox.currentIndex = 2;
+            slideEditor.vTextAlignment = Text.AlignBottom;
+            break;
+        }
+    }
+
+    function changeSlideFont(font, updateBox) {
+        const fontIndex = fontBox.find(font);
+        if (updateBox)
+            fontBox.currentIndex = fontIndex;
+        slideEditor.font = font;
+    }
+
+    function changeSlideFontSize(fontSize, updateBox) {
+        if (updateBox)
+            fontSizeBox.value = fontSize;
+        slideEditor.fontSize = fontSize;
+    }
+
+    function changeSlideText(id) {
+        const verses = songsqlmodel.getLyricList(id);
+        print("Here are the verses: " + verses);
+        slideEditor.songs.clear()
+        verses.forEach(slideEditor.appendVerse);
     }
 }

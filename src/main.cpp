@@ -22,10 +22,13 @@
 
 #include <QtQuick/QQuickWindow>
 #include <QtQuick/QQuickView>
+#include <qapplication.h>
+#include <qcoreapplication.h>
 #include <qdir.h>
 #include <qglobal.h>
 #include <qguiapplication.h>
 #include <qqml.h>
+#include <qquickstyle.h>
 #include <qsqldatabase.h>
 #include <qsqlquery.h>
 #include <qstringliteral.h>
@@ -34,6 +37,7 @@
 #include "serviceitemmodel.h"
 #include "songsqlmodel.h"
 #include "videosqlmodel.h"
+#include "imagesqlmodel.h"
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -67,20 +71,25 @@ static void connectToDatabase() {
 int main(int argc, char *argv[])
 {
   QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QGuiApplication app(argc, argv);
-  KLocalizedString::setApplicationDomain("presenter");
-  QCoreApplication::setOrganizationName(QStringLiteral("presenter"));
+  QApplication app(argc, argv);
+  KLocalizedString::setApplicationDomain("librepresenter");
+  QCoreApplication::setOrganizationName(QStringLiteral("librepresenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
-  QCoreApplication::setApplicationName(QStringLiteral("Church Presenter"));
+  QCoreApplication::setApplicationName(QStringLiteral("Libre Presenter"));
 
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
+  // QApplication::setStyle(QStringLiteral("breeze"));
 #else
+  QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
+  QQuickStyle::setFallbackStyle(QStringLiteral("breeze"));
 #endif
 
   QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
+  qDebug() << QQuickStyle::availableStyles();
+  qDebug() << QIcon::themeName();
 
   // apparently mpv needs this class set
   // let's register mpv as well
@@ -90,6 +99,7 @@ int main(int argc, char *argv[])
   //register our models
   qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
+  qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
 
   connectToDatabase();
