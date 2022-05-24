@@ -1,8 +1,10 @@
 #+TITLE: Todo List
 * Inbox
-** TODO Need to make ListModel capable of bringing in a string list [1/2] [50%]
+** TODO Need to make ListModel capable of bringing in a string list [2/4] [50%]
 - [X] Create a Model
-- [ ] Create a class that we'll make a list of in the model
+- [X] Create a class that we'll make a list of in the model
+- [ ] Implement move functions
+- [ ] Implement insert functions
 
 ** DONE Parse Lyrics to create a list of strings for slides
 SCHEDULED: <2022-03-23 Wed 10:00>
