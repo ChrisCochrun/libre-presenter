@@ -37,6 +37,7 @@ mkShell {
     makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
     sed "/^exec/d" -i "$setQtEnvironment"
     source "$setQtEnvironment"
-  fish
+    QT_QPA_PLATFORM_PLUGIN_PATH="${qt5.qtbase.bin}/lib/qt-${qt5.qtbase.version}/plugins";
+    fish
   '';
 }
