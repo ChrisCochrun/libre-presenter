@@ -1,5 +1,6 @@
-with import <nixpkgs> { };
-pkgs.mkShell {
+{ pkgs ? <nixpkgs> { } }:
+with pkgs;
+mkShell {
   name = "presenter-env";
 
   nativeBuildInputs = [
@@ -9,6 +10,7 @@ pkgs.mkShell {
     cmake
     extra-cmake-modules
     pkg-config
+    libsForQt5.wrapQtAppsHook
     # gccStdenv
     # stdenv
   ];
@@ -27,7 +29,14 @@ pkgs.mkShell {
     # ffmpeg-full
     # yt-dlp
   ];
-
+  
+  # This creates the proper qt env so that plugins are found right.
   shellHook = ''
+    setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
+    echo "shellHook: setQtEnvironment = $setQtEnvironment"
+    makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
+    sed "/^exec/d" -i "$setQtEnvironment"
+    source "$setQtEnvironment"
+  fish
   '';
 }
