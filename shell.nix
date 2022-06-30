@@ -16,7 +16,8 @@ mkShell {
   ];
 
   buildInputs = [
-    qt5.qtbase
+    clang-tools
+    qt5.full
     qt5.qttools
     qt5.qtquickcontrols2
     qt5.qtx11extras
@@ -36,12 +37,12 @@ mkShell {
   
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
-    setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
-    echo "shellHook: setQtEnvironment = $setQtEnvironment"
-    makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
-    sed "/^exec/d" -i "$setQtEnvironment"
-    source "$setQtEnvironment"
-    QT_QPA_PLATFORM_PLUGIN_PATH="${qt5.qtbase.bin}/lib/qt-${qt5.qtbase.version}/plugins";
-    fish
+    # setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
+    # echo "shellHook: setQtEnvironment = $setQtEnvironment"
+    # makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
+    # sed "/^exec/d" -i "$setQtEnvironment"
+    # source "$setQtEnvironment"
+    # addToSearchPath QT_QPA_PLATFORM_PLUGIN_PATH="${qt5.qtbase.bin}/lib/qt-${qt5.qtbase.version}/plugins";
+    # export QML2_IMPORT_PATH=${libsForQt5.kirigami2}/lib/${builtins.replaceStrings ["full-"] [""] qt5.full.name}/qml
   '';
 }

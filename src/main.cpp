@@ -60,6 +60,7 @@ static void connectToDatabase() {
   db.setHostName("localhost");
   db.setDatabaseName(dbName);
   db.setUserName("presenter");
+  // TODO change password system before launch
   db.setPassword("i393jkf782djyr98302j");
   if (!db.open()) {
     qFatal("Cannot open database: %s", qPrintable(db.lastError().text()));
@@ -84,7 +85,7 @@ int main(int argc, char *argv[])
 #else
   QIcon::setFallbackThemeName("breeze");
   QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
-  QQuickStyle::setFallbackStyle(QStringLiteral("breeze"));
+  QQuickStyle::setFallbackStyle(QStringLiteral("Default"));
 #endif
 
   QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
