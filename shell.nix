@@ -23,11 +23,12 @@ mkShell {
     qt5.qtx11extras
     qt5.qtmultimedia
     libsForQt5.kirigami2
+    libsForQt5.kirigami-addons
     libsForQt5.ki18n
     libsForQt5.kcoreaddons
 
     # This is only here because apparently it doesn't pick up the icon theme from the base system
-    papirus-icon-theme
+    # papirus-icon-theme
 
     mpv
     # libsForQt5.kconfig
