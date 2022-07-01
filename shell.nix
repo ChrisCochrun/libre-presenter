@@ -29,6 +29,7 @@ mkShell {
 
     # This is only here because apparently it doesn't pick up the icon theme from the base system
     # papirus-icon-theme
+    lightly-qt
 
     mpv
     # libsForQt5.kconfig
