@@ -23,7 +23,7 @@ mkShell {
     qt5.qtx11extras
     qt5.qtmultimedia
     libsForQt5.kirigami2
-    libsForQt5.kirigami-addons
+    # libsForQt5.kirigami-addons
     libsForQt5.ki18n
     libsForQt5.kcoreaddons
 
@@ -43,7 +43,7 @@ mkShell {
     # makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
     # sed "/^exec/d" -i "$setQtEnvironment"
     # source "$setQtEnvironment"
-    # addToSearchPath QT_QPA_PLATFORM_PLUGIN_PATH="${qt5.qtbase.bin}/lib/qt-${qt5.qtbase.version}/plugins";
+    # export QT_QPA_PLATFORM_PLUGIN_PATH=${qt5.qtbase.bin}/lib/qt-${qt5.qtbase.version}/plugins/platformthemes
     # export QML2_IMPORT_PATH=${libsForQt5.kirigami2}/lib/${builtins.replaceStrings ["full-"] [""] qt5.full.name}/qml
   '';
 }
