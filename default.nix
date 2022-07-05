@@ -27,6 +27,7 @@
   kirigami2,
   ki18n,
   kcoreaddons,
+  # lightly-qt,
   mpv
 }:
 
@@ -56,6 +57,7 @@ stdenv.mkDerivation rec {
     kirigami2
     ki18n
     kcoreaddons
+    # lightly-qt
     mpv
     # libsForQt5.kconfig
     # ffmpeg-full
