@@ -28,8 +28,7 @@ mkShell {
     libsForQt5.kcoreaddons
 
     # This is only here because apparently it doesn't pick up the icon theme from the base system
-    # papirus-icon-theme
-    lightly-qt
+    papirus-icon-theme
 
     mpv
     # libsForQt5.kconfig
@@ -38,13 +37,7 @@ mkShell {
   ];
   
   # This creates the proper qt env so that plugins are found right.
-  # shellHook = ''
-  #   # setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
-  #   # echo "shellHook: setQtEnvironment = $setQtEnvironment"
-  #   # makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
-  #   # sed "/^exec/d" -i "$setQtEnvironment"
-  #   # source "$setQtEnvironment"
-  #   # export QT_QPA_PLATFORM_PLUGIN_PATH=${qt5.qtbase.bin}/lib/qt-${qt5.qtbase.version}/plugins/platformthemes
-  #   # export QML2_IMPORT_PATH=${libsForQt5.kirigami2}/lib/${builtins.replaceStrings ["full-"] [""] qt5.full.name}/qml
-  # '';
+  shellHook = ''
+    fish
+  '';
 }

@@ -7,6 +7,10 @@
 ** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
 [[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 
+** TODO nix-shell needs a little bit of work perhaps yet. But may be working under plasma just not minimal window managers using qt5ct.
+https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
+This thread helped a lot
+
 ** TODO Make toolbar functional for =songeditor= [3/4] [75%] :core:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
