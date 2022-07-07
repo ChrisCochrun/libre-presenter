@@ -32,5 +32,16 @@ Then run.
 ./build/bin/presenter
 #+END_SRC
 
+** Nix
+If you are using nix to develop with, which I would try to suggest since that will make sure all the appropriate dependencies are installed, you'll need to do the following:
+#+begin_src 
+cd church-presenter
+nix develop
+#+end_src
+
+This drops you into a shell with all the right dependencies.
+
+Then just as before build and run it the way you would.
+
 * Contact Me
 If, for whatever reason, you need to contact me and get something ironed out, please do so at [[mailto:chris@tfcconnection.org][chris@cochrun.xyz]]

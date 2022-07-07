@@ -29,17 +29,5 @@ Kirigami.OverlaySheet {
                 presentationScreen = screens[currentIndex];
             }
 	}
-	Controls.TextField {
-	    id: descriptionField
-	    Kirigami.FormData.label: i18nc("@label:textbox", "Description:")
-	    placeholderText: i18n("Optional")
-	    onAccepted: dateField.forceActiveFocus()
-	}
-	Controls.TextField {
-	    id: dateField
-	    Kirigami.FormData.label: i18nc("@label:textbox", "Date:")
-	    placeholderText: i18n("YYYY-MM-DD")
-	    inputMask: "0000-00-00"
-	}
     }
 }
