@@ -26,7 +26,7 @@ Window {
         anchors.fill: parent
         imageSource: imageBackground
         videoSource: videoBackground
-        text: ""
+        text: currentText
 
         Component.onCompleted: slideItem = presentationSlide
     }

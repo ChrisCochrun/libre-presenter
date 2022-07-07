@@ -13,8 +13,9 @@ Controls.Page {
 
     // properties passed around for the slides
     property int currentServiceItem
-    property url imageBackground: ""
-    property url videoBackground: ""
+    property url imageBackground: presentation.imageBackground
+    property url videoBackground: presentation.vidBackground
+    property string currentText: presentation.text
     property int blurRadius: 0
 
     /* property var video */
@@ -187,6 +188,7 @@ Controls.Page {
             imageEditor.visible = false;
             presentation.visible = true;
             editMode = false;
+            presenting = true;
         }
     }
 
