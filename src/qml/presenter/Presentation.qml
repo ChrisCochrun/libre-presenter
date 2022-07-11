@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.2
 /* import QtAudioEngine 1.15 */
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
+import org.presenter 1.0
 
 Item {
     id: root
@@ -85,7 +86,7 @@ Item {
             Layout.alignment: Qt.AlignCenter
             textSize: width / 15
             itemType: root.itemType
-            imageSource: imagebackground
+            imageSource: SlideObject.imageBackground
             videoSource: vidbackground
             preview: true 
         }
@@ -121,6 +122,7 @@ Item {
 
     function nextSlideAction() {
         print(textIndex);
+        print("YIPPEE KAYAYYYY!");
         if (itemType === "song") {
             if (textIndex === 0) {
                 previewSlide.text = root.text[textIndex];

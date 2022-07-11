@@ -14,14 +14,16 @@ ServiceItem::ServiceItem(const QString &name, const QString &type, QObject *pare
 
 ServiceItem::ServiceItem(const QString &name, const QString &type, const QString &background,
                          const QString &backgroundType, QObject *parent)
-  : QObject(parent),m_name(name),m_type(type),m_background(background),m_backgroundType(backgroundType)
+  : QObject(parent),m_name(name),m_type(type),m_background(background),
+    m_backgroundType(backgroundType)
 {
 
 }
 
 ServiceItem::ServiceItem(const QString &name, const QString &type, const QString &background,
                          const QString &backgroundType, const QStringList &text, QObject *parent)
-  : QObject(parent),m_name(name),m_type(type),m_background(background),m_backgroundType(backgroundType),m_text(text)
+  : QObject(parent),m_name(name),m_type(type),m_background(background),
+    m_backgroundType(backgroundType),m_text(text)
 {
 
 }

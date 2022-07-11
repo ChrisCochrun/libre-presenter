@@ -38,6 +38,7 @@
 #include "songsqlmodel.h"
 #include "videosqlmodel.h"
 #include "imagesqlmodel.h"
+#include "slide.h"
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -92,6 +93,10 @@ int main(int argc, char *argv[])
   qDebug() << QQuickStyle::availableStyles();
   qDebug() << QIcon::themeName();
 
+  //Need to instantiate our slide
+  Slide slide("", "", "", "", "", "", "", 0);
+  // QScopedPointer<Slide> slide("", "", "", "", "", "", "", 0);
+
   // apparently mpv needs this class set
   // let's register mpv as well
   std::setlocale(LC_NUMERIC, "C");
@@ -102,6 +107,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", &slide);
 
   connectToDatabase();
 

@@ -122,6 +122,9 @@ Controls.Page {
         const item = serviceItemModel.getItem(index);
         print("index grabbed: " + index);
 
+        slideObject.setImageBackground("/home/chris/Pictures/RoyalKing.png");
+        print("The slides backgorund is: " + slideObject.imageBackground);
+
         presentation.stopVideo()
         presentation.itemType = item.type;
         print("Time to start changing");
