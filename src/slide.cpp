@@ -80,7 +80,7 @@ void Slide::setImageBackground(QString imageBackground)
     if (m_imageBackground == imageBackground)
         return;
 
-    qDebug() << "changing image background to: " << imageBackground;
+    qDebug() << "####changing image background to: " << imageBackground;
     m_imageBackground = imageBackground;
     emit imageBackgroundChanged(m_imageBackground);
 }

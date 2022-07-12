@@ -17,7 +17,7 @@ class Slide : public QObject
   Q_PROPERTY(QString verticalTextAlignment READ verticalTextAlignment WRITE setVerticalTextAlignment NOTIFY verticalTextAlignmentChanged)
   Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
-  QML_ELEMENT
+  // QML_ELEMENT
 
 public:
   explicit Slide(QObject *parent = nullptr);

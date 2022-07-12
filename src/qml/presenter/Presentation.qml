@@ -123,6 +123,7 @@ Item {
     function nextSlideAction() {
         print(textIndex);
         print("YIPPEE KAYAYYYY!");
+        print("YIPPEE KAYAYYYY!");
         if (itemType === "song") {
             if (textIndex === 0) {
                 previewSlide.text = root.text[textIndex];
