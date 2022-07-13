@@ -17,6 +17,7 @@ Slide::Slide(const QString &text, const QString &audio, const QString &imageBack
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),m_fontSize(fontSize)
 {
   qDebug() << "Initializing slide with defaults";
+  qDebug() << m_imageBackground;
 }
 
 QString Slide::text() const {
@@ -90,6 +91,7 @@ void Slide::setVideoBackground(QString videoBackground)
     if (m_videoBackground == videoBackground)
         return;
 
+    qDebug() << "####changing video background to: " << videoBackground;
     m_videoBackground = videoBackground;
     emit videoBackgroundChanged(m_videoBackground);
 }

@@ -17,8 +17,8 @@ Item {
     // These properties are for the slides visuals
     property real textSize: 50
     property bool dropShadow: false
-    property url imageSource: imageBackground
-    property url videoSource: videoBackground
+    property url imageSource
+    property url videoSource
     property string chosenFont: "Quicksand"
     property string text: "This is demo text"
     property color backgroundColor

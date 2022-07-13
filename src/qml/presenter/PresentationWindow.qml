@@ -24,9 +24,9 @@ Window {
     Presenter.Slide {
         id: presentationSlide
         anchors.fill: parent
-        imageSource: imageBackground
-        videoSource: videoBackground
-        text: currentText
+        imageSource: SlideObject.imageBackground
+        videoSource: SlideObject.videoBackground
+        text: SlideObject.text
 
         Component.onCompleted: slideItem = presentationSlide
     }

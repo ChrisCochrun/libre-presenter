@@ -122,19 +122,19 @@ Controls.Page {
         const item = serviceItemModel.getItem(index);
         print("index grabbed: " + index);
 
-        SlideObject.setImageBackground("/home/chris/Pictures/RoyalKing.png");
-        print("The slides backgorund is: " + SlideObject.imageBackground);
 
         presentation.stopVideo()
         presentation.itemType = item.type;
         print("Time to start changing");
         
         if (item.backgroundType === "image") {
-            presentation.vidbackground = "";
-            presentation.imagebackground = item.background;
+            print("The slides backgorund is: " + SlideObject.imageBackground);
+            SlideObject.setVideoBackground("");
+            SlideObject.setImageBackground(item.background);
         } else {
-            presentation.imagebackground = "";
-            presentation.vidbackground = item.background;
+            print("The slides backgorund is: " + SlideObject.videoBackground);
+            SlideObject.setImageBackground("");
+            SlideObject.setVideoBackground(item.background);
             presentation.loadVideo()
         }
 

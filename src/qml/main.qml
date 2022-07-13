@@ -8,6 +8,7 @@ import QtMultimedia 5.15
 /* import QtAudioEngine 1.15 */
 import org.kde.kirigami 2.13 as Kirigami
 import "./presenter" as Presenter
+import org.presenter 1.0
 
 Kirigami.ApplicationWindow {
     id: rootApp

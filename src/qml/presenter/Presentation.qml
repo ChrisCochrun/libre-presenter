@@ -17,7 +17,7 @@ Item {
     property url imagebackground
     property url vidbackground
 
-    Component.onCompleted: nextSlideAction()
+    /* Component.onCompleted: nextSlideAction() */
 
     GridLayout {
         anchors.fill: parent
@@ -87,7 +87,8 @@ Item {
             textSize: width / 15
             itemType: root.itemType
             imageSource: SlideObject.imageBackground
-            videoSource: vidbackground
+            videoSource: SlideObject.videoBackground
+            text: SlideObject.text
             preview: true 
         }
 
@@ -122,8 +123,6 @@ Item {
 
     function nextSlideAction() {
         print(textIndex);
-        print("YIPPEE KAYAYYYY!");
-        print("YIPPEE KAYAYYYY!");
         if (itemType === "song") {
             if (textIndex === 0) {
                 previewSlide.text = root.text[textIndex];
