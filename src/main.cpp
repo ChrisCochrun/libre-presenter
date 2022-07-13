@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 
   //Need to instantiate our slide
   Slide slide("", "", "", "", "", "", "", 0);
-  // QScopedPointer<Slide> slide("", "", "", "", "", "", "", 0);
+  // QScopedPointer<Slide> slide(new Slide("", "", "", "", "", "", "", 0));
 
   // apparently mpv needs this class set
   // let's register mpv as well
