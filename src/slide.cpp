@@ -63,6 +63,7 @@ void Slide::setText(QString text)
     if (m_text == text)
         return;
 
+    qDebug() << "####changing text to: " << text;
     m_text = text;
     emit textChanged(m_text);
 }

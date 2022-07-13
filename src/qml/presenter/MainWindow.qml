@@ -138,12 +138,13 @@ Controls.Page {
             presentation.loadVideo()
         }
 
-        print(item.text.length)
+        print("text length: " + item.text.length);
+        print("text: " + item.text);
         if (item.text.length === 0) {
-            presentation.text = [""];
+            SlideObject.setText("");
         }
         else
-            presentation.text = item.text;
+            SlideObject.setText(item.text);
         presentation.textIndex = 0;
         presentation.changeSlide();
 

@@ -28,6 +28,14 @@ Window {
         videoSource: SlideObject.videoBackground
         text: SlideObject.text
 
-        Component.onCompleted: slideItem = presentationSlide
+        /* Component.onCompleted: slideItem = presentationSlide */
+    }
+
+    function loadVideo() {
+        presentationSlide.loadVideo();
+    }
+
+    function stopVideo() {
+        presentationSlide.stopVideo()
     }
 }

@@ -13,8 +13,10 @@ class Slide : public QObject
   Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
   Q_PROPERTY(QString imageBackground READ imageBackground WRITE setImageBackground NOTIFY imageBackgroundChanged)
   Q_PROPERTY(QString videoBackground READ videoBackground WRITE setVideoBackground NOTIFY videoBackgroundChanged)
-  Q_PROPERTY(QString horizontalTextAlignment READ horizontalTextAlignment WRITE setHorizontalTextAlignment NOTIFY horizontalTextAlignmentChanged)
-  Q_PROPERTY(QString verticalTextAlignment READ verticalTextAlignment WRITE setVerticalTextAlignment NOTIFY verticalTextAlignmentChanged)
+  Q_PROPERTY(QString horizontalTextAlignment READ horizontalTextAlignment
+             WRITE setHorizontalTextAlignment NOTIFY horizontalTextAlignmentChanged)
+  Q_PROPERTY(QString verticalTextAlignment READ verticalTextAlignment
+             WRITE setVerticalTextAlignment NOTIFY verticalTextAlignmentChanged)
   Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   // QML_ELEMENT

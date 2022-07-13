@@ -135,15 +135,15 @@ Item {
             } else {
                 print("Next slide time");
                 textIndex = 0;
-                clearText();
+                /* clearText(); */
                 nextSlide();
             }
         } else if (itemType === "video") {
-            clearText();
+            /* clearText(); */
             nextSlide();
         }
         else if (itemType === "image") {
-            clearText();
+            /* clearText(); */
             nextSlide();
         }
     }
@@ -157,7 +157,7 @@ Item {
         print(textIndex);
         if (itemType === "song") {
             if (textIndex === 0) {
-                clearText();
+                /* clearText(); */
                 nextSlide();
             } else if (textIndex <= root.text.length) {
                 previewSlide.text = root.text[textIndex];
@@ -165,11 +165,11 @@ Item {
                 --textIndex;
             }
         } else if (itemType === "video") {
-            clearText();
+            /* clearText(); */
             previousSlide();
         }
         else if (itemType === "image") {
-            clearText();
+            /* clearText(); */
             previousSlide();
         }
     }
@@ -185,14 +185,14 @@ Item {
             print(root.text[textIndex]);
             textIndex++;
         } else if (itemType === "video") {
-            clearText();
+            /* clearText(); */
         }
         else if (itemType === "image") {
-            clearText();
+            /* clearText(); */
         }
     }
 
-    function clearText() {
-        previewSlide.text = "";
-    }
+    /* function clearText() { */
+    /*     previewSlide.text = ""; */
+    /* } */
 }
