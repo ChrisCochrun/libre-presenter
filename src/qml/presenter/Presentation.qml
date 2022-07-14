@@ -105,6 +105,42 @@ Item {
         }
 
         Item {
+            Layout.fillWidth: true
+        }
+
+        RowLayout {
+            spacing: 2
+            Layout.preferredWidth: previewSlide.width - 50
+            /* Layout.columnSpan: 3 */
+            Kirigami.Icon {
+                source: previewSlide.mpvIsPlaying ? "media-pause" : "media-play"
+                Layout.preferredWidth: 25
+                Layout.preferredHeight: 25
+                visible: itemType === "video";
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: print("pressed play/plause");
+                    cursorShape: Qt.PointingHandCursor
+                }
+            }
+            Controls.Slider {
+                id: videoSlider
+                visible: itemType === "video";
+                Layout.fillWidth: true
+                Layout.preferredHeight: 25
+                from: 0
+                to: previewSlide.mpvDuration
+                value: previewSlide.mpvPosition
+                live: true
+                onMoved: print("moved slider");
+            }
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Item {
             /* Layout.preferredHeight: 200 */
             Layout.fillHeight: true
             Layout.fillWidth: true

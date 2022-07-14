@@ -29,6 +29,7 @@ Item {
     property int mpvPosition: mpv.position
     property int mpvDuration: mpv.duration
     property var mpvLoop: mpv.getProperty("loop")
+    property bool mpvIsPlaying: mpv.isPlaying
 
     // These properties help to determine the state of the slide
     property string itemType
