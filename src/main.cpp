@@ -94,8 +94,7 @@ int main(int argc, char *argv[])
   qDebug() << QIcon::themeName();
 
   //Need to instantiate our slide
-  Slide slide("BALHJ!", "", "/home/chris/Pictures/wallpapers/RoyalKing.png", "", "", "", "", 0);
-  // QScopedPointer<Slide> slide(new Slide("", "", "", "", "", "", "", 0));
+  QScopedPointer<Slide> slide(new Slide("", "", "", "", "", "", "", 0));
 
   // apparently mpv needs this class set
   // let's register mpv as well
@@ -107,7 +106,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
-  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", &slide);
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
 
   connectToDatabase();
 
