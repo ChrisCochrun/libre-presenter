@@ -12,10 +12,10 @@ Slide::Slide(QObject *parent)
 Slide::Slide(const QString &text, const QString &audio, const QString &imageBackground,
              const QString &videoBackground, const QString &horizontalTextAlignment,
              const QString &verticalTextAlignment, const QString &font,
-             const int &fontSize, QObject *parent)
+             const int &fontSize, const QString &type, QObject *parent)
   : QObject(parent),m_text(text),m_audio(audio),m_imageBackground(imageBackground),
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
-    m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),m_fontSize(fontSize)
+    m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),m_fontSize(fontSize),m_type(type)
 {
   qDebug() << "Initializing slide with defaults";
   qDebug() << m_imageBackground;
@@ -23,6 +23,10 @@ Slide::Slide(const QString &text, const QString &audio, const QString &imageBack
 
 QString Slide::text() const {
   return m_text;
+}
+
+QString Slide::type() const {
+  return m_type;
 }
 
 QString Slide::audio() const {
@@ -67,6 +71,16 @@ void Slide::setText(QString text)
     qDebug() << "####changing text to: " << text;
     m_text = text;
     emit textChanged(m_text);
+}
+
+void Slide::setType(QString type)
+{
+    qDebug() << "####changing type to: " << type;
+    if (m_type == type)
+        return;
+
+    m_type = type;
+    emit typeChanged(m_type);
 }
 
 void Slide::setAudio(QString audio)
@@ -134,18 +148,26 @@ void Slide::setFontSize(int fontSize)
     emit fontSizeChanged(m_fontSize);
 }
 
-void Slide::changeSlide(int index)
+void Slide::changeSlide(QVariantMap item)
 {
-  QVariantMap item = services.getItem(index);
-  if (item.backgroundType == "image") {
-    setImageBackground(item.background);
+  setType(item.value("type").toString());
+
+  if (item.value("backgroundType") == "image") {
+    setImageBackground(item.value("background").toString());
     setVideoBackground("");
   } else {
-    setVideoBackground(item.background);
+    setVideoBackground(item.value("background").toString());
     setImageBackground("");
   }
-  if (item.text.length < 1)
-    setText(item.text[0]);
+
+  QStringList text = item.value("text").toStringList();
+  if (text.isEmpty())
+    setText("");
+  else {
+    setText(text[0]);
+  }
+
+  qDebug() << "MAP: " << item.value("text");
 }
 
 void Slide::nextSlide()

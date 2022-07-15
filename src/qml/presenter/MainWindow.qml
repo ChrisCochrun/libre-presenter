@@ -121,30 +121,17 @@ Controls.Page {
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
         print("index grabbed: " + index);
-
+        print(item);
 
         presentation.stopVideo()
         presentation.itemType = item.type;
         print("Time to start changing");
-        
-        if (item.backgroundType === "image") {
-            print("The slides backgorund is: " + SlideObject.imageBackground);
-            SlideObject.setVideoBackground("");
-            SlideObject.setImageBackground(item.background);
-        } else {
-            print("The slides backgorund is: " + SlideObject.videoBackground);
-            SlideObject.setImageBackground("");
-            SlideObject.setVideoBackground(item.background);
-            presentation.loadVideo()
-        }
 
-        print("text length: " + item.text.length);
-        print("text: " + item.text);
-        if (item.text.length === 0) {
-            SlideObject.setText("");
-        }
-        else
-            SlideObject.setText(item.text[0]);
+        SlideObject.changeSlide(item);
+        
+        if (item.backgroundType === "video")
+            presentation.loadVideo();
+
         presentation.textIndex = 0;
         presentation.changeSlide();
 

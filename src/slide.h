@@ -10,6 +10,7 @@ class Slide : public QObject
 {
   Q_OBJECT
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+  Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
   Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
   Q_PROPERTY(QString imageBackground READ imageBackground WRITE setImageBackground NOTIFY imageBackgroundChanged)
   Q_PROPERTY(QString videoBackground READ videoBackground WRITE setVideoBackground NOTIFY videoBackgroundChanged)
@@ -25,9 +26,10 @@ public:
   explicit Slide(QObject *parent = nullptr);
   Slide(const QString &text, const QString &audio, const QString &imageBackground, const QString &videoBackground,
         const QString &horizontalTextAlignment, const QString &verticalTextAlignment,
-        const QString &font, const int &fontSize, QObject * parent = nullptr);
+        const QString &font, const int &fontSize, const QString &type, QObject * parent = nullptr);
 
   QString text() const;
+  QString type() const;
   QString audio() const;
   QString imageBackground() const;
   QString videoBackground() const;
@@ -37,6 +39,7 @@ public:
   int fontSize() const;
 
   Q_INVOKABLE void setText(QString text);
+  Q_INVOKABLE void setType(QString type);
   Q_INVOKABLE void setAudio(QString audio);
   Q_INVOKABLE void setImageBackground(QString imageBackground);
   Q_INVOKABLE void setVideoBackground(QString videoBackground);
@@ -45,11 +48,12 @@ public:
   Q_INVOKABLE void setFont(QString font);
   Q_INVOKABLE void setFontSize(int fontSize);
 
-  Q_INVOKABLE void changeSlide(int index);
+  Q_INVOKABLE void changeSlide(QVariantMap item);
   Q_INVOKABLE void nextSlide();
 
 signals:
     Q_INVOKABLE void textChanged(QString text);
+    Q_INVOKABLE void typeChanged(QString type);
     Q_INVOKABLE void audioChanged(QString audio);
     Q_INVOKABLE void imageBackgroundChanged(QString imageBackground);
     Q_INVOKABLE void videoBackgroundChanged(QString videoBackground);
@@ -61,6 +65,7 @@ signals:
 private:
     int m_id;
     QString m_text;
+    QString m_type;
     QString m_audio;
     QString m_imageBackground;
     QString m_videoBackground;
