@@ -45,8 +45,8 @@ public:
   Q_INVOKABLE void setFont(QString font);
   Q_INVOKABLE void setFontSize(int fontSize);
 
-  // Q_INVOKABLE void changeSlide(int index);
-  // Q_INVOKABLE void nextSlide();
+  Q_INVOKABLE void changeSlide(int index);
+  Q_INVOKABLE void nextSlide();
 
 signals:
     Q_INVOKABLE void textChanged(QString text);

@@ -94,6 +94,7 @@ int main(int argc, char *argv[])
   qDebug() << QIcon::themeName();
 
   //Need to instantiate our slide
+  ServiceItemModel services();
   QScopedPointer<Slide> slide(new Slide("", "", "", "", "", "", "", 0));
 
   // apparently mpv needs this class set

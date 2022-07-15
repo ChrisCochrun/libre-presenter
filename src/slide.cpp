@@ -1,4 +1,5 @@
 #include "slide.h"
+#include "serviceitemmodel.h"
 
 #include <QDebug>
 
@@ -131,4 +132,23 @@ void Slide::setFontSize(int fontSize)
 
     m_fontSize = fontSize;
     emit fontSizeChanged(m_fontSize);
+}
+
+void Slide::changeSlide(int index)
+{
+  QVariantMap item = services.getItem(index);
+  if (item.backgroundType == "image") {
+    setImageBackground(item.background);
+    setVideoBackground("");
+  } else {
+    setVideoBackground(item.background);
+    setImageBackground("");
+  }
+  if (item.text.length < 1)
+    setText(item.text[0]);
+}
+
+void Slide::nextSlide()
+{
+  
 }

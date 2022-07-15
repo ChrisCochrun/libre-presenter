@@ -144,7 +144,7 @@ Controls.Page {
             SlideObject.setText("");
         }
         else
-            SlideObject.setText(item.text);
+            SlideObject.setText(item.text[0]);
         presentation.textIndex = 0;
         presentation.changeSlide();
 
