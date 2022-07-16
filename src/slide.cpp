@@ -18,7 +18,6 @@ Slide::Slide(const QString &text, const QString &audio, const QString &imageBack
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),m_fontSize(fontSize),m_type(type)
 {
   qDebug() << "Initializing slide with defaults";
-  qDebug() << m_imageBackground;
 }
 
 QString Slide::text() const {
@@ -27,6 +26,10 @@ QString Slide::text() const {
 
 QString Slide::type() const {
   return m_type;
+}
+
+QVariantMap Slide::serviceItem() const {
+  return m_serviceItem;
 }
 
 QString Slide::audio() const {
@@ -81,6 +84,16 @@ void Slide::setType(QString type)
 
     m_type = type;
     emit typeChanged(m_type);
+}
+
+void Slide::setServiceItem(QVariantMap serviceItem)
+{
+    qDebug() << "####changing serviceItem to: " << serviceItem;
+    if (m_serviceItem == serviceItem)
+        return;
+
+    m_serviceItem = serviceItem;
+    emit serviceItemChanged(m_serviceItem);
 }
 
 void Slide::setAudio(QString audio)
@@ -150,27 +163,38 @@ void Slide::setFontSize(int fontSize)
 
 void Slide::changeSlide(QVariantMap item)
 {
-  setType(item.value("type").toString());
+  setServiceItem(item);
+  setType(m_serviceItem.value("type").toString());
 
-  if (item.value("backgroundType") == "image") {
-    setImageBackground(item.value("background").toString());
+  if (serviceItem().value("backgroundType") == "image") {
+    setImageBackground(m_serviceItem.value("background").toString());
     setVideoBackground("");
   } else {
-    setVideoBackground(item.value("background").toString());
+    setVideoBackground(m_serviceItem.value("background").toString());
     setImageBackground("");
   }
 
-  QStringList text = item.value("text").toStringList();
+  QStringList text = m_serviceItem.value("text").toStringList();
   if (text.isEmpty())
     setText("");
   else {
     setText(text[0]);
   }
 
-  qDebug() << "MAP: " << item.value("text");
+  qDebug() << "MAP: " << m_serviceItem.value("text");
 }
 
-void Slide::nextSlide()
+void Slide::next()
 {
-  
+  if (m_slideIndex == m_slideSize) {
+    changeSlide();
+    return;
+  }
+
+  if (m_type != "song") {
+    qDebug() << "nextslide current type is song";
+    // setText("");
+    // changeSlide(item);
+  }
+
 }

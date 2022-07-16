@@ -11,6 +11,7 @@ class Slide : public QObject
   Q_OBJECT
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
   Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
+  Q_PROPERTY(QVariantMap serviceItem READ serviceItem WRITE setServiceItem NOTIFY serviceItemChanged)
   Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
   Q_PROPERTY(QString imageBackground READ imageBackground WRITE setImageBackground NOTIFY imageBackgroundChanged)
   Q_PROPERTY(QString videoBackground READ videoBackground WRITE setVideoBackground NOTIFY videoBackgroundChanged)
@@ -30,6 +31,7 @@ public:
 
   QString text() const;
   QString type() const;
+  QVariantMap serviceItem() const;
   QString audio() const;
   QString imageBackground() const;
   QString videoBackground() const;
@@ -40,6 +42,7 @@ public:
 
   Q_INVOKABLE void setText(QString text);
   Q_INVOKABLE void setType(QString type);
+  Q_INVOKABLE void setServiceItem(QVariantMap serviceItem);
   Q_INVOKABLE void setAudio(QString audio);
   Q_INVOKABLE void setImageBackground(QString imageBackground);
   Q_INVOKABLE void setVideoBackground(QString videoBackground);
@@ -49,11 +52,12 @@ public:
   Q_INVOKABLE void setFontSize(int fontSize);
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
-  Q_INVOKABLE void nextSlide();
+  Q_INVOKABLE void next();
 
 signals:
     Q_INVOKABLE void textChanged(QString text);
     Q_INVOKABLE void typeChanged(QString type);
+    Q_INVOKABLE void serviceItemChanged(QVariantMap serviceItem);
     Q_INVOKABLE void audioChanged(QString audio);
     Q_INVOKABLE void imageBackgroundChanged(QString imageBackground);
     Q_INVOKABLE void videoBackgroundChanged(QString videoBackground);
@@ -66,6 +70,7 @@ private:
     int m_id;
     QString m_text;
     QString m_type;
+    QVariantMap m_serviceItem;
     QString m_audio;
     QString m_imageBackground;
     QString m_videoBackground;
@@ -73,6 +78,9 @@ private:
     QString m_verticalTextAlignment;
     QString m_font;
     int m_fontSize;
+
+    int m_slideIndex;
+    int m_slideSize;
 };
 
 #endif //SLIDE_H

@@ -175,11 +175,11 @@ Item {
                 nextSlide();
             }
         } else if (itemType === "video") {
-            clearText();
+            /* clearText(); */
             nextSlide();
         }
         else if (itemType === "image") {
-            clearText();
+            /* clearText(); */
             nextSlide();
         }
     }
@@ -201,11 +201,11 @@ Item {
                 --textIndex;
             }
         } else if (itemType === "video") {
-            clearText();
+            /* clearText(); */
             previousSlide();
         }
         else if (itemType === "image") {
-            clearText();
+            /* clearText(); */
             previousSlide();
         }
     }
