@@ -52,7 +52,7 @@ public:
   Q_INVOKABLE void setFontSize(int fontSize);
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
-  Q_INVOKABLE void next();
+  Q_INVOKABLE bool next(QVariantMap nextItem);
 
 signals:
     Q_INVOKABLE void textChanged(QString text);

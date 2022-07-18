@@ -175,20 +175,29 @@ void Slide::changeSlide(QVariantMap item)
   }
 
   QStringList text = m_serviceItem.value("text").toStringList();
-  if (text.isEmpty())
+  if (text.isEmpty()) {
     setText("");
+    m_slideSize = 1;
+    m_slideIndex = 1;
+  }
   else {
+    qDebug() << "TEXT LENGTH: " << text.length();
+    m_slideSize = text.length();
+    m_slideIndex = 1;
     setText(text[0]);
   }
 
   qDebug() << "MAP: " << m_serviceItem.value("text");
 }
 
-void Slide::next()
+bool Slide::next(QVariantMap nextItem)
 {
+  qDebug() << "Starting to go to next item.";
+  qDebug() << "Slide Index: " << m_slideIndex << " Slide Size: " << m_slideSize;
+  QStringList text = m_serviceItem.value("text").toStringList();
   if (m_slideIndex == m_slideSize) {
-    changeSlide();
-    return;
+    changeSlide(nextItem);
+    return true;
   }
 
   if (m_type != "song") {
@@ -197,4 +206,15 @@ void Slide::next()
     // changeSlide(item);
   }
 
+  if (m_type == "song") {
+    // since the string list is 0 indexed m_slideIndex actually
+    // maps to the next item.
+    int nextTextIndex = m_slideIndex;
+    qDebug() << nextTextIndex;
+    qDebug() << text[nextTextIndex];
+    setText(text[nextTextIndex]);
+    m_slideIndex++;
+  }
+
+  return false;
 }

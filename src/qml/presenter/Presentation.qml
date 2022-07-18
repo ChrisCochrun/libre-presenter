@@ -158,30 +158,41 @@ Item {
     }
 
     function nextSlideAction() {
-        print(textIndex);
-        if (itemType === "song") {
-            if (textIndex === 0) {
-                SlideObject.setText(root.text[textIndex]);
-                print(root.text[textIndex]);
-                textIndex++;
-            } else if (textIndex < root.text.length) {
-                SlideObject.setText(root.text[textIndex]);
-                print(root.text[textIndex]);
-                textIndex++;
-            } else {
-                print("Next slide time");
-                textIndex = 0;
-                clearText();
-                nextSlide();
-            }
-        } else if (itemType === "video") {
-            /* clearText(); */
-            nextSlide();
+        const nextServiceItemIndex = currentServiceItem + 1;
+        const nextItem = serviceItemModel.getItem(nextServiceItemIndex);
+        print("currentServiceItem " + currentServiceItem);
+        print("nextServiceItem " + nextServiceItemIndex);
+        print(nextItem.name);
+        const changed = SlideObject.next(nextItem);
+        print(changed);
+        if (changed) {
+            currentServiceItem++;
+            loadVideo();
         }
-        else if (itemType === "image") {
-            /* clearText(); */
-            nextSlide();
-        }
+        /* print(textIndex); */
+        /* if (itemType === "song") { */
+        /*     if (textIndex === 0) { */
+        /*         SlideObject.setText(root.text[textIndex]); */
+        /*         print(root.text[textIndex]); */
+        /*         textIndex++; */
+        /*     } else if (textIndex < root.text.length) { */
+        /*         SlideObject.setText(root.text[textIndex]); */
+        /*         print(root.text[textIndex]); */
+        /*         textIndex++; */
+        /*     } else { */
+        /*         print("Next slide time"); */
+        /*         textIndex = 0; */
+        /*         clearText(); */
+        /*         nextSlide(); */
+        /*     } */
+        /* } else if (itemType === "video") { */
+        /*     /\* clearText(); *\/ */
+        /*     nextSlide(); */
+        /* } */
+        /* else if (itemType === "image") { */
+        /*     /\* clearText(); *\/ */
+        /*     nextSlide(); */
+        /* } */
     }
 
     function nextSlide() {
