@@ -200,21 +200,13 @@ bool Slide::next(QVariantMap nextItem)
     return true;
   }
 
-  if (m_type != "song") {
-    qDebug() << "nextslide current type is song";
-    // setText("");
-    // changeSlide(item);
-  }
-
-  if (m_type == "song") {
-    // since the string list is 0 indexed m_slideIndex actually
-    // maps to the next item.
-    int nextTextIndex = m_slideIndex;
-    qDebug() << nextTextIndex;
-    qDebug() << text[nextTextIndex];
-    setText(text[nextTextIndex]);
-    m_slideIndex++;
-  }
+  // since the string list is 0 indexed m_slideIndex actually
+  // maps to the next item.
+  int nextTextIndex = m_slideIndex;
+  qDebug() << nextTextIndex;
+  qDebug() << text[nextTextIndex];
+  setText(text[nextTextIndex]);
+  m_slideIndex++;
 
   return false;
 }

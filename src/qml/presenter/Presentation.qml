@@ -169,30 +169,6 @@ Item {
             currentServiceItem++;
             loadVideo();
         }
-        /* print(textIndex); */
-        /* if (itemType === "song") { */
-        /*     if (textIndex === 0) { */
-        /*         SlideObject.setText(root.text[textIndex]); */
-        /*         print(root.text[textIndex]); */
-        /*         textIndex++; */
-        /*     } else if (textIndex < root.text.length) { */
-        /*         SlideObject.setText(root.text[textIndex]); */
-        /*         print(root.text[textIndex]); */
-        /*         textIndex++; */
-        /*     } else { */
-        /*         print("Next slide time"); */
-        /*         textIndex = 0; */
-        /*         clearText(); */
-        /*         nextSlide(); */
-        /*     } */
-        /* } else if (itemType === "video") { */
-        /*     /\* clearText(); *\/ */
-        /*     nextSlide(); */
-        /* } */
-        /* else if (itemType === "image") { */
-        /*     /\* clearText(); *\/ */
-        /*     nextSlide(); */
-        /* } */
     }
 
     function nextSlide() {
