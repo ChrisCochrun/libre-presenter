@@ -53,6 +53,7 @@ public:
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
   Q_INVOKABLE bool next(QVariantMap nextItem);
+  Q_INVOKABLE bool previous(QVariantMap prevItem);
 
 signals:
     Q_INVOKABLE void textChanged(QString text);

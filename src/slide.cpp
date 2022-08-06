@@ -210,3 +210,24 @@ bool Slide::next(QVariantMap nextItem)
 
   return false;
 }
+
+bool Slide::previous(QVariantMap prevItem)
+{
+  qDebug() << "Starting to go to previous item.";
+  qDebug() << "Slide Index: " << m_slideIndex << " Slide Size: " << m_slideSize;
+  QStringList text = m_serviceItem.value("text").toStringList();
+  if (m_slideIndex == 1) {
+    changeSlide(prevItem);
+    return true;
+  }
+
+  // since the string list is 0 indexed m_slideIndex actually
+  // maps to the next item. So the prev text is minus 2
+  int prevTextIndex = m_slideIndex - 2;
+  qDebug() << prevTextIndex;
+  qDebug() << text[prevTextIndex];
+  setText(text[prevTextIndex]);
+  m_slideIndex--;
+
+  return false;
+}

@@ -177,24 +177,38 @@ Item {
     }
 
     function previousSlideAction() {
-        print(textIndex);
-        if (itemType === "song") {
-            if (textIndex === 0) {
-                clearText();
-                nextSlide();
-            } else if (textIndex <= root.text.length) {
-                SlideObject.setText(root.text[textIndex]);
-                print(root.text[textIndex]);
-                --textIndex;
-            }
-        } else if (itemType === "video") {
-            /* clearText(); */
-            previousSlide();
+        const prevServiceItemIndex = currentServiceItem - 1;
+        const prevItem = serviceItemModel.getItem(prevServiceItemIndex);
+        print("currentServiceItem " + currentServiceItem);
+        print("prevServiceItem " + prevServiceItemIndex);
+        print(prevItem.name);
+        const changed = SlideObject.previous(prevItem);
+        print(changed);
+        if (changed) {
+            currentServiceItem--;
+            loadVideo();
         }
-        else if (itemType === "image") {
-            /* clearText(); */
-            previousSlide();
-        }
+
+
+
+        /* print(textIndex); */
+        /* if (itemType === "song") { */
+        /*     if (textIndex === 0) { */
+        /*         clearText(); */
+        /*         nextSlide(); */
+        /*     } else if (textIndex <= root.text.length) { */
+        /*         SlideObject.setText(root.text[textIndex]); */
+        /*         print(root.text[textIndex]); */
+        /*         --textIndex; */
+        /*     } */
+        /* } else if (itemType === "video") { */
+        /*     /\* clearText(); *\/ */
+        /*     previousSlide(); */
+        /* } */
+        /* else if (itemType === "image") { */
+        /*     /\* clearText(); *\/ */
+        /*     previousSlide(); */
+        /* } */
     }
 
     function previousSlide() {
