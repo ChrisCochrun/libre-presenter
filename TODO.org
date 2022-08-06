@@ -14,13 +14,6 @@ May need to think about making this a slide class for all possible slides and a 
 ** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
 [[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 
-** TODO bug in changing slides with the arrows :core:
-[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
-
-slides are inconsistent in changing from one slide to the next or previous. Both functions need looked at.
-
-Maybe my best solution would be to architect a model or class for both the presentation controller and the presentation window to follow and do all the heavy lifting in there.
-
 ** TODO Check for edge cases in inputing wrong vorder and lyrics :core:
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
 
@@ -80,6 +73,15 @@ This thread helped a lot
 
 ** DONE images and videos need a better get system
 [[file:~/dev/church-presenter/src/videosqlmodel.cpp::QVariantList VideoSqlModel::getVideo(const int &row) {]]
+
+** DONE bug in changing slides with the arrows                         :core:
+[[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
+
+slides are inconsistent in changing from one slide to the next or previous. Both functions need looked at.
+
+Maybe my best solution would be to architect a model or class for both the presentation controller and the presentation window to follow and do all the heavy lifting in there.
+
+Finished the arrows working through a proper c++ class
 
 ** DONE Fix broken append when importing River song
 [[file:~/dev/church-presenter/src/qml/presenter/LeftDock.qml::function appendItem(name, type, background, backgroundType, text, itemID) {]]
