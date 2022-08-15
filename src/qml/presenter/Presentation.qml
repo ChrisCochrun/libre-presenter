@@ -188,27 +188,6 @@ Item {
             currentServiceItem--;
             loadVideo();
         }
-
-
-
-        /* print(textIndex); */
-        /* if (itemType === "song") { */
-        /*     if (textIndex === 0) { */
-        /*         clearText(); */
-        /*         nextSlide(); */
-        /*     } else if (textIndex <= root.text.length) { */
-        /*         SlideObject.setText(root.text[textIndex]); */
-        /*         print(root.text[textIndex]); */
-        /*         --textIndex; */
-        /*     } */
-        /* } else if (itemType === "video") { */
-        /*     /\* clearText(); *\/ */
-        /*     previousSlide(); */
-        /* } */
-        /* else if (itemType === "image") { */
-        /*     /\* clearText(); *\/ */
-        /*     previousSlide(); */
-        /* } */
     }
 
     function previousSlide() {
