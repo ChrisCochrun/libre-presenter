@@ -11,6 +11,8 @@ Starting this by creating a slide singleton that will carry the variables for th
 
 May need to think about making this a slide class for all possible slides and a presentation singleton which carries the slide, but first I'll work out if this implementation works instead.
 
+The left dock doesn't carry the change from the arrow buttons and the video on the actual presentation doesn't load.'
+
 ** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
 [[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 
