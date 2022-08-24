@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
-mkShell {
+mkShell rec {
   name = "presenter-env";
 
   nativeBuildInputs = [
@@ -11,6 +11,7 @@ mkShell {
     extra-cmake-modules
     pkg-config
     libsForQt5.wrapQtAppsHook
+    makeWrapper
     # gccStdenv
     # stdenv
   ];
@@ -32,7 +33,7 @@ mkShell {
     libsForQt5.kcoreaddons
 
     # This is only here because apparently it doesn't pick up the icon theme from the base system
-    papirus-icon-theme
+    # papirus-icon-theme
     # lightly-qt
 
     mpv
@@ -43,6 +44,11 @@ mkShell {
   
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
+    setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
+    echo "shellHook: setQtEnvironment = $setQtEnvironment"
+    makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
+    sed "/^exec/d" -i "$setQtEnvironment"
+    source "$setQtEnvironment"
     fish
   '';
 }
