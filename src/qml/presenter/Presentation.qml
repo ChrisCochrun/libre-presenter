@@ -168,6 +168,7 @@ Item {
         if (changed) {
             currentServiceItem++;
             loadVideo();
+            leftDock.changeItem();
         }
     }
 
@@ -187,6 +188,7 @@ Item {
         if (changed) {
             currentServiceItem--;
             loadVideo();
+            leftDock.changeItem();
         }
     }
 
