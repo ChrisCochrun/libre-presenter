@@ -27,8 +27,13 @@ Window {
         imageSource: SlideObject.imageBackground
         videoSource: SlideObject.videoBackground
         text: SlideObject.text
+    }
 
-        /* Component.onCompleted: slideItem = presentationSlide */
+    Connections {
+        target: SlideObject
+        onVideoBackgroundChanged: {
+            loadVideo();
+        }
     }
 
     function loadVideo() {
