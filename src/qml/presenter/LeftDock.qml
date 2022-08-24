@@ -238,7 +238,7 @@ ColumnLayout {
                         y: mouseHandler.mouseY + 10
                         Kirigami.Action {
                             text: "delete"
-                            onTriggered: serviceItemModel.removeItem(index)
+                            onTriggered: removeItem(index);
                         }
                     }
 
@@ -268,6 +268,15 @@ ColumnLayout {
         }
     } 
 
+    Component.onCompleted: {
+        totalServiceItems = serviceItemList.count;
+        print("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
+    }
+
+    function removeItem(index) {
+        serviceItemModel.removeItem(index);
+        totalServiceItems--;
+    }
 
     function addItem(index, name, type,
                      background, backgroundType, text, itemID) {
@@ -276,6 +285,7 @@ ColumnLayout {
         serviceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType, newtext);
+        totalServiceItems++;
     }
 
     function appendItem(name, type, background, backgroundType, text, itemID) {
@@ -292,6 +302,7 @@ ColumnLayout {
 
         serviceItemModel.addItem(name, type, background,
                                  backgroundType, lyrics);
+        totalServiceItems++;
     }
 
     function changeItem() {

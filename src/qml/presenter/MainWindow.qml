@@ -17,6 +17,7 @@ Controls.Page {
     property url videoBackground: presentation.vidBackground
     property string currentText: presentation.text
     property int blurRadius: 0
+    property int totalServiceItems
 
     /* property var video */
 

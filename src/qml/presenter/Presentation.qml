@@ -158,6 +158,8 @@ Item {
     }
 
     function nextSlideAction() {
+        if (currentServiceItem === totalServiceItems)
+            return;
         const nextServiceItemIndex = currentServiceItem + 1;
         const nextItem = serviceItemModel.getItem(nextServiceItemIndex);
         print("currentServiceItem " + currentServiceItem);
@@ -178,6 +180,9 @@ Item {
     }
 
     function previousSlideAction() {
+        if (currentServiceItem === 0) {
+            return;
+        };
         const prevServiceItemIndex = currentServiceItem - 1;
         const prevItem = serviceItemModel.getItem(prevServiceItemIndex);
         print("currentServiceItem " + currentServiceItem);
