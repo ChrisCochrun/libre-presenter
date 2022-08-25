@@ -59,6 +59,7 @@ ColumnLayout {
             clip: true
             spacing: 3
             property int indexDragged
+            property int moveToIndex
             property int draggedY
 
             addDisplaced: Transition {
@@ -255,24 +256,11 @@ ColumnLayout {
             }
 
             function updateDrag(y) {
-                var newIndex;
-                print(serviceItemList.indexAt(0,y));
-                serviceItemList.draggedY = y;
-                if (y < 30) {
-                    indexedHLRec.y = 0;
-                    newIndex = 0;
-                    moveRequested(indexDragged, newIndex)
-                }
-                else if (y < 80) {
-                    indexedHLRec.y = 50;
-                    newIndex = 1;
-                    moveRequested(indexDragged, newIndex)
-                }
-                else if (y < 130) {
-                    indexedHLRec.y = 100;
-                    newIndex = 2;
-                    moveRequested(indexDragged, newIndex)
-                }
+                if (moveToIndex === serviceItemList.indexAt(0,y))
+                    return;
+                else
+                    moveToIndex = serviceItemList.indexAt(0,y);
+                moveRequested(indexDragged, moveToIndex);
             }
 
             function moveRequested(oldIndex, newIndex) {

@@ -183,16 +183,20 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
   qDebug() << index(destIndex).row();
   // beginResetModel();
   QModelIndex parent = index(sourceIndex).parent();
-  if (sourceIndex >= 0 && sourceIndex != destIndex && destIndex >= 0 && destIndex < rowCount() && sourceIndex < rowCount()) {
-    qDebug() << "starting move of: " << "source: " << sourceIndex << "dest: " << destIndex;
-    bool begsuc = beginMoveRows(QModelIndex(), sourceIndex, sourceIndex, QModelIndex(), destIndex);
-    if (begsuc)
-      m_items.move(sourceIndex, destIndex);
-    endMoveRows();
+  if (sourceIndex >= 0 && sourceIndex != destIndex &&
+      destIndex >= -1 && destIndex < rowCount() &&
+      sourceIndex < rowCount()) {
+    qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
+    bool begsuc = beginMoveRows(QModelIndex(), sourceIndex,
+                                sourceIndex, QModelIndex(), destIndex);
+    if (begsuc) {
+      if (destIndex = -1)
+        m_item.move(sourceIndex, 0);
+      else
+        m_items.move(sourceIndex, destIndex);
+      endMoveRows();
+    }
   }
-  // endResetModel();
-  // emit dataChanged(index(sourceIndex), QModelIndex());
-  // qDebug() << success;
   return true;
 }
 
