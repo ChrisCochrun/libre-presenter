@@ -1,10 +1,11 @@
 import QtQuick 2.13
-import QtQuick.Dialogs 1.0
+/* import QtQuick.Dialogs 1.0 */
 import QtQuick.Controls 2.0 as Controls
-import QtQuick.Window 2.13
+/* import QtQuick.Window 2.13 */
 import QtQuick.Layouts 1.2
+/* import QtQuick.Shapes 1.15 */
 import QtQml.Models 2.12
-import QtMultimedia 5.15
+/* import QtMultimedia 5.15 */
 /* import QtAudioEngine 1.15 */
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
@@ -14,6 +15,7 @@ ColumnLayout {
     id: root
 
     property var selectedItem: serviceItemList.selected
+    property var hlItem 
 
     Rectangle {
         id: headerBackground
@@ -56,7 +58,8 @@ ColumnLayout {
             /* } */
             clip: true
             spacing: 3
-            property int dragItemIndex
+            property int indexDragged
+            property int draggedY
 
             addDisplaced: Transition {
                 NumberAnimation {properties: "x, y"; duration: 100}
@@ -80,20 +83,24 @@ ColumnLayout {
             model: DelegateModel {
                 id: visualModel
                 model: serviceItemModel
+
                 delegate: DropArea {
                     id: serviceDrop
                     implicitWidth: serviceItemList.width
                     height: 50
+
                     onEntered: (drag) => {
-                        /* dropPlacement(drag); */
-                        const from = (drag.source as visServiceItem)
-                        visualModel.items.move(dragItemIndex, index);
+                        if (drag.keys[0] === "library") {
+                            indexedHLRec.visible = true;
+                            indexedHLRec.y = y - 2;
+                        }
                     }
+
                     onDropped: (drag) => {
                         print("DROPPED IN ITEM AREA: " + drag.keys);
                         print(dragItemIndex + " " + index);
                         const hlIndex = serviceItemList.currentIndex;
-                        if (drag.keys === ["library"]) {
+                        if (drag.keys[0] === "library") {
                             addItem(index,
                                     dragItemTitle,
                                     dragItemType,
@@ -101,14 +108,16 @@ ColumnLayout {
                                     dragItemBackgroundType,
                                     dragItemText,
                                     dragItemIndex);
-                        } else if (drag.keys === ["serviceitem"]) {
+                        } else if (drag.keys[0] === "serviceitem") {
                             moveRequested(dragItemIndex, index);
-                            if (hlIndex === dragItemIndex)
+                            if (hlIndex === serviceItemList.indexDragged)
                                 serviceItemList.currentIndex = index;
                             else if (hlIndex === index)
                                 serviceItemList.currentIndex = index + 1;
                         }
+                        indexedHLRec.visible = false;
                     }
+
                     keys: ["library","serviceitem"]
 
                     Kirigami.BasicListItem {
@@ -124,9 +133,10 @@ ColumnLayout {
                         hoverEnabled: false
                         supportsMouseEvents: false
                         backgroundColor: {
-                            if (serviceItemList.currentIndex === index ||
-                                mouseHandler.containsMouse)
+                            if (serviceItemList.currentIndex === index)
                                 Kirigami.Theme.highlightColor;
+                            else if (mouseHandler.containsMouse)
+                                Kirigami.Theme.hoverColor;
                             else
                                  Kirigami.Theme.backgroundColor;
                         }
@@ -137,6 +147,8 @@ ColumnLayout {
                             else
                                 Kirigami.Theme.textColor;
                         }
+
+                        onYChanged: serviceItemList.updateDrag(Math.round(y));
 
                         states: [
                             State {
@@ -179,7 +191,7 @@ ColumnLayout {
 
                             drag.onActiveChanged: {
                                 if (mouseHandler.drag.active) {
-                                    dragItemIndex = index;
+                                    serviceItemList.indexDragged = index;
                                 } 
                             }
 
@@ -211,27 +223,6 @@ ColumnLayout {
                         }
                     }
 
-                    /* Presenter.DragHandle { */
-                    /*     id: mouseHandler */
-                    /*     anchors.fill: parent */
-                    /*     listItem: serviceItem */
-                    /*     listView: serviceItemList */
-                    /*     onMoveRequested: { */
-                    /*         print(oldIndex, newIndex); */
-                    /*         serviceItemModel.move(oldIndex, newIndex); */
-                    /*     } */
-                    /*     onDropped: { */
-                    /*     } */
-                    /*     onClicked: { */
-                    /*         serviceItemList.currentIndex = index; */
-                    /*         currentServiceItem = index; */
-                    /*         changeServiceItem(index); */
-                    /*     } */
-                    /*     onRightClicked: rightClickMenu.popup() */
-                    /* } */
-                
-                
-
                     Controls.Menu {
                         id: rightClickMenu
                         x: mouseHandler.mouseX
@@ -242,14 +233,11 @@ ColumnLayout {
                         }
                     }
 
-                    function moveRequested(oldIndex, newIndex) {
-                        serviceItemModel.move(oldIndex, newIndex);
-                    }
-
                     function dropPlacement(drag) {
                         print(drag.y);
                     }
                 }
+
             }
         
 
@@ -264,6 +252,69 @@ ColumnLayout {
                 anchors.right: serviceItemList.right
                 anchors.rightMargin: 0
                 active: hovered || pressed
+            }
+
+            function updateDrag(y) {
+                var newIndex;
+                print(serviceItemList.indexAt(0,y));
+                serviceItemList.draggedY = y;
+                if (y < 30) {
+                    indexedHLRec.y = 0;
+                    newIndex = 0;
+                    moveRequested(indexDragged, newIndex)
+                }
+                else if (y < 80) {
+                    indexedHLRec.y = 50;
+                    newIndex = 1;
+                    moveRequested(indexDragged, newIndex)
+                }
+                else if (y < 130) {
+                    indexedHLRec.y = 100;
+                    newIndex = 2;
+                    moveRequested(indexDragged, newIndex)
+                }
+            }
+
+            function moveRequested(oldIndex, newIndex) {
+                serviceItemModel.move(oldIndex, newIndex);
+            }
+
+        }
+
+        Rectangle {
+            id: indexedHLRec
+            width: parent.width
+            height: 4
+            color: Kirigami.Theme.hoverColor
+            visible: false
+
+        }
+        Canvas {
+            /* asynchronous: true; */
+            x: indexedHLRec.width - 8
+            y: indexedHLRec.y - 17
+            z: 1
+            width: 100; height: 100;
+            contextType: "2d"
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.fillStyle = Kirigami.Theme.hoverColor;
+                ctx.rotate(30);
+                ctx.transform(0.8, 0, 0, 0.8, 0, 30)
+                ctx.path = tearDropPath;
+                ctx.fill();
+            }
+            visible: indexedHLRec.visible
+        }
+        Path {
+            id: tearDropPath
+            startX: indexedHLRec.width
+            startY: indexedHLRec.y + 4
+            PathSvg {
+                path: "M15 3
+                           Q16.5 6.8 25 18
+                           A12.8 12.8 0 1 1 5 18
+                           Q13.5 6.8 15 3z"
             }
         }
     } 
