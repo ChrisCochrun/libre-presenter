@@ -110,11 +110,9 @@ ColumnLayout {
                                     dragItemText,
                                     dragItemIndex);
                         } else if (drag.keys[0] === "serviceitem") {
-                            moveRequested(dragItemIndex, index);
-                            if (hlIndex === serviceItemList.indexDragged)
-                                serviceItemList.currentIndex = index;
-                            else if (hlIndex === index)
-                                serviceItemList.currentIndex = index + 1;
+                            serviceItemModel.move(serviceItemList.indexDragged,
+                                                  serviceItemList.moveToIndex);
+                            serviceItemList.currentIndex = moveToIndex;
                         }
                         indexedHLRec.visible = false;
                     }
@@ -233,10 +231,6 @@ ColumnLayout {
                             onTriggered: removeItem(index);
                         }
                     }
-
-                    function dropPlacement(drag) {
-                        print(drag.y);
-                    }
                 }
 
             }
@@ -264,7 +258,13 @@ ColumnLayout {
             }
 
             function moveRequested(oldIndex, newIndex) {
-                serviceItemModel.move(oldIndex, newIndex);
+                if (newIndex === oldIndex)
+                    return;
+                if (newIndex === -1)
+                    newIndex = 0;
+                print("moveRequested: ", oldIndex, newIndex);
+                visualModel.items.move(oldIndex, newIndex);
+                indexDragged = newIndex;
             }
 
         }

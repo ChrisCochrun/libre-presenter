@@ -191,7 +191,7 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
                                 sourceIndex, QModelIndex(), destIndex);
     if (begsuc) {
       if (destIndex = -1)
-        m_item.move(sourceIndex, 0);
+        m_items.move(sourceIndex, 0);
       else
         m_items.move(sourceIndex, destIndex);
       endMoveRows();
