@@ -161,7 +161,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   QStringList lyrics;
 
   QStringList vorder = recordData.value("vorder").toString().split(" ");
-  qDebug() << vorder;
+  // qDebug() << vorder;
 
   QStringList keywords = {"Verse 1", "Verse 2", "Verse 3", "Verse 4",
                           "Verse 5", "Verse 6", "Verse 7", "Verse 8",
@@ -181,7 +181,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
 
   // This first function pulls out each verse into our verses map
   foreach (line, rawLyrics) {
-    qDebug() << line;
+    // qDebug() << line;
     if (firstItem) {
       if (keywords.contains(line)) {
         recordVerse = true;
@@ -203,7 +203,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
     }
     recordVerse = true;
   }
-  qDebug() << verses;
+  // qDebug() << verses;
 
   // let's check to see if there is a verse order, if not return the list given
   if (vorder.first().isEmpty()) {
@@ -224,7 +224,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
     }
   }
 
-  qDebug() << lyrics;
+  // qDebug() << lyrics;
 
   return lyrics;
 }

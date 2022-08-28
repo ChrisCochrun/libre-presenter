@@ -56,6 +56,7 @@ Item {
     }
 
     function appendVerse(verse) {
+        print("Let's append some verses")
         print(verse);
         songModel.append({"verse": verse})
     }

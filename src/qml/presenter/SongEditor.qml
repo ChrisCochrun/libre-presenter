@@ -11,6 +11,7 @@ Item {
 
     property int songIndex
     property var song 
+    property string songLyrics
 
     GridLayout {
         id: mainLayout
@@ -238,6 +239,8 @@ Item {
         repeat: true
         running: false
         onTriggered: {
+            if (lyricsEditor.text === songLyrics)
+                return;
             updateLyrics(lyricsEditor.text);
         }
     }
@@ -277,6 +280,7 @@ Item {
     function changeSong(index) {
         const s = songsqlmodel.getSong(index);
         song = s;
+        songLyrics = s.lyrics;
         songIndex = index;
 
         if (song.backgroundType == "image") {
@@ -298,7 +302,9 @@ Item {
 
     function updateLyrics(lyrics) {
         songsqlmodel.updateLyrics(songIndex, lyrics);
-        print(lyrics);
+        songLyrics = lyrics;
+        /* print(lyrics); */
+        changeSlideText(song.id - 1);
     }
 
     function updateTitle(title) {
@@ -325,6 +331,11 @@ Item {
         songsqlmodel.updateBackground(songIndex, background);
         songsqlmodel.updateBackgroundType(songIndex, backgroundType);
         print("changed background");
+        if (backgroundType === "image") {
+            //todo
+        } else {
+            //todo
+        }
     }
 
 
@@ -401,7 +412,7 @@ Item {
 
     function changeSlideText(id) {
         const verses = songsqlmodel.getLyricList(id);
-        print("Here are the verses: " + verses);
+        /* print("Here are the verses: " + verses); */
         slideEditor.songs.clear()
         verses.forEach(slideEditor.appendVerse);
     }
