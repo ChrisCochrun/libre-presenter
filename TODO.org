@@ -4,17 +4,6 @@
 :END:
 
 * Inbox
-** DONE [#A] Make Presentation Window follow the presenter component   :core:
-[[file:~/dev/church-presenter/src/qml/presenter/MainWindow.qml::Presenter.Slide {]]
-
-Starting this by creating a slide singleton that will carry the variables for the current visible slide in the presentation.
-
-May need to think about making this a slide class for all possible slides and a presentation singleton which carries the slide, but first I'll work out if this implementation works instead.
-
-The left dock doesn't carry the change from the arrow buttons and the video on the actual presentation doesn't load.'
-
-All pieces working now
-
 ** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
 [[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 
@@ -32,6 +21,7 @@ All pieces working now
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 ** TODO Images stored in sql need to have aspect saved and applied dynamically here :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
+** TODO Fix bug in not removing old slides in the SongEditor when switching songs from the Library :bug:
 
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
@@ -98,6 +88,17 @@ This was due to the song not having a vorder. Need to protect from edge cases of
 ** DONE Need to make ListModel capable of bringing in a string list [2/2] [100%]
 - [X] Create a Model
 - [X] Create a class that we'll make a list of in the model
+
+** DONE [#A] Make Presentation Window follow the presenter component   :core:
+[[file:~/dev/church-presenter/src/qml/presenter/MainWindow.qml::Presenter.Slide {]]
+
+Starting this by creating a slide singleton that will carry the variables for the current visible slide in the presentation.
+
+May need to think about making this a slide class for all possible slides and a presentation singleton which carries the slide, but first I'll work out if this implementation works instead.
+
+The left dock doesn't carry the change from the arrow buttons and the video on the actual presentation doesn't load.'
+
+All pieces working now
 
 ** DONE Make an image sql model
 [[file:~/dev/church-presenter/src/videosqlmodel.h::ifndef VIDEOSQLMODEL_H]]
