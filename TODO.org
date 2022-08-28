@@ -21,8 +21,6 @@
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 ** TODO Images stored in sql need to have aspect saved and applied dynamically here :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
-** TODO Fix bug in not removing old slides in the SongEditor when switching songs from the Library :bug:
-
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 
@@ -67,6 +65,8 @@ This thread helped a lot
 
 ** DONE images and videos need a better get system
 [[file:~/dev/church-presenter/src/videosqlmodel.cpp::QVariantList VideoSqlModel::getVideo(const int &row) {]]
+
+** DONE Fix bug in not removing old slides in the SongEditor when switching songs from the Library :bug:
 
 ** DONE bug in changing slides with the arrows                         :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
