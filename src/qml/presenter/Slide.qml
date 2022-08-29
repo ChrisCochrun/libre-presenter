@@ -63,17 +63,17 @@ Item {
                 id: playArea
                 anchors.fill: parent
                 enabled: editMode
-                onPressed: mpv.playPause();
+                /* onPressed: mpv.playPause(); */
                 cursorShape: preview ? Qt.ArrowCursor : Qt.BlankCursor
             }
 
-            Controls.ProgressBar {
-                anchors.top: parent.bottom
-                visible: editMode
-                width: parent.width - 400
-                value: mpv.position
-                to: mpv.duration
-            }
+            /* Controls.ProgressBar { */
+            /*     anchors.top: parent.bottom */
+            /*     width: mpv.width */
+            /*     visible: editMode */
+            /*     value: mpv.position */
+            /*     to: mpv.duration */
+            /* } */
         }
 
         Timer {

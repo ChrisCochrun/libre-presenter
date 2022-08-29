@@ -224,10 +224,10 @@ Item {
                     Layout.preferredWidth: 500
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.bottomMargin: 30
-                    Layout.topMargin: 30
-                    Layout.rightMargin: 20
-                    Layout.leftMargin: 20
+                    Layout.bottomMargin: 20
+                    Layout.topMargin: 10
+                    Layout.rightMargin: 0
+                    Layout.leftMargin: 10
                 }
             }
         }
@@ -328,13 +328,19 @@ Item {
     }
 
     function updateBackground(background, backgroundType) {
+        song.background = background;
+        song.backgroundType = backgroundType;
         songsqlmodel.updateBackground(songIndex, background);
         songsqlmodel.updateBackgroundType(songIndex, backgroundType);
         print("changed background");
         if (backgroundType === "image") {
             //todo
+            slideEditor.videoBackground = "";
+            slideEditor.imageBackground = background;
         } else {
             //todo
+            slideEditor.imageBackground = "";
+            slideEditor.videoBackground = background;
         }
     }
 
@@ -352,11 +358,13 @@ Item {
     function updateFont(font) {
         changeSlideFont(font, false);
         songsqlmodel.updateFont(songIndex, font);
+        song.font = font;
     }
 
     function updateFontSize(fontSize) {
         changeSlideFontSize(fontSize, false);
         songsqlmodel.updateFontSize(songIndex, fontSize);
+        song.fontSize = fontSize;
     }
 
     function changeSlideHAlignment(alignment) {

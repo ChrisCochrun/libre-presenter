@@ -18,33 +18,81 @@ Item {
     property string font
     property real fontSize
 
+    property bool playingVideo: false
+
     property ListModel songs: songModel
+
+    property var firstItem
+
+    Controls.ToolButton {
+        id: playBackgroundButton
+        anchors.top: parent.top
+        anchors.left: parent.left
+        text: playingVideo ? "Pause" : "Play"
+        icon.name: playingVideo ? "media-pause" : "media-play"
+        hoverEnabled: true
+        onClicked: playPauseSlide();
+    }
+
+
+    Controls.ProgressBar {
+        anchors.top: parent.top
+        anchors.left: playBackgroundButton.right
+        anchors.leftMargin: 10
+        width: parent.width - playBackgroundButton.width - 10
+        height: playBackgroundButton.height
+        /* visible: editMode */
+        value: firstItem.mpvPosition
+        to: firstItem.mpvDuration
+    }
 
     ListView {
         id: slideList
-        anchors.fill: parent
+        anchors.top: playBackgroundButton.bottom
+        anchors.topMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        width: parent.width
         model: songModel
         clip: true
         cacheBuffer: 900
         reuseItems: true
         spacing: Kirigami.Units.gridUnit
-        flickDeceleration: 4000
+        /* flickDeceleration: 4000 */
         /* boundsMovement: Flickable.StopAtBounds */
         synchronousDrag: true
         delegate: Presenter.Slide {
             id: representation
             editMode: true
-            imageSource: root.imageBackground
-            videoSource: root.videoBackground
+            imageSource: song.backgroundType = "image" ? song.background : ""
+            videoSource: song.backgroundType = "video" ? song.background : ""
             hTextAlignment: root.hTextAlignment
             vTextAlignment: root.vTextAlignment
-            chosenFont: root.font
-            textSize: root.fontSize
+            chosenFont: song.font
+            textSize: song.fontSize
             preview: true
             text: verse
             implicitWidth: slideList.width
             implicitHeight: width * 9 / 16
         }
+
+        Kirigami.WheelHandler {
+            id: wheelHandler
+            target: slideList
+            filterMouseEvents: true
+        }
+
+        Controls.ScrollBar.vertical: Controls.ScrollBar {
+            parent: slideList.parent
+            anchors.top: slideList.top
+            anchors.left: slideList.right
+            anchors.bottom: slideList.bottom
+            active: hovered || pressed
+        }
+
 
     }
 
@@ -94,6 +142,13 @@ Item {
             root.vTextAlignment = Text.AlignBottom;
             break;
         }
+    }
+
+    function playPauseSlide() {
+        firstItem = slideList.itemAtIndex(0)
+        playingVideo = !playingVideo;
+        slideList.itemAtIndex(0).editMode = false;
+        slideList.itemAtIndex(0).loadVideo();
     }
 
 }
