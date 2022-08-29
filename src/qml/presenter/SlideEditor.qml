@@ -41,7 +41,7 @@ Item {
         anchors.leftMargin: 10
         width: parent.width - playBackgroundButton.width - 10
         height: playBackgroundButton.height
-        /* visible: editMode */
+        visible: videoBackground.length() > 1;
         value: firstItem.mpvPosition
         to: firstItem.mpvDuration
     }
@@ -55,7 +55,6 @@ Item {
         anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 20
-        width: parent.width
         model: songModel
         clip: true
         cacheBuffer: 900
@@ -71,12 +70,13 @@ Item {
             videoSource: song.backgroundType = "video" ? song.background : ""
             hTextAlignment: root.hTextAlignment
             vTextAlignment: root.vTextAlignment
-            chosenFont: song.font
-            textSize: song.fontSize
+            chosenFont: font
+            textSize: fontSize
             preview: true
             text: verse
             implicitWidth: slideList.width
             implicitHeight: width * 9 / 16
+            itemType: "song"
         }
 
         Kirigami.WheelHandler {
@@ -94,9 +94,6 @@ Item {
         }
 
 
-    }
-
-    Component.onCompleted: {
     }
 
     ListModel {
@@ -145,10 +142,11 @@ Item {
     }
 
     function playPauseSlide() {
-        firstItem = slideList.itemAtIndex(0)
+        firstItem = slideList.itemAtIndex(0);
+        print(firstItem);
         playingVideo = !playingVideo;
-        slideList.itemAtIndex(0).editMode = false;
-        slideList.itemAtIndex(0).loadVideo();
+        /* firstItem.editMode = false; */
+        firstItem.playPauseVideo();
     }
 
 }

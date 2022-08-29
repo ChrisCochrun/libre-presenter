@@ -58,6 +58,7 @@ Item {
                     mpv.setProperty("loop", "no");
                 /* showPassiveNotification(mpv.getProperty("loop")); */
             }
+            /* onIsPlayingChanged: showPassiveNotification(mpv.getProperty("pause")) */
 
             MouseArea {
                 id: playArea
@@ -168,5 +169,9 @@ Item {
 
     function pauseVideo() {
         mpv.pause();
+    }
+
+    function playPauseVideo() {
+        mpv.playPause();
     }
 }
