@@ -7,6 +7,16 @@
 ** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
 [[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 
+** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
+
+- [X] Initial ListView with text coming from =getLyricList=
+- [ ] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
+- [ ] Need to perhaps address the MPV crashing problem for a smoother experience.
+  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware.
+
+** TODO Make toolbar functional for =songeditor= [3/4] [75%]             :core:
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 ** TODO Check for edge cases in inputing wrong vorder and lyrics :core:
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
 
@@ -17,18 +27,8 @@
 - [ ] Allow for a less buggy interaction
 - [ ] Need to check for edge cases
 
-** TODO Make toolbar functional for =songeditor= [3/4] [75%] :core:
-[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 ** TODO Images stored in sql need to have aspect saved and applied dynamically here :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
-** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
-[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
-
-- [X] Initial ListView with text coming from =getLyricList=
-- [ ] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
-- [ ] Need to perhaps address the MPV crashing problem for a smoother experience.
-  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware.
-
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
 
