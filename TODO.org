@@ -15,7 +15,7 @@
 - [ ] Need to perhaps address the MPV crashing problem for a smoother experience.
   Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware.
 
-** TODO Make toolbar functional for =songeditor= [3/4] [75%]             :core:
+** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
 - [X] alignment
