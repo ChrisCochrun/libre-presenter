@@ -133,7 +133,8 @@ MpvObject::MpvObject(QQuickItem *parent)
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
 
-  mpv_set_option_string(mpv, "terminal", "yes");
+  // these are the terminal messages
+  // mpv_set_option_string(mpv, "terminal", "yes");
   // mpv_set_option_string(mpv, "msg-level", "all=warn,ao/alsa=error");
   // mpv_set_option_string(mpv, "msg-level", "all=debug");
 
