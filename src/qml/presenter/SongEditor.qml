@@ -328,8 +328,8 @@ Item {
     }
 
     function updateBackground(background, backgroundType) {
-        song.background = background;
         song.backgroundType = backgroundType;
+        song.background = background;
         songsqlmodel.updateBackground(songIndex, background);
         songsqlmodel.updateBackgroundType(songIndex, backgroundType);
         print("changed background");
@@ -341,6 +341,7 @@ Item {
             //todo
             slideEditor.imageBackground = "";
             slideEditor.videoBackground = background;
+            slideEditor.loadVideo();
         }
     }
 

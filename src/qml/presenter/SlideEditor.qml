@@ -41,7 +41,7 @@ Item {
         anchors.leftMargin: 10
         width: parent.width - playBackgroundButton.width - 10
         height: playBackgroundButton.height
-        visible: videoBackground.length() > 1;
+        visible: firstItem.mpvDuration > 1;
         value: firstItem.mpvPosition
         to: firstItem.mpvDuration
     }
@@ -66,8 +66,8 @@ Item {
         delegate: Presenter.Slide {
             id: representation
             editMode: true
-            imageSource: song.backgroundType = "image" ? song.background : ""
-            videoSource: song.backgroundType = "video" ? song.background : ""
+            imageSource: root.imageBackground
+            videoSource: root.videoBackground
             hTextAlignment: root.hTextAlignment
             vTextAlignment: root.vTextAlignment
             chosenFont: font
@@ -105,10 +105,6 @@ Item {
         /* print(verse); */
         songModel.append({"verse": verse})
     }
-
-    /* function loadVideo() { */
-    /*     representation.loadVideo(); */
-    /* } */
 
     function updateHAlignment(alignment) {
         switch (alignment) {
@@ -149,4 +145,19 @@ Item {
         firstItem.playPauseVideo();
     }
 
+    function stopVideo() {
+        representation.stopVideo();
+    }
+
+    function pauseVideo() {
+        representation.pauseVideo();
+    }
+
+    function loadVideo() {
+        for (var i = 0; i < slideList.count; ++i) {
+            slideList.currentIndex = i;
+            slideList.currentItem.loadVideo();
+            print(slideList.currentItem);
+        }
+    }
 }
