@@ -158,6 +158,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   }
 
   QStringList rawLyrics = recordData.value("lyrics").toString().split("\n");
+  qDebug() << rawLyrics;
   QStringList lyrics;
 
   QStringList vorder = recordData.value("vorder").toString().split(" ");
@@ -175,7 +176,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   QString verse;
   QString vtitle;
   QString line;
-  QMap<QString, QString> verses;
+  QMultiMap<QString, QString> verses;
 
   //TODO make sure to split empty line in verse into two slides
 
@@ -190,6 +191,19 @@ QStringList SongSqlModel::getLyricList(const int &row) {
         continue;
       }
     } else if (keywords.contains(line)) {
+      // qDebug() << verse;
+      verse = verse.trimmed();
+      if (verse.contains("\n\n")) {
+        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        QStringList multiverses = verse.split("\n\n");
+        foreach (verse, multiverses)
+          verses.insert(vtitle, verse);
+        verse.clear();
+        multiverses.clear();
+        vtitle = line;
+        recordVerse = false;
+        continue;
+      }
       verses.insert(vtitle, verse);
       verse.clear();
       vtitle = line;
@@ -215,11 +229,14 @@ QStringList SongSqlModel::getLyricList(const int &row) {
     qDebug() << lyrics;
     return lyrics;
   }
+
   // this function appends the verse that matches the verse order from the map
   foreach (const QString &vstr, vorder) {
     foreach (line, rawLyrics) {
       if (line.startsWith(vstr.at(0)) && line.endsWith(vstr.at(1))) {
-        lyrics.append(verses[line]);
+        QList<QString> values = verses.values(line);
+        for (int i = values.size(); i > 0;)
+          lyrics.append(values.at(--i));
       }
     }
   }
