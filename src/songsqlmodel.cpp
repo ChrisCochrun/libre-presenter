@@ -210,7 +210,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
       vtitle = line;
       continue;
     } else if (rawLyrics.endsWith(line)) {
-      qDebug() << vtitle;
+      // qDebug() << vtitle;
       verse.append(line.trimmed() + "\n");
       verses.insert(vtitle, verse);
       break;
@@ -233,6 +233,10 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   }
 
   // this function appends the verse that matches the verse order from the map
+  // first we run through every line and check to see if the line matches
+  // an item in vorder, then we append lyrics from the verse that matches
+  // the verse map we created earlier. It's a multi map so we need to append
+  // them in reverse as they are added in last in first out order.
   foreach (const QString &vstr, vorder) {
     foreach (line, rawLyrics) {
       if (line.startsWith(vstr.at(0)) && line.endsWith(vstr.at(1))) {
