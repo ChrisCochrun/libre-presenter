@@ -171,7 +171,6 @@ QStringList SongSqlModel::getLyricList(const int &row) {
                           "Intro 1", "Intro 2", "Ending 1", "Ending 2",
                           "Other 1", "Other 2", "Other 3", "Other 4"};
 
-  bool recordVerse;
   bool firstItem = true;
   QString verse;
   QString vtitle;
@@ -185,37 +184,40 @@ QStringList SongSqlModel::getLyricList(const int &row) {
     // qDebug() << line;
     if (firstItem) {
       if (keywords.contains(line)) {
-        recordVerse = true;
+        // qDebug() << line;
         firstItem = false;
         vtitle = line;
         continue;
       }
     } else if (keywords.contains(line)) {
       // qDebug() << verse;
-      verse = verse.trimmed();
+      // qDebug() << line;
       if (verse.contains("\n\n")) {
-        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        verse = verse.trimmed();
+        // qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
         QStringList multiverses = verse.split("\n\n");
-        foreach (verse, multiverses)
+        foreach (verse, multiverses) {
           verses.insert(vtitle, verse);
+          // qDebug() << verse;
+        }
         verse.clear();
         multiverses.clear();
         vtitle = line;
-        recordVerse = false;
         continue;
       }
       verses.insert(vtitle, verse);
       verse.clear();
       vtitle = line;
-      recordVerse = false;
+      continue;
     } else if (rawLyrics.endsWith(line)) {
+      qDebug() << vtitle;
+      verse.append(line.trimmed() + "\n");
       verses.insert(vtitle, verse);
       break;
     }
-    if (recordVerse) {
-      verse.append(line.trimmed() + "\n");
-    }
-    recordVerse = true;
+    // qDebug() << line;
+    verse.append(line.trimmed() + "\n");
+    // qDebug() << verse;
   }
   // qDebug() << verses;
 
