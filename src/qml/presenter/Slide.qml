@@ -139,6 +139,10 @@ Item {
                 verticalAlignment: vTextAlignment
                 style: Text.Raised
                 anchors.fill: parent
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
                 clip: true
 
                 layer.enabled: true
