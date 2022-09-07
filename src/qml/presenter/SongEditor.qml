@@ -278,6 +278,7 @@ Item {
     }
 
     function changeSong(index) {
+        clearSlides();
         const s = songsqlmodel.getSong(index);
         song = s;
         songLyrics = s.lyrics;
@@ -420,9 +421,12 @@ Item {
     }
 
     function changeSlideText(id) {
-        const verses = songsqlmodel.getLyricList(id);
         /* print("Here are the verses: " + verses); */
-        slideEditor.songs.clear()
+        const verses = songsqlmodel.getLyricList(id);
         verses.forEach(slideEditor.appendVerse);
+    }
+
+    function clearSlides() {
+        slideEditor.songs.clear()
     }
 }

@@ -21,6 +21,7 @@ Item {
     property bool playingVideo: false
 
     property ListModel songs: songModel
+    property ListView songSlides: slideList
 
     property var firstItem
 
@@ -160,4 +161,5 @@ Item {
             print(slideList.currentItem);
         }
     }
+
 }

@@ -4,8 +4,6 @@
 :END:
 
 * Inbox
-** DONE Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
-[[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 ** TODO VideoSQL Model and SQLite system needs fixing
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
 
@@ -13,9 +11,13 @@
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 
 - [X] Initial ListView with text coming from =getLyricList=
-- [ ] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
+- [X] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
 - [ ] Need to perhaps address the MPV crashing problem for a smoother experience.
-  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware.
+  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware. So far I haven't seen too many problems with the =reuseItems= piece yet.
+
+  Apparently, I still have crashing
+
+- [X] There is also a small hiccup in switching between songs. I appears as if songs that don't have any slides will have ghost slides from the previously selected song.
 
 ** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
@@ -71,6 +73,8 @@ This thread helped a lot
 
 ** DONE Fix bug in not removing old slides in the SongEditor when switching songs from the Library :bug:
 
+** DONE Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
+[[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
 ** DONE bug in changing slides with the arrows                         :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function changeSlide() {]]
 
