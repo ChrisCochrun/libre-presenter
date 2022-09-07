@@ -6,6 +6,8 @@
 * Inbox
 ** TODO Need to make =getLyricList= give back the verses with empty lines as separate slides :core:
 [[file:~/dev/church-presenter/src/songsqlmodel.cpp:://TODO make sure to split empty line in verse into two slides]]
+** TODO VideoSQL Model and SQLite system needs fixing
+[[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
 
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
