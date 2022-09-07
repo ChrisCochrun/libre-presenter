@@ -200,5 +200,5 @@ private:
   bool m_useHwdec;
   double m_duration;
   double m_position;
-	bool m_isPlaying;
+  bool m_isPlaying;
 };
