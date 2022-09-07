@@ -158,7 +158,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   }
 
   QStringList rawLyrics = recordData.value("lyrics").toString().split("\n");
-  qDebug() << rawLyrics;
+  qDebug() << "HERE ARE RAW LYRICS: " << rawLyrics;
   QStringList lyrics;
 
   QStringList vorder = recordData.value("vorder").toString().split(" ");
@@ -194,7 +194,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
       // qDebug() << line;
       if (verse.contains("\n\n")) {
         verse = verse.trimmed();
-        // qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
         QStringList multiverses = verse.split("\n\n");
         foreach (verse, multiverses) {
           verses.insert(vtitle, verse);
@@ -211,6 +211,19 @@ QStringList SongSqlModel::getLyricList(const int &row) {
       continue;
     } else if (rawLyrics.endsWith(line)) {
       // qDebug() << vtitle;
+
+      verse.append(line.trimmed() + "\n");
+      if (verse.contains("\n\n")) {
+        verse = verse.trimmed();
+        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        QStringList multiverses = verse.split("\n\n");
+        foreach (verse, multiverses) {
+          verses.insert(vtitle, verse);
+          // qDebug() << verse;
+        }
+        break;
+      }
+
       verse.append(line.trimmed() + "\n");
       verses.insert(vtitle, verse);
       break;

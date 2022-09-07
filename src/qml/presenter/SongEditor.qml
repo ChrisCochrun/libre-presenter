@@ -304,7 +304,7 @@ Item {
     function updateLyrics(lyrics) {
         songsqlmodel.updateLyrics(songIndex, lyrics);
         songLyrics = lyrics;
-        /* print(lyrics); */
+        clearSlides();
         changeSlideText(song.id - 1);
     }
 
