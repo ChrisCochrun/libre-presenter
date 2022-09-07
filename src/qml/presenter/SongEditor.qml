@@ -424,6 +424,7 @@ Item {
         /* print("Here are the verses: " + verses); */
         const verses = songsqlmodel.getLyricList(id);
         verses.forEach(slideEditor.appendVerse);
+        /* slideEditor.loadVideo(); */
     }
 
     function clearSlides() {

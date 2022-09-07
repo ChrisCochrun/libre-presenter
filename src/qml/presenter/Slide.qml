@@ -93,7 +93,7 @@ Item {
 
         Timer {
             id: pauseTimer
-            interval: 200
+            interval: 300
             onTriggered: mpv.pause()
         }
 

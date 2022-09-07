@@ -58,26 +58,28 @@ Item {
         anchors.rightMargin: 20
         model: songModel
         clip: true
-        cacheBuffer: 900
+        cacheBuffer: 1900
         reuseItems: true
         spacing: Kirigami.Units.gridUnit
-        /* flickDeceleration: 4000 */
-        /* boundsMovement: Flickable.StopAtBounds */
         synchronousDrag: true
-        delegate: Presenter.Slide {
-            id: representation
-            editMode: true
-            imageSource: root.imageBackground
-            videoSource: root.videoBackground
-            hTextAlignment: root.hTextAlignment
-            vTextAlignment: root.vTextAlignment
-            chosenFont: font
-            textSize: fontSize
-            preview: true
-            text: verse
-            implicitWidth: slideList.width
-            implicitHeight: width * 9 / 16
-            itemType: "song"
+        delegate: Loader {
+            width: slideList.width
+            height: width * 9 / 16
+            Presenter.Slide {
+                id: representation
+                editMode: true
+                imageSource: root.imageBackground
+                videoSource: root.videoBackground
+                hTextAlignment: root.hTextAlignment
+                vTextAlignment: root.vTextAlignment
+                chosenFont: font
+                textSize: fontSize
+                preview: true
+                text: verse
+                implicitWidth: slideList.width
+                implicitHeight: width * 9 / 16
+                itemType: "song"
+            }
         }
 
         Kirigami.WheelHandler {
@@ -155,9 +157,10 @@ Item {
     }
 
     function loadVideo() {
+        showPassiveNotification("I'm loading the videos");
         for (var i = 0; i < slideList.count; ++i) {
             slideList.currentIndex = i;
-            slideList.currentItem.loadVideo();
+            slideList.currentItem.representation.loadVideo();
             print(slideList.currentItem);
         }
     }
