@@ -143,6 +143,46 @@ Item {
                     /* onEditingFinished: updateTitle(text); */
                 }
 
+                RowLayout {
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+
+                    Controls.Label {
+                        Layout.fillHeight: true
+                        Layout.leftMargin: 20
+                        Layout.rightMargin: 20
+
+                        text: videoLengthSlider.first.value
+                    } 
+
+                    Controls.Label {
+                        Layout.fillHeight: true
+                        Layout.leftMargin: 20
+                        Layout.rightMargin: 20
+
+                        text: videoLengthSlider.second.value
+                    } 
+                }
+
+                Controls.RangeSlider {
+                    id: videoLengthSlider
+
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    to: videoPreview.duration
+                    from: 0
+
+                    first.value: 0
+                    second.value: to
+
+                }
+
                 Item {
                     id: empty
                     Layout.fillHeight: true

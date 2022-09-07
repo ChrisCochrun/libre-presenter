@@ -14,6 +14,8 @@ class VideoSqlModel : public QSqlTableModel
   Q_PROPERTY(int id READ id)
   Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
   Q_PROPERTY(QUrl filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
+  Q_PROPERTY(int startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
+  Q_PROPERTY(int endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
   QML_ELEMENT
 
 public:
@@ -22,12 +24,18 @@ public:
   int id() const;
   QString title() const;
   QUrl filePath() const;
+  int startTime() const;
+  int endTime() const;
 
   void setTitle(const QString &title);
   void setFilePath(const QUrl &filePath);
+  void setStartTime(const int &startTime);
+  void setEndTime(const int &endTime);
 
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateFilePath(const int &row, const QUrl &filePath);
+  Q_INVOKABLE void updateStartTime(const int &row, const int &startTime);
+  Q_INVOKABLE void updateEndTime(const int &row, const int &endTime);
 
   Q_INVOKABLE void newVideo(const QUrl &filePath);
   Q_INVOKABLE void deleteVideo(const int &row);
@@ -39,11 +47,15 @@ public:
 signals:
     void titleChanged();
     void filePathChanged();
+    void startTimeChanged();
+    void endTimeChanged();
 
 private:
     int m_id;
     QString m_title;
     QUrl m_filePath;
+    int m_startTime;
+    int m_endTime;
 };
 
 #endif //VIDEOSQLMODEL_H

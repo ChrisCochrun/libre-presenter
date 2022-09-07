@@ -30,6 +30,8 @@ static void createVideoTable()
                   "  'id' INTEGER NOT NULL,"
                   "  'title' TEXT NOT NULL,"
                   "  'filePath' TEXT NOT NULL,"
+                  "  'startTime' REAL NOT NULL,"
+                  "  'endTime' REAL NOT NULL,"
                   "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
@@ -70,6 +72,8 @@ QHash<int, QByteArray> VideoSqlModel::roleNames() const
     names[Qt::UserRole] = "id";
     names[Qt::UserRole + 1] = "title";
     names[Qt::UserRole + 2] = "filePath";
+    names[Qt::UserRole + 3] = "startTime";
+    names[Qt::UserRole + 4] = "endTime";
     return names;
 }
 
@@ -154,6 +158,59 @@ void VideoSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   qDebug() << rowdata;
   submitAll();
   emit filePathChanged();
+}
+
+
+int VideoSqlModel::startTime() const {
+  return m_startTime;
+}
+
+void VideoSqlModel::setStartTime(const int &startTime) {
+  if (startTime == m_startTime)
+    return;
+  
+  m_startTime = startTime;
+
+  select();
+  emit startTimeChanged();
+}
+
+// This function is for updating the title from outside the delegate
+void VideoSqlModel::updateStartTime(const int &row, const int &startTime) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("startTime", startTime);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit startTimeChanged();
+}
+
+int VideoSqlModel::endTime() const {
+  return m_endTime;
+}
+
+void VideoSqlModel::setEndTime(const int &endTime) {
+  if (endTime == m_endTime)
+    return;
+  
+  m_endTime = endTime;
+
+  select();
+  emit endTimeChanged();
+}
+
+// This function is for updating the title from outside the delegate
+void VideoSqlModel::updateEndTime(const int &row, const int &endTime) {
+  qDebug() << "Row is " << row;
+  QSqlRecord rowdata = record(row);
+  qDebug() << rowdata;
+  rowdata.setValue("endTime", endTime);
+  setRecord(row, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit endTimeChanged();
 }
 
 QVariantMap VideoSqlModel::getVideo(const int &row) {
