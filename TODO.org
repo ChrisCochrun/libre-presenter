@@ -22,7 +22,9 @@
 
 - [X] There is also a small hiccup in switching between songs. I appears as if songs that don't have any slides will have ghost slides from the previously selected song.
 
-- [ ] Another issue I discovered was that when switching to a song with videoBackgrounds, the mpv object doesn't ALWAYS load the first frame of the slide. Can I let the video play a tiny bit longer to make sure frames ALWAYS get loaded?
+- [ ] Another issue I discovered was that when switching to a song with videoBackgrounds, the mpv object doesn't ALWAYS load the first frame of the slide. Can I let the video play a tiny bit longer to make sure frames ALWAYS get loaded? That didn't work..
+
+  Maybe I'll need to change something else but what?
 
 ** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
@@ -37,6 +39,8 @@
 
 ** TODO Check for edge cases in inputing wrong vorder and lyrics :core:
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
+
+Let's test this, because I think I fixed it.
 
 ** TODO Fix possible bug in arrangingItems in draghandler [1/3] [33%] :bug:
 [[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
