@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [54%] [13/24]
+* Tasks [52%] [13/25]
 ** TODO VideoSQL Model and SQLite system needs fixing
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
 
@@ -48,6 +48,8 @@ Let's test this, because I think I fixed it.
 - [X] Basic fixed drag n drop
 - [ ] Allow for a less buggy interaction
 - [ ] Need to check for edge cases
+
+** TODO Make the hover effect of dragging items over the servicelist show in the correct spot at all times.
 
 ** TODO Images stored in sql need to have aspect saved and applied dynamically here :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
