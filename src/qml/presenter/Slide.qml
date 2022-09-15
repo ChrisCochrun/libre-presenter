@@ -45,7 +45,7 @@ Item {
 
         MpvObject {
             id: mpv
-	    objectName: "mpv"
+	    /* objectName: "mpv" */
             anchors.fill: parent
             useHwdec: true
             enableAudio: !preview
@@ -177,5 +177,9 @@ Item {
 
     function playPauseVideo() {
         mpv.playPause();
+    }
+
+    function playVideo() {
+        mpv.play();
     }
 }

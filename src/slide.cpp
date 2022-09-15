@@ -12,10 +12,12 @@ Slide::Slide(QObject *parent)
 Slide::Slide(const QString &text, const QString &audio, const QString &imageBackground,
              const QString &videoBackground, const QString &horizontalTextAlignment,
              const QString &verticalTextAlignment, const QString &font,
-             const int &fontSize, const QString &type, QObject *parent)
+             const int &fontSize, const bool &isPlaying,
+             const QString &type, QObject *parent)
   : QObject(parent),m_text(text),m_audio(audio),m_imageBackground(imageBackground),
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
-    m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),m_fontSize(fontSize),m_type(type)
+    m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),
+    m_fontSize(fontSize),m_isPlaying(isPlaying),m_type(type)
 {
   qDebug() << "Initializing slide with defaults";
 }
@@ -64,6 +66,11 @@ QString Slide::font() const
 int Slide::fontSize() const
 {
   return m_fontSize;
+}
+
+bool Slide::isPlaying() const
+{
+  return m_isPlaying;
 }
 
 void Slide::setText(QString text)
@@ -230,4 +237,22 @@ bool Slide::previous(QVariantMap prevItem)
   m_slideIndex--;
 
   return false;
+}
+
+void Slide::play()
+{
+  m_isPlaying = true;
+  emit isPlayingChanged(m_isPlaying);
+}
+
+void Slide::pause()
+{
+  m_isPlaying = false;
+  emit isPlayingChanged(m_isPlaying);
+}
+
+void Slide::playPause()
+{
+  m_isPlaying = !m_isPlaying;
+  emit isPlayingChanged(m_isPlaying);
 }

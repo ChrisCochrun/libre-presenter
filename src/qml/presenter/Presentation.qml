@@ -119,7 +119,7 @@ Item {
                 visible: itemType === "video";
                 MouseArea {
                     anchors.fill: parent
-                    onPressed: print("pressed play/plause");
+                    onPressed: SlideObject.playPause();
                     cursorShape: Qt.PointingHandCursor
                 }
             }
@@ -147,6 +147,22 @@ Item {
             Layout.columnSpan: 3
         }
 
+    }
+
+    Connections {
+        target: SlideObject
+        onVideoBackgroundChanged: {
+            loadVideo();
+        }
+        onIsPlayingChanged: {
+            if(SlideObject.isPlaying)
+                previewSlide.playVideo();
+            pauseVideo();
+        }
+    }
+
+    function pauseVideo() {
+        previewSlide.pauseVideo();
     }
 
     function loadVideo() {

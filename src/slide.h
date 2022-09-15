@@ -21,13 +21,14 @@ class Slide : public QObject
              WRITE setVerticalTextAlignment NOTIFY verticalTextAlignmentChanged)
   Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
+  Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY isPlayingChanged)
   // QML_ELEMENT
 
 public:
   explicit Slide(QObject *parent = nullptr);
   Slide(const QString &text, const QString &audio, const QString &imageBackground, const QString &videoBackground,
         const QString &horizontalTextAlignment, const QString &verticalTextAlignment,
-        const QString &font, const int &fontSize, const QString &type, QObject * parent = nullptr);
+        const QString &font, const int &fontSize, const bool &isPlaying, const QString &type, QObject * parent = nullptr);
 
   QString text() const;
   QString type() const;
@@ -39,6 +40,7 @@ public:
   QString verticalTextAlignment() const;
   QString font() const;
   int fontSize() const;
+  bool isPlaying() const;
 
   Q_INVOKABLE void setText(QString text);
   Q_INVOKABLE void setType(QString type);
@@ -52,6 +54,9 @@ public:
   Q_INVOKABLE void setFontSize(int fontSize);
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
+  Q_INVOKABLE void play();
+  Q_INVOKABLE void pause();
+  Q_INVOKABLE void playPause();
   Q_INVOKABLE bool next(QVariantMap nextItem);
   Q_INVOKABLE bool previous(QVariantMap prevItem);
 
@@ -66,6 +71,7 @@ signals:
     Q_INVOKABLE void verticalTextAlignmentChanged(QString verticalTextAlignment);
     Q_INVOKABLE void fontChanged(QString font);
     Q_INVOKABLE void fontSizeChanged(int fontSize);
+    Q_INVOKABLE void isPlayingChanged(bool isPlaying);
 
 private:
     int m_id;
@@ -79,6 +85,7 @@ private:
     QString m_verticalTextAlignment;
     QString m_font;
     int m_fontSize;
+    bool m_isPlaying;
 
     int m_slideIndex;
     int m_slideSize;

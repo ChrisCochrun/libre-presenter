@@ -14,7 +14,7 @@ Window {
     width: maximumWidth
     screen: presentationScreen
     /* flags: Qt.X11BypassWindowManagerHint */
-    onClosing: presenting = false
+    onClosing: close()
 
     Component.onCompleted: {
         presentationWindow.showFullScreen();
@@ -34,6 +34,11 @@ Window {
         onVideoBackgroundChanged: {
             loadVideo();
         }
+        onIsPlayingChanged: {
+            if(SlideObject.isPlaying)
+                presentationSlide.playVideo();
+            pauseVideo();
+        }
     }
 
     function loadVideo() {
@@ -42,5 +47,15 @@ Window {
 
     function stopVideo() {
         presentationSlide.stopVideo()
+    }
+
+    function pauseVideo() {
+        presentationSlide.pauseVideo();
+    }
+
+    function close() {
+        presentationSlide.stopVideo();
+        SlideObject.pause();
+        presenting = false;
     }
 }
