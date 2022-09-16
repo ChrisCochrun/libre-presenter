@@ -210,9 +210,16 @@ ColumnLayout {
                                     rightClickMenu.popup();
                                 else {
                                     serviceItemList.currentIndex = index;
-                                    currentServiceItem = index;
-                                    changeServiceItem(index);
+                                    /* currentServiceItem = index; */
+                                    /* changeItem(index); */
                                 }
+                            }
+
+                            onDoubleClicked: {
+                                showPassiveNotification("Double Clicked")
+                                serviceItemList.currentIndex = index;
+                                currentServiceItem = index;
+                                changeServiceItem(index);
                             }
 
                             onReleased: {
@@ -306,6 +313,29 @@ ColumnLayout {
             }
         }
     } 
+
+    Kirigami.ActionToolBar {
+        id: serviceToolBar
+        Layout.fillWidth: true
+        opacity: 1.0
+        actions: [
+            Kirigami.Action {
+                /* text: "Up" */
+                icon.name: "arrow-up"
+                onTriggered: showPassiveNotification("Up")
+            },
+            Kirigami.Action {
+                /* text: "Down" */
+                icon.name: "arrow-down"
+                onTriggered: showPassiveNotification("down")
+            },
+            Kirigami.Action {
+                /* text: "Remove" */
+                icon.name: "delete"
+                onTriggered: showPassiveNotification("remove")
+            }
+        ]
+    }
 
     Component.onCompleted: {
         totalServiceItems = serviceItemList.count;
