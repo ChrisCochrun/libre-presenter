@@ -134,7 +134,7 @@ Controls.Page {
         presentation.textIndex = 0;
         presentation.changeSlide();
 
-        print("Slide Cchanged to: " + item.name);
+        print("Slide changed to: " + item.name);
     }
 
     function editSwitch(item) {
