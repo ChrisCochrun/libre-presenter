@@ -15,7 +15,8 @@ Window {
     screen: presentationScreen
     opacity: 1.0
     transientParent: null
-    /* flags: Qt.X11BypassWindowManagerHint */
+    modality: Qt.NonModal
+    flags: Qt.FramelessWindowHint
     onClosing: {
         presentationSlide.stopVideo();
         SlideObject.pause();
@@ -23,9 +24,7 @@ Window {
     }
 
     Component.onCompleted: {
-        /* presentationWindow.showFullScreen(); */
         print(screen.name);
-        showMinimized();
     }
 
     Presenter.Slide {
