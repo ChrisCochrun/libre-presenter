@@ -151,10 +151,10 @@ Item {
 
     Connections {
         target: SlideObject
-        onVideoBackgroundChanged: {
+        function onVideoBackgroundChanged() {
             loadVideo();
         }
-        onIsPlayingChanged: {
+        function onIsPlayingChanged() {
             if(SlideObject.isPlaying)
                 previewSlide.playVideo();
             pauseVideo();
