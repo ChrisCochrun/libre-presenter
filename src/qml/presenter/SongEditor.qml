@@ -40,7 +40,7 @@ Item {
                     id: fontSizeBox
                     editable: true
                     from: 5
-                    to: 72
+                    to: 150
                     hoverEnabled: true
                     onValueModified: updateFontSize(value)
                 }

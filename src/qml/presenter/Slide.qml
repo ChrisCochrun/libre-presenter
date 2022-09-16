@@ -132,13 +132,14 @@ Item {
                 id: lyrics
                 text: root.text
                 /* text: root.width / textSize */
-                font.pixelSize: root.width / root.textSize * 3
+                font.pixelSize: root.width / 1000 * root.textSize 
                 /* minimumPointSize: 5 */
                 fontSizeMode: Text.Fit
                 font.family: chosenFont
                 horizontalAlignment: hTextAlignment
                 verticalAlignment: vTextAlignment
                 style: Text.Raised
+                wrapMode: Text.WordWrap
                 anchors.fill: parent
                 anchors.topMargin: 10
                 anchors.bottomMargin: 10
