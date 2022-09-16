@@ -218,12 +218,14 @@ Item {
                                         dragItemType = "song";
                                         dragItemBackgroundType = backgroundType;
                                         dragItemBackground = background;
+                                        draggedLibraryItem = self;
                                     } else {
                                         songListItem.Drag.drop()
                                     }
                                 }
                                 filterChildren: true
                                 threshold: 10
+                                /* onDropped: songDropped = true; */
                             }
                             MouseArea {
                                 id: songClickHandler

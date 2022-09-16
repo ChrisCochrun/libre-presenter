@@ -34,6 +34,8 @@ Controls.Page {
     property var song
     property var draggedLibraryItem
 
+    property bool songDragged: false
+
     property string editType
 
     Item {

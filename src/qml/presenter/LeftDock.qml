@@ -37,7 +37,7 @@ ColumnLayout {
         id: serviceDropEnd
         Layout.fillHeight: true
         Layout.fillWidth: true
-        onDropped: {
+        onDropped: (drag) => {
             print("DROPPED AT END");
             appendItem(dragItemTitle,
                        dragItemType,
@@ -45,8 +45,20 @@ ColumnLayout {
                        dragItemBackgroundType,
                        dragItemText,
                        dragItemIndex);
+            dropHighlightLine.visible = false;
         }
+
         keys: ["library"]
+
+        onEntered: (drag) => {
+            if (drag.keys[0] === "library") {
+                dropHighlightLine.visible = true;
+                var lastItem = serviceItemList.itemAtIndex(serviceItemModel.rowCount() - 1);
+                dropHighlightLine.y = lastItem.y + lastItem.height;
+            }
+        }
+
+        /* onExited: dropHighlightLine.visible = false; */
 
         ListView {
             id: serviceItemList
@@ -89,13 +101,16 @@ ColumnLayout {
                     id: serviceDrop
                     implicitWidth: serviceItemList.width
                     height: 50
+                    /* enabled: false */
 
                     onEntered: (drag) => {
                         if (drag.keys[0] === "library") {
-                            indexedHLRec.visible = true;
-                            indexedHLRec.y = y - 2;
+                            dropHighlightLine.visible = true;
+                            dropHighlightLine.y = y - 2;
                         }
                     }
+
+                    /* onExited: dropHighlightLine.visible = false; */
 
                     onDropped: (drag) => {
                         print("DROPPED IN ITEM AREA: " + drag.keys);
@@ -114,7 +129,7 @@ ColumnLayout {
                                                   serviceItemList.moveToIndex);
                             serviceItemList.currentIndex = moveToIndex;
                         }
-                        indexedHLRec.visible = false;
+                        dropHighlightLine.visible = false;
                     }
 
                     keys: ["library","serviceitem"]
@@ -277,7 +292,7 @@ ColumnLayout {
         }
 
         Rectangle {
-            id: indexedHLRec
+            id: dropHighlightLine
             width: parent.width
             height: 4
             color: Kirigami.Theme.hoverColor
@@ -286,8 +301,8 @@ ColumnLayout {
         }
         Canvas {
             /* asynchronous: true; */
-            x: indexedHLRec.width - 8
-            y: indexedHLRec.y - 17
+            x: dropHighlightLine.width - 8
+            y: dropHighlightLine.y - 17
             z: 1
             width: 100; height: 100;
             contextType: "2d"
@@ -299,12 +314,12 @@ ColumnLayout {
                 ctx.path = tearDropPath;
                 ctx.fill();
             }
-            visible: indexedHLRec.visible
+            visible: dropHighlightLine.visible
         }
         Path {
             id: tearDropPath
-            startX: indexedHLRec.width
-            startY: indexedHLRec.y + 4
+            startX: dropHighlightLine.width
+            startY: dropHighlightLine.y + 4
             PathSvg {
                 path: "M15 3
                            Q16.5 6.8 25 18
@@ -374,7 +389,4 @@ ColumnLayout {
         totalServiceItems++;
     }
 
-    function changeItem() {
-        serviceItemList.currentIndex = currentServiceItem;
-    }
 }
