@@ -131,7 +131,8 @@ Item {
             Controls.Label {
                 id: lyrics
                 text: root.text
-                font.pixelSize: textSize
+                /* text: root.width / textSize */
+                font.pixelSize: root.width / root.textSize * 3
                 /* minimumPointSize: 5 */
                 fontSizeMode: Text.Fit
                 font.family: chosenFont
