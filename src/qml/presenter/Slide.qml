@@ -171,6 +171,10 @@ Item {
         showPassiveNotification("Black is: " + black.visible);
     }
 
+    function quitMpv() {
+        mpv.quit();
+    }
+
     function pauseVideo() {
         mpv.pause();
     }

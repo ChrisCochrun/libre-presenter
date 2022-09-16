@@ -13,12 +13,19 @@ Window {
     height: maximumHeight
     width: maximumWidth
     screen: presentationScreen
+    opacity: 1.0
+    transientParent: null
     /* flags: Qt.X11BypassWindowManagerHint */
-    onClosing: close()
+    onClosing: {
+        presentationSlide.stopVideo();
+        SlideObject.pause();
+        presenting = false;
+    }
 
     Component.onCompleted: {
-        presentationWindow.showFullScreen();
+        /* presentationWindow.showFullScreen(); */
         print(screen.name);
+        showMinimized();
     }
 
     Presenter.Slide {
@@ -51,11 +58,5 @@ Window {
 
     function pauseVideo() {
         presentationSlide.pauseVideo();
-    }
-
-    function close() {
-        presentationSlide.stopVideo();
-        SlideObject.pause();
-        presenting = false;
     }
 }

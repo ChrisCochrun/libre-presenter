@@ -97,10 +97,8 @@ Controls.Page {
         }
     }
 
-    Loader {
-        id: presentLoader
-        active: presenting
-        source: "PresentationWindow.qml"
+    Presenter.PresentationWindow {
+        id: pWindow
     }
 
     SongSqlModel {
@@ -186,8 +184,11 @@ Controls.Page {
 
     function present(present) {
         if (present)
-            presentationWindow.showFullScreen();
+        {
+            presentation.loadVideo();
+            pWindow.showFullScreen();
+        }
         else
-            presentationWindow.close();
+            pWindow.close();
     }
 }
