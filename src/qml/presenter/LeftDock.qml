@@ -287,6 +287,7 @@ ColumnLayout {
                 print("moveRequested: ", oldIndex, newIndex);
                 visualModel.items.move(oldIndex, newIndex);
                 indexDragged = newIndex;
+                serviceItemList.currentIndex = indexDragged;
             }
 
         }
@@ -337,17 +338,32 @@ ColumnLayout {
             Kirigami.Action {
                 /* text: "Up" */
                 icon.name: "arrow-up"
-                onTriggered: showPassiveNotification("Up")
+                onTriggered: {
+                    const oldid = serviceItemList.currentIndex;
+                    const newid = serviceItemList.currentIndex - 1;
+                    showPassiveNotification("Up");
+                    serviceItemList.moveRequested(oldid, newid);
+                    serviceItemList.currentIndex = newid;
+                }
             },
             Kirigami.Action {
                 /* text: "Down" */
                 icon.name: "arrow-down"
-                onTriggered: showPassiveNotification("down")
+                onTriggered: {
+                    const oldid = serviceItemList.currentIndex;
+                    const newid = serviceItemList.currentIndex + 1;
+                    showPassiveNotification("Down");
+                    serviceItemList.moveRequested(oldid, newid);
+                    serviceItemList.currentIndex = newid;
+                }
             },
             Kirigami.Action {
                 /* text: "Remove" */
                 icon.name: "delete"
-                onTriggered: showPassiveNotification("remove")
+                onTriggered: {
+                    showPassiveNotification("remove");
+                    removeItem(serviceItemList.currentIndex);
+                }
             }
         ]
     }
