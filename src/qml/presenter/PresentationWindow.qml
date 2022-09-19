@@ -34,7 +34,7 @@ Window {
         id: presentationSlide
         anchors.fill: parent
         imageSource: SlideObject.imageBackground
-        videoSource: presentationWindow.visible ? SlideObject.videoBackground : null
+        videoSource: presentationWindow.visible ? SlideObject.videoBackground : ""
         text: SlideObject.text
     }
 

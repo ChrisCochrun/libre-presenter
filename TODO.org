@@ -3,15 +3,12 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [50%] [14/28]
+* Tasks [53%] [15/28]
 
 ** TODO add a dropping area in the library                     :feature:ui:
 ** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 ** TODO VideoSQL Model and SQLite system needs fixing :bug:
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
-
-** TODO Bug in mpv race condition with selecting with the presenter but not with the actual PresentationWindow. :bug:
-when selecting an item in the ServiceList, if the PresentationWindow isn't visible, it seems to prompt mpv to show a window of it's own with the video playing if the item contains a video.
 
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
@@ -82,6 +79,9 @@ This thread helped a lot
 
 ** DONE images and videos need a better get system
 [[file:~/dev/church-presenter/src/videosqlmodel.cpp::QVariantList VideoSqlModel::getVideo(const int &row) {]]
+
+** DONE Bug in mpv race condition with selecting with the presenter but not with the actual PresentationWindow. :bug:
+when selecting an item in the ServiceList, if the PresentationWindow isn't visible, it seems to prompt mpv to show a window of it's own with the video playing if the item contains a video.
 
 ** DONE Find a way to maths the textsize                            :slide:
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::property real textSize: 50]]

@@ -192,7 +192,7 @@ Controls.Page {
             presentation.loadVideo();
             print("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
             pWindow.showFullScreen();
-            pWindow.screen = presentationScreen;
+            /* pWindow.screen = presentationScreen; */
             print("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
         }
         else
