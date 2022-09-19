@@ -234,21 +234,34 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
   return false;
 }
 
-bool ServiceItemModel::move(int sourceIndex, int destIndex, bool simple) {
-  qDebug() << index(sourceIndex).row();
-  qDebug() << index(destIndex).row();
-  QModelIndex parent = index(sourceIndex).parent();
+bool ServiceItemModel::moveDown(int id) {
+  qDebug() << index(id).row();
+  qDebug() << index(id + 1).row();
+  QModelIndex parent = index(id).parent();
 
-  if (simple)
-    {
-      if (moveRow(parent, sourceIndex, parent, destIndex))
-        return true;
-      else
-        {
-          qDebug() << "not sure...";
-          return false;
-        }
-    }
+  bool begsuc = beginMoveRows(parent, id,
+                              id, parent, id + 2);
+  if (begsuc) {
+    int dest = id + 1;
+    if (dest >= m_items.size())
+      {
+        qDebug() << "dest too big, moving to end";
+        m_items.move(id, m_items.size() - 1);
+      }
+    else
+      m_items.move(id, dest);
+    endMoveRows();
+    return true;
+  }
+  return false;
+}
+
+bool ServiceItemModel::moveUp(int id) {
+  qDebug() << index(id).row();
+  qDebug() << index(id - 1).row();
+  QModelIndex parent = index(id).parent();
+
+
 
   return false;
 }

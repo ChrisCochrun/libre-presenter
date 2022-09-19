@@ -61,7 +61,8 @@ public:
                               const QString &backgroundType, const QStringList &text);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool move(int sourceIndex, int destIndex);
-  Q_INVOKABLE bool move(int sourceIndex, int destIndex, bool simple);
+  Q_INVOKABLE bool moveDown(int index);
+  Q_INVOKABLE bool moveUp(int index);
   Q_INVOKABLE QVariantMap getItem(int index) const;
 
 private:

@@ -280,6 +280,8 @@ ColumnLayout {
                     return;
                 if (newIndex === -1)
                     newIndex = 0;
+                if (newIndex >= serviceItemList.count)
+                    newIndex = serviceItemList.count;
                 print("moveRequested: ", oldIndex, newIndex);
                 serviceItemModel.move(oldIndex, newIndex);
                 indexDragged = newIndex;
@@ -359,32 +361,23 @@ ColumnLayout {
                 /* text: "Down" */
                 icon.name: "arrow-down"
                 onTriggered: {
-                    const oldid = serviceItemList.currentIndex;
-                    if (oldid + 1 >= serviceItemList.count)
+                    const id = serviceItemList.currentIndex;
+                    if (id + 1 >= serviceItemList.count)
                     {
                         showPassiveNotification("wow you dummy you can't got further down");
                         return;
                     };
-                    const newid = findId(serviceItemList.currentIndex + 2);
-                    showPassiveNotification(oldid + " " + newid);
-                    showPassiveNotification("Down");
-                    const ans = serviceItemModel.move(oldid, newid);
+                    showPassiveNotification("moving ", id, " down");
+                    const ans = serviceItemModel.moveDown(id);
                     if (ans)
                     {
-                        serviceItemList.currentIndex = newid - 1;
+                        serviceItemList.currentIndex = id + 1;
                         showPassiveNotification("move was successful, newid: "
                                                 + serviceItemList.currentIndex);
                     }
                     else
-                        showPassiveNotification("move was unsuccessful, newid: "
-                                                + newid);
-
-                    function findId(id) {
-                        if (id >= serviceItemList.count)
-                            return serviceItemList.count;
-                        else
-                            return id;
-                    }
+                        showPassiveNotification("move was unsuccessful, id: "
+                                                + id);
                 }
             },
             Kirigami.Action {
