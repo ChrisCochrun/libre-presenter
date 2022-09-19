@@ -804,11 +804,13 @@ Item {
                 print("dropped");
                 print(drop.urls);
                 /* thumbnailer.loadFile(drop.urls[0]); */
-                if (drop.urls.length !== 0){
+                if (drop.urls.length > 1){
                     print("dropping a real file!!")
                     addVideo(drop.urls[0]);
-                } else
-                    print("this is not a real file!")
+                } else if (drop.urls.length === 1)
+                    addFile(drop.urls[0]);
+                else if (drop.urls.length === 0)
+                    print("stoppp it ya dum dum");
             }
             onEntered: {
                 if (isDragFile(drag.urls[0]))
@@ -828,6 +830,18 @@ Item {
                 editSwitch("video", video);
             }
 
+            function addImg(url) {
+                imagesqlmodel.newImage(url);
+                selectedLibrary = "images";
+                imageLibraryList.currentIndex = imagesqlmodel.rowCount();
+                print(imagesqlmodel.getImage(imageLibraryList.currentIndex));
+                const image = imagesqlmodel.getImage(imageLibraryList.currentIndex);
+                showPassiveNotification("newest image: " + image.title);
+                if (!editMode)
+                    editMode = true;
+                editSwitch("image", image);
+            }
+
             function isDragFile(item) {
                 var extension = item.split('.').pop();
                 var valid = false;
@@ -838,6 +852,28 @@ Item {
                 }
 
                 return valid;
+            }
+
+            function addFile(file, library) {
+                const videoexts = ["mp4", "webm", "mkv", "avi", "MP4", "WEBM", "MKV"];
+                const imgexts = ["jpg", "png", "gif", "jpeg", "JPG", "PNG"]
+                let extension = file.split('.').pop();
+                if (videoexts.includes(extension))
+                {
+                    addVideo(file);
+                    return;
+                }
+                if (imgexts.includes(extension))
+                {
+                    addImg(file);
+                    return
+                }
+                if (presexts.includes(extension))
+                {
+                    addPres(file);
+                    return
+                }
+                
             }
         }
 
