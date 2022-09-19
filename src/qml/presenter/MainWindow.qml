@@ -55,7 +55,7 @@ Controls.Page {
                 }
             }
 
-            Presenter.LeftDock {
+            Presenter.ServiceList {
                 id: leftDock
                 Controls.SplitView.preferredWidth: 200
                 Controls.SplitView.maximumWidth: 300
