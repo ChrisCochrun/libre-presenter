@@ -8,7 +8,7 @@
 
 ServiceItemModel::ServiceItemModel(QObject *parent)
     : QAbstractListModel(parent) {
-  addItem(new ServiceItem("10,000 Resons", "song",
+  addItem(new ServiceItem("10,000 Reasons", "song",
                           "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg",
                           "image", QStringList("Yip Yip")));
   addItem(new ServiceItem("Marvelous Light", "song",
@@ -114,6 +114,23 @@ Qt::ItemFlags ServiceItemModel::flags(const QModelIndex &index) const {
   return Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
+// int ServiceItemModel::index(int row, int column, const QModelIndex &parent) {
+//       if (!hasIndex(row, column, parent))
+//         return QModelIndex();
+
+//     ServiceItem *parentItem;
+
+//     if (!parent.isValid())
+//         parentItem = rootItem;
+//     else
+//         parentItem = static_cast<ServiceItem*>(parent.internalPointer());
+
+//     ServiceItem *childItem = parentItem->child(row);
+//     if (childItem)
+//         return createIndex(row, column, childItem);
+//     return QModelIndex();
+// }
+
 void ServiceItemModel::addItem(ServiceItem *item) {
   const int index = m_items.size();
   qDebug() << index;
@@ -181,23 +198,59 @@ void ServiceItemModel::removeItem(int index) {
 bool ServiceItemModel::move(int sourceIndex, int destIndex) {
   qDebug() << index(sourceIndex).row();
   qDebug() << index(destIndex).row();
-  // beginResetModel();
   QModelIndex parent = index(sourceIndex).parent();
   if (sourceIndex >= 0 && sourceIndex != destIndex &&
-      destIndex >= -1 && destIndex < rowCount() &&
+      destIndex >= -1 && destIndex <= rowCount() &&
       sourceIndex < rowCount()) {
     qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
-    bool begsuc = beginMoveRows(QModelIndex(), sourceIndex,
-                                sourceIndex, QModelIndex(), destIndex);
+    bool begsuc = beginMoveRows(parent, sourceIndex,
+                                sourceIndex, parent, destIndex);
     if (begsuc) {
-      if (destIndex = -1)
-        m_items.move(sourceIndex, 0);
+      if (destIndex == -1)
+        {
+          qDebug() << "dest was too small, moving to row 0";
+          m_items.move(sourceIndex, 0);
+        }
       else
-        m_items.move(sourceIndex, destIndex);
+        {
+          qDebug() << "dest was not too small";
+          if (destIndex >= m_items.size())
+            {
+              qDebug() << "destIndex too big, moving to end";
+              m_items.move(sourceIndex, m_items.size() - 1);
+            }
+          else
+            m_items.move(sourceIndex, destIndex);
+        }
       endMoveRows();
+      return true;
     }
+    qDebug() << "Can't move row, not sure why, sourceIndex: "
+             << sourceIndex << " destIndex: " << destIndex;
+    return false;
   }
-  return true;
+  qDebug() << "Can't move row, invalid options, sourceIndex: "
+           << sourceIndex << " destIndex: " << destIndex;
+  return false;
+}
+
+bool ServiceItemModel::move(int sourceIndex, int destIndex, bool simple) {
+  qDebug() << index(sourceIndex).row();
+  qDebug() << index(destIndex).row();
+  QModelIndex parent = index(sourceIndex).parent();
+
+  if (simple)
+    {
+      if (moveRow(parent, sourceIndex, parent, destIndex))
+        return true;
+      else
+        {
+          qDebug() << "not sure...";
+          return false;
+        }
+    }
+
+  return false;
 }
 
 QVariantMap ServiceItemModel::getItem(int index) const {

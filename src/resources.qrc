@@ -3,6 +3,7 @@
         <file>qml/main.qml</file>
         <file>qml/presenter/qmldir</file>
         <file>qml/presenter/LeftDock.qml</file>
+        <file>qml/presenter/ServiceList.qml</file>
         <file>qml/presenter/MainWindow.qml</file>
         <file>qml/presenter/Library.qml</file>
         <file>qml/presenter/Header.qml</file>

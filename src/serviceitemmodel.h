@@ -24,9 +24,14 @@ public:
 
   // Basic functionality:
   int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+  // int columnCount(const QModelIndex &parent = QModelIndex()) const override;
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
   QHash<int, QByteArray> roleNames() const override;
+
+  // Q_INVOKABLE int index(int row, int column,
+  //                       const QModelIndex &parent = QModelIndex()) const override;
+  // Q_INVOKABLE QModelIndex parent(const QModelIndex &index) const override;
 
   // Editable:
   bool setData(const QModelIndex &index, const QVariant &value,
@@ -56,6 +61,7 @@ public:
                               const QString &backgroundType, const QStringList &text);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool move(int sourceIndex, int destIndex);
+  Q_INVOKABLE bool move(int sourceIndex, int destIndex, bool simple);
   Q_INVOKABLE QVariantMap getItem(int index) const;
 
 private:
