@@ -188,7 +188,6 @@ Controls.Page {
         if (present)
         {
             presentation.loadVideo();
-            pWindow.screen = presentationScreen;
             print("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
             pWindow.showFullScreen();
             pWindow.screen = presentationScreen;
@@ -196,5 +195,10 @@ Controls.Page {
         }
         else
             pWindow.close();
+    }
+
+    function changeVidPos(pos) {
+        presentation.slide.seek(pos);
+        pWindow.slide.seek(pos);
     }
 }

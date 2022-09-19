@@ -9,6 +9,9 @@ import org.presenter 1.0
 
 Window {
     id: presentationWindow
+
+    property Item slide: presentationSlide
+
     title: "presentation-window"
     height: maximumHeight
     width: maximumWidth

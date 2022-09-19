@@ -173,6 +173,10 @@ Item {
         showPassiveNotification("Black is: " + black.visible);
     }
 
+    function seek(pos) {
+        mpv.seek(pos);
+    }
+
     function quitMpv() {
         mpv.quit();
     }

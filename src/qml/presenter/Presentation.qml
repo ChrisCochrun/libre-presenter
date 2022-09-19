@@ -17,6 +17,8 @@ Item {
     property url imagebackground
     property url vidbackground
 
+    property Item slide: previewSlide
+
     /* Component.onCompleted: nextSlideAction() */
 
     GridLayout {
@@ -132,7 +134,7 @@ Item {
                 to: previewSlide.mpvDuration
                 value: previewSlide.mpvPosition
                 live: true
-                onMoved: print("moved slider");
+                onMoved: changeVidPos(value);
             }
         }
 
