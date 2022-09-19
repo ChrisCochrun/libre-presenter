@@ -131,7 +131,9 @@ Controls.Page {
         SlideObject.changeSlide(item);
         
         if (item.backgroundType === "video")
+        {
             presentation.loadVideo();
+        }
 
         presentation.textIndex = 0;
         presentation.changeSlide();
