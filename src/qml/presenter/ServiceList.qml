@@ -428,4 +428,7 @@ ColumnLayout {
         totalServiceItems++;
     }
 
+    function changeItem() {
+    }
+
 }
