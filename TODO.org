@@ -3,9 +3,14 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [56%] [14/25]
-** TODO VideoSQL Model and SQLite system needs fixing
+* Tasks [50%] [14/28]
+
+** TODO add a dropping area in the library                     :feature:ui:
+** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
+** TODO VideoSQL Model and SQLite system needs fixing :bug:
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
+
+** TODO Bug in mpv race condition with selecting with the presenter but not with the actual PresentationWindow. :bug:
 
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
@@ -135,4 +140,5 @@ or at least turns the entry above it into the same as itself while retaining it'
 
 ** DONE Fix file dialog using basic QT theme
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]
+
 
