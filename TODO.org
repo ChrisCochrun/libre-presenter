@@ -11,6 +11,7 @@
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
 
 ** TODO Bug in mpv race condition with selecting with the presenter but not with the actual PresentationWindow. :bug:
+when selecting an item in the ServiceList, if the PresentationWindow isn't visible, it seems to prompt mpv to show a window of it's own with the video playing if the item contains a video.
 
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
