@@ -6,6 +6,9 @@
 * Tasks [53%] [15/28]
 
 ** TODO add a dropping area in the library                     :feature:ui:
+- [X] Basic droparea
+- [X] Determine which library to add to based on extension.
+- [ ] Add a presentation model so that presentations can be added this way.
 ** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 ** TODO VideoSQL Model and SQLite system needs fixing :bug:
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
