@@ -12,6 +12,8 @@ Item {
 
     property string selectedLibrary: "songs"
     property bool overlay: false
+    property var videoexts: ["mp4", "webm", "mkv", "avi", "MP4", "WEBM", "MKV"]
+    property var imgexts: ["jpg", "png", "gif", "jpeg", "JPG", "PNG"]
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
@@ -805,8 +807,7 @@ Item {
                 print(drop.urls);
                 /* thumbnailer.loadFile(drop.urls[0]); */
                 if (drop.urls.length > 1){
-                    print("dropping a real file!!")
-                    addVideo(drop.urls[0]);
+                    addFiles(drop.urls);
                 } else if (drop.urls.length === 1)
                     addFile(drop.urls[0]);
                 else if (drop.urls.length === 0)
@@ -854,9 +855,7 @@ Item {
                 return valid;
             }
 
-            function addFile(file, library) {
-                const videoexts = ["mp4", "webm", "mkv", "avi", "MP4", "WEBM", "MKV"];
-                const imgexts = ["jpg", "png", "gif", "jpeg", "JPG", "PNG"]
+            function addFile(file) {
                 let extension = file.split('.').pop();
                 if (videoexts.includes(extension))
                 {
@@ -874,6 +873,21 @@ Item {
                     return
                 }
                 
+            }
+
+            function addFiles(files) {
+                for (let i = 0; i < files.length; i++) {
+                    let file = files[i];
+                    let ext = file.split('.').pop()
+                    if (videoexts.includes(ext))
+                    {
+                        addVideo(file);
+                    }
+                    if (imgexts.includes(ext))
+                    {
+                        addImg(file);
+                    }
+                }
             }
         }
 
