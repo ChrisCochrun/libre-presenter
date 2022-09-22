@@ -14,6 +14,7 @@ Item {
     property bool overlay: false
     property var videoexts: ["mp4", "webm", "mkv", "avi", "MP4", "WEBM", "MKV"]
     property var imgexts: ["jpg", "png", "gif", "jpeg", "JPG", "PNG"]
+    property var presexts: ["pdf", "PDF", "odp", "pptx"]
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
@@ -713,6 +714,9 @@ Item {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 state: "deselected"
+                clip: true
+                model: pressqlmodel
+                delegate: presDelegate
 
                 states: [
                     State {
@@ -736,6 +740,118 @@ Item {
                         properties: "preferredHeight"
                         easing.type: Easing.OutCubic
                         duration: 300
+                    }
+                }
+
+                Component {
+                    id: presDelegate
+                    Item{
+                        implicitWidth: ListView.view.width
+                        height: selectedLibrary == "press" ? 50 : 0
+                        Kirigami.BasicListItem {
+                            id: presListItem
+
+                            property bool rightMenu: false
+
+                            implicitWidth: presentationLibraryList.width
+                            height: selectedLibrary == "press" ? 50 : 0
+                            clip: true
+                            label: title
+                            /* subtitle: author */
+                            supportsMouseEvents: false
+                            backgroundColor: {
+                                if (parent.ListView.isCurrentItem) {
+                                    Kirigami.Theme.highlightColor;
+                                } else if (presDragHandler.containsMouse){
+                                    Kirigami.Theme.highlightColor;
+                                } else {
+                                    Kirigami.Theme.backgroundColor;
+                                }
+                            }
+                            textColor: {
+                                if (parent.ListView.isCurrentItem || presDragHandler.containsMouse)
+                                    activeTextColor;
+                                else
+                                    Kirigami.Theme.textColor;
+                            }
+
+                            Behavior on height {
+                                NumberAnimation {
+                                    easing.type: Easing.OutCubic
+                                    duration: 300
+                                }
+                            }
+                            Drag.active: presDragHandler.drag.active
+                            Drag.hotSpot.x: width / 2
+                            Drag.hotSpot.y: height / 2
+                            Drag.keys: [ "library" ]
+
+                            states: State {
+                                name: "dragged"
+                                when: presListItem.Drag.active
+                                PropertyChanges {
+                                    target: presListItem
+                                    x: x
+                                    y: y
+                                    width: width
+                                    height: height
+                                }
+                                ParentChange {
+                                    target: presListItem
+                                    parent: rootApp.overlay
+                                }
+                            }
+
+                        }
+
+                        MouseArea {
+                            id: presDragHandler
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            drag {
+                                target: presListItem
+                                onActiveChanged: {
+                                    if (presDragHandler.drag.active) {
+                                        dragItemTitle = title;
+                                        dragItemType = "pres";
+                                        dragItemText = "";
+                                        dragItemBackgroundType = "pres";
+                                        dragItemBackground = filePath;
+                                    } else {
+                                        presListItem.Drag.drop()
+                                    }
+                                }
+                                filterChildren: true
+                                threshold: 10
+                            }
+                            MouseArea {
+                                id: presClickHandler
+                                anchors.fill: parent
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                onClicked: {
+                                    if(mouse.button == Qt.RightButton)
+                                        rightClickPresMenu.popup()
+                                    else{
+                                        presentationLibraryList.currentIndex = index
+                                        const pres = pressqlmodel.getPres(presentationLibraryList.currentIndex);
+                                        if (!editMode)
+                                            editMode = true;
+                                        editType = "pres";
+                                        editSwitch(pres);
+                                    }
+                                }
+
+                            }
+                        }
+                        Controls.Menu {
+                            id: rightClickPresMenu
+                            x: presClickHandler.mouseX
+                            y: presClickHandler.mouseY + 10
+                            Kirigami.Action {
+                                text: "delete"
+                                onTriggered: pressqlmodel.deletePres(index)
+                            }
+                        }
                     }
                 }
             }
@@ -886,6 +1002,11 @@ Item {
                     if (imgexts.includes(ext))
                     {
                         addImg(file);
+                    }
+                    if (presexts.includes(extension))
+                    {
+                        showPassiveNotification("it's a presentation!");
+                        return;
                     }
                 }
             }

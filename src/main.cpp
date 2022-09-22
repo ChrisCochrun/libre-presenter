@@ -38,6 +38,7 @@
 #include "songsqlmodel.h"
 #include "videosqlmodel.h"
 #include "imagesqlmodel.h"
+#include "pressqlmodel.h"
 #include "slide.h"
 
 static void connectToDatabase() {
@@ -105,6 +106,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
+  qmlRegisterType<PresSqlModel>("org.presenter", 1, 0, "PresSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
 

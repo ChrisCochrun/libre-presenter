@@ -115,6 +115,10 @@ Controls.Page {
         id: imagesqlmodel
     }
 
+    PresSqlModel {
+        id: pressqlmodel
+    }
+
     ServiceItemModel {
         id: serviceItemModel
     }
