@@ -163,7 +163,7 @@ Item {
                 Controls.TextField {
                     id: songVorderField
 
-                    Layout.preferredWidth: 300
+                    /* Layout.preferredWidth: 300 */
                     Layout.fillWidth: true
                     Layout.leftMargin: 20
                     Layout.rightMargin: 20
@@ -177,7 +177,7 @@ Item {
                 Controls.ScrollView {
                     id: songLyricsField
 
-                    Layout.preferredHeight: 3000
+                    Layout.preferredHeight: 2000
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.leftMargin: 20
@@ -213,7 +213,32 @@ Item {
                     onEditingFinished: updateAuthor(text)
                 }
 
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 300
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    Controls.TextField {
+                        id: songAudioField
+                        Layout.fillWidth: true
+                        placeholderText: "Audio File..."
+                        text: song.audio
+                        padding: 10
+                        onEditingFinished: showPassiveNotification(text)
+
+                    }
+
+                    Controls.ToolButton {
+                        id: audioPickerButton
+                        Layout.fillHeight: true
+                        text: "Audio"
+                        icon.name: "folder-music-symbolic"
+                        onClicked: audioFileDialog.open()
+                    }
+                }
             }
+
             ColumnLayout {
                 Controls.SplitView.fillHeight: true
                 Controls.SplitView.preferredWidth: 700
@@ -243,6 +268,22 @@ Item {
                 return;
             updateLyrics(lyricsEditor.text);
         }
+    }
+
+    FileDialog {
+        id: audioFileDialog
+        title: "Please choose an audio file"
+        folder: shortcuts.home
+        selectMultiple: false
+        nameFilters: ["Audio files (*.mp3 *.flac *.wav *.opus *.MP3 *.FLAC *.WAV *.OPUS)"]
+        onAccepted: {
+            updateAudioFile(audioFileDialog.fileUrls[0]);
+            print("audio = " + audioFileDialog.fileUrls[0]);
+        }
+        onRejected: {
+            print("Canceled")
+        }
+
     }
 
     FileDialog {
@@ -326,6 +367,10 @@ Item {
 
     function updateVerseOrder(vorder) {
         songsqlmodel.updateVerseOrder(songIndex, vorder)
+    }
+
+    function updateAudioFile(file) {
+        songsqlmodel.updateAudio(songIndex, file);
     }
 
     function updateBackground(background, backgroundType) {
