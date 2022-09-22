@@ -1,15 +1,12 @@
 {
   stdenv,
   lib,
-  # qtx11extras,
-  # qttools,
   # kglobalaccel,
   # kinit,
   # kwin,
   # kio,
   # kguiaddons,
   # kcoreaddons,
-  # systemsettings,
   gcc,
   gnumake,
   clang,
@@ -32,8 +29,11 @@
 }:
 
 stdenv.mkDerivation rec {
-  pname = "Libre Presenter";
+  name = "Libre Presenter";
   version = "0.0.0";
+  # inherit src;
+
+  src = ./.;
 
   nativeBuildInputs = [
     gcc
@@ -54,7 +54,11 @@ stdenv.mkDerivation rec {
     qtquickcontrols2
     qtx11extras
     qtmultimedia
+    # qtwayland
     kirigami2
+    # breeze-icons
+    # breeze-qt5
+    # qqc2-desktop-style
     ki18n
     kcoreaddons
     # lightly-qt
@@ -81,6 +85,20 @@ stdenv.mkDerivation rec {
   #   substituteInPlace cmake_install.cmake \
   #     --replace "${kdelibs4support}" "$out"
 
+  # '';
+
+  configurePhase = ''
+  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B build/ .
+  '';
+
+  buildPhase = ''
+  make --dir build/
+  rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
+  '';
+
+  # installPhase = ''
+  # mkdir -p $out/bin
+  # mv presenter $out/bin
   # '';
 
   meta = with lib; {
