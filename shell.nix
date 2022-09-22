@@ -7,6 +7,7 @@ mkShell rec {
     gcc
     gnumake
     clang
+    clang-tools
     cmake
     extra-cmake-modules
     pkg-config
