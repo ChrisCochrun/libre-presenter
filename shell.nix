@@ -49,6 +49,5 @@ mkShell rec {
     makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
     sed "/^exec/d" -i "$setQtEnvironment"
     source "$setQtEnvironment"
-    fish
   '';
 }
