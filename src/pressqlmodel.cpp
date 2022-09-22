@@ -157,6 +157,7 @@ void PresSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   emit filePathChanged();
 }
 
+// Here we grab the presentation from it's row id
 QVariantMap PresSqlModel::getPres(const int &row) {
   // qDebug() << "Row we are getting is " << row;
   // QUrl pres;
