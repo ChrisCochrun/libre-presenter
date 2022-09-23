@@ -6,6 +6,7 @@
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSql>
+// #include <QPdfDocument>
 #include <QSqlDatabase>
 #include <QFileInfo>
 #include <qabstractitemmodel.h>

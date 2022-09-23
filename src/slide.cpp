@@ -1,5 +1,6 @@
 #include "slide.h"
 #include "serviceitemmodel.h"
+// #include <QPdfDocument>
 
 #include <QDebug>
 
@@ -12,12 +13,12 @@ Slide::Slide(QObject *parent)
 Slide::Slide(const QString &text, const QString &audio, const QString &imageBackground,
              const QString &videoBackground, const QString &horizontalTextAlignment,
              const QString &verticalTextAlignment, const QString &font,
-             const int &fontSize, const bool &isPlaying,
+             const int &fontSize, const int &imageCount, const bool &isPlaying,
              const QString &type, QObject *parent)
   : QObject(parent),m_text(text),m_audio(audio),m_imageBackground(imageBackground),
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),
-    m_fontSize(fontSize),m_isPlaying(isPlaying),m_type(type)
+    m_fontSize(fontSize),m_imageCount(imageCount),m_isPlaying(isPlaying),m_type(type)
 {
   qDebug() << "Initializing slide with defaults";
 }
@@ -66,6 +67,11 @@ QString Slide::font() const
 int Slide::fontSize() const
 {
   return m_fontSize;
+}
+
+int Slide::imageCount() const
+{
+  return m_imageCount;
 }
 
 bool Slide::isPlaying() const
@@ -168,6 +174,15 @@ void Slide::setFontSize(int fontSize)
     emit fontSizeChanged(m_fontSize);
 }
 
+void Slide::setImageCount(int imageCount)
+{
+    if (m_imageCount == imageCount)
+        return;
+
+    m_imageCount = imageCount;
+    emit imageCountChanged(m_imageCount);
+}
+
 void Slide::changeSlide(QVariantMap item)
 {
   setServiceItem(item);
@@ -195,6 +210,33 @@ void Slide::changeSlide(QVariantMap item)
   }
 
   qDebug() << "MAP: " << m_serviceItem.value("text");
+}
+
+void Slide::changeSlide(QVariantMap item, int pageCount)
+{
+  setServiceItem(item);
+  setType(m_serviceItem.value("type").toString());
+
+  if (serviceItem().value("backgroundType") == "image") {
+    setImageBackground(m_serviceItem.value("background").toString());
+    setVideoBackground("");
+  } else {
+    setVideoBackground(m_serviceItem.value("background").toString());
+    setImageBackground("");
+  }
+
+  qDebug() << pageCount;
+
+  if (serviceItem().value("type") == "pres") {
+    qDebug() << "#$#$#$#$#$ THIS A PDF #$#$#$#$#$#";
+  }
+
+  QStringList text = m_serviceItem.value("text").toStringList();
+  if (text.isEmpty()) {
+    setText("");
+    m_slideSize = 1;
+    m_slideIndex = 1;
+  }
 }
 
 bool Slide::next(QVariantMap nextItem)

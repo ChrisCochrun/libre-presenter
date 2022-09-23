@@ -134,11 +134,14 @@ Controls.Page {
         print("index grabbed: " + index);
         print(item);
 
-        presentation.stopVideo()
+        presentation.stopVideo();
         presentation.itemType = item.type;
         print("Time to start changing");
 
-        SlideObject.changeSlide(item);
+        if (item.type == "pres")
+            SlideObject.changeSlide(item);
+        else
+            SlideObject.changeSlide(item);
         
         if (item.backgroundType === "video")
         {
