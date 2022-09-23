@@ -2,6 +2,7 @@
 #include "serviceitemmodel.h"
 // #include <QPdfDocument>
 
+#include <podofo/podofo.h>
 #include <QDebug>
 
 Slide::Slide(QObject *parent)
