@@ -6,8 +6,8 @@ mkShell rec {
   nativeBuildInputs = [
     gcc
     gnumake
-    clang_14
-    clang-tools_14
+    clang
+    clang-tools
     cmake
     extra-cmake-modules
     pkg-config
