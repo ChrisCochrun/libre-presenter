@@ -5,6 +5,7 @@
 #include <podofo/podofo.h>
 #include <QDebug>
 
+using namespace PoDoFo;
 Slide::Slide(QObject *parent)
   : QObject{parent}
 {
@@ -195,6 +196,13 @@ void Slide::changeSlide(QVariantMap item)
   } else {
     setVideoBackground(m_serviceItem.value("background").toString());
     setImageBackground("");
+  }
+
+  if (type() == "pres") {
+    qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
+    PdfMemDocument pdf = PdfMemDocument();
+    // const char doc = imageBackground();
+    // pdf.Load(doc);
   }
 
   QStringList text = m_serviceItem.value("text").toStringList();

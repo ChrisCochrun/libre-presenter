@@ -32,7 +32,24 @@ find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 I18n CoreAddons
 find_package(Libmpv)
 set_package_properties(Libmpv PROPERTIES TYPE REQUIRED)
 
-find_package(PoDoFo)
+FIND_PACKAGE(LIBPODOFO)
+IF(NOT LIBPODOFO_FOUND)
+	MESSAGE("+++PoDoFo not found... building private copy")
+	SET(PODOFO_BUILD_STATIC 1)
+	SET(PODOFO_BUILD_SHARED 0)
+	SET(PODOFO_BUILD_LIB_ONLY 1)
+	ADD_SUBDIRECTORY(externals/required_libpodofo)
+	SET(LIBPODOFO_H ${CMAKE_CURRENT_SOURCE_DIR}/externals/required_libpodofo)
+	SET(LIBPODOFO_CONFIG_H ${CMAKE_CURRENT_BINARY_DIR}/externals/required_libpodofo)
+	SET(LIBPODOFO_LIB podofo_static)
+	MESSAGE("+++Done setting up private PoDoFo copy")
+ENDIF(NOT LIBPODOFO_FOUND)
+
+
+INCLUDE_DIRECTORIES(
+	${LIBPODOFO_H}
+	${LIBPODOFO_CONFIG_H}
+	)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
