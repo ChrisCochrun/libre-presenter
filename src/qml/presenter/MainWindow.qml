@@ -208,6 +208,7 @@ Controls.Page {
             videoEditor.stop();
             songEditor.visible = false;
             imageEditor.visible = false;
+            presentationEditor.visible = false;
             presentation.visible = true;
             editMode = false;
             presenting = true;
