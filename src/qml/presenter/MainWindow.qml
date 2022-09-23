@@ -88,6 +88,12 @@ Controls.Page {
                     visible: false
                     anchors.fill: parent
                 }
+
+                Presenter.PresentationEditor {
+                    id: presentationEditor
+                    visible: false
+                    anchors.fill: parent
+                }
             }
 
             Presenter.Library {
@@ -153,6 +159,7 @@ Controls.Page {
                 videoEditor.visible = false;
                 videoEditor.stop();
                 imageEditor.visible = false;
+                presentationEditor.visible = false;
                 songEditor.visible = true;
                 songEditor.changeSong(item);
                 break;
@@ -160,6 +167,7 @@ Controls.Page {
                 presentation.visible = false;
                 songEditor.visible = false;
                 imageEditor.visible = false;
+                presentationEditor.visible = false;
                 videoEditor.visible = true;
                 videoEditor.changeVideo(item);
                 break;
@@ -168,14 +176,25 @@ Controls.Page {
                 videoEditor.visible = false;
                 videoEditor.stop();
                 songEditor.visible = false;
+                presentationEditor.visible = false;
                 imageEditor.visible = true;
                 imageEditor.changeImage(item);
+                break;
+            case "presentation" :
+                presentation.visible = false;
+                videoEditor.visible = false;
+                videoEditor.stop();
+                songEditor.visible = false;
+                imageEditor.visible = false;
+                presentationEditor.visible = true;
+                presentationEditor.changePresentation(item);
                 break;
             default:
                 videoEditor.visible = false;
                 videoEditor.stop();
                 songEditor.visible = false;
                 imageEditor.visible = false;
+                presentationEditor.visible = false;
                 presentation.visible = true;
                 editMode = false;
             }

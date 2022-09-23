@@ -845,7 +845,7 @@ Item {
                                         dragItemTitle = title;
                                         dragItemType = "pres";
                                         dragItemText = "";
-                                        dragItemBackgroundType = "pres";
+                                        dragItemBackgroundType = "image";
                                         dragItemBackground = filePath;
                                     } else {
                                         presListItem.Drag.drop()
@@ -866,7 +866,7 @@ Item {
                                         const pres = pressqlmodel.getPresentation(presentationLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
-                                        editType = "pres";
+                                        editType = "presentation";
                                         editSwitch(pres);
                                     }
                                 }
