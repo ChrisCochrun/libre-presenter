@@ -1,28 +1,39 @@
-# - Find PoDoFo
-# Find the native PoDoFo includes and library
-#
-#  PODOFO_INCLUDE_DIR - where to find winscard.h, wintypes.h, etc.
-#  PODOFO_LIBRARIES   - List of libraries when using PoDoFo.
-#  PODOFO_FOUND       - True if PoDoFo found.
+SET(useshared)
+IF(WIN32)
+    IF(NOT DEFINED LIBPODOFO_SHARED)
+        MESSAGE("FATAL: Win32 users MUST set LIBPODOFO_SHARED")
+        MESSAGE("FATAL: Set -DLIBPODOFO_SHARED=0 if linking to a static library PoDoFo")
+        MESSAGE("FATAL: or -DLIBPODOFO_SHARED=1 if linking to a DLL build of PoDoFo")
+        MESSAGE(FATAL_ERROR "LIBPODOFO_SHARED unset on win32 build")
+    ELSE(NOT DEFINED LIBPODOFO_SHARED)
+        IF(LIBPODOFO_SHARED)
+            SET(useshared "-DUSING_SHARED_PODOFO")
+        ENDIF(LIBPODOFO_SHARED)
+    ENDIF(NOT DEFINED LIBPODOFO_SHARED)
+ENDIF(WIN32)
 
+FIND_PATH(LIBPODOFO_H
+	NAMES podofo/podofo.h
+	PATHS "${LIBPODOFO_DIR}/include" "${LIBPODOFO_DIR}/src" "${LIBPODOFO_DIR}"
+	)
+IF(LIBPODOFO_H)
+    MESSAGE("podofo/podofo.h: ${LIBPODOFO_H}")
+ELSE(LIBPODOFO_H)
+    MESSAGE("podofo/podofo.h: not found")
+ENDIF(LIBPODOFO_H)
 
-IF (PODOFO_INCLUDE_DIR)
-  # Already in cache, be silent
-  SET(PODOFO_FIND_QUIETLY TRUE)
-ENDIF (PODOFO_INCLUDE_DIR)
+FIND_LIBRARY(LIBPODOFO_LIB
+	NAMES libpodofo podofo
+	PATHS "${LIBPODOFO_DIR}/lib" "${LIBPODOFO_DIR}/src" "${LIBPODOFO_DIR}")
+IF(LIBPODOFO_LIB)
+    MESSAGE("podofo lib: ${LIBPODOFO_LIB}")
+ELSE(LIBPODOFO_LIB)
+    MESSAGE("podofo lib: not found")
+ENDIF(LIBPODOFO_LIB)
 
-FIND_PATH(PODOFO_INCLUDE_DIR podofo/podofo.h)
-FIND_LIBRARY(PODOFO_LIBRARY NAMES podofo)
+IF(LIBPODOFO_H AND LIBPODOFO_LIB)
+    SET(LIBPODOFO_FOUND TRUE CACHE BOOL "Was libpodofo found")
+ENDIF(LIBPODOFO_H AND LIBPODOFO_LIB)
 
-# handle the QUIETLY and REQUIRED arguments and set PODOFO_FOUND to TRUE if
-# all listed variables are TRUE
-INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(PODOFO DEFAULT_MSG PODOFO_LIBRARY PODOFO_INCLUDE_DIR)
-
-IF(PODOFO_FOUND)
-  SET( PODOFO_LIBRARIES ${PODOFO_LIBRARY} )
-ELSE(PODOFO_FOUND)
-  SET( PODOFO_LIBRARIES )
-ENDIF(PODOFO_FOUND)
-
-MARK_AS_ADVANCED(PODOFO_LIBRARY PODOFO_INCLUDE_DIR)
+SET(LIBPODOFO_CFLAGS "${useshared}" CACHE STRING "Extra flags for compiling against PoDoFo")
+MESSAGE("PoDoFo cflags: ${useshared}")
