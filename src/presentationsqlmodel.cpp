@@ -1,4 +1,4 @@
-#include "pressqlmodel.h"
+#include "presentationsqlmodel.h"
 
 #include <QDateTime>
 #include <QDebug>
@@ -17,15 +17,17 @@
 #include <qurl.h>
 #include <qvariant.h>
 
-static const char *presTableName = "presentation";
+static const char *presentationsTableName = "presentations";
 
-static void createPresTable()
+static void createPresentationTable()
 {
-  if(QSqlDatabase::database().tables().contains(presTableName)) {
+  QSqlQuery query;
+  if(QSqlDatabase::database().tables().contains(presentationsTableName)) {
+    // query.exec("DROP TABLE 'presentations'");
+    // qDebug() << query.lastQuery();
     return;
   }
 
-  QSqlQuery query;
   if (!query.exec("CREATE TABLE IF NOT EXISTS 'presentations' ("
                   "  'id' INTEGER NOT NULL,"
                   "  'title' TEXT NOT NULL,"
@@ -37,25 +39,25 @@ static void createPresTable()
   qDebug() << query.lastQuery();
   qDebug() << "inserting into presentations";
 
-  query.exec("INSERT INTO presentations (title, filePath) VALUES ('Dec 180', 'file:///home/chris/nextcloud/tfc/openlp/5 slides-2.pdf')");
+  query.exec("INSERT INTO presentations (title, filePath) VALUES ('Dec 180', 'file:///home/chris/nextcloud/tfc/openlp/5 slides-1.pdf')");
   qDebug() << query.lastQuery();
   query.exec("INSERT INTO presentations (title, filePath) VALUES ('No TFC', "
-             "'file:///home/chris/nextcloud/tfc/openlp/5 slides-1.pdf')");
+             "'file:///home/chris/nextcloud/tfc/openlp/5 slides-2.pdf')");
 
   query.exec("select * from presentations");
   qDebug() << query.lastQuery();
 }
 
-PresSqlModel::PresSqlModel(QObject *parent) : QSqlTableModel(parent) {
-  qDebug() << "creating pres table";
-  createPresTable();
-  setTable(pressTableName);
+PresentationSqlModel::PresentationSqlModel(QObject *parent) : QSqlTableModel(parent) {
+  qDebug() << "creating presentation table";
+  createPresentationTable();
+  setTable(presentationsTableName);
   setEditStrategy(QSqlTableModel::OnManualSubmit);
   // make sure to call select else the model won't fill
   select();
 }
 
-QVariant PresSqlModel::data(const QModelIndex &index, int role) const {
+QVariant PresentationSqlModel::data(const QModelIndex &index, int role) const {
   if (role < Qt::UserRole) {
     return QSqlTableModel::data(index, role);
   }
@@ -65,7 +67,7 @@ QVariant PresSqlModel::data(const QModelIndex &index, int role) const {
   return sqlRecord.value(role - Qt::UserRole);
 }
 
-QHash<int, QByteArray> PresSqlModel::roleNames() const
+QHash<int, QByteArray> PresentationSqlModel::roleNames() const
 {
     QHash<int, QByteArray> names;
     names[Qt::UserRole] = "id";
@@ -74,8 +76,8 @@ QHash<int, QByteArray> PresSqlModel::roleNames() const
     return names;
 }
 
-void PresSqlModel::newPres(const QUrl &filePath) {
-  qDebug() << "adding new pres";
+void PresentationSqlModel::newPresentation(const QUrl &filePath) {
+  qDebug() << "adding new presentation";
   int rows = rowCount();
 
   qDebug() << rows;
@@ -92,7 +94,7 @@ void PresSqlModel::newPres(const QUrl &filePath) {
   };
 }
 
-void PresSqlModel::deletePres(const int &row) {
+void PresentationSqlModel::deletePresentation(const int &row) {
   QSqlRecord recordData = record(row);
   if (recordData.isEmpty())
     return;
@@ -101,15 +103,15 @@ void PresSqlModel::deletePres(const int &row) {
   submitAll();
 }
 
-int PresSqlModel::id() const {
+int PresentationSqlModel::id() const {
   return m_id;
 }
 
-QString PresSqlModel::title() const {
+QString PresentationSqlModel::title() const {
   return m_title;
 }
 
-void PresSqlModel::setTitle(const QString &title) {
+void PresentationSqlModel::setTitle(const QString &title) {
   if (title == m_title)
     return;
   
@@ -120,7 +122,7 @@ void PresSqlModel::setTitle(const QString &title) {
 }
 
 // This function is for updating the title from outside the delegate
-void PresSqlModel::updateTitle(const int &row, const QString &title) {
+void PresentationSqlModel::updateTitle(const int &row, const QString &title) {
   qDebug() << "Row is " << row;
   QSqlRecord rowdata = record(row);
   qDebug() << rowdata;
@@ -131,11 +133,11 @@ void PresSqlModel::updateTitle(const int &row, const QString &title) {
   emit titleChanged();
 }
 
-QUrl PresSqlModel::filePath() const {
+QUrl PresentationSqlModel::filePath() const {
   return m_filePath;
 }
 
-void PresSqlModel::setFilePath(const QUrl &filePath) {
+void PresentationSqlModel::setFilePath(const QUrl &filePath) {
   if (filePath == m_filePath)
     return;
   
@@ -146,7 +148,7 @@ void PresSqlModel::setFilePath(const QUrl &filePath) {
 }
 
 // This function is for updating the filepath from outside the delegate
-void PresSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
+void PresentationSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   qDebug() << "Row is " << row;
   QSqlRecord rowdata = record(row);
   qDebug() << rowdata;
@@ -157,16 +159,15 @@ void PresSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   emit filePathChanged();
 }
 
-// Here we grab the presentation from it's row id
-QVariantMap PresSqlModel::getPres(const int &row) {
+QVariantMap PresentationSqlModel::getPresentation(const int &row) {
   // qDebug() << "Row we are getting is " << row;
-  // QUrl pres;
+  // QUrl presentation;
   // QSqlRecord rec = record(row);
   // qDebug() << rec.value("filePath").toUrl();
-  // // pres.append(rec.value("title"));
-  // // pres.append(rec.value("filePath"));
-  // pres = rec.value("filePath").toUrl();
-  // return pres;
+  // // presentation.append(rec.value("title"));
+  // // presentation.append(rec.value("filePath"));
+  // presentation = rec.value("filePath").toUrl();
+  // return presentation;
 
   QVariantMap data;
   const QModelIndex idx = this->index(row,0);

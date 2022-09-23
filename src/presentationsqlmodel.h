@@ -1,5 +1,5 @@
-#ifndef PRESSQLMODEL_H
-#define PRESSQLMODEL_H
+#ifndef PRESENTATIONSQLMODEL_H
+#define PRESENTATIONSQLMODEL_H
 
 #include <QSqlTableModel>
 #include <qobject.h>
@@ -8,7 +8,7 @@
 #include <qurl.h>
 #include <qvariant.h>
 
-class PresSqlModel : public QSqlTableModel
+class PresentationSqlModel : public QSqlTableModel
 {
   Q_OBJECT
   Q_PROPERTY(int id READ id)
@@ -17,7 +17,7 @@ class PresSqlModel : public QSqlTableModel
   QML_ELEMENT
 
 public:
-  PresSqlModel(QObject *parent = 0);
+  PresentationSqlModel(QObject *parent = 0);
 
   int id() const;
   QString title() const;
@@ -29,9 +29,9 @@ public:
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateFilePath(const int &row, const QUrl &filePath);
 
-  Q_INVOKABLE void newPres(const QUrl &filePath);
-  Q_INVOKABLE void deletePres(const int &row);
-  Q_INVOKABLE QVariantMap getPres(const int &row);
+  Q_INVOKABLE void newPresentation(const QUrl &filePath);
+  Q_INVOKABLE void deletePresentation(const int &row);
+  Q_INVOKABLE QVariantMap getPresentation(const int &row);
 
   QVariant data(const QModelIndex &index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;
@@ -46,4 +46,4 @@ private:
     QUrl m_filePath;
 };
 
-#endif //PRESSQLMODEL_H
+#endif //PRESENTATIONSQLMODEL_H

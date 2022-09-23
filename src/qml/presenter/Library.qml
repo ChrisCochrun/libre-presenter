@@ -692,8 +692,38 @@ Item {
                 color: Kirigami.Theme.backgroundColor
 
                 Controls.Label {
-                    anchors.centerIn: parent
+                    id: presentationLabel
+                    anchors.right: presentationCount.left
+                    anchors.rightMargin: 15
+                    anchors.verticalCenter: parent.verticalCenter
                     text: "Presentations"
+                    elide: Text.ElideRight
+                }
+
+                Controls.Label {
+                    id: presentationCount
+                    anchors {right: presentationDrawerArrow.left
+                             verticalCenter: presentationLabel.verticalCenter
+                             rightMargin: 10}
+                    text: pressqlmodel.rowCount()
+                    font.pixelSize: 15
+                    color: Kirigami.Theme.disabledTextColor
+                }
+
+                Kirigami.Icon {
+                    id: presentationDrawerArrow
+                    anchors {right: parent.right
+                             verticalCenter: presentationCount.verticalCenter
+                             rightMargin: 10}
+                    source: "arrow-down"
+                    rotation: selectedLibrary == "presentations" ? 0 : 180
+
+                    Behavior on rotation {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
                 }
 
                 MouseArea {
@@ -747,14 +777,14 @@ Item {
                     id: presDelegate
                     Item{
                         implicitWidth: ListView.view.width
-                        height: selectedLibrary == "press" ? 50 : 0
+                        height: selectedLibrary == "presentations" ? 50 : 0
                         Kirigami.BasicListItem {
                             id: presListItem
 
                             property bool rightMenu: false
 
                             implicitWidth: presentationLibraryList.width
-                            height: selectedLibrary == "press" ? 50 : 0
+                            height: selectedLibrary == "presentations" ? 50 : 0
                             clip: true
                             label: title
                             /* subtitle: author */
@@ -833,7 +863,7 @@ Item {
                                         rightClickPresMenu.popup()
                                     else{
                                         presentationLibraryList.currentIndex = index
-                                        const pres = pressqlmodel.getPres(presentationLibraryList.currentIndex);
+                                        const pres = pressqlmodel.getPresentation(presentationLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "pres";
@@ -849,7 +879,7 @@ Item {
                             y: presClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: pressqlmodel.deletePres(index)
+                                onTriggered: pressqlmodel.deletePresentation(index)
                             }
                         }
                     }

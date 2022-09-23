@@ -115,7 +115,7 @@ Controls.Page {
         id: imagesqlmodel
     }
 
-    PresSqlModel {
+    PresentationSqlModel {
         id: pressqlmodel
     }
 

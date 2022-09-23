@@ -9,6 +9,7 @@ target_sources(presenter
  slide.cpp slide.h
  videosqlmodel.cpp videosqlmodel.h
  imagesqlmodel.cpp imagesqlmodel.h
+ presentationsqlmodel.cpp presentationsqlmodel.h
  mpv/mpvobject.h mpv/mpvobject.cpp
  mpv/qthelper.hpp mpv/mpvhelpers.h
 )
