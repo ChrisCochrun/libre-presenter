@@ -37,6 +37,7 @@ mkShell rec {
     # papirus-icon-theme
     # lightly-qt
 
+    podofo
     mpv
     # libsForQt5.kconfig
     # ffmpeg-full

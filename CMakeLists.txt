@@ -32,6 +32,7 @@ find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 I18n CoreAddons
 find_package(Libmpv)
 set_package_properties(Libmpv PROPERTIES TYPE REQUIRED)
 
+find_package(PoDoFo)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
