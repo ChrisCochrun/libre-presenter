@@ -138,6 +138,8 @@ Controls.Page {
         presentation.itemType = item.type;
         print("Time to start changing");
 
+        // This determines if pdf and gives slide the right
+        // page count to use.
         if (item.type == "pres")
             SlideObject.changeSlide(item);
         else
