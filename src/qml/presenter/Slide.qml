@@ -1,4 +1,4 @@
-import QtQuick 2.13
+import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
 /* import QtMultimedia 5.15 */
@@ -19,6 +19,7 @@ Item {
     property bool dropShadow: false
     property url imageSource
     property url videoSource
+    property int pdfIndex
     property string chosenFont: "Quicksand"
     property string text: "This is demo text"
     property color backgroundColor
@@ -119,7 +120,7 @@ Item {
             fillMode: Image.PreserveAspectCrop
             clip: true
             visible: true
-
+            currentFrame: pdfIndex
         }
 
         FastBlur {

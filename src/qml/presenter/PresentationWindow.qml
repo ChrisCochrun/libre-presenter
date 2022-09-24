@@ -1,4 +1,4 @@
-import QtQuick 2.13
+import QtQuick 2.15
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
@@ -36,6 +36,8 @@ Window {
         imageSource: SlideObject.imageBackground
         videoSource: presentationWindow.visible ? SlideObject.videoBackground : ""
         text: SlideObject.text
+        pdfIndex: SlideObject.pdfIndex
+        itemType: SlideObject.type
     }
 
     Connections {

@@ -11,10 +11,13 @@ class Slide : public QObject
   Q_OBJECT
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
   Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
-  Q_PROPERTY(QVariantMap serviceItem READ serviceItem WRITE setServiceItem NOTIFY serviceItemChanged)
+  Q_PROPERTY(QVariantMap serviceItem READ serviceItem WRITE setServiceItem
+             NOTIFY serviceItemChanged)
   Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
-  Q_PROPERTY(QString imageBackground READ imageBackground WRITE setImageBackground NOTIFY imageBackgroundChanged)
-  Q_PROPERTY(QString videoBackground READ videoBackground WRITE setVideoBackground NOTIFY videoBackgroundChanged)
+  Q_PROPERTY(QString imageBackground READ imageBackground WRITE setImageBackground
+             NOTIFY imageBackgroundChanged)
+  Q_PROPERTY(QString videoBackground READ videoBackground WRITE setVideoBackground
+             NOTIFY videoBackgroundChanged)
   Q_PROPERTY(QString horizontalTextAlignment READ horizontalTextAlignment
              WRITE setHorizontalTextAlignment NOTIFY horizontalTextAlignmentChanged)
   Q_PROPERTY(QString verticalTextAlignment READ verticalTextAlignment

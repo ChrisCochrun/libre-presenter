@@ -1,4 +1,4 @@
-import QtQuick 2.13
+import QtQuick 2.15
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
@@ -13,9 +13,9 @@ Item {
 
     property var text
     property int textIndex: 0
-    property string itemType
-    property url imagebackground
-    property url vidbackground
+    property string itemType: SlideObject.type
+    property url imagebackground: SlideObject.imageBackground
+    property url vidbackground: SlideObject.videoBackground
 
     property Item slide: previewSlide
 
@@ -88,9 +88,10 @@ Item {
             Layout.alignment: Qt.AlignCenter
             textSize: width / 15
             itemType: root.itemType
-            imageSource: SlideObject.imageBackground
-            videoSource: SlideObject.videoBackground
+            imageSource: imagebackground
+            videoSource: vidbackground
             text: SlideObject.text
+            pdfIndex: SlideObject.pdfIndex
             preview: true 
         }
 

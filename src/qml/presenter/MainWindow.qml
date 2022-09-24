@@ -1,4 +1,4 @@
-import QtQuick 2.13
+import QtQuick 2.15
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Window 2.13
@@ -135,24 +135,21 @@ Controls.Page {
         print(item);
 
         presentation.stopVideo();
-        presentation.itemType = item.type;
+        /* presentation.itemType = item.type; */
         print("Time to start changing");
 
-        // This determines if pdf and gives slide the right
-        // page count to use.
-        if (item.type == "pres")
-            SlideObject.changeSlide(item);
-        else
-            SlideObject.changeSlide(item);
+        SlideObject.changeSlide(item);
+        showPassiveNotification(SlideObject.imageBackground);
         
-        if (item.backgroundType === "video")
-        {
-            presentation.loadVideo();
-        }
+        /* if (item.backgroundType === "video") */
+        /* { */
+        /*     presentation.loadVideo(); */
+        /* } */
 
         presentation.textIndex = 0;
-        presentation.changeSlide();
+        /* presentation.changeSlide(); */
 
+        showPassiveNotification(SlideObject.imageBackground);
         print("Slide changed to: " + item.name);
     }
 
