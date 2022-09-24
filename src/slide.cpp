@@ -309,6 +309,9 @@ bool Slide::previous(QVariantMap prevItem)
   }
 
   if (m_type == "presentation") {
+    qDebug() << "prev slide index: " << m_pdfIndex;
+    setPdfIndex(m_pdfIndex - 1);
+    qDebug() << "new slide index: " << m_pdfIndex;
     m_slideIndex--;
   }
 
