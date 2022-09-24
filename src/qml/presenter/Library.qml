@@ -1034,6 +1034,7 @@ Item {
             }
 
             function addFiles(files) {
+                showPassiveNotification("More than one file");
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i];
                     let ext = file.split('.').pop()
@@ -1045,9 +1046,9 @@ Item {
                     {
                         addImg(file);
                     }
-                    if (presexts.includes(extension))
+                    if (presexts.includes(ext))
                     {
-                        showPassiveNotification("it's a presentation!");
+                        addPres(file);
                         return;
                     }
                 }
