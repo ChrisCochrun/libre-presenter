@@ -989,6 +989,18 @@ Item {
                 editSwitch("image", image);
             }
 
+            function addPres(url) {
+                pressqlmodel.newPresentation(url);
+                selectedLibrary = "presentations";
+                presentationLibraryList.currentIndex = pressqlmodel.rowCount();
+                print(pressqlmodel.getPresentation(presentationLibraryList.currentIndex));
+                const presentation = pressqlmodel.getImage(presentationLibraryList.currentIndex);
+                showPassiveNotification("newest image: " + presentation.title);
+                if (!editMode)
+                    editMode = true;
+                editSwitch("presentation", presentation);
+            }
+
             function isDragFile(item) {
                 var extension = item.split('.').pop();
                 var valid = false;
