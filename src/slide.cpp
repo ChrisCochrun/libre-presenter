@@ -204,7 +204,16 @@ void Slide::changeSlide(QVariantMap item)
 {
   setServiceItem(item);
   setType(m_serviceItem.value("type").toString());
+  qDebug() << "#$% SLIDE TYPE: " << type() << " %$#";
 
+  // First let's clear the text and then set
+  // the size and index of a basic slide
+  // then we'll build the rest
+  setText("");
+  m_slideSize = 1;
+  m_slideIndex = 1;
+
+  qDebug() << serviceItem().value("backgroundType").toString();
   if (serviceItem().value("backgroundType") == "image") {
     setImageBackground(m_serviceItem.value("background").toString());
     setVideoBackground("");
@@ -212,10 +221,6 @@ void Slide::changeSlide(QVariantMap item)
     setVideoBackground(m_serviceItem.value("background").toString());
     setImageBackground("");
   }
-
-  setText("");
-  m_slideSize = 1;
-  m_slideIndex = 1;
 
   if (type() == "presentation") {
     qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
@@ -238,8 +243,8 @@ void Slide::changeSlide(QVariantMap item)
     qDebug() << m_imageCount;
     m_slideSize = m_imageCount;
     m_slideIndex = 1;
-    setPdfIndex(1);
   }
+  setPdfIndex(0);
 
   QStringList text = m_serviceItem.value("text").toStringList();
   if (type() == "song") {
