@@ -200,9 +200,23 @@ void Slide::changeSlide(QVariantMap item)
 
   if (type() == "pres") {
     qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
-    PdfMemDocument pdf = PdfMemDocument();
-    // const char doc = imageBackground();
-    // pdf.Load(doc);
+    int pageCount;
+    QString str = imageBackground().remove(0,6);
+    qDebug() << str;
+    std::string file = str.toStdString();
+    // qDebug() << file;
+    const char * doc = file.c_str();
+    qDebug() << doc;
+    try {
+      PdfMemDocument pdf = PdfMemDocument(doc);
+      pageCount = pdf.GetPageCount();
+    } catch ( const PdfError & eCode ) {
+      eCode.PrintErrorMsg();
+      eCode.GetError();
+      return;
+    }
+    setImageCount(pageCount);
+    qDebug() << m_imageCount;
   }
 
   QStringList text = m_serviceItem.value("text").toStringList();
@@ -219,33 +233,6 @@ void Slide::changeSlide(QVariantMap item)
   }
 
   qDebug() << "MAP: " << m_serviceItem.value("text");
-}
-
-void Slide::changeSlide(QVariantMap item, int pageCount)
-{
-  setServiceItem(item);
-  setType(m_serviceItem.value("type").toString());
-
-  if (serviceItem().value("backgroundType") == "image") {
-    setImageBackground(m_serviceItem.value("background").toString());
-    setVideoBackground("");
-  } else {
-    setVideoBackground(m_serviceItem.value("background").toString());
-    setImageBackground("");
-  }
-
-  qDebug() << pageCount;
-
-  if (serviceItem().value("type") == "pres") {
-    qDebug() << "#$#$#$#$#$ THIS A PDF #$#$#$#$#$#";
-  }
-
-  QStringList text = m_serviceItem.value("text").toStringList();
-  if (text.isEmpty()) {
-    setText("");
-    m_slideSize = 1;
-    m_slideIndex = 1;
-  }
 }
 
 bool Slide::next(QVariantMap nextItem)

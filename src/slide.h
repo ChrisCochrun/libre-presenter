@@ -57,7 +57,6 @@ public:
   Q_INVOKABLE void setImageCount(int imageCount);
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
-  Q_INVOKABLE void changeSlide(QVariantMap item, int pageCount);
   Q_INVOKABLE void play();
   Q_INVOKABLE void pause();
   Q_INVOKABLE void playPause();
