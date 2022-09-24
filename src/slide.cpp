@@ -15,12 +15,13 @@ Slide::Slide(QObject *parent)
 Slide::Slide(const QString &text, const QString &audio, const QString &imageBackground,
              const QString &videoBackground, const QString &horizontalTextAlignment,
              const QString &verticalTextAlignment, const QString &font,
-             const int &fontSize, const int &imageCount, const bool &isPlaying,
-             const QString &type, QObject *parent)
+             const int &fontSize, const int &imageCount, const int &pdfIndex,
+             const bool &isPlaying, const QString &type, QObject *parent)
   : QObject(parent),m_text(text),m_audio(audio),m_imageBackground(imageBackground),
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),
-    m_fontSize(fontSize),m_imageCount(imageCount),m_isPlaying(isPlaying),m_type(type)
+    m_fontSize(fontSize),m_imageCount(imageCount),m_pdfIndex(pdfIndex),
+    m_isPlaying(isPlaying),m_type(type)
 {
   qDebug() << "Initializing slide with defaults";
 }
@@ -74,6 +75,11 @@ int Slide::fontSize() const
 int Slide::imageCount() const
 {
   return m_imageCount;
+}
+
+int Slide::pdfIndex() const
+{
+  return m_pdfIndex;
 }
 
 bool Slide::isPlaying() const
@@ -185,6 +191,15 @@ void Slide::setImageCount(int imageCount)
     emit imageCountChanged(m_imageCount);
 }
 
+void Slide::setPdfIndex(int pdfIndex)
+{
+    if (m_pdfIndex == pdfIndex)
+        return;
+
+    m_pdfIndex = pdfIndex;
+    emit pdfIndexChanged(m_pdfIndex);
+}
+
 void Slide::changeSlide(QVariantMap item)
 {
   setServiceItem(item);
@@ -197,6 +212,10 @@ void Slide::changeSlide(QVariantMap item)
     setVideoBackground(m_serviceItem.value("background").toString());
     setImageBackground("");
   }
+
+  setText("");
+  m_slideSize = 1;
+  m_slideIndex = 1;
 
   if (type() == "pres") {
     qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
@@ -217,15 +236,13 @@ void Slide::changeSlide(QVariantMap item)
     }
     setImageCount(pageCount);
     qDebug() << m_imageCount;
+    m_slideSize = m_imageCount;
+    m_slideIndex = 1;
+    setPdfIndex(1);
   }
 
   QStringList text = m_serviceItem.value("text").toStringList();
-  if (text.isEmpty()) {
-    setText("");
-    m_slideSize = 1;
-    m_slideIndex = 1;
-  }
-  else {
+  if (type() == "song") {
     qDebug() << "TEXT LENGTH: " << text.length();
     m_slideSize = text.length();
     m_slideIndex = 1;
@@ -245,13 +262,23 @@ bool Slide::next(QVariantMap nextItem)
     return true;
   }
 
+  qDebug() << m_type;
   // since the string list is 0 indexed m_slideIndex actually
   // maps to the next item.
-  int nextTextIndex = m_slideIndex;
-  qDebug() << nextTextIndex;
-  qDebug() << text[nextTextIndex];
-  setText(text[nextTextIndex]);
-  m_slideIndex++;
+  if (m_type == "song") {
+    int nextTextIndex = m_slideIndex;
+    qDebug() << nextTextIndex;
+    qDebug() << text[nextTextIndex];
+    setText(text[nextTextIndex]);
+    m_slideIndex++;
+  }
+
+  if (m_type == "pres") {
+    qDebug() << "prev slide index: " << m_pdfIndex;
+    setPdfIndex(m_pdfIndex + 1);
+    qDebug() << "new slide index: " << m_pdfIndex;
+    m_slideIndex++;
+  }
 
   return false;
 }
@@ -268,11 +295,17 @@ bool Slide::previous(QVariantMap prevItem)
 
   // since the string list is 0 indexed m_slideIndex actually
   // maps to the next item. So the prev text is minus 2
-  int prevTextIndex = m_slideIndex - 2;
-  qDebug() << prevTextIndex;
-  qDebug() << text[prevTextIndex];
-  setText(text[prevTextIndex]);
-  m_slideIndex--;
+  if (m_type == "song") {
+    int prevTextIndex = m_slideIndex - 2;
+    qDebug() << prevTextIndex;
+    qDebug() << text[prevTextIndex];
+    setText(text[prevTextIndex]);
+    m_slideIndex--;
+  }
+
+  if (m_type == "presentation") {
+    m_slideIndex--;
+  }
 
   return false;
 }

@@ -22,6 +22,7 @@ class Slide : public QObject
   Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(int imageCount READ imageCount WRITE setImageCount NOTIFY imageCountChanged)
+  Q_PROPERTY(int pdfIndex READ pdfIndex WRITE setPdfIndex NOTIFY pdfIndexChanged)
   Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY isPlayingChanged)
   // QML_ELEMENT
 
@@ -29,7 +30,9 @@ public:
   explicit Slide(QObject *parent = nullptr);
   Slide(const QString &text, const QString &audio, const QString &imageBackground, const QString &videoBackground,
         const QString &horizontalTextAlignment, const QString &verticalTextAlignment,
-        const QString &font, const int &fontSize, const int &imageCount, const bool &isPlaying, const QString &type, QObject * parent = nullptr);
+        const QString &font, const int &fontSize, const int &imageCount,
+        const int &pdfIndex, const bool &isPlaying, const QString &type,
+        QObject * parent = nullptr);
 
   QString text() const;
   QString type() const;
@@ -42,6 +45,7 @@ public:
   QString font() const;
   int fontSize() const;
   int imageCount() const;
+  int pdfIndex() const;
   bool isPlaying() const;
 
   Q_INVOKABLE void setText(QString text);
@@ -55,6 +59,7 @@ public:
   Q_INVOKABLE void setFont(QString font);
   Q_INVOKABLE void setFontSize(int fontSize);
   Q_INVOKABLE void setImageCount(int imageCount);
+  Q_INVOKABLE void setPdfIndex(int pdfIndex);
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
   Q_INVOKABLE void play();
@@ -75,6 +80,7 @@ signals:
     Q_INVOKABLE void fontChanged(QString font);
     Q_INVOKABLE void fontSizeChanged(int fontSize);
     Q_INVOKABLE void imageCountChanged(int imageCount);
+    Q_INVOKABLE void pdfIndexChanged(int pdfIndex);
     Q_INVOKABLE void isPlayingChanged(bool isPlaying);
 
 private:
@@ -90,6 +96,7 @@ private:
     QString m_font;
     int m_fontSize;
     int m_imageCount;
+    int m_pdfIndex;
     bool m_isPlaying;
 
     int m_slideIndex;
