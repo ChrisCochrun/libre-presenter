@@ -843,7 +843,7 @@ Item {
                                 onActiveChanged: {
                                     if (presDragHandler.drag.active) {
                                         dragItemTitle = title;
-                                        dragItemType = "pres";
+                                        dragItemType = "presentation";
                                         dragItemText = "";
                                         dragItemBackgroundType = "image";
                                         dragItemBackground = filePath;

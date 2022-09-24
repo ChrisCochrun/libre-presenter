@@ -217,7 +217,7 @@ void Slide::changeSlide(QVariantMap item)
   m_slideSize = 1;
   m_slideIndex = 1;
 
-  if (type() == "pres") {
+  if (type() == "presentation") {
     qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
     int pageCount;
     QString str = imageBackground().remove(0,6);
@@ -273,7 +273,7 @@ bool Slide::next(QVariantMap nextItem)
     m_slideIndex++;
   }
 
-  if (m_type == "pres") {
+  if (m_type == "presentation") {
     qDebug() << "prev slide index: " << m_pdfIndex;
     setPdfIndex(m_pdfIndex + 1);
     qDebug() << "new slide index: " << m_pdfIndex;
