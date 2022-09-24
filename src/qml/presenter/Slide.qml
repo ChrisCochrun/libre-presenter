@@ -117,7 +117,7 @@ Item {
             id: backgroundImage
             anchors.fill: parent
             source: imageSource
-            fillMode: Image.PreserveAspectCrop
+            fillMode: itemType == "presentation" ? Image.PreserveAspectFit : Image.PreserveAspectCrop
             clip: true
             visible: true
             currentFrame: pdfIndex
