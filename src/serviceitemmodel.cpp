@@ -10,7 +10,8 @@ ServiceItemModel::ServiceItemModel(QObject *parent)
     : QAbstractListModel(parent) {
   addItem(new ServiceItem("10,000 Reasons", "song",
                           "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg",
-                          "image", "file:/home/chris/nextcloud/tfc/openlp/music/Eden-Phil Wickham [lyrics].mp3" QStringList("Yip Yip")));
+                          "image", QStringList("Yip Yip"),
+                          "file:/home/chris/nextcloud/tfc/openlp/music/Eden-Phil Wickham [lyrics].mp3"));
   addItem(new ServiceItem("Marvelous Light", "song",
                           "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4",
                           "video", QStringList("Hallelujah!")));
@@ -102,8 +103,8 @@ bool ServiceItemModel::setData(const QModelIndex &index, const QVariant &value,
     }
     break;
   case AudioRole:
-    if (item->audio() != value.toStringList()) {
-      item->setAudio(value.toStringList());
+    if (item->audio() != value.toString()) {
+      item->setAudio(value.toString());
       somethingChanged = true;
     }
     break;
