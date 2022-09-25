@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
-/* import QtMultimedia 5.15 */
+import QtMultimedia 5.15
 /* import QtAudioEngine 1.15 */
 import QtGraphicalEffects 1.15
 import org.kde.kirigami 2.13 as Kirigami
@@ -69,12 +69,6 @@ Item {
                 /* onPressed: mpv.playPause(); */
                 cursorShape: preview ? Qt.ArrowCursor : Qt.BlankCursor
             }
-
-            MpvObject {
-                id: audio
-                onFileLoaded: {}
-            }
-
         }
 
         Timer {
@@ -87,7 +81,7 @@ Item {
                     print("WHY AREN'T YOU PASUING!");
                     pauseTimer.restart();
                 }
-                audio.loadFile()
+                audio.source = audioSource.toString();
                 blackTimer.restart();
             }
         }
@@ -111,6 +105,14 @@ Item {
             color: "Black"
             anchors.fill: parent
             visible: false
+        }
+
+        MediaPlayer {
+            id: audio
+            audioRole: MusicRole
+            autoLoad: true
+            autoPlay: true
+            source: audioSource.toString()
         }
 
         Image {
@@ -168,10 +170,14 @@ Item {
         mpvLoadingTimer.restart()
     }
 
+    function playAudio() {
+        audio.play();
+    }
+
     function stopVideo() {
         mpv.stop();
         black.visible = true;
-        showPassiveNotification("Black is: " + black.visible);
+        print("Stopped video");
     }
 
     function seek(pos) {

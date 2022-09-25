@@ -44,6 +44,7 @@ ColumnLayout {
                        dragItemBackground,
                        dragItemBackgroundType,
                        dragItemText,
+                       dragItemAudio,
                        dragItemIndex);
             dropHighlightLine.visible = false;
         }
@@ -121,6 +122,7 @@ ColumnLayout {
                                     dragItemBackground,
                                     dragItemBackgroundType,
                                     dragItemText,
+                                    dragItemAudio,
                                     dragItemIndex);
                         } else if (drag.keys[0] === "serviceitem") {
                             serviceItemModel.move(serviceItemList.indexDragged,
@@ -229,7 +231,7 @@ ColumnLayout {
                             }
 
                             onDoubleClicked: {
-                                showPassiveNotification("Double Clicked")
+                                /* showPassiveNotification("Double Clicked") */
                                 serviceItemList.currentIndex = index;
                                 currentServiceItem = index;
                                 changeServiceItem(index);
@@ -408,7 +410,7 @@ ColumnLayout {
             print("adding: " + name + " of type " + type);
             serviceItemModel.insertItem(index, name,
                                         type, background,
-                                        backgroundType, audio, newtext);
+                                        backgroundType, newtext, audio);
             totalServiceItems++;
             return;
         }

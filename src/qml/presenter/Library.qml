@@ -221,6 +221,7 @@ Item {
                                         dragItemType = "song";
                                         dragItemBackgroundType = backgroundType;
                                         dragItemBackground = background;
+                                        dragItemAudio = audio;
                                         draggedLibraryItem = self;
                                     } else {
                                         songListItem.Drag.drop()

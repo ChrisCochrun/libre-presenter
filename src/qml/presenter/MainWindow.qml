@@ -25,6 +25,7 @@ Controls.Page {
     property string dragItemTitle: ""
     property string dragItemType: ""
     property string dragItemText: ""
+    property string dragItemAudio: ""
     property string dragItemBackgroundType: ""
     property string dragItemBackground: ""
 
@@ -139,7 +140,6 @@ Controls.Page {
         print("Time to start changing");
 
         SlideObject.changeSlide(item);
-        showPassiveNotification(SlideObject.imageBackground);
         
         /* if (item.backgroundType === "video") */
         /* { */
@@ -149,7 +149,6 @@ Controls.Page {
         presentation.textIndex = 0;
         /* presentation.changeSlide(); */
 
-        showPassiveNotification(SlideObject.imageBackground);
         print("Slide changed to: " + item.name);
     }
 

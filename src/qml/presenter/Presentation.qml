@@ -90,6 +90,7 @@ Item {
             itemType: root.itemType
             imageSource: imagebackground
             videoSource: vidbackground
+            audioSource: SlideObject.audio
             text: SlideObject.text
             pdfIndex: SlideObject.pdfIndex
             preview: true 
@@ -212,6 +213,7 @@ Item {
         if (changed) {
             currentServiceItem--;
             loadVideo();
+            /* playAudio(); */
             leftDock.changeItem();
         }
     }
