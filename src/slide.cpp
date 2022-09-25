@@ -99,20 +99,20 @@ void Slide::setText(QString text)
 
 void Slide::setType(QString type)
 {
-    qDebug() << "####changing type to: " << type;
     if (m_type == type)
         return;
 
+    qDebug() << "####changing type to: " << type;
     m_type = type;
     emit typeChanged(m_type);
 }
 
 void Slide::setServiceItem(QVariantMap serviceItem)
 {
-    qDebug() << "####changing serviceItem to: " << serviceItem;
     if (m_serviceItem == serviceItem)
         return;
 
+    qDebug() << "####changing serviceItem to: " << serviceItem;
     m_serviceItem = serviceItem;
     emit serviceItemChanged(m_serviceItem);
 }
@@ -122,6 +122,7 @@ void Slide::setAudio(QString audio)
     if (m_audio == audio)
         return;
 
+    qDebug() << "####changing audio to: " << audio;
     m_audio = audio;
     emit audioChanged(m_audio);
 }
@@ -187,6 +188,7 @@ void Slide::setImageCount(int imageCount)
     if (m_imageCount == imageCount)
         return;
 
+    qDebug() << "####changing imageCount to: " << imageCount;
     m_imageCount = imageCount;
     emit imageCountChanged(m_imageCount);
 }
@@ -196,6 +198,7 @@ void Slide::setPdfIndex(int pdfIndex)
     if (m_pdfIndex == pdfIndex)
         return;
 
+    qDebug() << "####changing pdfIndex to: " << pdfIndex;
     m_pdfIndex = pdfIndex;
     emit pdfIndexChanged(m_pdfIndex);
 }
