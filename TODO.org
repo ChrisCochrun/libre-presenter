@@ -5,7 +5,8 @@
 
 * Tasks [50%] [15/30]
 
-** TODO Unload video when switching to something with just image
+** TODO Add ability to use arrow keys to move through slides :core:feature:
+** TODO Unload video when switching to something with just image :core:bug:
 ** TODO Add an audio file to the song so that it will play when the song is presented :feature:song:
 - [ ] Add audio file to model
 - [ ] add ui for adding audio file
