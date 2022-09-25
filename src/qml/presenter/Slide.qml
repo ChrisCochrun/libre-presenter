@@ -112,6 +112,9 @@ Item {
             id: mpvAudio
             useHwdec: true
             enableAudio: true
+            // embeded mpv allows to set commandline propertys using the options/<name>
+            // syntax. This could be abstracted later, but for now this works.
+            Component.onCompleted: mpvAudio.setProperty("options/audio-display", "no");
         }
 
         Controls.Label {
@@ -175,16 +178,7 @@ Item {
     }
 
     function playAudio() {
-        audio.stop();
-        audio.source = audioSource;
         mpvAudio.loadFile(audioSource.toString());
-        audio.play();
-        showPassiveNotification("We should be playing: " + audio.source)
-        showPassiveNotification(audio.status)
-        showPassiveNotification(audio.hasAudio)
-        showPassiveNotification(audio.duration)
-        showPassiveNotification(audio.errors)
-        showPassiveNotification(audio.errorString)
     }
 
     function stopVideo() {
