@@ -23,6 +23,7 @@ Item {
     property int pdfIndex
     property string chosenFont: "Quicksand"
     property string text: "This is demo text"
+    property string audioError
     property color backgroundColor
     property var hTextAlignment: Text.AlignHCenter
     property var vTextAlignment: Text.AlignVCenter
@@ -107,12 +108,15 @@ Item {
             visible: false
         }
 
-        MediaPlayer {
-            id: audio
-            audioRole: MusicRole
-            autoLoad: true
-            autoPlay: true
-            source: audioSource.toString()
+        MpvObject {
+            id: mpvAudio
+            useHwdec: true
+            enableAudio: true
+        }
+
+        Controls.Label {
+            id: error
+            text: audio.errorString
         }
 
         Image {
@@ -171,7 +175,16 @@ Item {
     }
 
     function playAudio() {
+        audio.stop();
+        audio.source = audioSource;
+        mpvAudio.loadFile(audioSource.toString());
         audio.play();
+        showPassiveNotification("We should be playing: " + audio.source)
+        showPassiveNotification(audio.status)
+        showPassiveNotification(audio.hasAudio)
+        showPassiveNotification(audio.duration)
+        showPassiveNotification(audio.errors)
+        showPassiveNotification(audio.errorString)
     }
 
     function stopVideo() {
