@@ -252,6 +252,7 @@ void Slide::changeSlide(QVariantMap item)
     m_slideSize = text.length();
     m_slideIndex = 1;
     setText(text[0]);
+    setAudio(serviceItem().value("audio").toString());
   }
 
   qDebug() << "MAP: " << m_serviceItem.value("text");

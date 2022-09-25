@@ -19,6 +19,7 @@ Item {
     property bool dropShadow: false
     property url imageSource
     property url videoSource
+    property url audioSource
     property int pdfIndex
     property string chosenFont: "Quicksand"
     property string text: "This is demo text"
@@ -69,13 +70,11 @@ Item {
                 cursorShape: preview ? Qt.ArrowCursor : Qt.BlankCursor
             }
 
-            /* Controls.ProgressBar { */
-            /*     anchors.top: parent.bottom */
-            /*     width: mpv.width */
-            /*     visible: editMode */
-            /*     value: mpv.position */
-            /*     to: mpv.duration */
-            /* } */
+            MpvObject {
+                id: audio
+                onFileLoaded: {}
+            }
+
         }
 
         Timer {
@@ -88,6 +87,7 @@ Item {
                     print("WHY AREN'T YOU PASUING!");
                     pauseTimer.restart();
                 }
+                audio.loadFile()
                 blackTimer.restart();
             }
         }

@@ -19,7 +19,8 @@ public:
     TypeRole,
     BackgroundRole,
     BackgroundTypeRole,
-    TextRole
+    TextRole,
+    AudioRole
   };
 
   // Basic functionality:
@@ -51,6 +52,10 @@ public:
                            const QString &background,
                            const QString &backgroundType,
                            const QStringList &text);
+  Q_INVOKABLE void addItem(const QString &name, const QString &type,
+                           const QString &background,
+                           const QString &backgroundType,
+                           const QStringList &text, const QString &audio);
   Q_INVOKABLE void insertItem(const int &index, const QString &name,
                               const QString &type);
   Q_INVOKABLE void insertItem(const int &index, const QString &name,
@@ -59,6 +64,10 @@ public:
   Q_INVOKABLE void insertItem(const int &index, const QString &name,
                               const QString &type, const QString &background,
                               const QString &backgroundType, const QStringList &text);
+  Q_INVOKABLE void insertItem(const int &index, const QString &name,
+                              const QString &type, const QString &background,
+                              const QString &backgroundType, const QStringList &text,
+                              const QString &audio);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool move(int sourceIndex, int destIndex);
   Q_INVOKABLE bool moveDown(int index);

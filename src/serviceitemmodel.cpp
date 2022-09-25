@@ -10,7 +10,7 @@ ServiceItemModel::ServiceItemModel(QObject *parent)
     : QAbstractListModel(parent) {
   addItem(new ServiceItem("10,000 Reasons", "song",
                           "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg",
-                          "image", QStringList("Yip Yip")));
+                          "image", "file:/home/chris/nextcloud/tfc/openlp/music/Eden-Phil Wickham [lyrics].mp3" QStringList("Yip Yip")));
   addItem(new ServiceItem("Marvelous Light", "song",
                           "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4",
                           "video", QStringList("Hallelujah!")));
@@ -46,6 +46,8 @@ QVariant ServiceItemModel::data(const QModelIndex &index, int role) const {
     return item->backgroundType();
   case TextRole:
     return item->text();
+  case AudioRole:
+    return item->audio();
   default:
     return QVariant();
   }
@@ -56,7 +58,8 @@ QHash<int, QByteArray> ServiceItemModel::roleNames() const {
                                         {TypeRole, "type"},
                                         {BackgroundRole, "background"},
                                         {BackgroundTypeRole, "backgroundType"},
-                                        {TextRole, "text"}};
+                                        {TextRole, "text"},
+                                        {AudioRole, "audio"}};
 
   return mapping;
 }
@@ -95,6 +98,12 @@ bool ServiceItemModel::setData(const QModelIndex &index, const QVariant &value,
   case TextRole:
     if (item->text() != value.toStringList()) {
       item->setText(value.toStringList());
+      somethingChanged = true;
+    }
+    break;
+  case AudioRole:
+    if (item->audio() != value.toStringList()) {
+      item->setAudio(value.toStringList());
       somethingChanged = true;
     }
     break;
@@ -168,6 +177,15 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   qDebug() << name << type << background;
 }
 
+void ServiceItemModel::addItem(const QString &name, const QString &type,
+                               const QString &background, const QString &backgroundType,
+                               const QStringList &text, const QString &audio) {
+  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+                                      text, audio);
+  addItem(item);
+  qDebug() << name << type << background;
+}
+
 void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type) {
   ServiceItem *item = new ServiceItem(name, type);
   insertItem(index, item);
@@ -185,6 +203,16 @@ void ServiceItemModel::insertItem(const int &index, const QString &name, const Q
                                const QString &background, const QString &backgroundType,
                                const QStringList &text) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
+  insertItem(index, item);
+  qDebug() << name << type << background << text;
+}
+
+void ServiceItemModel::insertItem(const int &index, const QString &name,
+                                  const QString &type,const QString &background,
+                                  const QString &backgroundType,const QStringList &text,
+                                  const QString &audio) {
+  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+                                      text, audio);
   insertItem(index, item);
   qDebug() << name << type << background << text;
 }
