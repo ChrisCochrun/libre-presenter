@@ -130,6 +130,18 @@ Controls.Page {
         id: serviceItemModel
     }
 
+
+    Item {
+        id: keyHandler
+        anchors.fill: parent
+        focus: true
+        Keys.onLeftPressed: presentation.previousSlideAction()
+        Keys.onRightPressed: presentation.nextSlideAction()
+        Keys.onUpPressed: presentation.previousSlideAction()
+        Keys.onDownPressed: presentation.nextSlideAction()
+        Keys.onSpacePressed: presentation.nextSlideAction()
+    }
+
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
         print("index grabbed: " + index);

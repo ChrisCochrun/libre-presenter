@@ -3,9 +3,8 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [64%] [20/31]
+* Tasks [67%] [21/31]
 
-** TODO Add ability to use arrow keys to move through slides :core:feature:
 ** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 ** TODO VideoSQL Model and SQLite system needs fixing :bug:
 [[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
@@ -68,6 +67,7 @@ This thread helped a lot
 
 
 ** DONE Unload video when switching to something with just image :core:bug:
+** DONE Add ability to use arrow keys to move through slides :core:feature:
 ** DONE Make sure the video gets changed in a proper manner to not have left over video showing from previous items :video:slide:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::currentServiceItem++;]]
 
