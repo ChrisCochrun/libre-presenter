@@ -39,6 +39,7 @@ Controls.Page {
 
     property string editType
 
+    Component.onCompleted: refocusTimer.start()
     Item {
         id: mainItem
         anchors.fill: parent
@@ -130,6 +131,12 @@ Controls.Page {
         id: serviceItemModel
     }
 
+    Timer {
+        id: refocusTimer
+        interval: 500
+        repeat: true
+        onTriggered: keyHandler.forceActiveFocus()
+    }
 
     Item {
         id: keyHandler
