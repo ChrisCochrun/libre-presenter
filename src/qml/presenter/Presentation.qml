@@ -156,7 +156,10 @@ Item {
     Connections {
         target: SlideObject
         function onVideoBackgroundChanged() {
-            loadVideo();
+            if (SlideObject.videoBackground === "")
+                stopVideo();
+            else
+                loadVideo();
         }
         function onIsPlayingChanged() {
             if(SlideObject.isPlaying)
@@ -174,10 +177,12 @@ Item {
     }
 
     function loadVideo() {
+        showPassiveNotification("Loading Video " + vidbackground)
         previewSlide.loadVideo();
     }
 
     function stopVideo() {
+        showPassiveNotification("Stopping Video")
         previewSlide.stopVideo()
     }
 
@@ -193,7 +198,6 @@ Item {
         print(changed);
         if (changed) {
             currentServiceItem++;
-            loadVideo();
             leftDock.changeItem();
         }
     }

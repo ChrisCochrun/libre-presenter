@@ -82,7 +82,6 @@ Item {
                     print("WHY AREN'T YOU PASUING!");
                     pauseTimer.restart();
                 }
-                audio.source = audioSource.toString();
                 blackTimer.restart();
             }
         }
@@ -109,17 +108,12 @@ Item {
         }
 
         MpvObject {
-            id: mpvAudio
+            id: audio
             useHwdec: true
             enableAudio: true
             // embeded mpv allows to set commandline propertys using the options/<name>
             // syntax. This could be abstracted later, but for now this works.
-            Component.onCompleted: mpvAudio.setProperty("options/audio-display", "no");
-        }
-
-        Controls.Label {
-            id: error
-            text: audio.errorString
+            Component.onCompleted: audio.setProperty("options/audio-display", "no");
         }
 
         Image {
@@ -178,7 +172,7 @@ Item {
     }
 
     function playAudio() {
-        mpvAudio.loadFile(audioSource.toString());
+        audio.loadFile(audioSource.toString());
     }
 
     function stopVideo() {
