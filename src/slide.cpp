@@ -226,6 +226,7 @@ void Slide::changeSlide(QVariantMap item)
 
   setFont(m_serviceItem.value("font").toString());
   setFontSize(m_serviceItem.value("fontSize").toInt());
+  setAudio("");
 
   if (type() == "presentation") {
     qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
