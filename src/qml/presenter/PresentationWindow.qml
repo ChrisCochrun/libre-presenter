@@ -23,6 +23,7 @@ Window {
     onClosing: {
         presentationSlide.stopVideo();
         SlideObject.pause();
+        presentationSlide.stopAudio();
         presenting = false;
     }
 
@@ -35,6 +36,7 @@ Window {
         anchors.fill: parent
         imageSource: SlideObject.imageBackground
         videoSource: presentationWindow.visible ? SlideObject.videoBackground : ""
+        audioSource: SlideObject.audio
         text: SlideObject.text
         pdfIndex: SlideObject.pdfIndex
         itemType: SlideObject.type
@@ -43,12 +45,23 @@ Window {
     Connections {
         target: SlideObject
         function onVideoBackgroundChanged() {
-            loadVideo();
+            if (SlideObject.videoBackground === "")
+                stopVideo();
+            else {
+                loadVideo();
+                playVideo();
+            }
         }
         function onIsPlayingChanged() {
             if(SlideObject.isPlaying)
                 presentationSlide.playVideo();
             pauseVideo();
+        }
+        function onAudioChanged() {
+            if (presentationWindow.visible)
+                presentationSlide.playAudio();
+            else
+                presentationWindow.stopAudio();
         }
     }
 

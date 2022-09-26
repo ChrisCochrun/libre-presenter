@@ -172,7 +172,12 @@ Item {
     }
 
     function playAudio() {
+        showPassiveNotification("Audio should change");
         audio.loadFile(audioSource.toString());
+    }
+
+    function stopAudio() {
+        audio.stop();
     }
 
     function stopVideo() {

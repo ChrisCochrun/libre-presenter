@@ -166,10 +166,10 @@ Item {
                 previewSlide.playVideo();
             pauseVideo();
         }
-        function onAudioChanged() {
-            showPassiveNotification("Audio should change");
-            previewSlide.playAudio();
-        }
+        /* function onAudioChanged() { */
+        /*     showPassiveNotification("Audio should change"); */
+        /*     previewSlide.playAudio(); */
+        /* } */
     }
 
     function pauseVideo() {
