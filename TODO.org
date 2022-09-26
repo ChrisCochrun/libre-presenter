@@ -5,6 +5,11 @@
 
 * Tasks [74%] [23/31]
 
+** TODO Make libraries and models aware of being selected.
+This allows us to drag multiple to service list and delete multiple.
+** TODO Make serviceItemModel aware of being selected and active
+Being selected means that those items can be dragged or deleted or moved together.
+Being active, means that the singular item is the currently displayed item.
 ** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
