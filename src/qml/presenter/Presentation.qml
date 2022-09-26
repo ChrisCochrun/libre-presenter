@@ -152,6 +152,32 @@ Item {
             Layout.columnSpan: 3
         }
 
+        ListView {
+            id: previewSlidesList
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.columnSpan: 3
+            orientation: ListView.Horizontal
+
+            model: serviceItemModel
+            delegate: Presenter.Slide {
+                id: previewSlide
+                implicitWidth: 100
+                implicitHeight: width / 16 * 9
+                /* Layout.alignment: Qt.AlignCenter */
+                textSize: width / 15
+                itemType: root.itemType
+                imageSource: background
+                videoSource: background
+                audioSource: audio
+                chosenFont: font
+                text: text
+                pdfIndex: 0
+                preview: true 
+                editMode: true 
+            }
+        }
+
     }
 
     Connections {
