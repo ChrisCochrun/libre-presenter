@@ -120,7 +120,7 @@ Item {
             id: backgroundImage
             anchors.fill: parent
             source: imageSource
-            fillMode: itemType == "presentation" ? Image.PreserveAspectFit : Image.PreserveAspectCrop
+            fillMode: itemType == "song" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             clip: true
             visible: true
             currentFrame: pdfIndex

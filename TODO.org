@@ -3,12 +3,9 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [67%] [21/31]
+* Tasks [74%] [23/31]
 
 ** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
-** TODO VideoSQL Model and SQLite system needs fixing :bug:
-[[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
-
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 
@@ -43,6 +40,7 @@
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
 
 Let's test this, because I think I fixed it.
+*still extra bits on last slide*
 
 ** TODO Fix possible bug in arrangingItems in draghandler [1/3] [33%] :bug:
 [[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
@@ -51,8 +49,6 @@ Let's test this, because I think I fixed it.
 - [ ] Allow for a less buggy interaction
 - [ ] Need to check for edge cases
 
-** TODO Images stored in sql need to have aspect saved and applied dynamically here :core:
-[[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
 
@@ -67,6 +63,12 @@ This thread helped a lot
 
 
 ** DONE Unload video when switching to something with just image :core:bug:
+** DONE Images stored in sql need to have aspect saved and applied dynamically here :core:
+[[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
+I didn't save the aspect, but I applied it based on type of item first, we can change that later.
+** DONE VideoSQL Model and SQLite system needs fixing                 :bug:
+[[file:src/videosqlmodel.cpp::if (!query.exec("CREATE TABLE IF NOT EXISTS 'videos' ("]]
+
 ** DONE Add ability to use arrow keys to move through slides :core:feature:
 ** DONE Make sure the video gets changed in a proper manner to not have left over video showing from previous items :video:slide:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::currentServiceItem++;]]
