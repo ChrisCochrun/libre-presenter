@@ -28,6 +28,8 @@ Controls.Page {
     property string dragItemAudio: ""
     property string dragItemBackgroundType: ""
     property string dragItemBackground: ""
+    property string dragItemFont: ""
+    property string dragItemFontSize
 
     property bool editing: true
 
@@ -173,6 +175,7 @@ Controls.Page {
 
     function editSwitch(item) {
         if (editMode) {
+            refocusTimer.repeat = false;
             switch (editType) {
             case "song" :
                 presentation.visible = false;
@@ -226,6 +229,7 @@ Controls.Page {
             presentationEditor.visible = false;
             presentation.visible = true;
             editMode = false;
+            refocusTimer.repeat = true;
             presenting = true;
         }
     }

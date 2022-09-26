@@ -1,6 +1,5 @@
 #include "slide.h"
 #include "serviceitemmodel.h"
-// #include <QPdfDocument>
 
 #include <podofo/podofo.h>
 #include <QDebug>
@@ -224,6 +223,9 @@ void Slide::changeSlide(QVariantMap item)
     setVideoBackground(m_serviceItem.value("background").toString());
     setImageBackground("");
   }
+
+  setFont(m_serviceItem.value("font").toString());
+  setFontSize(m_serviceItem.value("fontSize").toInt());
 
   if (type() == "presentation") {
     qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";

@@ -38,6 +38,16 @@ ServiceItem::ServiceItem(const QString &name, const QString &type, const QString
 
 }
 
+ServiceItem::ServiceItem(const QString &name, const QString &type, const QString &background,
+                         const QString &backgroundType, const QStringList &text,
+                         const QString &audio, const QString &font, const int &fontSize,
+                         QObject *parent)
+  : QObject(parent),m_name(name),m_type(type),m_background(background),
+    m_backgroundType(backgroundType),m_text(text),m_audio(audio),m_font(font),m_fontSize(fontSize)
+{
+
+}
+
 QString ServiceItem::name() const {
   return m_name;
 }
@@ -63,6 +73,14 @@ QStringList ServiceItem::text() const
 
 QString ServiceItem::audio() const {
   return m_audio;
+}
+
+QString ServiceItem::font() const {
+  return m_font;
+}
+
+int ServiceItem::fontSize() const {
+  return m_fontSize;
 }
 
 void ServiceItem::setName(QString name)
@@ -118,4 +136,22 @@ void ServiceItem::setAudio(QString audio)
 
     m_audio = audio;
     emit audioChanged(m_audio);
+}
+
+void ServiceItem::setFont(QString font)
+{
+    if (m_font == font)
+        return;
+
+    m_font = font;
+    emit fontChanged(m_font);
+}
+
+void ServiceItem::setFontSize(int fontSize)
+{
+    if (m_fontSize == fontSize)
+        return;
+
+    m_fontSize = fontSize;
+    emit fontSizeChanged(m_fontSize);
 }

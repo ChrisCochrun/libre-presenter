@@ -38,6 +38,7 @@ Window {
         videoSource: presentationWindow.visible ? SlideObject.videoBackground : ""
         audioSource: SlideObject.audio
         text: SlideObject.text
+        chosenFont: SlideObject.font
         pdfIndex: SlideObject.pdfIndex
         itemType: SlideObject.type
     }

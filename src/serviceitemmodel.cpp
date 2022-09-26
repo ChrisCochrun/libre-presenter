@@ -49,6 +49,10 @@ QVariant ServiceItemModel::data(const QModelIndex &index, int role) const {
     return item->text();
   case AudioRole:
     return item->audio();
+  case FontRole:
+    return item->font();
+  case FontSizeRole:
+    return item->fontSize();
   default:
     return QVariant();
   }
@@ -60,7 +64,9 @@ QHash<int, QByteArray> ServiceItemModel::roleNames() const {
                                         {BackgroundRole, "background"},
                                         {BackgroundTypeRole, "backgroundType"},
                                         {TextRole, "text"},
-                                        {AudioRole, "audio"}};
+                                        {AudioRole, "audio"},
+                                        {FontRole, "font"},
+                                        {FontSizeRole, "fontSize"}};
 
   return mapping;
 }
@@ -105,6 +111,18 @@ bool ServiceItemModel::setData(const QModelIndex &index, const QVariant &value,
   case AudioRole:
     if (item->audio() != value.toString()) {
       item->setAudio(value.toString());
+      somethingChanged = true;
+    }
+    break;
+  case FontRole:
+    if (item->font() != value.toString()) {
+      item->setFont(value.toString());
+      somethingChanged = true;
+    }
+    break;
+  case FontSizeRole:
+    if (item->fontSize() != value.toInt()) {
+      item->setFontSize(value.toInt());
       somethingChanged = true;
     }
     break;
@@ -187,6 +205,18 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   qDebug() << name << type << background;
 }
 
+void ServiceItemModel::addItem(const QString &name, const QString &type,
+                               const QString &background, const QString &backgroundType,
+                               const QStringList &text, const QString &audio,
+                               const QString &font, const int &fontSize) {
+  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+                                      text, audio, font, fontSize);
+  addItem(item);
+  qDebug() << "#################################";
+  qDebug() << name << type << font << fontSize;
+  qDebug() << "#################################";
+}
+
 void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type) {
   ServiceItem *item = new ServiceItem(name, type);
   insertItem(index, item);
@@ -216,6 +246,18 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                       text, audio);
   insertItem(index, item);
   qDebug() << name << type << background << text;
+}
+
+void ServiceItemModel::insertItem(const int &index, const QString &name,
+                                  const QString &type,const QString &background,
+                                  const QString &backgroundType,const QStringList &text,
+                                  const QString &audio, const QString &font, const int &fontSize) {
+  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+                                      text, audio, font, fontSize);
+  insertItem(index, item);
+  qDebug() << "#################################";
+  qDebug() << name << type << font << fontSize;
+  qDebug() << "#################################";
 }
 
 void ServiceItemModel::removeItem(int index) {

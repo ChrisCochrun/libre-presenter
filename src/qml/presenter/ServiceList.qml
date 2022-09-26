@@ -39,12 +39,15 @@ ColumnLayout {
         Layout.fillWidth: true
         onDropped: (drag) => {
             print("DROPPED AT END");
+            showPassiveNotification(drag.source.title);
             appendItem(dragItemTitle,
                        dragItemType,
                        dragItemBackground,
                        dragItemBackgroundType,
                        dragItemText,
                        dragItemAudio,
+                       dragItemFont,
+                       dragItemFontSize,
                        dragItemIndex);
             dropHighlightLine.visible = false;
         }
@@ -123,6 +126,8 @@ ColumnLayout {
                                     dragItemBackgroundType,
                                     dragItemText,
                                     dragItemAudio,
+                                    dragItemFont,
+                                    dragItemFontSize,
                                     dragItemIndex);
                         } else if (drag.keys[0] === "serviceitem") {
                             serviceItemModel.move(serviceItemList.indexDragged,
@@ -404,13 +409,15 @@ ColumnLayout {
     }
 
     function addItem(index, name, type,
-                     background, backgroundType, text, audio, itemID) {
+                     background, backgroundType, text, audio,
+                     font, fontSize, itemID) {
         if (type === "song") {
             const newtext = songsqlmodel.getLyricList(itemID);
             print("adding: " + name + " of type " + type);
             serviceItemModel.insertItem(index, name,
                                         type, background,
-                                        backgroundType, newtext, audio);
+                                        backgroundType, newtext,
+                                        audio, font, fontSize);
             totalServiceItems++;
             return;
         }
@@ -421,7 +428,8 @@ ColumnLayout {
         totalServiceItems++;
     }
 
-    function appendItem(name, type, background, backgroundType, text, audio, itemID) {
+    function appendItem(name, type, background, backgroundType,
+                        text, audio, font, fontSize, itemID) {
         print("adding: " + name + " of type " + type);
         let lyrics;
         if (type === "song") {
@@ -430,7 +438,8 @@ ColumnLayout {
             lyrics = songsqlmodel.getLyricList(itemID);
             print(lyrics);
             serviceItemModel.addItem(name, type, background,
-                                     backgroundType, lyrics, audio);
+                                     backgroundType, lyrics,
+                                     audio, font, fontSize);
             totalServiceItems++;
             return;
         };
