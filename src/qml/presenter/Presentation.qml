@@ -220,8 +220,6 @@ Item {
         print(changed);
         if (changed) {
             currentServiceItem--;
-            loadVideo();
-            /* playAudio(); */
             leftDock.changeItem();
         }
     }
