@@ -83,6 +83,14 @@ int ServiceItem::fontSize() const {
   return m_fontSize;
 }
 
+bool ServiceItem::active() const {
+  return m_active;
+}
+
+bool ServiceItem::selected() const {
+  return m_selected;
+}
+
 void ServiceItem::setName(QString name)
 {
     if (m_name == name)
@@ -154,4 +162,22 @@ void ServiceItem::setFontSize(int fontSize)
 
     m_fontSize = fontSize;
     emit fontSizeChanged(m_fontSize);
+}
+
+void ServiceItem::setActive(bool active)
+{
+    if (m_active == active)
+        return;
+
+    m_active = active;
+    emit activeChanged(m_active);
+}
+
+void ServiceItem::setSelected(bool selected)
+{
+    if (m_selected == selected)
+        return;
+
+    m_selected = selected;
+    emit selectedChanged(m_selected);
 }

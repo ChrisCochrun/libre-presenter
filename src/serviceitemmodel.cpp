@@ -53,6 +53,10 @@ QVariant ServiceItemModel::data(const QModelIndex &index, int role) const {
     return item->font();
   case FontSizeRole:
     return item->fontSize();
+  case ActiveRole:
+    return item->active();
+  case SelectedRole:
+    return item->selected();
   default:
     return QVariant();
   }
@@ -66,7 +70,9 @@ QHash<int, QByteArray> ServiceItemModel::roleNames() const {
                                         {TextRole, "text"},
                                         {AudioRole, "audio"},
                                         {FontRole, "font"},
-                                        {FontSizeRole, "fontSize"}};
+                                        {FontSizeRole, "fontSize"},
+                                        {ActiveRole, "active"},
+                                        {SelectedRole, "selected"}};
 
   return mapping;
 }
@@ -123,6 +129,18 @@ bool ServiceItemModel::setData(const QModelIndex &index, const QVariant &value,
   case FontSizeRole:
     if (item->fontSize() != value.toInt()) {
       item->setFontSize(value.toInt());
+      somethingChanged = true;
+    }
+    break;
+  case ActiveRole:
+    if (item->active() != value.toBool()) {
+      item->setActive(value.toBool());
+      somethingChanged = true;
+    }
+    break;
+  case SelectedRole:
+    if (item->selected() != value.toBool()) {
+      item->setSelected(value.toBool());
       somethingChanged = true;
     }
     break;
@@ -352,4 +370,14 @@ QVariantMap ServiceItemModel::getItem(int index) const {
     data[it.value()] = idx.data(it.key());
   }
   return data;
+}
+
+bool ServiceItemModel::select(int id) {
+  QModelIndex idx = index(id);
+  ServiceItem *item = m_items[idx.row()];
+  item->setSelected(true);
+  qDebug() << "################";
+  qDebug() << "selected" << item->name();
+  qDebug() << "################";
+  return true;
 }

@@ -230,6 +230,7 @@ ColumnLayout {
                                     rightClickMenu.popup();
                                 else {
                                     serviceItemList.currentIndex = index;
+                                    serviceItemModel.select(index);
                                     /* currentServiceItem = index; */
                                     /* changeItem(index); */
                                 }

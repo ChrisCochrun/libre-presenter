@@ -15,6 +15,8 @@ class ServiceItem : public QObject
   Q_PROPERTY(QString audio READ audio WRITE setAudio NOTIFY audioChanged)
   Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
+  Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+  Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
 
 public:
   explicit ServiceItem(QObject *parent = nullptr);
@@ -39,6 +41,8 @@ public:
   QString audio() const;
   QString font() const;
   int fontSize() const;
+  bool active() const;
+  bool selected() const;
 
   void setName(QString name);
   void setType(QString type);
@@ -48,6 +52,8 @@ public:
   void setAudio(QString audio);
   void setFont(QString font);
   void setFontSize(int fontSize);
+  void setActive(bool active);
+  void setSelected(bool selected);
 
 signals:
   void nameChanged(QString name);
@@ -58,6 +64,8 @@ signals:
   void audioChanged(QString audio);
   void fontChanged(QString font);
   void fontSizeChanged(int fontSize);
+  void activeChanged(bool active);
+  void selectedChanged(bool selected);
 
 private:
   QString m_name;
@@ -68,6 +76,8 @@ private:
   QString m_audio;
   QString m_font;
   int m_fontSize;
+  bool m_active;
+  bool m_selected;
 };
 
 #endif // SERVICEITEM_H

@@ -22,7 +22,9 @@ public:
     TextRole,
     AudioRole,
     FontRole,
-    FontSizeRole
+    FontSizeRole,
+    ActiveRole,
+    SelectedRole
   };
 
   // Basic functionality:
@@ -83,6 +85,7 @@ public:
   Q_INVOKABLE bool move(int sourceIndex, int destIndex);
   Q_INVOKABLE bool moveDown(int index);
   Q_INVOKABLE bool moveUp(int index);
+  Q_INVOKABLE bool select(int id);
   Q_INVOKABLE QVariantMap getItem(int index) const;
 
 private:
