@@ -162,7 +162,7 @@ Item {
             model: serviceItemModel
             delegate: Presenter.Slide {
                 id: previewSlide
-                implicitWidth: 100
+                implicitWidth: 200
                 implicitHeight: width / 16 * 9
                 /* Layout.alignment: Qt.AlignCenter */
                 textSize: width / 15
