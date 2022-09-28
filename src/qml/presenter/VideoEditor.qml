@@ -140,7 +140,7 @@ Item {
                     placeholderText: "Song Title..."
                     text: video.title
                     padding: 10
-                    /* onEditingFinished: updateTitle(text); */
+                    onEditingFinished: updateTitle(text);
                 }
 
                 RowLayout {
@@ -274,5 +274,17 @@ Item {
         print("stopping video");
         videoPreview.pause();
         print("quit mpv");
+    }
+
+    function updateTitle(text) {
+        changeTitle(text, false);
+        videosqlmodel.updateTitle(video.id, text);
+        showPassiveNotification(video.title);
+    }
+
+    function changeTitle(text, updateBox) {
+        if (updateBox)
+            videoTitleField.text = text;
+        video.title = text;
     }
 }

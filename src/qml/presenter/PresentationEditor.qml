@@ -126,7 +126,7 @@ Item {
                     placeholderText: "Title..."
                     text: presentation.title
                     padding: 10
-                    /* onEditingFinished: updateTitle(text); */
+                    onEditingFinished: updateTitle(text);
                 }
 
                 Item {
@@ -186,5 +186,17 @@ Item {
     function changePresentation(presentation) {
         root.presentation = presentation;
         print(presentation.filePath.toString());
+    }
+
+    function updateTitle(text) {
+        changeTitle(text, false);
+        pressqlmodel.updateTitle(presentation.id, text);
+        showPassiveNotification(presentation.title);
+    }
+
+    function changeTitle(text, updateBox) {
+        if (updateBox)
+            presentationTitleField.text = text;
+        presentation.title = text;
     }
 }
