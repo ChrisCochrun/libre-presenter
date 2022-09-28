@@ -41,7 +41,7 @@ Controls.Page {
 
     property string editType
 
-    Component.onCompleted: refocusTimer.start()
+    Component.onCompleted: {refocusTimer.start(); changeServiceItem(0);}
     Item {
         id: mainItem
         anchors.fill: parent
@@ -160,6 +160,7 @@ Controls.Page {
         /* presentation.itemType = item.type; */
         print("Time to start changing");
 
+        serviceItemModel.activate(index);
         SlideObject.changeSlide(item);
         
         /* if (item.backgroundType === "video") */
@@ -168,6 +169,7 @@ Controls.Page {
         /* } */
 
         presentation.textIndex = 0;
+        serviceItemModel.select(index);
         /* presentation.changeSlide(); */
 
         print("Slide changed to: " + item.name);

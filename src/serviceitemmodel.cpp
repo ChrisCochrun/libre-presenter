@@ -381,3 +381,27 @@ bool ServiceItemModel::select(int id) {
   qDebug() << "################";
   return true;
 }
+
+bool ServiceItemModel::activate(int id) {
+  QModelIndex idx = index(id);
+  ServiceItem *item = m_items[idx.row()];
+
+  for (int i = 0; i < m_items.length(); i++) {
+    QModelIndex idx = index(i);
+    ServiceItem *itm = m_items[idx.row()];
+    if (itm->active()) {
+      itm->setActive(false);
+      qDebug() << "################";
+      qDebug() << "deactivated" << itm->name();
+      qDebug() << "################";
+      emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
+    }
+  }
+
+  item->setActive(true);
+  qDebug() << "################";
+  qDebug() << "activated" << item->name();
+  qDebug() << "################";
+  emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
+  return true;
+}

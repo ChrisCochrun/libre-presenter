@@ -158,24 +158,56 @@ Item {
             Layout.fillHeight: true
             Layout.columnSpan: 3
             orientation: ListView.Horizontal
+            cacheBuffer: 900
+            reuseItems: true
 
             model: serviceItemModel
-            delegate: Presenter.Slide {
-                id: previewSlide
-                implicitWidth: 200
+            delegate: Rectangle {
+                id: previewHighlight
+                implicitWidth: 210
                 implicitHeight: width / 16 * 9
-                /* Layout.alignment: Qt.AlignCenter */
-                textSize: width / 15
-                itemType: root.itemType
-                imageSource: background
-                videoSource: background
-                audioSource: audio
-                chosenFont: font
-                text: text
-                pdfIndex: 0
-                preview: true 
-                editMode: true 
+                color: active ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor
+
+                Presenter.Slide {
+                    id: previewSlideItem
+                    anchors.centerIn: parent
+                    implicitWidth: 200
+                    implicitHeight: width / 16 * 9
+                    textSize: width / 15
+                    itemType: type
+                    imageSource: backgroundType === "image" ? background : ""
+                    videoSource: backgroundType === "video" ? background : ""
+                    audioSource: ""
+                    chosenFont: font
+                    text: text
+                    pdfIndex: 0
+                    preview: true 
+                    editMode: true 
+                }
+
+                Controls.Label {
+                    id: slidesTitle
+                    width: previewSlideItem.width
+                    anchors.top: previewSlideItem.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.topMargin: 5
+                    elide: Text.ElideRight
+                    text: name
+                    /* font.family: "Quicksand Bold" */
+                }
             }
+            Kirigami.WheelHandler {
+                id: wheelHandler
+                target: previewSlidesList
+                filterMouseEvents: true
+            }
+
+        }
+        Item {
+            /* Layout.preferredHeight: 200 */
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
         }
 
     }
@@ -204,12 +236,12 @@ Item {
     }
 
     function loadVideo() {
-        showPassiveNotification("Loading Video " + vidbackground)
+        /* showPassiveNotification("Loading Video " + vidbackground) */
         previewSlide.loadVideo();
     }
 
     function stopVideo() {
-        showPassiveNotification("Stopping Video")
+        /* showPassiveNotification("Stopping Video") */
         previewSlide.stopVideo()
     }
 
@@ -225,6 +257,7 @@ Item {
         print(changed);
         if (changed) {
             currentServiceItem++;
+            changeServiceItem(currentServiceItem);
             leftDock.changeItem();
         }
     }
@@ -247,6 +280,7 @@ Item {
         print(changed);
         if (changed) {
             currentServiceItem--;
+            changeServiceItem(currentServiceItem);
             leftDock.changeItem();
         }
     }
