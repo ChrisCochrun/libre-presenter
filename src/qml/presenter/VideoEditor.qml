@@ -181,6 +181,9 @@ Item {
                     first.value: 0
                     second.value: to
 
+                    first.onMoved: updateStartTime(first.value)
+                    second.onMoved: updateEndTime(second.value)
+
                 }
 
                 Item {
@@ -274,6 +277,20 @@ Item {
         print("stopping video");
         videoPreview.pause();
         print("quit mpv");
+    }
+
+    function updateEndTime(value) {
+        /* changeStartTime(value, false); */
+        videosqlmodel.updateEndTime(video.id, value);
+        video.endTime = value;
+        showPassiveNotification(video.endTime);
+    }
+
+    function updateStartTime(value) {
+        /* changeStartTime(value, false); */
+        videosqlmodel.updateStartTime(video.id, value);
+        video.startTime = value;
+        showPassiveNotification(video.startTime);
     }
 
     function updateTitle(text) {
