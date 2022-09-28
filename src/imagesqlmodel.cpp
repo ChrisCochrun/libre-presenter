@@ -122,12 +122,24 @@ void ImageSqlModel::setTitle(const QString &title) {
 // This function is for updating the title from outside the delegate
 void ImageSqlModel::updateTitle(const int &row, const QString &title) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
-  qDebug() << rowdata;
+  QSqlQuery query("select id from images");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
+  // qDebug() << rowdata.value(0);
   rowdata.setValue("title", title);
-  setRecord(row, rowdata);
-  qDebug() << rowdata;
-  submitAll();
+  bool suc = setRecord(id, rowdata);
+  qDebug() << "#############";
+  qDebug() << rowdata.value("title");
+  qDebug() << "was it successful? " << suc;
+  qDebug() << "#############";
+  bool suca = submitAll();
+  // qDebug() << suca;
   emit titleChanged();
 }
 
@@ -148,10 +160,18 @@ void ImageSqlModel::setFilePath(const QUrl &filePath) {
 // This function is for updating the filepath from outside the delegate
 void ImageSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from images");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("filePath", filePath);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit filePathChanged();

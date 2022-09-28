@@ -123,10 +123,10 @@ Item {
                     Layout.leftMargin: 20
                     Layout.rightMargin: 20
 
-                    placeholderText: "Song Title..."
+                    placeholderText: "Image Title..."
                     text: image.title
                     padding: 10
-                    /* onEditingFinished: updateTitle(text); */
+                    onEditingFinished: updateTitle(text);
                 }
 
                 Item {
@@ -165,5 +165,17 @@ Item {
     function changeImage(image) {
         root.image = image;
         print(image.filePath.toString());
+    }
+
+    function updateTitle(text) {
+        changeTitle(text, false);
+        imagesqlmodel.updateTitle(image.id, text);
+        showPassiveNotification(image.title);
+    }
+
+    function changeTitle(text, updateBox) {
+        if (updateBox)
+            imageTitleField.text = text;
+        image.title = text;
     }
 }
