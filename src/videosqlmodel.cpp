@@ -125,10 +125,18 @@ void VideoSqlModel::setTitle(const QString &title) {
 // This function is for updating the title from outside the delegate
 void VideoSqlModel::updateTitle(const int &row, const QString &title) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from videos");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("title", title);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit titleChanged();
@@ -151,10 +159,18 @@ void VideoSqlModel::setFilePath(const QUrl &filePath) {
 // This function is for updating the filepath from outside the delegate
 void VideoSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from videos");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("filePath", filePath);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit filePathChanged();
@@ -178,10 +194,18 @@ void VideoSqlModel::setStartTime(const int &startTime) {
 // This function is for updating the title from outside the delegate
 void VideoSqlModel::updateStartTime(const int &row, const int &startTime) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from videos");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("startTime", startTime);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit startTimeChanged();
@@ -204,10 +228,18 @@ void VideoSqlModel::setEndTime(const int &endTime) {
 // This function is for updating the title from outside the delegate
 void VideoSqlModel::updateEndTime(const int &row, const int &endTime) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from videos");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("endTime", endTime);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit endTimeChanged();
