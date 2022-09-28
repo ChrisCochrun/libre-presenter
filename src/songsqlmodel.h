@@ -62,8 +62,10 @@ public:
   Q_INVOKABLE void updateVerseOrder(const int &row, const QString &vorder);
   Q_INVOKABLE void updateBackground(const int &row, const QString &background);
   Q_INVOKABLE void updateBackgroundType(const int &row, const QString &backgroundType);
-  Q_INVOKABLE void updateHorizontalTextAlignment(const int &row, const QString &horizontalTextAlignment);
-  Q_INVOKABLE void updateVerticalTextAlignment(const int &row, const QString &horizontalTextAlignment);
+  Q_INVOKABLE void updateHorizontalTextAlignment(const int &row,
+                                                 const QString &horizontalTextAlignment);
+  Q_INVOKABLE void updateVerticalTextAlignment(const int &row,
+                                               const QString &horizontalTextAlignment);
   Q_INVOKABLE void updateFont(const int &row, const QString &font);
   Q_INVOKABLE void updateFontSize(const int &row, const int &fontSize);
 
