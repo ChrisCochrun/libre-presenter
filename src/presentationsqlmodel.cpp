@@ -125,10 +125,18 @@ void PresentationSqlModel::setTitle(const QString &title) {
 // This function is for updating the title from outside the delegate
 void PresentationSqlModel::updateTitle(const int &row, const QString &title) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from presentations");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("title", title);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit titleChanged();
@@ -151,10 +159,18 @@ void PresentationSqlModel::setFilePath(const QUrl &filePath) {
 // This function is for updating the filepath from outside the delegate
 void PresentationSqlModel::updateFilePath(const int &row, const QUrl &filePath) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from presentations");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("filePath", filePath);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit filePathChanged();
