@@ -133,9 +133,21 @@ QVariantMap SongSqlModel::getSong(const int &row) {
   // this whole function returns all data in the song
   // regardless of it's length. When new things are added
   // it will still work without refactoring.
+  const QModelIndex &parent = QModelIndex();
   QVariantMap data;
-  const QModelIndex idx = this->index(row,0);
-  // qDebug() << idx;
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  const QModelIndex idx = this->index(id, 0, parent);
+  qDebug() << "%%%%%%%%%";
+  qDebug() << row;
+  qDebug() << idx;
+  qDebug() << "%%%%%%%%%";
   if( !idx.isValid() )
     return data;
   const QHash<int,QByteArray> rn = roleNames();
@@ -150,7 +162,19 @@ QVariantMap SongSqlModel::getSong(const int &row) {
 }
 
 QStringList SongSqlModel::getLyricList(const int &row) {
-  QSqlRecord recordData = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  qDebug() << row;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  qDebug() << "@@@@@@@@@@@@@@";
+  qDebug() << id;
+  qDebug() << "@@@@@@@@@@@@@@";
+  QSqlRecord recordData = record(id);
   if (recordData.isEmpty()) {
     qDebug() << "this is not a song";
     QStringList empty;

@@ -320,6 +320,7 @@ Item {
 
     function changeSong(index) {
         clearSlides();
+        print(index);
         const s = songsqlmodel.getSong(index);
         song = s;
         songLyrics = s.lyrics;
