@@ -186,7 +186,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   QStringList lyrics;
 
   QStringList vorder = recordData.value("vorder").toString().split(" ");
-  // qDebug() << vorder;
+  qDebug() << vorder;
 
   QStringList keywords = {"Verse 1", "Verse 2", "Verse 3", "Verse 4",
                           "Verse 5", "Verse 6", "Verse 7", "Verse 8",
@@ -205,7 +205,9 @@ QStringList SongSqlModel::getLyricList(const int &row) {
 
   // This first function pulls out each verse into our verses map
   foreach (line, rawLyrics) {
-    // qDebug() << line;
+    qDebug() << "##########################";
+    qDebug() << line;
+    qDebug() << "##########################";
     if (firstItem) {
       if (keywords.contains(line)) {
         // qDebug() << line;
@@ -233,28 +235,32 @@ QStringList SongSqlModel::getLyricList(const int &row) {
       verse.clear();
       vtitle = line;
       continue;
-    } else if (rawLyrics.endsWith(line)) {
-      // qDebug() << vtitle;
+    }// else if (rawLyrics.endsWith(line)) {
+    //   // qDebug() << vtitle;
 
-      verse.append(line.trimmed() + "\n");
-      if (verse.contains("\n\n")) {
-        verse = verse.trimmed();
-        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
-        QStringList multiverses = verse.split("\n\n");
-        foreach (verse, multiverses) {
-          verses.insert(vtitle, verse);
-          // qDebug() << verse;
-        }
-        break;
-      }
+    //   verse.append(line.trimmed() + "\n");
+    //   if (verse.contains("\n\n")) {
+    //     verse = verse.trimmed();
+    //     qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+    //     QStringList multiverses = verse.split("\n\n");
+    //     foreach (verse, multiverses) {
+    //       verses.insert(vtitle, verse);
+    //       // qDebug() << verse;
+    //     }
+    //     break;
+    //   }
 
-      verse.append(line.trimmed() + "\n");
-      verses.insert(vtitle, verse);
-      break;
-    }
-    // qDebug() << line;
+    //   verse.append(line.trimmed() + "\n");
+    //   verses.insert(vtitle, verse);
+    //   break;
+    // }
+    qDebug() << "THIS LINE";
+    qDebug() << line;
+    qDebug() << "THIS VTITLE";
+    qDebug() << vtitle;
     verse.append(line.trimmed() + "\n");
-    // qDebug() << verse;
+    qDebug() << verse;
+    qDebug() << "APPENDED VERSE";
   }
   // qDebug() << verses;
 
@@ -277,6 +283,10 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   foreach (const QString &vstr, vorder) {
     foreach (line, rawLyrics) {
       if (line.startsWith(vstr.at(0)) && line.endsWith(vstr.at(1))) {
+        qDebug() << "**********************";
+        qDebug() << vstr;
+        qDebug() << line;
+        qDebug() << "**********************";
         QList<QString> values = verses.values(line);
         for (int i = values.size(); i > 0;)
           lyrics.append(values.at(--i));
@@ -318,10 +328,18 @@ void SongSqlModel::updateTitle(const int &row, const QString &title) {
   // }
   // int id = ids.indexOf(row,0);
 
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("title", title);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit titleChanged();
@@ -344,9 +362,17 @@ void SongSqlModel::setAuthor(const QString &author) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateAuthor(const int &row, const QString &author) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   rowdata.setValue("author", author);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit authorChanged();
 }
@@ -368,11 +394,19 @@ void SongSqlModel::setLyrics(const QString &lyrics) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateLyrics(const int &row, const QString &lyrics) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << lyrics;
   rowdata.setValue("lyrics", lyrics);
   qDebug() << rowdata.value("lyrics");
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit lyricsChanged();
 }
@@ -394,9 +428,17 @@ void SongSqlModel::setCcli(const QString &ccli) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateCcli(const int &row, const QString &ccli) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   rowdata.setValue("ccli", ccli);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit ccliChanged();
 }
@@ -418,9 +460,17 @@ void SongSqlModel::setAudio(const QString &audio) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateAudio(const int &row, const QString &audio) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   rowdata.setValue("audio", audio);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit audioChanged();
 }
@@ -440,9 +490,17 @@ void SongSqlModel::setVerseOrder(const QString &vorder) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateVerseOrder(const int &row, const QString &vorder) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   rowdata.setValue("vorder", vorder);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit vorderChanged();
 }
@@ -462,9 +520,17 @@ void SongSqlModel::setBackground(const QString &background) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateBackground(const int &row, const QString &background) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   rowdata.setValue("background", background);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit backgroundChanged();
 }
@@ -484,9 +550,17 @@ void SongSqlModel::setBackgroundType(const QString &backgroundType) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateBackgroundType(const int &row, const QString &backgroundType) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   rowdata.setValue("backgroundType", backgroundType);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   submitAll();
   emit backgroundTypeChanged();
 }
@@ -508,10 +582,18 @@ void SongSqlModel::setHorizontalTextAlignment(const QString &horizontalTextAlign
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateHorizontalTextAlignment(const int &row, const QString &horizontalTextAlignment) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("horizontalTextAlignment", horizontalTextAlignment);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit horizontalTextAlignmentChanged();
@@ -534,10 +616,18 @@ void SongSqlModel::setVerticalTextAlignment(const QString &verticalTextAlignment
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateVerticalTextAlignment(const int &row, const QString &verticalTextAlignment) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("verticalTextAlignment", verticalTextAlignment);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit verticalTextAlignmentChanged();
@@ -560,10 +650,18 @@ void SongSqlModel::setFont(const QString &font) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateFont(const int &row, const QString &font) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("font", font);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit fontChanged();
@@ -586,10 +684,18 @@ void SongSqlModel::setFontSize(const int &fontSize) {
 // This function is for updating the lyrics from outside the delegate
 void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
   qDebug() << "Row is " << row;
-  QSqlRecord rowdata = record(row);
+  QSqlQuery query("select id from songs");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
   qDebug() << rowdata;
   rowdata.setValue("fontSize", fontSize);
-  setRecord(row, rowdata);
+  setRecord(id, rowdata);
   qDebug() << rowdata;
   submitAll();
   emit fontSizeChanged();

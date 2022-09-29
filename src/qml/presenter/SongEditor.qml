@@ -347,7 +347,7 @@ Item {
         songsqlmodel.updateLyrics(songIndex, lyrics);
         songLyrics = lyrics;
         clearSlides();
-        changeSlideText(song.id - 1);
+        changeSlideText(songIndex);
     }
 
     function updateTitle(title) {
