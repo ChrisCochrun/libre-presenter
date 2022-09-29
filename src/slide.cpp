@@ -214,6 +214,7 @@ void Slide::changeSlide(QVariantMap item)
   setText("");
   m_slideSize = 1;
   m_slideIndex = 1;
+  setPdfIndex(0);
 
   qDebug() << serviceItem().value("backgroundType").toString();
   if (serviceItem().value("backgroundType") == "image") {
@@ -248,9 +249,7 @@ void Slide::changeSlide(QVariantMap item)
     setImageCount(pageCount);
     qDebug() << m_imageCount;
     m_slideSize = m_imageCount;
-    m_slideIndex = 1;
   }
-  setPdfIndex(0);
 
   QStringList text = m_serviceItem.value("text").toStringList();
   if (type() == "song") {
