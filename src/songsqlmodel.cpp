@@ -204,20 +204,25 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   //TODO make sure to split empty line in verse into two slides
 
   // This first function pulls out each verse into our verses map
-  foreach (line, rawLyrics) {
+  // foreach (line, rawLyrics) {
+  for (int i = 0; i < rawLyrics.length(); ++i) {
     qDebug() << "##########################";
-    qDebug() << line;
+    qDebug() << rawLyrics[i];
+    qDebug() << rawLyrics.length();
+    qDebug() << i;
     qDebug() << "##########################";
     if (firstItem) {
-      if (keywords.contains(line)) {
-        // qDebug() << line;
+      if (keywords.contains(rawLyrics[i])) {
+        qDebug() << "!!!!THIS IS FIRST LINE!!!!!";
+        // qDebug() << rawLyrics[i];
         firstItem = false;
-        vtitle = line;
+        vtitle = rawLyrics[i];
         continue;
       }
-    } else if (keywords.contains(line)) {
+    } else if (keywords.contains(rawLyrics[i])) {
+      qDebug() << "!!!!THIS IS A VTITLE!!!!!";
       // qDebug() << verse;
-      // qDebug() << line;
+      // qDebug() << rawLyrics[i];
       if (verse.contains("\n\n")) {
         verse = verse.trimmed();
         qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
@@ -228,37 +233,41 @@ QStringList SongSqlModel::getLyricList(const int &row) {
         }
         verse.clear();
         multiverses.clear();
-        vtitle = line;
+        vtitle = rawLyrics[i];
         continue;
       }
       verses.insert(vtitle, verse);
       verse.clear();
-      vtitle = line;
+      vtitle = rawLyrics[i];
       continue;
-    }// else if (rawLyrics.endsWith(line)) {
-    //   // qDebug() << vtitle;
+    } else if (i + 1 == rawLyrics.length()) {
+      qDebug() << "!!!!LAST LINE!!!!!";
 
-    //   verse.append(line.trimmed() + "\n");
-    //   if (verse.contains("\n\n")) {
-    //     verse = verse.trimmed();
-    //     qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
-    //     QStringList multiverses = verse.split("\n\n");
-    //     foreach (verse, multiverses) {
-    //       verses.insert(vtitle, verse);
-    //       // qDebug() << verse;
-    //     }
-    //     break;
-    //   }
+      verse.append(rawLyrics[i].trimmed() + "\n");
+      if (verse.contains("\n\n")) {
+        verse = verse.trimmed();
+        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        QStringList multiverses = verse.split("\n\n");
+        foreach (verse, multiverses) {
+          verses.insert(vtitle, verse);
+          // qDebug() << verse;
+        }
+        break;
+      }
 
-    //   verse.append(line.trimmed() + "\n");
-    //   verses.insert(vtitle, verse);
-    //   break;
-    // }
-    qDebug() << "THIS LINE";
-    qDebug() << line;
+      verses.insert(vtitle, verse);
+      qDebug() << "&&&&&&&&&&&&";
+      qDebug() << "This is final line";
+      qDebug() << "and has been inserted";
+      qDebug() << verses.values(vtitle);
+      qDebug() << "&&&&&&&&&&&&";
+      break;
+    }
+    qDebug() << "THIS RAWLYRICS[I]";
+    qDebug() << rawLyrics[i];
     qDebug() << "THIS VTITLE";
     qDebug() << vtitle;
-    verse.append(line.trimmed() + "\n");
+    verse.append(rawLyrics[i].trimmed() + "\n");
     qDebug() << verse;
     qDebug() << "APPENDED VERSE";
   }
