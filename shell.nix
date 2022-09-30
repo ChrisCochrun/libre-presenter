@@ -8,6 +8,7 @@ mkShell rec {
     gnumake
     clang
     clang-tools
+    qtcreator
     cmake
     extra-cmake-modules
     pkg-config
