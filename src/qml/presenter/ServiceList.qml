@@ -152,7 +152,9 @@ ColumnLayout {
                         hoverEnabled: false
                         supportsMouseEvents: false
                         backgroundColor: {
-                            if (serviceItemList.currentIndex === index)
+                            if (active)
+                                Kirigami.Theme.highlightColor;
+                            else if (selected)
                                 Kirigami.Theme.highlightColor;
                             else if (mouseHandler.containsMouse)
                                 Kirigami.Theme.hoverColor;
@@ -160,7 +162,7 @@ ColumnLayout {
                                  Kirigami.Theme.backgroundColor;
                         }
                         textColor: {
-                            if (serviceItemList.currentIndex === index ||
+                            if (selected ||
                                 mouseHandler.containsMouse)
                                 activeTextColor;
                             else
