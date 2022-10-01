@@ -166,7 +166,12 @@ Item {
                 id: previewHighlight
                 implicitWidth: 210
                 implicitHeight: width / 16 * 9
-                color: active ? Kirigami.Theme.highlightColor : Kirigami.Theme.backgroundColor
+                color: {
+                    if (active || previewerMouse.containsMouse)
+                        Kirigami.Theme.highlightColor
+                    else
+                        Kirigami.Theme.backgroundColor
+                }
 
                 Presenter.Slide {
                     id: previewSlideItem
@@ -183,6 +188,7 @@ Item {
                     pdfIndex: 0
                     preview: true 
                     editMode: true 
+
                 }
 
                 Controls.Label {
@@ -195,6 +201,14 @@ Item {
                     text: name
                     /* font.family: "Quicksand Bold" */
                 }
+
+                MouseArea {
+                    id: previewerMouse
+                    anchors.fill: parent
+                    onClicked: changeServiceItem(index)
+                    cursorShape: Qt.PointingHandCursor
+                }
+
             }
             Kirigami.WheelHandler {
                 id: wheelHandler
