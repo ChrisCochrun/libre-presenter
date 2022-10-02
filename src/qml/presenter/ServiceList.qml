@@ -164,7 +164,7 @@ ColumnLayout {
                         textColor: {
                             if (selected ||
                                 mouseHandler.containsMouse || active)
-                                activeTextColor;
+                                Kirigami.Theme.highlightedTextColor;
                             else
                                 Kirigami.Theme.textColor;
                         }
