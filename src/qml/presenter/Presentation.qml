@@ -212,7 +212,8 @@ Item {
 
                 Connections {
                     target: serviceItemModel
-                    onDataChanged: previewSlidesList.positionViewAtIndex(index,
+                    onDataChanged: if (active)
+                        previewSlidesList.positionViewAtIndex(index,
                                                                          ListView.Center)
                 }
             }

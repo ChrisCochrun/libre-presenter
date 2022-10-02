@@ -3,15 +3,11 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [74%] [23/31]
+* Tasks [73%] [25/34]
 
-** TODO To finish the UX of which item is active, the Presentation needs to switch to the active slide in the preview system.
-- To make this work I think I'll need to make serviceitemmodel able to signal when a particular item is active and give it's index so the list can follow suit.
 ** TODO Make libraries and models aware of being selected.
 This allows us to drag multiple to service list and delete multiple.
-** TODO Make serviceItemModel aware of being selected and active
-Being selected means that those items can be dragged or deleted or moved together.
-Being active, means that the singular item is the currently displayed item.
+final part to this is allowing for multiple select and multiple move in service list or library
 ** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
@@ -69,7 +65,12 @@ https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
 This thread helped a lot
 
 
+** DONE Make serviceItemModel aware of being selected and active
+Being selected means that those items can be dragged or deleted or moved together.
+Being active, means that the singular item is the currently displayed item.
 ** DONE Unload video when switching to something with just image :core:bug:
+** DONE To finish the UX of which item is active, the Presentation needs to switch to the active slide in the preview system.
+- To make this work I think I'll need to make serviceitemmodel able to signal when a particular item is active and give it's index so the list can follow suit. nevermind, I can just check if it's active in the delegate.
 ** DONE Images stored in sql need to have aspect saved and applied dynamically here :core:
 [[file:~/dev/church-presenter/src/qml/presenter/Slide.qml::fillMode: Image.PreserveAspectCrop]]
 I didn't save the aspect, but I applied it based on type of item first, we can change that later.
