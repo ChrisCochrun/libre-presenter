@@ -155,7 +155,7 @@ ColumnLayout {
                             if (active)
                                 Kirigami.Theme.highlightColor;
                             else if (selected)
-                                Kirigami.Theme.highlightColor;
+                                Kirigami.Theme.focusColor;
                             else if (mouseHandler.containsMouse)
                                 Kirigami.Theme.hoverColor;
                             else
@@ -163,7 +163,7 @@ ColumnLayout {
                         }
                         textColor: {
                             if (selected ||
-                                mouseHandler.containsMouse)
+                                mouseHandler.containsMouse || active)
                                 activeTextColor;
                             else
                                 Kirigami.Theme.textColor;
@@ -231,7 +231,7 @@ ColumnLayout {
                                 if (mouse.button === Qt.RightButton)
                                     rightClickMenu.popup();
                                 else {
-                                    serviceItemList.currentIndex = index;
+                                    /* serviceItemList.currentIndex = index; */
                                     serviceItemModel.select(index);
                                     /* currentServiceItem = index; */
                                     /* changeItem(index); */
@@ -268,7 +268,7 @@ ColumnLayout {
                 id: wheelHandler
                 target: serviceItemList
                 filterMouseEvents: true
-                keyNavigationEnabled: true
+                /* keyNavigationEnabled: true */
             }
 
             Controls.ScrollBar.vertical: Controls.ScrollBar {
