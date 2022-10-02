@@ -5,6 +5,8 @@
 
 * Tasks [74%] [23/31]
 
+** TODO To finish the UX of which item is active, the Presentation needs to switch to the active slide in the preview system.
+- To make this work I think I'll need to make serviceitemmodel able to signal when a particular item is active and give it's index so the list can follow suit.
 ** TODO Make libraries and models aware of being selected.
 This allows us to drag multiple to service list and delete multiple.
 ** TODO Make serviceItemModel aware of being selected and active

@@ -210,11 +210,11 @@ Item {
                 }
 
 
-                /* Connections { */
-                /*     target: serviceItemModel */
-                /*     onDataChanged: previewSlidesList.positionViewAtIndex(index, */
-                /*                                                          ListView.Center) */
-                /* } */
+                Connections {
+                    target: serviceItemModel
+                    onDataChanged: previewSlidesList.positionViewAtIndex(index,
+                                                                         ListView.Center)
+                }
             }
             Kirigami.WheelHandler {
                 id: wheelHandler
