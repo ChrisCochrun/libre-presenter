@@ -63,6 +63,7 @@ Controls.Page {
                 id: leftDock
                 Controls.SplitView.preferredWidth: 200
                 Controls.SplitView.maximumWidth: 300
+                z: 1
             }
             
             Item {

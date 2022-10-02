@@ -11,396 +11,405 @@ import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
 
-ColumnLayout {
+Item {
     id: root
-
     property var selectedItem: serviceItemList.selected
     property var hlItem 
 
     Rectangle {
-        id: headerBackground
+        id: background
         color: Kirigami.Theme.backgroundColor
-        height: 40
-        opacity: 1.0
-        Layout.fillWidth: true
-
-        Kirigami.Heading {
-            id: serviceTitle
-            text: "Service List"
-            anchors.centerIn: headerBackground 
-            padding: 5
-            level: 3
-        }
-    }
-
-    DropArea {
-        id: serviceDropEnd
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-        onDropped: (drag) => {
-            print("DROPPED AT END");
-            showPassiveNotification(drag.source.title);
-            appendItem(dragItemTitle,
-                       dragItemType,
-                       dragItemBackground,
-                       dragItemBackgroundType,
-                       dragItemText,
-                       dragItemAudio,
-                       dragItemFont,
-                       dragItemFontSize,
-                       dragItemIndex);
-            dropHighlightLine.visible = false;
-        }
-
-        keys: ["library"]
-
-        onEntered: (drag) => {
-            if (drag.keys[0] === "library") {
-                dropHighlightLine.visible = true;
-                var lastItem = serviceItemList.itemAtIndex(serviceItemModel.rowCount() - 1);
-                dropHighlightLine.y = lastItem.y + lastItem.height;
-            }
-        }
-
-        /* onExited: dropHighlightLine.visible = false; */
-
-        ListView {
-            id: serviceItemList
+        anchors.fill: parent
+        ColumnLayout {
+            id: layout
             anchors.fill: parent
-            /* model: serviceItemModel */
-            /* delegate: Kirigami.DelegateRecycler { */
-            /*     width: serviceItemList.width */
-            /*     sourceComponent: itemDelegate */
-            /* } */
-            clip: true
-            spacing: 3
-            property int indexDragged
-            property int moveToIndex
-            property int draggedY
 
-            addDisplaced: Transition {
-                NumberAnimation {properties: "x, y"; duration: 100}
-            }
-            moveDisplaced: Transition {
-                NumberAnimation { properties: "x, y"; duration: 100 }
-            }
-            remove: Transition {
-                NumberAnimation { properties: "x, y"; duration: 100 }
-                NumberAnimation { properties: "opacity"; duration: 100 }
+            Rectangle {
+                id: headerBackground
+                color: Kirigami.Theme.backgroundColor
+                height: 40
+                opacity: 1.0
+                Layout.fillWidth: true
+
+                Kirigami.Heading {
+                    id: serviceTitle
+                    text: "Service List"
+                    anchors.centerIn: headerBackground 
+                    padding: 5
+                    level: 3
+                }
             }
 
-            removeDisplaced: Transition {
-                NumberAnimation { properties: "x, y"; duration: 100 }
-            }
+            DropArea {
+                id: serviceDropEnd
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                onDropped: (drag) => {
+                    print("DROPPED AT END");
+                    showPassiveNotification(drag.source.title);
+                    appendItem(dragItemTitle,
+                               dragItemType,
+                               dragItemBackground,
+                               dragItemBackgroundType,
+                               dragItemText,
+                               dragItemAudio,
+                               dragItemFont,
+                               dragItemFontSize,
+                               dragItemIndex);
+                    dropHighlightLine.visible = false;
+                }
 
-            displaced: Transition {
-                NumberAnimation {properties: "x, y"; duration: 100}
-            }
+                keys: ["library"]
 
-            model: serviceItemModel
-
-                delegate: DropArea {
-                    id: serviceDrop
-                    implicitWidth: serviceItemList.width
-                    height: 50
-                    /* enabled: false */
-
-                    onEntered: (drag) => {
-                        if (drag.keys[0] === "library") {
-                            dropHighlightLine.visible = true;
-                            dropHighlightLine.y = y - 2;
-                        }
-                    }
-
-                    /* onExited: dropHighlightLine.visible = false; */
-
-                    onDropped: (drag) => {
-                        print("DROPPED IN ITEM AREA: " + drag.keys);
-                        print(dragItemIndex + " " + index);
-                        const hlIndex = serviceItemList.currentIndex;
-                        if (drag.keys[0] === "library") {
-                            addItem(index,
-                                    dragItemTitle,
-                                    dragItemType,
-                                    dragItemBackground,
-                                    dragItemBackgroundType,
-                                    dragItemText,
-                                    dragItemAudio,
-                                    dragItemFont,
-                                    dragItemFontSize,
-                                    dragItemIndex);
-                        } else if (drag.keys[0] === "serviceitem") {
-                            serviceItemModel.move(serviceItemList.indexDragged,
-                                                  serviceItemList.moveToIndex);
-                            serviceItemList.currentIndex = moveToIndex;
-                        }
-                        dropHighlightLine.visible = false;
-                    }
-
-                    keys: ["library","serviceitem"]
-
-                    Kirigami.BasicListItem {
-                        id: visServiceItem
-                        width: serviceDrop.width
-                        height: serviceDrop.height
-                        anchors {
-                            horizontalCenter: parent.horizontalCenter
-                            verticalCenter: parent.verticalCenter
-                        }
-                        label: name
-                        subtitle: type
-                        hoverEnabled: false
-                        supportsMouseEvents: false
-                        backgroundColor: {
-                            if (active)
-                                Kirigami.Theme.highlightColor;
-                            else if (selected)
-                                Kirigami.Theme.focusColor;
-                            else if (mouseHandler.containsMouse)
-                                Kirigami.Theme.hoverColor;
-                            else
-                                 Kirigami.Theme.backgroundColor;
-                        }
-                        textColor: {
-                            if (selected ||
-                                mouseHandler.containsMouse || active)
-                                Kirigami.Theme.highlightedTextColor;
-                            else
-                                Kirigami.Theme.textColor;
-                        }
-
-                        onYChanged: serviceItemList.updateDrag(Math.round(y));
-
-                        states: [
-                            State {
-                                when: mouseHandler.drag.active
-                                ParentChange {
-                                    target: visServiceItem
-                                    parent: serviceItemList
-                                }
-
-                                PropertyChanges {
-                                    target: visServiceItem
-                                    backgroundColor: Kirigami.Theme.backgroundColor
-                                    textColor: Kirigami.Theme.textColor
-                                    anchors.verticalCenter: undefined
-                                    anchors.horizontalCenter: undefined
-                                }
-                            }
-                        ]
-
-                        /* Drag.dragType: Drag.Automatic */
-                        Drag.active: mouseHandler.drag.active
-                        Drag.hotSpot.x: width / 2
-                        Drag.hotSpot.y: height / 2
-                        Drag.keys: ["serviceitem"]
-
-                        MouseArea {
-                            id: mouseHandler
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            preventStealing: true
-
-                            drag {
-                                target: visServiceItem
-                                axis: Drag.YAxis
-                                /* minimumY: root.y */
-                                /* maximumY: serviceItemList.height - serviceDrop.height */
-                                smoothed: false
-                            }
-
-                            drag.onActiveChanged: {
-                                if (mouseHandler.drag.active) {
-                                    serviceItemList.indexDragged = index;
-                                } 
-                            }
-
-                            /* onPositionChanged: { */
-                            /*     if (!pressed) { */
-                            /*         return; */
-                            /*     } */
-                            /*     mouseArea.arrangeItem(); */
-                            /* } */
-
-                            onPressed: {
-                                serviceItemList.interactive = false;
-                            }
-
-                            onClicked: {
-                                if (mouse.button === Qt.RightButton)
-                                    rightClickMenu.popup();
-                                else {
-                                    /* serviceItemList.currentIndex = index; */
-                                    serviceItemModel.select(index);
-                                    /* currentServiceItem = index; */
-                                    /* changeItem(index); */
-                                }
-                            }
-
-                            onDoubleClicked: {
-                                /* showPassiveNotification("Double Clicked") */
-                                serviceItemList.currentIndex = index;
-                                currentServiceItem = index;
-                                changeServiceItem(index);
-                            }
-
-                            onReleased: {
-                                print("should drop");
-                                visServiceItem.Drag.drop();
-                            }
-                        }
-                    }
-
-                    Controls.Menu {
-                        id: rightClickMenu
-                        x: mouseHandler.mouseX
-                        y: mouseHandler.mouseY + 10
-                        Kirigami.Action {
-                            text: "delete"
-                            onTriggered: removeItem(index);
-                        }
+                onEntered: (drag) => {
+                    if (drag.keys[0] === "library") {
+                        dropHighlightLine.visible = true;
+                        var lastItem = serviceItemList.itemAtIndex(serviceItemModel.rowCount() - 1);
+                        dropHighlightLine.y = lastItem.y + lastItem.height;
                     }
                 }
 
+                /* onExited: dropHighlightLine.visible = false; */
 
-            Kirigami.WheelHandler {
-                id: wheelHandler
-                target: serviceItemList
-                filterMouseEvents: true
-                /* keyNavigationEnabled: true */
-            }
+                ListView {
+                    id: serviceItemList
+                    anchors.fill: parent
+                    /* model: serviceItemModel */
+                    /* delegate: Kirigami.DelegateRecycler { */
+                    /*     width: serviceItemList.width */
+                    /*     sourceComponent: itemDelegate */
+                    /* } */
+                    clip: true
+                    spacing: 3
+                    property int indexDragged
+                    property int moveToIndex
+                    property int draggedY
 
-            Controls.ScrollBar.vertical: Controls.ScrollBar {
-                anchors.right: serviceItemList.right
-                anchors.rightMargin: 0
-                active: hovered || pressed
-            }
+                    addDisplaced: Transition {
+                        NumberAnimation {properties: "x, y"; duration: 100}
+                    }
+                    moveDisplaced: Transition {
+                        NumberAnimation { properties: "x, y"; duration: 100 }
+                    }
+                    remove: Transition {
+                        NumberAnimation { properties: "x, y"; duration: 100 }
+                        NumberAnimation { properties: "opacity"; duration: 100 }
+                    }
 
-            function updateDrag(y) {
-                if (moveToIndex === serviceItemList.indexAt(0,y))
-                    return;
-                else
-                    moveToIndex = serviceItemList.indexAt(0,y);
-                moveRequested(indexDragged, moveToIndex);
-            }
+                    removeDisplaced: Transition {
+                        NumberAnimation { properties: "x, y"; duration: 100 }
+                    }
 
-            function moveRequested(oldIndex, newIndex) {
-                if (newIndex === oldIndex)
-                    return;
-                if (newIndex === -1)
-                    newIndex = 0;
-                if (newIndex >= serviceItemList.count)
-                    newIndex = serviceItemList.count;
-                print("moveRequested: ", oldIndex, newIndex);
-                serviceItemModel.move(oldIndex, newIndex);
-                indexDragged = newIndex;
-                serviceItemList.currentIndex = newIndex;
-            }
+                    displaced: Transition {
+                        NumberAnimation {properties: "x, y"; duration: 100}
+                    }
 
-        }
+                    model: serviceItemModel
 
-        Rectangle {
-            id: dropHighlightLine
-            width: parent.width
-            height: 4
-            color: Kirigami.Theme.hoverColor
-            visible: false
+                    delegate: DropArea {
+                        id: serviceDrop
+                        implicitWidth: serviceItemList.width
+                        height: 50
+                        /* enabled: false */
 
-        }
-        Canvas {
-            /* asynchronous: true; */
-            x: dropHighlightLine.width - 8
-            y: dropHighlightLine.y - 17
-            z: 1
-            width: 100; height: 100;
-            contextType: "2d"
-            onPaint: {
-                var ctx = getContext("2d");
-                ctx.fillStyle = Kirigami.Theme.hoverColor;
-                ctx.rotate(30);
-                ctx.transform(0.8, 0, 0, 0.8, 0, 30)
-                ctx.path = tearDropPath;
-                ctx.fill();
-            }
-            visible: dropHighlightLine.visible
-        }
-        Path {
-            id: tearDropPath
-            startX: dropHighlightLine.width
-            startY: dropHighlightLine.y + 4
-            PathSvg {
-                path: "M15 3
+                        onEntered: (drag) => {
+                            if (drag.keys[0] === "library") {
+                                dropHighlightLine.visible = true;
+                                dropHighlightLine.y = y - 2;
+                            }
+                        }
+
+                        /* onExited: dropHighlightLine.visible = false; */
+
+                        onDropped: (drag) => {
+                            print("DROPPED IN ITEM AREA: " + drag.keys);
+                            print(dragItemIndex + " " + index);
+                            const hlIndex = serviceItemList.currentIndex;
+                            if (drag.keys[0] === "library") {
+                                addItem(index,
+                                        dragItemTitle,
+                                        dragItemType,
+                                        dragItemBackground,
+                                        dragItemBackgroundType,
+                                        dragItemText,
+                                        dragItemAudio,
+                                        dragItemFont,
+                                        dragItemFontSize,
+                                        dragItemIndex);
+                            } else if (drag.keys[0] === "serviceitem") {
+                                serviceItemModel.move(serviceItemList.indexDragged,
+                                                      serviceItemList.moveToIndex);
+                                serviceItemList.currentIndex = moveToIndex;
+                            }
+                            dropHighlightLine.visible = false;
+                        }
+
+                        keys: ["library","serviceitem"]
+
+                        Kirigami.BasicListItem {
+                            id: visServiceItem
+                            width: serviceDrop.width
+                            height: serviceDrop.height
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                                verticalCenter: parent.verticalCenter
+                            }
+                            label: name
+                            subtitle: type
+                            hoverEnabled: false
+                            supportsMouseEvents: false
+                            backgroundColor: {
+                                if (active)
+                                    Kirigami.Theme.highlightColor;
+                                else if (selected)
+                                    Kirigami.Theme.focusColor;
+                                else if (mouseHandler.containsMouse)
+                                    Kirigami.Theme.hoverColor;
+                                else
+                                    Kirigami.Theme.backgroundColor;
+                            }
+                            textColor: {
+                                if (selected ||
+                                    mouseHandler.containsMouse || active)
+                                    Kirigami.Theme.highlightedTextColor;
+                                else
+                                    Kirigami.Theme.textColor;
+                            }
+
+                            onYChanged: serviceItemList.updateDrag(Math.round(y));
+
+                            states: [
+                                State {
+                                    when: mouseHandler.drag.active
+                                    ParentChange {
+                                        target: visServiceItem
+                                        parent: serviceItemList
+                                    }
+
+                                    PropertyChanges {
+                                        target: visServiceItem
+                                        backgroundColor: Kirigami.Theme.backgroundColor
+                                        textColor: Kirigami.Theme.textColor
+                                        anchors.verticalCenter: undefined
+                                        anchors.horizontalCenter: undefined
+                                    }
+                                }
+                            ]
+
+                            /* Drag.dragType: Drag.Automatic */
+                            Drag.active: mouseHandler.drag.active
+                            Drag.hotSpot.x: width / 2
+                            Drag.hotSpot.y: height / 2
+                            Drag.keys: ["serviceitem"]
+
+                            MouseArea {
+                                id: mouseHandler
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                preventStealing: true
+
+                                drag {
+                                    target: visServiceItem
+                                    axis: Drag.YAxis
+                                    /* minimumY: root.y */
+                                    /* maximumY: serviceItemList.height - serviceDrop.height */
+                                    smoothed: false
+                                }
+
+                                drag.onActiveChanged: {
+                                    if (mouseHandler.drag.active) {
+                                        serviceItemList.indexDragged = index;
+                                    } 
+                                }
+
+                                /* onPositionChanged: { */
+                                /*     if (!pressed) { */
+                                /*         return; */
+                                /*     } */
+                                /*     mouseArea.arrangeItem(); */
+                                /* } */
+
+                                onPressed: {
+                                    serviceItemList.interactive = false;
+                                }
+
+                                onClicked: {
+                                    if (mouse.button === Qt.RightButton)
+                                        rightClickMenu.popup();
+                                    else {
+                                        /* serviceItemList.currentIndex = index; */
+                                        serviceItemModel.select(index);
+                                        /* currentServiceItem = index; */
+                                        /* changeItem(index); */
+                                    }
+                                }
+
+                                onDoubleClicked: {
+                                    /* showPassiveNotification("Double Clicked") */
+                                    serviceItemList.currentIndex = index;
+                                    currentServiceItem = index;
+                                    changeServiceItem(index);
+                                }
+
+                                onReleased: {
+                                    print("should drop");
+                                    visServiceItem.Drag.drop();
+                                }
+                            }
+                        }
+
+                        Controls.Menu {
+                            id: rightClickMenu
+                            x: mouseHandler.mouseX
+                            y: mouseHandler.mouseY + 10
+                            Kirigami.Action {
+                                text: "delete"
+                                onTriggered: removeItem(index);
+                            }
+                        }
+                    }
+
+
+                    Kirigami.WheelHandler {
+                        id: wheelHandler
+                        target: serviceItemList
+                        filterMouseEvents: true
+                        /* keyNavigationEnabled: true */
+                    }
+
+                    Controls.ScrollBar.vertical: Controls.ScrollBar {
+                        anchors.right: serviceItemList.right
+                        anchors.rightMargin: 0
+                        active: hovered || pressed
+                    }
+
+                    function updateDrag(y) {
+                        if (moveToIndex === serviceItemList.indexAt(0,y))
+                            return;
+                        else
+                            moveToIndex = serviceItemList.indexAt(0,y);
+                        moveRequested(indexDragged, moveToIndex);
+                    }
+
+                    function moveRequested(oldIndex, newIndex) {
+                        if (newIndex === oldIndex)
+                            return;
+                        if (newIndex === -1)
+                            newIndex = 0;
+                        if (newIndex >= serviceItemList.count)
+                            newIndex = serviceItemList.count;
+                        print("moveRequested: ", oldIndex, newIndex);
+                        serviceItemModel.move(oldIndex, newIndex);
+                        indexDragged = newIndex;
+                        serviceItemList.currentIndex = newIndex;
+                    }
+
+                }
+
+                Rectangle {
+                    id: dropHighlightLine
+                    width: parent.width
+                    height: 4
+                    color: Kirigami.Theme.hoverColor
+                    visible: false
+
+                }
+                Canvas {
+                    /* asynchronous: true; */
+                    x: dropHighlightLine.width - 8
+                    y: dropHighlightLine.y - 17
+                    z: 1
+                    width: 100; height: 100;
+                    contextType: "2d"
+                    onPaint: {
+                        var ctx = getContext("2d");
+                        ctx.fillStyle = Kirigami.Theme.hoverColor;
+                        ctx.rotate(30);
+                        ctx.transform(0.8, 0, 0, 0.8, 0, 30)
+                        ctx.path = tearDropPath;
+                        ctx.fill();
+                    }
+                    visible: dropHighlightLine.visible
+                }
+                Path {
+                    id: tearDropPath
+                    startX: dropHighlightLine.width
+                    startY: dropHighlightLine.y + 4
+                    PathSvg {
+                        path: "M15 3
                            Q16.5 6.8 25 18
                            A12.8 12.8 0 1 1 5 18
                            Q13.5 6.8 15 3z"
+                    }
+                }
+            } 
+
+            Kirigami.ActionToolBar {
+                id: serviceToolBar
+                Layout.fillWidth: true
+                opacity: 1.0
+                actions: [
+                    Kirigami.Action {
+                        /* text: "Up" */
+                        icon.name: "arrow-up"
+                        onTriggered: {
+                            const oldid = serviceItemList.currentIndex;
+                            if (oldid <= 0)
+                            {
+                                showPassiveNotification("wow stop trying to go nego");
+                                return;
+                            }
+                            const newid = serviceItemList.currentIndex - 1;
+                            showPassiveNotification(oldid + " " + newid);
+                            showPassiveNotification("Up");
+                            const ans = serviceItemModel.move(oldid, newid);
+                            if (ans)
+                            {
+                                serviceItemList.currentIndex = newid;
+                                showPassiveNotification("move was successful, newid: "
+                                                        + serviceItemList.currentIndex);
+                            }
+                            else
+                                showPassiveNotification("move was unsuccessful")
+                        }
+                    },
+                    Kirigami.Action {
+                        /* text: "Down" */
+                        icon.name: "arrow-down"
+                        onTriggered: {
+                            const id = serviceItemList.currentIndex;
+                            if (id + 1 >= serviceItemList.count)
+                            {
+                                showPassiveNotification("wow you dummy you can't got further down");
+                                return;
+                            };
+                            showPassiveNotification("moving ", id, " down");
+                            const ans = serviceItemModel.moveDown(id);
+                            if (ans)
+                            {
+                                serviceItemList.currentIndex = id + 1;
+                                showPassiveNotification("move was successful, newid: "
+                                                        + serviceItemList.currentIndex);
+                            }
+                            else
+                                showPassiveNotification("move was unsuccessful, id: "
+                                                        + id);
+                        }
+                    },
+                    Kirigami.Action {
+                        /* text: "Remove" */
+                        icon.name: "delete"
+                        onTriggered: {
+                            showPassiveNotification("remove");
+                            removeItem(serviceItemList.currentIndex);
+                        }
+                    }
+                ]
             }
+
         }
-    } 
-
-    Kirigami.ActionToolBar {
-        id: serviceToolBar
-        Layout.fillWidth: true
-        opacity: 1.0
-        actions: [
-            Kirigami.Action {
-                /* text: "Up" */
-                icon.name: "arrow-up"
-                onTriggered: {
-                    const oldid = serviceItemList.currentIndex;
-                    if (oldid <= 0)
-                    {
-                        showPassiveNotification("wow stop trying to go nego");
-                        return;
-                    }
-                    const newid = serviceItemList.currentIndex - 1;
-                    showPassiveNotification(oldid + " " + newid);
-                    showPassiveNotification("Up");
-                    const ans = serviceItemModel.move(oldid, newid);
-                    if (ans)
-                    {
-                        serviceItemList.currentIndex = newid;
-                        showPassiveNotification("move was successful, newid: "
-                                                + serviceItemList.currentIndex);
-                    }
-                    else
-                        showPassiveNotification("move was unsuccessful")
-                }
-            },
-            Kirigami.Action {
-                /* text: "Down" */
-                icon.name: "arrow-down"
-                onTriggered: {
-                    const id = serviceItemList.currentIndex;
-                    if (id + 1 >= serviceItemList.count)
-                    {
-                        showPassiveNotification("wow you dummy you can't got further down");
-                        return;
-                    };
-                    showPassiveNotification("moving ", id, " down");
-                    const ans = serviceItemModel.moveDown(id);
-                    if (ans)
-                    {
-                        serviceItemList.currentIndex = id + 1;
-                        showPassiveNotification("move was successful, newid: "
-                                                + serviceItemList.currentIndex);
-                    }
-                    else
-                        showPassiveNotification("move was unsuccessful, id: "
-                                                + id);
-                }
-            },
-            Kirigami.Action {
-                /* text: "Remove" */
-                icon.name: "delete"
-                onTriggered: {
-                    showPassiveNotification("remove");
-                    removeItem(serviceItemList.currentIndex);
-                }
-            }
-        ]
     }
-
     Component.onCompleted: {
         totalServiceItems = serviceItemList.count;
         print("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
