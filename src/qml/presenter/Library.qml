@@ -216,7 +216,7 @@ Item {
                                 target: songListItem
                                 onActiveChanged: {
                                     if (songDragHandler.drag.active) {
-                                        dragItemIndex = index;
+                                        dragItemIndex = id;
                                         dragItemTitle = title;
                                         dragItemType = "song";
                                         dragItemBackgroundType = backgroundType;

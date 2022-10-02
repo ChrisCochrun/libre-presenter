@@ -62,7 +62,7 @@ Window {
             if (presentationWindow.visible)
                 presentationSlide.playAudio();
             else
-                presentationWindow.stopAudio();
+                presentationSlide.stopAudio();
         }
     }
 
@@ -71,10 +71,12 @@ Window {
     }
 
     function stopVideo() {
+        print("####I STOPPING####");
         presentationSlide.stopVideo()
     }
 
     function pauseVideo() {
         presentationSlide.pauseVideo();
     }
+
 }
