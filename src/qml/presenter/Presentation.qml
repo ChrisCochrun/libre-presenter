@@ -209,6 +209,12 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                 }
 
+
+                /* Connections { */
+                /*     target: serviceItemModel */
+                /*     onDataChanged: previewSlidesList.positionViewAtIndex(index, */
+                /*                                                          ListView.Center) */
+                /* } */
             }
             Kirigami.WheelHandler {
                 id: wheelHandler

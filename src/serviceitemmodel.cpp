@@ -373,6 +373,14 @@ QVariantMap ServiceItemModel::getItem(int index) const {
 }
 
 bool ServiceItemModel::select(int id) {
+  for (int i = 0; i < m_items.length(); i++) {
+    QModelIndex idx = index(i);
+    ServiceItem *item = m_items[idx.row()];
+    item->setSelected(false);
+    qDebug() << "################";
+    qDebug() << "deselected" << item->name();
+    qDebug() << "################";
+  }
   QModelIndex idx = index(id);
   ServiceItem *item = m_items[idx.row()];
   item->setSelected(true);

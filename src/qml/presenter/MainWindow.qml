@@ -157,6 +157,7 @@ Controls.Page {
         print(item);
 
         presentation.stopVideo();
+        pWindow.stopVideo();
         /* presentation.itemType = item.type; */
         print("Time to start changing");
 
@@ -169,7 +170,7 @@ Controls.Page {
         /* } */
 
         presentation.textIndex = 0;
-        serviceItemModel.select(index);
+        /* serviceItemModel.select(index); */
         /* presentation.changeSlide(); */
 
         print("Slide changed to: " + item.name);
