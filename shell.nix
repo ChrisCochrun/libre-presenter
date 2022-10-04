@@ -20,6 +20,7 @@ mkShell rec {
 
   buildInputs = [
     clang-tools
+    # clang-format
     qt5.full
     qt5.qttools
     qt5.qtquickcontrols2
@@ -30,6 +31,7 @@ mkShell rec {
     libsForQt5.breeze-icons
     libsForQt5.breeze-qt5
     libsForQt5.qqc2-desktop-style
+    libsForQt5.karchive
     # libsForQt5.kirigami-addons
     libsForQt5.ki18n
     libsForQt5.kcoreaddons

@@ -9,6 +9,7 @@ target_sources(presenter
  slide.cpp slide.h
  videosqlmodel.cpp videosqlmodel.h
  imagesqlmodel.cpp imagesqlmodel.h
+ filemanager.cpp filemanager.h
  presentationsqlmodel.cpp presentationsqlmodel.h
  mpv/mpvobject.h mpv/mpvobject.cpp
  mpv/qthelper.hpp mpv/mpvhelpers.h
@@ -24,6 +25,7 @@ target_link_libraries(presenter
         Qt5::X11Extras
         KF5::Kirigami2
         KF5::I18n
+        KF5::Archive
         podofo
         mpv
 )

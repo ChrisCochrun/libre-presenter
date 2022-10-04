@@ -66,8 +66,16 @@ Kirigami.ApplicationWindow {
                 title: qsTr("File")
                 Labs.MenuItem { text: qsTr("New...") }
                 Labs.MenuItem { text: qsTr("Open...") }
-                Labs.MenuItem { text: qsTr("Save") }
-                Labs.MenuItem { text: qsTr("Save As...") }
+                Labs.MenuItem {
+                    text: qsTr("Save")
+                    shortcut: "Ctrl+S"
+                    onTriggered: save()
+                }
+                Labs.MenuItem {
+                    text: qsTr("Save As...")
+                    shortcut: "Ctrl+Shift+S"
+                    onTriggered: saveAs()
+                }
                 Labs.MenuSeparator { }
                 Labs.MenuItem { text: qsTr("Quit") }
             }
@@ -109,6 +117,15 @@ Kirigami.ApplicationWindow {
 
     function openSettings() {
         settingsSheet.open()
+    }
+
+    function save() {
+        const saved = FileManager.save("/home/chris/blah.pres", mainPage.serviceList);
+        saved ? showPassiveNotification("SAVED!") : showPassiveNotification("FAILED!");
+    }
+
+    function saveAs() {
+        
     }
 
     Component.onCompleted: {

@@ -61,9 +61,11 @@ stdenv.mkDerivation rec {
     # breeze-icons
     # breeze-qt5
     # qqc2-desktop-style
+    libsForQt5.karchive
     libsForQt5.ki18n
     libsForQt5.kcoreaddons
     # lightly-qt
+    podofo
     mpv
     # libsForQt5.kconfig
     # ffmpeg-full

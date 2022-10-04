@@ -39,6 +39,7 @@
 #include "videosqlmodel.h"
 #include "imagesqlmodel.h"
 #include "presentationsqlmodel.h"
+#include "filemanager.h"
 #include "slide.h"
 
 static void connectToDatabase() {
@@ -96,6 +97,7 @@ int main(int argc, char *argv[])
 
   //Need to instantiate our slide
   QScopedPointer<Slide> slide(new Slide);
+  QScopedPointer<File> filemanager(new File);
 
   // apparently mpv needs this class set
   // let's register mpv as well
@@ -109,6 +111,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
 
   connectToDatabase();
 

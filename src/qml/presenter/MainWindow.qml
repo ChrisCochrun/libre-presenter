@@ -37,6 +37,8 @@ Controls.Page {
     property var song
     property var draggedLibraryItem
 
+    property var serviceList: ["testing", "data"]
+
     property bool songDragged: false
 
     property string editType
