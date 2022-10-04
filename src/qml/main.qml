@@ -69,7 +69,7 @@ Kirigami.ApplicationWindow {
                 Labs.MenuItem {
                     text: qsTr("Save")
                     shortcut: "Ctrl+S"
-                    onTriggered: save()
+                    onTriggered: saveFileDialog.open()
                 }
                 Labs.MenuItem {
                     text: qsTr("Save As...")
@@ -101,6 +101,21 @@ Kirigami.ApplicationWindow {
         id: mainPage
     }
 
+    FileDialog {
+        id: saveFileDialog
+        title: "Save"
+        folder: shortcuts.home
+        /* fileMode: FileDialog.SaveFile */
+        defaultSuffix: ".pres"
+        selectExisting: false
+        onAccepted: {
+            save(saveFileDialog.fileUrl + ".pres");
+        }
+        onRejected: {
+            print("Canceled")
+        }
+    }
+
     function toggleEditMode() {
         editMode = !editMode;
         mainPage.editSwitch();
@@ -119,9 +134,9 @@ Kirigami.ApplicationWindow {
         settingsSheet.open()
     }
 
-    function save() {
-        const saved = FileManager.save("/home/chris/blah.pres", mainPage.serviceList);
-        saved ? showPassiveNotification("SAVED!") : showPassiveNotification("FAILED!");
+    function save(file) {
+        const saved = FileManager.save(file, mainPage.serviceItems.getItems());
+        saved ? showPassiveNotification("SAVED! " + file) : showPassiveNotification("FAILED!");
     }
 
     function saveAs() {

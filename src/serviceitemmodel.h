@@ -88,6 +88,7 @@ public:
   Q_INVOKABLE bool select(int id);
   Q_INVOKABLE bool activate(int id);
   Q_INVOKABLE QVariantMap getItem(int index) const;
+  Q_INVOKABLE QVariantList getItems();
 
 private:
   QList<ServiceItem *> m_items;

@@ -372,6 +372,28 @@ QVariantMap ServiceItemModel::getItem(int index) const {
   return data;
 }
 
+QVariantList ServiceItemModel::getItems() {
+  QVariantList data;
+  ServiceItem * item;
+  foreach (item, m_items) {
+    qDebug() << item->name();
+    QVariantMap itm;
+    itm["name"] = item->name();
+    itm["type"] = item->type();
+    itm["background"] = item->background();
+    itm["backgroundType"] = item->backgroundType();
+    itm["text"] = item->text();
+    itm["audio"] = item->audio();
+    itm["font"] = item->font();
+    itm["fontSize"] = item->fontSize();
+    data.append(itm);
+  }
+  qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$$$";
+  qDebug() << data;
+  qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$$$";
+  return data;
+}
+
 bool ServiceItemModel::select(int id) {
   for (int i = 0; i < m_items.length(); i++) {
     QModelIndex idx = index(i);
