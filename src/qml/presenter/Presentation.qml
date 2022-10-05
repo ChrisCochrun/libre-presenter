@@ -8,7 +8,7 @@ import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
 
-Item {
+FocusScope {
     id: root
 
     property var text
@@ -18,6 +18,19 @@ Item {
     property url vidbackground: SlideObject.videoBackground
 
     property Item slide: previewSlide
+
+    onActiveFocusChanged: showPassiveNotification("OUCH")
+
+    Item {
+        id: keyHandler
+        anchors.fill: parent
+        focus: true
+        Keys.onLeftPressed: previousSlideAction()
+        Keys.onRightPressed: nextSlideAction()
+        Keys.onUpPressed: previousSlideAction()
+        Keys.onDownPressed: nextSlideAction()
+        Keys.onSpacePressed: nextSlideAction()
+    }
 
     /* Component.onCompleted: nextSlideAction() */
 
@@ -213,8 +226,7 @@ Item {
                 Connections {
                     target: serviceItemModel
                     onDataChanged: if (active)
-                        previewSlidesList.positionViewAtIndex(index,
-                                                                         ListView.Center)
+                        previewSlidesList.positionViewAtIndex(index, ListView.Center)
                 }
             }
             Kirigami.WheelHandler {
@@ -267,6 +279,7 @@ Item {
     }
 
     function nextSlideAction() {
+        root.forceActiveFocus();
         if (currentServiceItem === totalServiceItems)
             return;
         const nextServiceItemIndex = currentServiceItem + 1;
@@ -289,6 +302,7 @@ Item {
     }
 
     function previousSlideAction() {
+        root.forceActiveFocus();
         if (currentServiceItem === 0) {
             return;
         };

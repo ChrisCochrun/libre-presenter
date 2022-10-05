@@ -43,7 +43,8 @@ Controls.Page {
 
     property string editType
 
-    Component.onCompleted: {refocusTimer.start(); changeServiceItem(0);}
+    Component.onCompleted: {changeServiceItem(0); presentation.forceActiveFocus();}
+
     Item {
         id: mainItem
         anchors.fill: parent
@@ -68,7 +69,7 @@ Controls.Page {
                 z: 1
             }
             
-            Item {
+            FocusScope {
                 id: mainPageArea
                 Controls.SplitView.fillWidth: true
                 Controls.SplitView.minimumWidth: 100
@@ -76,6 +77,7 @@ Controls.Page {
                 Presenter.Presentation { 
                     id: presentation
                     anchors.fill: parent
+                    focus: true
                 }
 
                 Presenter.SongEditor {
@@ -108,7 +110,7 @@ Controls.Page {
                 Controls.SplitView.preferredWidth: libraryOpen ? 200 : 0
                 Controls.SplitView.maximumWidth: 350
             }
- 
+            
         }
     }
 
@@ -134,24 +136,6 @@ Controls.Page {
 
     ServiceItemModel {
         id: serviceItemModel
-    }
-
-    Timer {
-        id: refocusTimer
-        interval: 500
-        repeat: true
-        onTriggered: keyHandler.forceActiveFocus()
-    }
-
-    Item {
-        id: keyHandler
-        anchors.fill: parent
-        focus: true
-        Keys.onLeftPressed: presentation.previousSlideAction()
-        Keys.onRightPressed: presentation.nextSlideAction()
-        Keys.onUpPressed: presentation.previousSlideAction()
-        Keys.onDownPressed: presentation.nextSlideAction()
-        Keys.onSpacePressed: presentation.nextSlideAction()
     }
 
     function changeServiceItem(index) {
@@ -181,7 +165,6 @@ Controls.Page {
 
     function editSwitch(item) {
         if (editMode) {
-            refocusTimer.repeat = false;
             switch (editType) {
             case "song" :
                 presentation.visible = false;
@@ -225,6 +208,7 @@ Controls.Page {
                 imageEditor.visible = false;
                 presentationEditor.visible = false;
                 presentation.visible = true;
+                presentation.forceActiveFocus();
                 editMode = false;
             }
         } else {
@@ -234,8 +218,8 @@ Controls.Page {
             imageEditor.visible = false;
             presentationEditor.visible = false;
             presentation.visible = true;
+            presentation.forceActiveFocus();
             editMode = false;
-            refocusTimer.repeat = true;
             presenting = true;
         }
     }
