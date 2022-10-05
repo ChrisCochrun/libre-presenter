@@ -1,6 +1,10 @@
 #include "filemanager.h"
 #include <ktar.h>
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QFile>
+#include <QDir>
 
 File::File(QObject *parent)
   : QObject{parent}
@@ -48,5 +52,20 @@ bool File::save(QUrl file, QVariantList serviceList) {
   qDebug() << "File path is: " << file;
   qDebug() << "serviceList is: " << serviceList;
   qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+  QJsonArray jsonData = QJsonArray::fromVariantList(serviceList);
+  qDebug() << jsonData;
+
+  QJsonDocument jsonText(jsonData);
+
+  QDir dir;
+  dir.mkpath("/tmp/presenter");
+  QFile jsonFile("/tmp/presenter/json");
+  if (!jsonFile.exists())
+    qDebug() << "NOT EXISTS!";
+  if (!jsonFile.open(QIODevice::WriteOnly | QIODevice::Text))
+    return false;
+
+  jsonFile.write(jsonText.toJson());
+  
   return true;
 }
