@@ -24,7 +24,7 @@ Kirigami.ApplicationWindow {
 
     signal edit()
 
-    onActiveFocusItemChanged: showPassiveNotification("CHANGED TO: " + activeFocusControl)
+    onActiveFocusItemChanged: print("FOCUS CHANGED TO: " + activeFocusControl)
 
     pageStack.initialPage: mainPage
     header: Presenter.Header {}
