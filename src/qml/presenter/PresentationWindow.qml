@@ -79,4 +79,7 @@ Window {
         presentationSlide.pauseVideo();
     }
 
+    function loopVideo() {
+        presentationSlide.loopVideo();
+    }
 }

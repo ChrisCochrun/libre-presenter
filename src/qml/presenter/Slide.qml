@@ -31,7 +31,7 @@ Item {
     //these properties are for giving video info to parents
     property int mpvPosition: mpv.position
     property int mpvDuration: mpv.duration
-    property var mpvLoop: mpv.getProperty("loop")
+    property var mpvLoop: mpv.loop
     property bool mpvIsPlaying: mpv.isPlaying
 
     // These properties help to determine the state of the slide
@@ -165,6 +165,17 @@ Item {
 
     function changeText(text) {
         lyrics.text = text
+    }
+
+    function loopVideo() {
+        if (mpv.getProperty("loop") === "inf") {
+            showPassiveNotification("already looping");
+            mpv.setProperty("loop", "no");
+        }
+        else {
+            mpv.setProperty("loop", "inf");
+            showPassiveNotification("looping video");
+        }
     }
 
     function loadVideo() {

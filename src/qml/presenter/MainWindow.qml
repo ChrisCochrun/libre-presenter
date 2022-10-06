@@ -163,6 +163,11 @@ Controls.Page {
         print("Slide changed to: " + item.name);
     }
 
+    function loopVideo() {
+        presentation.loopVideo();
+        pWindow.loopVideo();
+    }
+
     function editSwitch(item) {
         if (editMode) {
             switch (editType) {

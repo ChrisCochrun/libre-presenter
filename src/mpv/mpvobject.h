@@ -94,6 +94,7 @@ class MpvObject : public QQuickFramebufferObject
   WRITABLE_PROP_STRING("hwdec", hwdec)
   READONLY_PROP_STRING("hwdec-current", hwdecCurrent)
   READONLY_PROP_STRING("hwdec-interop", hwdecInterop)
+  WRITABLE_PROP_STRING("loop", loop)
   READONLY_PROP_STRING("media-title", mediaTitle)
   READONLY_PROP_STRING("path", path)
   READONLY_PROP_STRING("video-codec", videoCodec)

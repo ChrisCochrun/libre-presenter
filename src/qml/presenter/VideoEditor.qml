@@ -143,6 +143,18 @@ Item {
                     onEditingFinished: updateTitle(text);
                 }
 
+                Controls.CheckBox {
+                    id: loopCheckBox
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    text: "Repeat"
+                    padding: 10
+                    onToggled: showPassiveNotification("BOOM!")
+                }
+
                 RowLayout {
                     Layout.preferredWidth: 300
                     Layout.fillWidth: true

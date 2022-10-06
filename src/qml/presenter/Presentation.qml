@@ -19,8 +19,6 @@ FocusScope {
 
     property Item slide: previewSlide
 
-    onActiveFocusChanged: showPassiveNotification("OUCH")
-
     Item {
         id: keyHandler
         anchors.fill: parent
@@ -65,6 +63,11 @@ FocusScope {
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
+                Controls.ToolButton {
+                    text: "Repeat"
+                    icon.name: "repeat"
+                    onClicked: mainPage.loopVideo()
+                }
                 Controls.ToolButton {
                     text: "Effects"
                     icon.name: "image-auto-adjust"
@@ -151,6 +154,13 @@ FocusScope {
                 value: previewSlide.mpvPosition
                 live: true
                 onMoved: changeVidPos(value);
+            }
+
+            Controls.Switch {
+                text: "Loop"
+                visible: itemType === "video";
+                checked: previewSlide.mpvLoop === "inf" ? true : false
+                onToggled: mainPage.loopVideo()
             }
         }
 
@@ -271,6 +281,10 @@ FocusScope {
     function loadVideo() {
         /* showPassiveNotification("Loading Video " + vidbackground) */
         previewSlide.loadVideo();
+    }
+
+    function loopVideo() {
+        previewSlide.loopVideo();
     }
 
     function stopVideo() {
