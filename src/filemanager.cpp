@@ -49,7 +49,7 @@ void File::setFilePath(QString filePath)
 bool File::save(QUrl file, QVariantList serviceList) {
   qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
   qDebug() << "Saving...";
-  qDebug() << "File path is: " << file;
+  qDebug() << "File path is: " << file.toString();
   qDebug() << "serviceList is: " << serviceList;
   qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
   QJsonArray jsonData = QJsonArray::fromVariantList(serviceList);
@@ -66,6 +66,19 @@ bool File::save(QUrl file, QVariantList serviceList) {
     return false;
 
   jsonFile.write(jsonText.toJson());
+
+  QString filename = file.toString().right(file.toString().size() - 7);
+  qDebug() << filename;
+
+  KTar tar(filename, "application/zstd");
+
+  if (!tar.open(QIODevice::WriteOnly)) {
+    qDebug() << tar.isOpen();
+    return false;
+  }
+  tar.addLocalFile("/tmp/presenter/json","servicelist.json");
+  tar.close();
+
   
   return true;
 }
