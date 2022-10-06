@@ -109,7 +109,7 @@ Item {
                     delegate: DropArea {
                         id: serviceDrop
                         implicitWidth: serviceItemList.width
-                        height: 50
+                        height: 30
                         /* enabled: false */
 
                         onEntered: (drag) => {
@@ -155,7 +155,10 @@ Item {
                                 verticalCenter: parent.verticalCenter
                             }
                             label: name
-                            subtitle: type
+                            trailing: Controls.Label {
+                                text: type
+                                color: Kirigami.Theme.disabledTextColor
+                            }
                             hoverEnabled: false
                             supportsMouseEvents: false
                             backgroundColor: {
