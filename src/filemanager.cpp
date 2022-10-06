@@ -1,9 +1,11 @@
 #include "filemanager.h"
 #include <ktar.h>
+#include <KCompressionDevice>
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QFile>
+#include <QTemporaryFile>
 #include <QDir>
 
 File::File(QObject *parent)
@@ -63,12 +65,12 @@ bool File::save(QUrl file, QVariantList serviceList) {
 
   QDir dir;
   dir.mkpath("/tmp/presenter");
-  QFile jsonFile("/tmp/presenter/json");
+  QTemporaryFile jsonFile;
 
   if (!jsonFile.exists())
     qDebug() << "NOT EXISTS!";
 
-  if (!jsonFile.open(QIODevice::WriteOnly | QIODevice::Text))
+  if (!jsonFile.open())
     return false;
 
   //finalize the temp json file, in case something goes wrong in the
@@ -81,6 +83,11 @@ bool File::save(QUrl file, QVariantList serviceList) {
   QString filename = file.toString().right(file.toString().size() - 7);
   qDebug() << filename;
 
+  KCompressionDevice dev(filename, KCompressionDevice::Zstd);
+  if (!dev.open(QIODevice::WriteOnly)) {
+    qDebug() << dev.isOpen();
+    return false;
+  }
   KTar tar(filename, "application/zstd");
 
   if (!tar.open(QIODevice::WriteOnly)) {
@@ -113,6 +120,7 @@ bool File::save(QUrl file, QVariantList serviceList) {
 
   //close the archive so that everything is done
   tar.close();
+  dev.close();
 
   
   return true;
