@@ -241,7 +241,7 @@ Item {
                                     if(mouse.button == Qt.RightButton)
                                         rightClickSongMenu.popup()
                                     else{
-                                        showPassiveNotification(title + id, 3000);
+                                        /* showPassiveNotification(title + id, 3000); */
                                         songLibraryList.currentIndex = index;
                                         if (!editMode)
                                             editMode = true;
