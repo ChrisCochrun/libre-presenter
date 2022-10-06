@@ -140,6 +140,7 @@ Controls.Page {
 
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
+        currentServiceItem = index;
         print("index grabbed: " + index);
         print(item);
 
@@ -213,7 +214,7 @@ Controls.Page {
                 imageEditor.visible = false;
                 presentationEditor.visible = false;
                 presentation.visible = true;
-                presentation.forceActiveFocus();
+                presentation.focusTimer = true;
                 editMode = false;
             }
         } else {
@@ -223,7 +224,7 @@ Controls.Page {
             imageEditor.visible = false;
             presentationEditor.visible = false;
             presentation.visible = true;
-            presentation.forceActiveFocus();
+            presentation.focusTimer = true;
             editMode = false;
             presenting = true;
         }

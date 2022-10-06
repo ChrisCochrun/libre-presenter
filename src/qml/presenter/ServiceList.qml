@@ -246,7 +246,6 @@ Item {
                                 onDoubleClicked: {
                                     /* showPassiveNotification("Double Clicked") */
                                     /* serviceItemList.currentIndex = index; */
-                                    currentServiceItem = index;
                                     changeServiceItem(index);
                                 }
 

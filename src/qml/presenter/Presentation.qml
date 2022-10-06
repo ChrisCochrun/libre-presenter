@@ -19,6 +19,8 @@ FocusScope {
 
     property Item slide: previewSlide
 
+    property bool focusTimer: true
+
     Item {
         id: keyHandler
         anchors.fill: parent
@@ -63,11 +65,6 @@ FocusScope {
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
-                Controls.ToolButton {
-                    text: "Repeat"
-                    icon.name: "repeat"
-                    onClicked: mainPage.loopVideo()
-                }
                 Controls.ToolButton {
                     text: "Effects"
                     icon.name: "image-auto-adjust"
@@ -161,6 +158,10 @@ FocusScope {
                 visible: itemType === "video";
                 checked: previewSlide.mpvLoop === "inf" ? true : false
                 onToggled: mainPage.loopVideo()
+                Keys.onLeftPressed: previousSlideAction()
+                Keys.onRightPressed: nextSlideAction()
+                Keys.onUpPressed: previousSlideAction()
+                Keys.onDownPressed: nextSlideAction()
             }
         }
 
@@ -276,8 +277,8 @@ FocusScope {
 
     Timer {
         interval: 500
-        running: true
-        repeat: true
+        running: false
+        repeat: focusTimer
         onTriggered: root.visible ? keyHandler.forceActiveFocus() : null
     }
 
@@ -300,8 +301,9 @@ FocusScope {
     }
 
     function nextSlideAction() {
-        root.forceActiveFocus();
-        if (currentServiceItem === totalServiceItems)
+        keyHandler.forceActiveFocus();
+        print(currentServiceItem);
+        if (currentServiceItem === totalServiceItems - 1)
             return;
         const nextServiceItemIndex = currentServiceItem + 1;
         const nextItem = serviceItemModel.getItem(nextServiceItemIndex);
@@ -323,7 +325,7 @@ FocusScope {
     }
 
     function previousSlideAction() {
-        root.forceActiveFocus();
+        keyHandler.forceActiveFocus();
         if (currentServiceItem === 0) {
             return;
         };
