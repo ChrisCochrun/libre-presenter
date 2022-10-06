@@ -30,8 +30,9 @@ static void createVideoTable()
                   "  'id' INTEGER NOT NULL,"
                   "  'title' TEXT NOT NULL,"
                   "  'filePath' TEXT NOT NULL,"
-                  "  'startTime' REAL NOT NULL,"
-                  "  'endTime' REAL NOT NULL,"
+                  "  'startTime' REAL,"
+                  "  'endTime' REAL,"
+                  "  'loop' BOOLEAN NOT NULL DEFAULT 0,"
                   "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
@@ -74,6 +75,7 @@ QHash<int, QByteArray> VideoSqlModel::roleNames() const
     names[Qt::UserRole + 2] = "filePath";
     names[Qt::UserRole + 3] = "startTime";
     names[Qt::UserRole + 4] = "endTime";
+    names[Qt::UserRole + 5] = "loop";
     return names;
 }
 
@@ -244,6 +246,40 @@ void VideoSqlModel::updateEndTime(const int &row, const int &endTime) {
   submitAll();
   emit endTimeChanged();
 }
+
+// bool VideoSqlModel::loop() const {
+//   return m_loop;
+// }
+
+// void VideoSqlModel::setloop(const bool &loop) {
+//   if (loop == m_loop)
+//     return;
+  
+//   m_loop = loop;
+
+//   select();
+//   emit loopChanged();
+// }
+
+// // This function is for updating looping from outside the delegate
+// void VideoSqlModel::updateloop(const int &row, const bool &loop) {
+//   qDebug() << "Row is " << row;
+//   QSqlQuery query("select id from videos");
+//   QList<int> ids;
+//   while (query.next()) {
+//     ids.append(query.value(0).toInt());
+//     // qDebug() << ids;
+//   }
+//   int id = ids.indexOf(row,0);
+
+//   QSqlRecord rowdata = record(id);
+//   qDebug() << rowdata;
+//   rowdata.setValue("loop", loop);
+//   setRecord(id, rowdata);
+//   qDebug() << rowdata;
+//   submitAll();
+//   emit loopChanged();
+// }
 
 QVariantMap VideoSqlModel::getVideo(const int &row) {
   // qDebug() << "Row we are getting is " << row;

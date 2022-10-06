@@ -16,6 +16,7 @@ class VideoSqlModel : public QSqlTableModel
   Q_PROPERTY(QUrl filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
   Q_PROPERTY(int startTime READ startTime WRITE setStartTime NOTIFY startTimeChanged)
   Q_PROPERTY(int endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
+  // Q_PROPERTY(bool loop READ loop WRITE setLoop NOTIFY loopChanged)
   QML_ELEMENT
 
 public:
@@ -26,16 +27,19 @@ public:
   QUrl filePath() const;
   int startTime() const;
   int endTime() const;
+  // bool loop() const;
 
   void setTitle(const QString &title);
   void setFilePath(const QUrl &filePath);
   void setStartTime(const int &startTime);
   void setEndTime(const int &endTime);
+  // void setLoop(const bool &loop);
 
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateFilePath(const int &row, const QUrl &filePath);
   Q_INVOKABLE void updateStartTime(const int &row, const int &startTime);
   Q_INVOKABLE void updateEndTime(const int &row, const int &endTime);
+  // Q_INVOKABLE void updateLoop(const int &row, const bool &loop);
 
   Q_INVOKABLE void newVideo(const QUrl &filePath);
   Q_INVOKABLE void deleteVideo(const int &row);
@@ -47,6 +51,7 @@ public:
 signals:
     void titleChanged();
     void filePathChanged();
+    // void loopChanged();
     void startTimeChanged();
     void endTimeChanged();
 
@@ -56,6 +61,7 @@ private:
     QUrl m_filePath;
     int m_startTime;
     int m_endTime;
+    // bool m_loop;
 };
 
 #endif //VIDEOSQLMODEL_H
