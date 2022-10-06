@@ -74,11 +74,6 @@ Item {
                 ListView {
                     id: serviceItemList
                     anchors.fill: parent
-                    /* model: serviceItemModel */
-                    /* delegate: Kirigami.DelegateRecycler { */
-                    /*     width: serviceItemList.width */
-                    /*     sourceComponent: itemDelegate */
-                    /* } */
                     clip: true
                     spacing: 3
                     property int indexDragged
@@ -250,7 +245,7 @@ Item {
 
                                 onDoubleClicked: {
                                     /* showPassiveNotification("Double Clicked") */
-                                    serviceItemList.currentIndex = index;
+                                    /* serviceItemList.currentIndex = index; */
                                     currentServiceItem = index;
                                     changeServiceItem(index);
                                 }
