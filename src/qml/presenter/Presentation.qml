@@ -274,6 +274,13 @@ FocusScope {
         /* } */
     }
 
+    Timer {
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: root.visible ? keyHandler.forceActiveFocus() : null
+    }
+
     function pauseVideo() {
         previewSlide.pauseVideo();
     }
