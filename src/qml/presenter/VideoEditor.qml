@@ -27,37 +27,29 @@ Item {
             RowLayout {
                 anchors.fill: parent 
 
-                Controls.ComboBox {
-                    model: Qt.fontFamilies()
+                Controls.TextField {
                     implicitWidth: 300
-                    editable: true
                     hoverEnabled: true
-                    /* onCurrentTextChanged: showPassiveNotification(currentText) */
+                    placeholderText: "Song Title..."
+                    text: video.title
+                    padding: 10
+                    onEditingFinished: updateTitle(text);
                 }
-                Controls.SpinBox {
-                    editable: true
-                    from: 5
-                    to: 72
-                    hoverEnabled: true
+
+                Controls.CheckBox {
+                    id: loopCheckBox
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+
+                    text: "Repeat"
+                    padding: 10
+                    onToggled: showPassiveNotification("BOOM!")
                 }
-                Controls.ComboBox {
-                    model: ["VIDEOS", "Center", "Right", "Justify"]
-                    implicitWidth: 100
-                    hoverEnabled: true
-                }
-                Controls.ToolButton {
-                    text: "B"
-                    hoverEnabled: true
-                }
-                Controls.ToolButton {
-                    text: "I"
-                    hoverEnabled: true
-                }
-                Controls.ToolButton {
-                    text: "U"
-                    hoverEnabled: true
-                }
+
                 Controls.ToolSeparator {}
+
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
                 Controls.ToolButton {
@@ -110,166 +102,110 @@ Item {
             }
         }
 
-        Controls.SplitView {
-            Layout.fillHeight: true
+        Item {
+            id: topEmpty
+            Layout.preferredHeight: 50
             Layout.fillWidth: true
             Layout.columnSpan: 2
-            handle: Item{
-                implicitWidth: 6
-                Rectangle {
-                    height: parent.height
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 1
-                    color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
-                }
-            }
-            
-            ColumnLayout {
-                Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 300
-                Controls.SplitView.minimumWidth: 100
-
-                Controls.TextField {
-                    id: videoTitleField
-
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    placeholderText: "Song Title..."
-                    text: video.title
-                    padding: 10
-                    onEditingFinished: updateTitle(text);
-                }
-
-                Controls.CheckBox {
-                    id: loopCheckBox
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    text: "Repeat"
-                    padding: 10
-                    onToggled: showPassiveNotification("BOOM!")
-                }
-
-                RowLayout {
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
+        }
 
 
-                    Controls.Label {
-                        Layout.fillHeight: true
-                        Layout.leftMargin: 20
-                        Layout.rightMargin: 20
-
-                        text: videoLengthSlider.first.value
-                    } 
-
-                    Controls.Label {
-                        Layout.fillHeight: true
-                        Layout.leftMargin: 20
-                        Layout.rightMargin: 20
-
-                        text: videoLengthSlider.second.value
-                    } 
-                }
-
-                Controls.RangeSlider {
-                    id: videoLengthSlider
-
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    to: videoPreview.duration
-                    from: 0
-
-                    first.value: 0
-                    second.value: to
-
-                    first.onMoved: updateStartTime(first.value)
-                    second.onMoved: updateEndTime(second.value)
-
-                }
-
-                Item {
-                    id: empty
-                    Layout.fillHeight: true
-                }
-            }
-            ColumnLayout {
-                Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 700
-                Controls.SplitView.minimumWidth: 300
-                spacing: 5
-
-                Item {
-                    id: topEmpty
-                    Layout.fillHeight: true
-                }
-
-                MpvObject {
-                    id: videoPreview
-	            objectName: "mpv"
-                    Layout.preferredWidth: 600
-                    Layout.preferredHeight: Layout.preferredWidth / 16 * 9
-                    Layout.alignment: Qt.AlignCenter
-                    useHwdec: true
-                    enableAudio: audioOn
-                    Component.onCompleted: mpvLoadingTimer.start()
-                    onPositionChanged: videoSlider.value = position
-                    onFileLoaded: {
-                        showPassiveNotification(video.title + " has been loaded");
-                        videoPreview.pause();
-                    }
-                }
-                Rectangle {
-                    id: videoBg
-                    color: Kirigami.Theme.alternateBackgroundColor
-
-                    Layout.preferredWidth: videoPreview.Layout.preferredWidth
-                    Layout.preferredHeight: videoTitleField.height
-                    Layout.alignment: Qt.AlignHCenter
-
-                    RowLayout {
-                        anchors.fill: parent
-                        spacing: 2
-                        Kirigami.Icon {
-                            source: videoPreview.isPlaying ? "media-pause" : "media-play"
-                            Layout.preferredWidth: 25
-                            Layout.preferredHeight: 25
-                            MouseArea {
-                                anchors.fill: parent
-                                onPressed: videoPreview.playPause()
-                                cursorShape: Qt.PointingHandCursor
-                            }
-                        }
-                        Controls.Slider {
-                            id: videoSlider
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 25
-                            from: 0
-                            to: videoPreview.duration
-                            /* value: videoPreview.postion */
-                            live: true
-                            onMoved: videoPreview.seek(value);
-                        }
-                    }
-                }
-
-                Item {
-                    id: botEmpty
-                    Layout.fillHeight: true
-                }
-
+        MpvObject {
+            id: videoPreview
+	    objectName: "mpv"
+            Layout.columnSpan: 2
+            Layout.preferredWidth: 600
+            Layout.preferredHeight: Layout.preferredWidth / 16 * 9
+            Layout.alignment: Qt.AlignCenter
+            useHwdec: true
+            enableAudio: audioOn
+            Component.onCompleted: mpvLoadingTimer.start()
+            onPositionChanged: videoSlider.value = position
+            onFileLoaded: {
+                showPassiveNotification(video.title + " has been loaded");
+                videoPreview.pause();
             }
         }
+        Rectangle {
+            id: videoBg
+            color: Kirigami.Theme.alternateBackgroundColor
+
+            Layout.columnSpan: 2
+            Layout.preferredWidth: videoPreview.Layout.preferredWidth
+            Layout.preferredHeight: videoTitleField.height
+            Layout.alignment: Qt.AlignHCenter
+
+            RowLayout {
+                anchors.fill: parent
+                spacing: 2
+                Kirigami.Icon {
+                    source: videoPreview.isPlaying ? "media-pause" : "media-play"
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: videoPreview.playPause()
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
+                Controls.Slider {
+                    id: videoSlider
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 25
+                    from: 0
+                    to: videoPreview.duration
+                    /* value: videoPreview.postion */
+                    live: true
+                    onMoved: videoPreview.seek(value);
+                }
+            }
+
+        }
+
+        Item {
+            Layout.columnSpan: 2
+            Layout.preferredHeight: 60
+        }
+
+        Controls.RangeSlider {
+            id: videoLengthSlider
+
+            Layout.columnSpan: 2
+            Layout.preferredWidth: videoPreview.Layout.preferredWidth
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Layout.leftMargin: width / 3
+            Layout.rightMargin: width / 3
+
+            to: videoPreview.duration
+            from: 0
+
+            first.value: 0
+            second.value: to
+
+            first.onMoved: updateStartTime(first.value)
+            second.onMoved: updateEndTime(second.value)
+
+        }
+
+        Controls.Label {
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: videoLengthSlider.Layout.leftMargin
+            text: "Start Time: " + videoLengthSlider.first.value
+        }
+
+        Controls.Label {
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: videoLengthSlider.Layout.rightMargin
+            text: "End Time: " + videoLengthSlider.second.value
+        }
+
+        Item {
+            id: botEmpty
+            Layout.fillHeight: true
+        }
+
+        /* } */
     }
     Timer {
         id: mpvLoadingTimer
