@@ -247,39 +247,39 @@ void VideoSqlModel::updateEndTime(const int &row, const int &endTime) {
   emit endTimeChanged();
 }
 
-// bool VideoSqlModel::loop() const {
-//   return m_loop;
-// }
+bool VideoSqlModel::loop() const {
+  return m_loop;
+}
 
-// void VideoSqlModel::setloop(const bool &loop) {
-//   if (loop == m_loop)
-//     return;
+void VideoSqlModel::setLoop(const bool &loop) {
+  if (loop == m_loop)
+    return;
   
-//   m_loop = loop;
+  m_loop = loop;
 
-//   select();
-//   emit loopChanged();
-// }
+  select();
+  emit loopChanged();
+}
 
-// // This function is for updating looping from outside the delegate
-// void VideoSqlModel::updateloop(const int &row, const bool &loop) {
-//   qDebug() << "Row is " << row;
-//   QSqlQuery query("select id from videos");
-//   QList<int> ids;
-//   while (query.next()) {
-//     ids.append(query.value(0).toInt());
-//     // qDebug() << ids;
-//   }
-//   int id = ids.indexOf(row,0);
+// This function is for updating looping from outside the delegate
+void VideoSqlModel::updateLoop(const int &row, const bool &loop) {
+  qDebug() << "Row is " << row;
+  QSqlQuery query("select id from videos");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
 
-//   QSqlRecord rowdata = record(id);
-//   qDebug() << rowdata;
-//   rowdata.setValue("loop", loop);
-//   setRecord(id, rowdata);
-//   qDebug() << rowdata;
-//   submitAll();
-//   emit loopChanged();
-// }
+  QSqlRecord rowdata = record(id);
+  qDebug() << rowdata;
+  rowdata.setValue("loop", loop);
+  setRecord(id, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit loopChanged();
+}
 
 QVariantMap VideoSqlModel::getVideo(const int &row) {
   // qDebug() << "Row we are getting is " << row;

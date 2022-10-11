@@ -45,7 +45,8 @@ Item {
 
                     text: "Repeat"
                     padding: 10
-                    onToggled: showPassiveNotification("BOOM!")
+                    checked: video.loop
+                    onToggled: updateLoop(!video.loop)
                 }
 
                 Controls.ToolSeparator {}
@@ -245,6 +246,13 @@ Item {
         changeTitle(text, false);
         videosqlmodel.updateTitle(video.id, text);
         showPassiveNotification(video.title);
+    }
+
+    function updateLoop(value) {
+        /* changeStartTime(value, false); */
+        videosqlmodel.updateLoop(video.id, value);
+        video.loop = value;
+        showPassiveNotification("Loop changed to: " + video.loop);
     }
 
     function changeTitle(text, updateBox) {
