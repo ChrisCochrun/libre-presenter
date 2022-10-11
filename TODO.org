@@ -5,6 +5,9 @@
 
 * Tasks [76%] [26/34]
 
+** TODO Add image slideshow with looping
+** TODO Add image gallery options
+** TODO Add video repeat pieces
 ** TODO Make libraries and models aware of being selected.
 This allows us to drag multiple to service list and delete multiple.
 final part to this is allowing for multiple select and multiple move in service list or library
