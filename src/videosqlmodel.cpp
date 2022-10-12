@@ -89,6 +89,7 @@ void VideoSqlModel::newVideo(const QUrl &filePath) {
   QString title = fileInfo.baseName();
   recordData.setValue("title", title);
   recordData.setValue("filePath", filePath);
+  recordData.setValue("loop", 0);
 
   if (insertRecord(rows, recordData)) {
     submitAll();
