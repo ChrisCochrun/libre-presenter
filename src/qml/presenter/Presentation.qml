@@ -303,16 +303,17 @@ FocusScope {
     function nextSlideAction() {
         keyHandler.forceActiveFocus();
         print(currentServiceItem);
-        if (currentServiceItem === totalServiceItems - 1)
-            return;
         const nextServiceItemIndex = currentServiceItem + 1;
         const nextItem = serviceItemModel.getItem(nextServiceItemIndex);
         print("currentServiceItem " + currentServiceItem);
         print("nextServiceItem " + nextServiceItemIndex);
         print(nextItem.name);
-        const changed = SlideObject.next(nextItem);
-        print(changed);
-        if (changed) {
+        const change = SlideObject.next(nextItem);
+        print(change);
+        if (currentServiceItem === totalServiceItems - 1 & change)
+            return;
+        if (change) {
+            SlideObject.changeSlide(nextItem);
             currentServiceItem++;
             changeServiceItem(currentServiceItem);
             leftDock.changeItem();
@@ -326,17 +327,18 @@ FocusScope {
 
     function previousSlideAction() {
         keyHandler.forceActiveFocus();
-        if (currentServiceItem === 0) {
-            return;
-        };
         const prevServiceItemIndex = currentServiceItem - 1;
         const prevItem = serviceItemModel.getItem(prevServiceItemIndex);
         print("currentServiceItem " + currentServiceItem);
         print("prevServiceItem " + prevServiceItemIndex);
         print(prevItem.name);
-        const changed = SlideObject.previous(prevItem);
-        print(changed);
-        if (changed) {
+        const change = SlideObject.previous(prevItem);
+        print(change);
+        if (currentServiceItem === 0 & change) {
+            return;
+        };
+        if (change) {
+            SlideObject.changeSlide(prevItem);
             currentServiceItem--;
             changeServiceItem(currentServiceItem);
             leftDock.changeItem();

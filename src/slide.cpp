@@ -269,7 +269,7 @@ bool Slide::next(QVariantMap nextItem)
   qDebug() << "Slide Index: " << m_slideIndex << " Slide Size: " << m_slideSize;
   QStringList text = m_serviceItem.value("text").toStringList();
   if (m_slideIndex == m_slideSize) {
-    changeSlide(nextItem);
+    // changeSlide(nextItem);
     return true;
   }
 
@@ -300,7 +300,7 @@ bool Slide::previous(QVariantMap prevItem)
   qDebug() << "Slide Index: " << m_slideIndex << " Slide Size: " << m_slideSize;
   QStringList text = m_serviceItem.value("text").toStringList();
   if (m_slideIndex == 1) {
-    changeSlide(prevItem);
+    // changeSlide(prevItem);
     return true;
   }
 
