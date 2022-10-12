@@ -202,13 +202,13 @@ FocusScope {
                     anchors.centerIn: parent
                     implicitWidth: 200
                     implicitHeight: width / 16 * 9
-                    textSize: width / 15
+                    textSize: width / 4
                     itemType: type
                     imageSource: backgroundType === "image" ? background : ""
                     videoSource: backgroundType === "video" ? background : ""
                     audioSource: ""
                     chosenFont: font
-                    text: text
+                    text: ""
                     pdfIndex: 0
                     preview: true 
                     editMode: true 
