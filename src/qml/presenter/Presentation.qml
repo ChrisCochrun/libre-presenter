@@ -208,7 +208,7 @@ FocusScope {
                     videoSource: backgroundType === "video" ? background : ""
                     audioSource: ""
                     chosenFont: font
-                    text: ""
+                    text: model.text[0].length === 0 ? "" : model.text[0]
                     pdfIndex: 0
                     preview: true 
                     editMode: true 
