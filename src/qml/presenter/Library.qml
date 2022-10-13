@@ -202,7 +202,7 @@ Item {
                                     height: height
                                 }
                                 ParentChange {
-                                    target: videoListItem
+                                    target: songListItem
                                     parent: rootApp.overlay
                                 }
                             }
