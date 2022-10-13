@@ -141,7 +141,7 @@ Item {
 
                         keys: ["library","serviceitem"]
 
-                        Kirigami.BasicListItem {
+                        Rectangle {
                             id: visServiceItem
                             width: serviceDrop.width
                             height: serviceDrop.height
@@ -149,14 +149,7 @@ Item {
                                 horizontalCenter: parent.horizontalCenter
                                 verticalCenter: parent.verticalCenter
                             }
-                            label: name
-                            trailing: Controls.Label {
-                                text: type
-                                color: Kirigami.Theme.disabledTextColor
-                            }
-                            hoverEnabled: false
-                            supportsMouseEvents: false
-                            backgroundColor: {
+                            color: {
                                 if (active)
                                     Kirigami.Theme.highlightColor;
                                 else if (selected)
@@ -166,12 +159,29 @@ Item {
                                 else
                                     Kirigami.Theme.backgroundColor;
                             }
-                            textColor: {
-                                if (selected ||
-                                    mouseHandler.containsMouse || active)
-                                    Kirigami.Theme.highlightedTextColor;
-                                else
-                                    Kirigami.Theme.textColor;
+
+                            Controls.Label {
+                                id: label
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: name
+                                elide: Text.ElideRight
+                                width: parent.width - trailing.width - 10
+                                color: {
+                                    if (selected ||
+                                        mouseHandler.containsMouse || active)
+                                        Kirigami.Theme.highlightedTextColor;
+                                    else
+                                        Kirigami.Theme.textColor;
+                                }
+                            }
+
+                            Controls.Label {
+                                id: trailing
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: type
+                                color: Kirigami.Theme.disabledTextColor
                             }
 
                             onYChanged: serviceItemList.updateDrag(Math.round(y));
@@ -255,7 +265,6 @@ Item {
                                 }
                             }
                         }
-
                         Controls.Menu {
                             id: rightClickMenu
                             x: mouseHandler.mouseX
