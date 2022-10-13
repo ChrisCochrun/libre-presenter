@@ -63,6 +63,8 @@ Item {
         spacing: Kirigami.Units.gridUnit
         synchronousDrag: true
         delegate: Loader {
+            property var mpvDuration: representation.mpvDuration
+            property var mpvPosition: representation.mpvPosition
             width: slideList.width
             height: width * 9 / 16
             Presenter.Slide {
@@ -79,6 +81,9 @@ Item {
                 implicitWidth: slideList.width
                 implicitHeight: width * 9 / 16
                 itemType: "song"
+            }
+            function playPauseVideo() {
+                representation.playPauseVideo();
             }
         }
 
