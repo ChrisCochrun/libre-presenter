@@ -43,6 +43,8 @@ Controls.Page {
 
     property string editType
 
+    property var currentWindow: presentation
+
     Component.onCompleted: {changeServiceItem(0); presentation.forceActiveFocus();}
 
     Item {
@@ -180,6 +182,7 @@ Controls.Page {
                 presentationEditor.visible = false;
                 songEditor.visible = true;
                 songEditor.changeSong(item);
+                currentWindow = songEditor;
                 break;
             case "video" :
                 presentation.visible = false;
@@ -188,6 +191,7 @@ Controls.Page {
                 presentationEditor.visible = false;
                 videoEditor.visible = true;
                 videoEditor.changeVideo(item);
+                currentWindow = videoEditor;
                 break;
             case "image" :
                 presentation.visible = false;
@@ -197,6 +201,7 @@ Controls.Page {
                 presentationEditor.visible = false;
                 imageEditor.visible = true;
                 imageEditor.changeImage(item);
+                currentWindow = imageEditor;
                 break;
             case "presentation" :
                 presentation.visible = false;
@@ -206,6 +211,7 @@ Controls.Page {
                 imageEditor.visible = false;
                 presentationEditor.visible = true;
                 presentationEditor.changePresentation(item);
+                currentWindow = presentationEditor;
                 break;
             default:
                 videoEditor.visible = false;
@@ -215,6 +221,7 @@ Controls.Page {
                 presentationEditor.visible = false;
                 presentation.visible = true;
                 presentation.focusTimer = true;
+                currentWindow = presentation;
                 editMode = false;
             }
         } else {
@@ -225,6 +232,7 @@ Controls.Page {
             presentationEditor.visible = false;
             presentation.visible = true;
             presentation.focusTimer = true;
+            currentWindow = presentation;
             editMode = false;
             presenting = true;
         }

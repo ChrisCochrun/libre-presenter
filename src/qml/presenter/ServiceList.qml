@@ -25,9 +25,13 @@ Item {
 
     FastBlur {
         id: backgroundBlur
-        source: background
+        source: ShaderEffectSource {
+            sourceItem: background
+            sourceRect: Qt.rect(0, 0, backgroundBlur.width, backgroundBlur.height)
+        }
         anchors.fill: parent
         radius: 82
+        opacity: 0.60
     }
 
     ColumnLayout {
