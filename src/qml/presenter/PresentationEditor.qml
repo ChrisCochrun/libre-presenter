@@ -25,19 +25,16 @@ Item {
             RowLayout {
                 anchors.fill: parent 
 
-                Controls.ComboBox {
-                    model: Qt.fontFamilies()
-                    implicitWidth: 300
-                    editable: true
-                    hoverEnabled: true
-                    /* onCurrentTextChanged: showPassiveNotification(currentText) */
+
+                Controls.TextField {
+                    id: presentationTitleField
+                    Layout.preferredWidth: 300
+                    placeholderText: "Title..."
+                    text: presentation.title
+                    padding: 10
+                    onEditingFinished: updateTitle(text);
                 }
-                Controls.SpinBox {
-                    editable: true
-                    from: 5
-                    to: 72
-                    hoverEnabled: true
-                }
+
                 Controls.ComboBox {
                     model: ["PRESENTATIONS", "Center", "Right", "Justify"]
                     implicitWidth: 100
@@ -96,90 +93,53 @@ Item {
             }
         }
 
-        Controls.SplitView {
+        ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            /* Layout.minimumWidth: 300 */
+            Layout.alignment: Qt.AlignCenter
             Layout.columnSpan: 2
-            handle: Item{
-                implicitWidth: 6
-                Rectangle {
-                    height: parent.height
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 1
-                    color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
-                }
+            spacing: 5
+
+            Item {
+                id: topEmpty
+                Layout.preferredHeight: 30
             }
-            
-            ColumnLayout {
-                Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 300
-                Controls.SplitView.minimumWidth: 100
 
-                Controls.TextField {
-                    id: presentationTitleField
-
-                    Layout.preferredWidth: 300
+            Image {
+                id: presentationPreview
+                Layout.preferredWidth: 1000
+                Layout.preferredHeight: Layout.preferredWidth / 16 * 9
+                Layout.alignment: Qt.AlignCenter
+                fillMode: Image.PreserveAspectFit
+                source: presentation.filePath
+            }
+            RowLayout {
+                Layout.fillWidth: true;
+                Layout.alignment: Qt.AlignCenter
+                Layout.leftMargin: 50
+                Layout.rightMargin: 50
+                Controls.ToolButton {
+                    id: leftArrow
+                    text: "Back"
+                    icon.name: "back"
+                    onClicked: presentationPreview.currentFrame = presentationPreview.currentFrame - 1
+                }
+                Item {
                     Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    placeholderText: "Title..."
-                    text: presentation.title
-                    padding: 10
-                    onEditingFinished: updateTitle(text);
                 }
-
-                Item {
-                    id: empty
-                    Layout.fillHeight: true
+                Controls.ToolButton {
+                    id: rightArrow
+                    text: "Next"
+                    icon.name: "next"
+                    onClicked: presentationPreview.currentFrame = presentationPreview.currentFrame + 1
                 }
             }
-            ColumnLayout {
-                Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 700
-                Controls.SplitView.minimumWidth: 300
-                spacing: 5
-
-                Item {
-                    id: topEmpty
-                    Layout.fillHeight: true
-                }
-
-                Image {
-                    id: presentationPreview
-                    Layout.preferredWidth: 600
-                    Layout.preferredHeight: Layout.preferredWidth / 16 * 9
-                    Layout.alignment: Qt.AlignCenter
-                    fillMode: Image.PreserveAspectFit
-                    source: presentation.filePath
-                }
-                RowLayout {
-                    Layout.fillWidth: true;
-                    Layout.alignment: Qt.AlignCenter
-                    Layout.leftMargin: 50
-                    Layout.rightMargin: 50
-                    Controls.ToolButton {
-                        id: leftArrow
-                        text: "Back"
-                        icon.name: "back"
-                        onClicked: presentationPreview.currentFrame = presentationPreview.currentFrame - 1
-                    }
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                    Controls.ToolButton {
-                        id: rightArrow
-                        text: "Next"
-                        icon.name: "next"
-                        onClicked: presentationPreview.currentFrame = presentationPreview.currentFrame + 1
-                    }
-                }
-                Item {
-                    id: botEmpty
-                    Layout.fillHeight: true
-                }
-
+            Item {
+                id: botEmpty
+                Layout.fillHeight: true
             }
+
         }
     }
 
