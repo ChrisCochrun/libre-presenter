@@ -5,6 +5,8 @@
 
 * Tasks [76%] [26/34]
 
+** TODO give images an aspect ratio option
+** TODO Fix ImageEditor to make more sense for images
 ** TODO Add image slideshow with looping
 I could add this by adding a bool as a gallery option in the ImageSqlModel. Then add a loop bool as well. Then perhaps I'd ask if this image item contains a gallery and if so, make sure to loop through all of the filePaths as they could be saved as a list instead of a single filepath. Then decide on the last one whether or not to loop back to the beginning based on the loop bool in the image item.
 ** TODO Add image gallery options
