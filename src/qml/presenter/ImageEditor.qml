@@ -25,24 +25,23 @@ Item {
             RowLayout {
                 anchors.fill: parent 
 
-                Controls.ComboBox {
-                    model: Qt.fontFamilies()
-                    implicitWidth: 300
-                    editable: true
-                    hoverEnabled: true
-                    /* onCurrentTextChanged: showPassiveNotification(currentText) */
+                Controls.TextField {
+                    id: imageTitleField
+
+                    Layout.preferredWidth: 300
+
+                    placeholderText: "Image Title..."
+                    text: image.title
+                    padding: 10
+                    onEditingFinished: updateTitle(text);
                 }
-                Controls.SpinBox {
-                    editable: true
-                    from: 5
-                    to: 72
-                    hoverEnabled: true
-                }
+
                 Controls.ComboBox {
-                    model: ["IMAGES", "Center", "Right", "Justify"]
+                    model: ["Fill", "Crop", "Height", "Width"]
                     implicitWidth: 100
                     hoverEnabled: true
                 }
+
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
@@ -96,69 +95,32 @@ Item {
             }
         }
 
-        Controls.SplitView {
+        ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            /* Layout.minimumWidth: 300 */
+            Layout.alignment: Qt.AlignCenter
             Layout.columnSpan: 2
-            handle: Item{
-                implicitWidth: 6
-                Rectangle {
-                    height: parent.height
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 1
-                    color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
-                }
+            spacing: 5
+
+            Item {
+                id: topEmpty
+                Layout.preferredHeight: 30
             }
-            
-            ColumnLayout {
-                Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 300
-                Controls.SplitView.minimumWidth: 100
 
-                Controls.TextField {
-                    id: imageTitleField
-
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 20
-                    Layout.rightMargin: 20
-
-                    placeholderText: "Image Title..."
-                    text: image.title
-                    padding: 10
-                    onEditingFinished: updateTitle(text);
-                }
-
-                Item {
-                    id: empty
-                    Layout.fillHeight: true
-                }
+            Image {
+                id: imagePreview
+                Layout.preferredWidth: 1000
+                Layout.preferredHeight: Layout.preferredWidth / 16 * 9
+                Layout.alignment: Qt.AlignCenter
+                fillMode: Image.PreserveAspectFit
+                source: image.filePath
             }
-            ColumnLayout {
-                Controls.SplitView.fillHeight: true
-                Controls.SplitView.preferredWidth: 700
-                Controls.SplitView.minimumWidth: 300
-                spacing: 5
-
-                Item {
-                    id: topEmpty
-                    Layout.fillHeight: true
-                }
-
-                Image {
-                    id: imagePreview
-                    Layout.preferredWidth: 600
-                    Layout.preferredHeight: Layout.preferredWidth / 16 * 9
-                    Layout.alignment: Qt.AlignCenter
-                    fillMode: Image.PreserveAspectFit
-                    source: image.filePath
-                }
-                Item {
-                    id: botEmpty
-                    Layout.fillHeight: true
-                }
-
+            Item {
+                id: botEmpty
+                Layout.fillHeight: true
             }
+
         }
     }
 
