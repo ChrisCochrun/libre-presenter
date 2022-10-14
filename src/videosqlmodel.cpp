@@ -51,6 +51,13 @@ static void createVideoTable()
 VideoSqlModel::VideoSqlModel(QObject *parent) : QSqlTableModel(parent) {
   qDebug() << "creating video table";
   createVideoTable();
+
+  QSqlQuery query("PRAGMA table_info(videos)");
+  while (query.next()) {
+    QString title = query.value(1).toString();
+    qDebug() << title;
+  }
+
   setTable(videosTableName);
   setEditStrategy(QSqlTableModel::OnManualSubmit);
   // make sure to call select else the model won't fill
