@@ -3,6 +3,8 @@
 #include <KCompressionDevice>
 #include <QDebug>
 #include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 #include <QJsonDocument>
 #include <QFile>
 #include <QTemporaryFile>
@@ -58,7 +60,29 @@ bool File::save(QUrl file, QVariantList serviceList) {
   //first we'll get a json representation of our serviceList
   //save that to a temp file in case we need it but also convert
   //it to a byte array just before putting it into the archive
-  QJsonArray jsonData = QJsonArray::fromVariantList(serviceList);
+
+  QJsonArray jsonData;
+
+  // save all the audio and files in jsonData as just the base name
+  // so that they are properly mapped in the resulting archive
+  for (int i = 0; i < serviceList.length(); i++) {
+    // qDebug() << serviceList[i];
+    QMap item = serviceList[i].toMap();
+    qDebug() << "AUDIO IS: " << item.value("audio").toString();
+    QFileInfo audioFile = item.value("audio").toString();
+    qDebug() << audioFile.fileName();
+    item["audio"] = audioFile.fileName();
+    qDebug() << "AUDIO IS NOW: " << item.value("audio").toString();
+
+    QFileInfo backgroundFile = item.value("background").toString();
+    item["background"] = backgroundFile.fileName();
+    qDebug() << "BACKGRUOND IS: " << item.value("background").toString();
+    // qDebug() << serviceList[i].value();
+    QJsonObject obj = QJsonObject::fromVariantMap(item);
+    qDebug() << obj;
+    jsonData.insert(i, obj);
+  }
+
   qDebug() << jsonData;
 
   QJsonDocument jsonText(jsonData);
