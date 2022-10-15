@@ -1,6 +1,9 @@
 #include "filemanager.h"
 #include <ktar.h>
 #include <KCompressionDevice>
+#include <KArchiveDirectory>
+#include <KArchiveFile>
+#include <KArchiveEntry>
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -70,11 +73,11 @@ bool File::save(QUrl file, QVariantList serviceList) {
     qDebug() << "AUDIO IS: " << item.value("audio").toString();
     QFileInfo audioFile = item.value("audio").toString();
     qDebug() << audioFile.fileName();
-    item["audio"] = audioFile.fileName();
+    item["flatAudio"] = audioFile.fileName();
     qDebug() << "AUDIO IS NOW: " << item.value("audio").toString();
 
     QFileInfo backgroundFile = item.value("background").toString();
-    item["background"] = backgroundFile.fileName();
+    item["flatBackground"] = backgroundFile.fileName();
     qDebug() << "BACKGRUOND IS: " << item.value("background").toString();
     // qDebug() << serviceList[i].value();
     QJsonObject obj = QJsonObject::fromVariantMap(item);
@@ -83,11 +86,7 @@ bool File::save(QUrl file, QVariantList serviceList) {
   }
 
   qDebug() << jsonData;
-
   QJsonDocument jsonText(jsonData);
-
-  QDir dir;
-  dir.mkpath("/tmp/presenter");
   QTemporaryFile jsonFile;
 
   if (!jsonFile.exists())
@@ -106,45 +105,83 @@ bool File::save(QUrl file, QVariantList serviceList) {
   QString filename = file.toString().right(file.toString().size() - 7);
   qDebug() << filename;
 
-  KCompressionDevice dev(filename, KCompressionDevice::Zstd);
-  if (!dev.open(QIODevice::WriteOnly)) {
-    qDebug() << dev.isOpen();
-    return false;
-  }
+  // KCompressionDevice dev(filename, KCompressionDevice::Zstd);
+  // if (!dev.open(QIODevice::WriteOnly)) {
+  //   qDebug() << dev.isOpen();
+  //   return false;
+  // }
   KTar tar(filename, "application/zstd");
 
-  if (!tar.open(QIODevice::WriteOnly)) {
+  if (tar.open(QIODevice::WriteOnly)) {
     qDebug() << tar.isOpen();
-    return false;
+
+    //write our json data to the archive
+    tar.writeFile("servicelist.json",
+                  jsonText.toJson());
+
+    //let's add the backgrounds and audios to the archive
+    for (int i = 0; i < serviceList.size(); i++) {
+      QMap item = serviceList[i].toMap();
+      QString background = item.value("background").toString();
+      QString backgroundFile = background.right(background.size() - 5);
+      qDebug() << backgroundFile;
+      QString audio = item.value("audio").toString();
+      QString audioFile = audio.right(audio.size() - 5);
+      qDebug() << audioFile;
+
+      //here we need to cut off all the directories before
+      //adding into the archive
+      tar.addLocalFile(backgroundFile,
+                       backgroundFile.right(backgroundFile.size() -
+                                            backgroundFile.lastIndexOf("/") - 1));
+      tar.addLocalFile(audioFile,
+                       audioFile.right(audioFile.size() -
+                                       audioFile.lastIndexOf("/") - 1));
+    }
+
+    //close the archive so that everything is done
+    tar.close();
+    // dev.close();
+    return true;
   }
 
-  //write our json data to the archive
-  tar.writeFile("servicelist.json",jsonText.toJson());
-
-  //let's add the backgrounds and audios to the archive
-  for (int i = 0; i < serviceList.size(); i++) {
-    QMap item = serviceList[i].toMap();
-    QString background = item.value("background").toString();
-    QString backgroundFile = background.right(background.size() - 5);
-    qDebug() << backgroundFile;
-    QString audio = item.value("audio").toString();
-    QString audioFile = audio.right(audio.size() - 5);
-    qDebug() << audioFile;
-
-    //here we need to cut off all the directories before
-    //adding into the archive
-    tar.addLocalFile(backgroundFile,
-                     backgroundFile.right(backgroundFile.size() -
-                                          backgroundFile.lastIndexOf("/") - 1));
-    tar.addLocalFile(audioFile,
-                     audioFile.right(audioFile.size() -
-                                     audioFile.lastIndexOf("/") - 1));
-  }
-
-  //close the archive so that everything is done
-  tar.close();
-  dev.close();
 
   
-  return true;
+  return false;
+}
+
+QVariantList File::load(QUrl file) {
+  qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+  qDebug() << "Loading...";
+  qDebug() << "File path is: " << file.toString();
+  qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+
+
+  QString fileUrl = file.toString().right(file.toString().size() - 7);
+  KTar tar(fileUrl);
+
+  if (tar.open(QIODevice::ReadOnly)){
+    qDebug() << tar.isOpen();
+    const KArchiveDirectory *dir = tar.directory();
+
+    const KArchiveEntry *e = dir->entry("servicelist.json");
+    if (!e) {
+      qDebug() << "File not found!";
+    }
+    const KArchiveFile *f = static_cast<const KArchiveFile *>(e);
+    QByteArray arr(f->data());
+    QJsonDocument jsonText = QJsonDocument::fromJson(arr);
+    qDebug() << jsonText; // the file contents
+
+    QJsonArray array = jsonText.array();
+
+    QVariantList serviceList = array.toVariantList();
+    qDebug() << serviceList;
+    return serviceList;
+
+  }
+
+  QVariantList blankList;
+  return blankList;
+
 }

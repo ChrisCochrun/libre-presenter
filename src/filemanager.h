@@ -25,6 +25,7 @@ public:
   Q_INVOKABLE void setFilePath(QString filePath);
 
   Q_INVOKABLE bool save(QUrl file, QVariantList serviceList);
+  Q_INVOKABLE QVariantList load(QUrl file);
 
 signals:
     Q_INVOKABLE void nameChanged(QString name);

@@ -35,7 +35,10 @@ Kirigami.ApplicationWindow {
             title: qsTr("File")
             Controls.MenuItem { text: qsTr("New...") }
             Controls.MenuItem { text: qsTr("Open...") }
-            Controls.MenuItem { text: qsTr("Save") }
+            Controls.MenuItem {
+                text: qsTr("Save")
+                onTriggered: saveFileDialog.open()
+            }
             Controls.MenuItem { text: qsTr("Save As...") }
             Controls.MenuSeparator { }
             Controls.MenuItem { text: qsTr("Quit") }
@@ -67,7 +70,11 @@ Kirigami.ApplicationWindow {
             Labs.Menu {
                 title: qsTr("File")
                 Labs.MenuItem { text: qsTr("New...") }
-                Labs.MenuItem { text: qsTr("Open...") }
+                Labs.MenuItem {
+                    text: qsTr("Open...")
+                    shortcut: "Ctrl+O"
+                    onTriggered: loadFileDialog.open()
+                }
                 Labs.MenuItem {
                     text: qsTr("Save")
                     shortcut: "Ctrl+S"
@@ -118,6 +125,21 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    FileDialog {
+        id: loadFileDialog
+        title: "Load"
+        folder: shortcuts.home
+        /* fileMode: FileDialog.SaveFile */
+        defaultSuffix: ".pres"
+        selectExisting: true
+        onAccepted: {
+            load(loadFileDialog.fileUrl);
+        }
+        onRejected: {
+            print("Canceled")
+        }
+    }
+
     function toggleEditMode() {
         editMode = !editMode;
         mainPage.editSwitch();
@@ -138,11 +160,20 @@ Kirigami.ApplicationWindow {
 
     function save(file) {
         const saved = FileManager.save(file, mainPage.serviceItems.getItems());
-        saved ? showPassiveNotification("SAVED! " + file) : showPassiveNotification("FAILED!");
+        saved ? showPassiveNotification("SAVED! " + file)
+            : showPassiveNotification("FAILED!");
     }
 
     function saveAs() {
         
+    }
+
+    function load(file) {
+        const loaded = FileManager.load(file);
+        loaded ? showPassiveNotification("Loaded: " + file)
+            : showPassiveNotification("FAILED!");
+        print("Number of items: " + loaded.length);
+        print(loaded[0].audio);
     }
 
     Component.onCompleted: {
