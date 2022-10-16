@@ -5,6 +5,7 @@
 
 * Tasks [76%] [26/34]
 
+** TODO ServiceItemModel load needs to first look for on disk path and then the archive path
 ** TODO give images an aspect ratio option
 ** TODO Fix ImageEditor to make more sense for images
 ** TODO Add image slideshow with looping
