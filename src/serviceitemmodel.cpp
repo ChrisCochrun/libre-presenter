@@ -580,9 +580,34 @@ bool ServiceItemModel::load(QUrl file) {
 
     QVariantList serviceList = array.toVariantList();
     qDebug() << serviceList;
+
+    // now lets remove all items from current list and add loaded ones
+    clearAll();
+
+    for (int i = 0; i < serviceList.length(); i++) {
+      // int id = serviceList
+      qDebug() << "*********************************";
+      qDebug() << serviceList[i].toMap();
+      qDebug() << "*********************************";
+
+      QMap item = serviceList[i].toMap();
+
+      insertItem(i, item.value("name").toString(), item.value("type").toString(),
+                 item.value("background").toString(),
+                 item.value("backgroundType").toString(),
+                 item.value("text").toStringList(), item.value("audio").toString(),
+                 item.value("font").toString(), item.value("fontSize").toInt());
+    }
+
     return true;
 
   }
 
   return false;
+}
+
+void ServiceItemModel::clearAll() {
+  for (int i = m_items.size(); i >= 0; i--) {
+    removeItem(i);
+  }
 }

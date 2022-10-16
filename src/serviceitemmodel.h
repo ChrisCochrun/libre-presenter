@@ -89,6 +89,7 @@ public:
   Q_INVOKABLE bool activate(int id);
   Q_INVOKABLE QVariantMap getItem(int index) const;
   Q_INVOKABLE QVariantList getItems();
+  Q_INVOKABLE void clearAll();
 
   Q_INVOKABLE bool save(QUrl file);
   Q_INVOKABLE bool load(QUrl file);
