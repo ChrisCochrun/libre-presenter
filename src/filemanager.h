@@ -6,6 +6,7 @@
 #include <QObject>
 #include <qobject.h>
 
+
 class File : public QObject
 {
   Q_OBJECT

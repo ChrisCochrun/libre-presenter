@@ -90,6 +90,9 @@ public:
   Q_INVOKABLE QVariantMap getItem(int index) const;
   Q_INVOKABLE QVariantList getItems();
 
+  Q_INVOKABLE bool save(QUrl file);
+  Q_INVOKABLE bool load(QUrl file);
+
 private:
   QList<ServiceItem *> m_items;
 };

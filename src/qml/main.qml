@@ -159,7 +159,7 @@ Kirigami.ApplicationWindow {
     }
 
     function save(file) {
-        const saved = FileManager.save(file, mainPage.serviceItems.getItems());
+        const saved = mainPage.serviceItems.save(file);
         saved ? showPassiveNotification("SAVED! " + file)
             : showPassiveNotification("FAILED!");
     }
@@ -169,11 +169,11 @@ Kirigami.ApplicationWindow {
     }
 
     function load(file) {
-        const loaded = FileManager.load(file);
+        const loaded = mainPage.serviceItems.load(file);
         loaded ? showPassiveNotification("Loaded: " + file)
             : showPassiveNotification("FAILED!");
-        print("Number of items: " + loaded.length);
-        print(loaded[0].audio);
+        /* print("Number of items: " + loaded.length); */
+        /* print(loaded[0].audio); */
     }
 
     Component.onCompleted: {
