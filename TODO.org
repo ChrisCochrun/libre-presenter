@@ -3,8 +3,15 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [76%] [26/34]
+* Tasks [61%] [26/42]
 
+** TODO Start planning out what a 1.0 release would look like and decide how to get there
+A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
+
+*** TODO What is out
+*** TODO What is In
+*** TODO Major Bugs
+*** TODO Deployment
 ** TODO ServiceItemModel load needs to first look for on disk path and then the archive path
 ** TODO give images an aspect ratio option
 ** TODO Fix ImageEditor to make more sense for images
