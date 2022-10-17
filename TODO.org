@@ -9,9 +9,25 @@
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
 
 *** TODO What is out
+Some of the special effects and things that I wanted to do could perhaps hold off. A lot of the things that I want to do to help make this really special could hold off. Blur, Color Adjustments, and Shadows for backgrounds and text and stuff can hold off for now. More of the special propresenter kind of things.
+
+Others:
+- Grid Layout
+- Detail Layout
+- Effects
+- Overall Search
 *** TODO What is In
+I need to make the UI fit so much better. A lot of making the UI work is going to start being top priority. So for starters.
+
+Others:
+- Multi Select and Delete
+- Multi Drag? Maybe...
 *** TODO Major Bugs
+- Drag and Drop of ServiceList
 *** TODO Deployment
+- [X] Linux
+- [ ] Windows
+- [ ] Macos
 ** TODO give images an aspect ratio option
 ** TODO Fix ImageEditor to make more sense for images
 ** TODO Add image slideshow with looping
