@@ -93,6 +93,7 @@ public:
 
   Q_INVOKABLE bool save(QUrl file);
   Q_INVOKABLE bool load(QUrl file);
+  Q_INVOKABLE bool loadLastSaved();
 
 private:
   QList<ServiceItem *> m_items;

@@ -45,7 +45,13 @@ Controls.Page {
 
     property var currentWindow: presentation
 
-    Component.onCompleted: {changeServiceItem(0); presentation.forceActiveFocus();}
+    Component.onCompleted: {
+        changeServiceItem(0);
+        presentation.forceActiveFocus();
+        /* const loaded = serviceItemModel.loadLastSaved(); */
+        /* if (!loaded) */
+        /*     showPassiveNotification("Failed loading last file"); */
+    }
 
     Item {
         id: mainItem
