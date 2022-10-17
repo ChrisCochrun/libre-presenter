@@ -20,7 +20,8 @@
 #include <QDir>
 #include <QUrl>
 #include <QSettings>
-
+#include <QStandardPaths>
+#include <QImage>
 
 
 ServiceItemModel::ServiceItemModel(QObject *parent)
@@ -602,10 +603,72 @@ bool ServiceItemModel::load(QUrl file) {
 
       QMap item = serviceList[i].toMap();
 
+      QString backgroundString = item.value("background").toString();
+      QFileInfo backgroundFile = backgroundString.right(backgroundString.size() - 7);
+
+      QString audioString = item.value("audio").toString();
+      QFileInfo audioFile = audioString.right(audioString.size() - 7);
+
+      qDebug() << "POOPPOPOPOPOPOPOPOPOPOPOPOPO";
+      qDebug() << backgroundFile;
+      qDebug() << backgroundFile.exists();
+      qDebug() << audioFile;
+      qDebug() << audioFile.exists();
+      qDebug() << "POOPPOPOPOPOPOPOPOPOPOPOPOPO";
+
+      QString realBackground;
+      QString realAudio;
+
+      QFileInfo serviceFile = file.toString().right(file.toString().size() - 7);
+      QString serviceName = serviceFile.baseName();
+      QDir localDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+      localDir.mkdir(serviceName);
+      QDir serviceDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+        + "/" + serviceName;
+      qDebug() << serviceDir.path();
+
+      realBackground = backgroundString;
+      realAudio = audioString;
+      // If the background file is on disk use that, else use the one in archive
+      if (!backgroundFile.exists() && backgroundString.length() > 0) {
+        const KArchiveEntry *e = dir->entry(backgroundFile.fileName());
+        if (!e) {
+          qDebug() << "Background File not found!";
+          continue;
+        }
+        const KArchiveFile *f = static_cast<const KArchiveFile *>(e);
+        if (!f->copyTo(serviceDir.path()))
+          qDebug() << "FILE COULDN'T BE CREATED!";
+
+        QFileInfo bgFile = serviceDir.path() + "/" + backgroundFile.fileName();
+
+        qDebug() << bgFile.filePath();
+
+        realBackground = bgFile.filePath();
+      }
+
+      // If the audio file is on disk use that, else use the one in archive
+      if (!audioFile.exists() && audioString.length() > 0) {
+        const KArchiveEntry *e = dir->entry(audioFile.fileName());
+        if (!e) {
+          qDebug() << "Audio File not found!";
+          continue;
+        }
+        const KArchiveFile *f = static_cast<const KArchiveFile *>(e);
+        if (!f->copyTo(serviceDir.path()))
+          qDebug() << "FILE COULDN'T BE CREATED!";
+
+        QFileInfo audFile = serviceDir.path() + "/" + audioFile.fileName();
+
+        qDebug() << audFile.filePath();
+
+        realAudio = audFile.filePath();
+      }
+
       insertItem(i, item.value("name").toString(), item.value("type").toString(),
-                 item.value("background").toString(),
+                 realBackground,
                  item.value("backgroundType").toString(),
-                 item.value("text").toStringList(), item.value("audio").toString(),
+                 item.value("text").toStringList(), realAudio,
                  item.value("font").toString(), item.value("fontSize").toInt());
     }
 

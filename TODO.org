@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [61%] [26/42]
+* Tasks [65%] [27/41]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -12,7 +12,6 @@ A 1.0 release may be achievable soon as long as I can figure out what is good ha
 *** TODO What is In
 *** TODO Major Bugs
 *** TODO Deployment
-** TODO ServiceItemModel load needs to first look for on disk path and then the archive path
 ** TODO give images an aspect ratio option
 ** TODO Fix ImageEditor to make more sense for images
 ** TODO Add image slideshow with looping
@@ -77,6 +76,8 @@ This thread helped a lot
 ** DONE Make serviceItemModel aware of being selected and active
 Being selected means that those items can be dragged or deleted or moved together.
 Being active, means that the singular item is the currently displayed item.
+** DONE ServiceItemModel load needs to first look for on disk path and then the archive path
+Check audio and background first, if they don't exist, grab the file in the archive and put it in the local folder and use that path to create the serviceitem
 ** DONE Unload video when switching to something with just image :core:bug:
 ** DONE Create a nextslide function to be used after the end of the list of slides :slide:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::function nextSlide() {]]
