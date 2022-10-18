@@ -309,7 +309,7 @@ bool ServiceItemModel::move(int sourceIndex, int destIndex) {
   qDebug() << index(destIndex).row();
   QModelIndex parent = index(sourceIndex).parent();
   if (sourceIndex >= 0 && sourceIndex != destIndex &&
-      destIndex >= -1 && destIndex <= rowCount() &&
+      destIndex > -1 && destIndex <= rowCount() &&
       sourceIndex < rowCount()) {
     qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
     bool begsuc = beginMoveRows(parent, sourceIndex,
