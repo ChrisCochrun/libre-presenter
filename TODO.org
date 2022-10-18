@@ -21,6 +21,7 @@ I need to make the UI fit so much better. A lot of making the UI work is going t
 
 Others:
 - Multi Select and Delete
+  - Need to have the model give back all ids of the selected items so they can be manipulated
 - Multi Drag? Maybe...
 *** TODO Major Bugs
 - Drag and Drop of ServiceList
