@@ -117,6 +117,7 @@ Controls.Page {
                 id: library
                 Controls.SplitView.preferredWidth: libraryOpen ? 200 : 0
                 Controls.SplitView.maximumWidth: 350
+                visible: libraryOpen ? true : false
             }
             
         }
