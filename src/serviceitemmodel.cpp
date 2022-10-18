@@ -217,12 +217,16 @@ void ServiceItemModel::insertItem(const int &index, ServiceItem *item) {
 
 void ServiceItemModel::addItem(const QString &name, const QString &type) {
   ServiceItem *item = new ServiceItem(name, type);
+  item->setSelected(false);
+  item->setActive(false);
   addItem(item);
 }
 
 void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
+  item->setSelected(false);
+  item->setActive(false);
   addItem(item);
 }
 
@@ -230,6 +234,8 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType,
                                const QStringList &text) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
+  item->setSelected(false);
+  item->setActive(false);
   addItem(item);
   qDebug() << name << type << background;
 }
@@ -239,6 +245,8 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QStringList &text, const QString &audio) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
                                       text, audio);
+  item->setSelected(false);
+  item->setActive(false);
   addItem(item);
   qDebug() << name << type << background;
 }
@@ -249,6 +257,8 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &font, const int &fontSize) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
                                       text, audio, font, fontSize);
+  item->setSelected(false);
+  item->setActive(false);
   addItem(item);
   qDebug() << "#################################";
   qDebug() << name << type << font << fontSize;
@@ -257,6 +267,8 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
 
 void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type) {
   ServiceItem *item = new ServiceItem(name, type);
+  item->setSelected(false);
+  item->setActive(false);
   insertItem(index, item);
   qDebug() << name << type;
 }
@@ -264,6 +276,8 @@ void ServiceItemModel::insertItem(const int &index, const QString &name, const Q
 void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
+  item->setSelected(false);
+  item->setActive(false);
   insertItem(index, item);
   qDebug() << name << type << background;
 }
@@ -282,6 +296,8 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &audio) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
                                       text, audio);
+  item->setSelected(false);
+  item->setActive(false);
   insertItem(index, item);
   qDebug() << name << type << background << text;
 }
@@ -292,6 +308,8 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &audio, const QString &font, const int &fontSize) {
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
                                       text, audio, font, fontSize);
+  item->setSelected(false);
+  item->setActive(false);
   insertItem(index, item);
   qDebug() << "#################################";
   qDebug() << name << type << font << fontSize;
@@ -406,6 +424,8 @@ QVariantList ServiceItemModel::getItems() {
     itm["audio"] = item->audio();
     itm["font"] = item->font();
     itm["fontSize"] = item->fontSize();
+    itm["selected"] = item->selected();
+    itm["active"] = item->active();
     data.append(itm);
   }
   qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$$$";
@@ -456,6 +476,18 @@ bool ServiceItemModel::activate(int id) {
   item->setActive(true);
   qDebug() << "################";
   qDebug() << "activated" << item->name();
+  qDebug() << "################";
+  emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
+  return true;
+}
+
+bool ServiceItemModel::deactivate(int id) {
+  QModelIndex idx = index(id);
+  ServiceItem *item = m_items[idx.row()];
+
+  item->setActive(false);
+  qDebug() << "################";
+  qDebug() << "deactivated" << item->name();
   qDebug() << "################";
   emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
   return true;
