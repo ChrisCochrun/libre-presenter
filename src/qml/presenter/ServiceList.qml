@@ -218,8 +218,8 @@ Item {
 
                                 PropertyChanges {
                                     target: visServiceItem
-                                    backgroundColor: Kirigami.Theme.backgroundColor
-                                    textColor: Kirigami.Theme.textColor
+                                    /* backgroundColor: Kirigami.Theme.backgroundColor */
+                                    /* textColor: Kirigami.Theme.textColor */
                                     anchors.verticalCenter: undefined
                                     anchors.horizontalCenter: undefined
                                 }
@@ -268,7 +268,7 @@ Item {
                                 if (mouse.button === Qt.RightButton)
                                     rightClickMenu.popup();
                                 else {
-                                    /* serviceItemList.currentIndex = index; */
+                                    serviceItemList.currentIndex = index;
                                     serviceItemModel.select(index);
                                     /* currentServiceItem = index; */
                                     /* changeItem(index); */
@@ -321,12 +321,6 @@ Item {
                 }
 
                 function moveRequested(oldIndex, newIndex) {
-                    if (newIndex === oldIndex)
-                        return;
-                    if (newIndex === -1)
-                        newIndex = 0;
-                    if (newIndex >= serviceItemList.count)
-                        newIndex = serviceItemList.count;
                     print("moveRequested: ", oldIndex, newIndex);
                     serviceItemModel.move(oldIndex, newIndex);
                     indexDragged = newIndex;
