@@ -80,6 +80,7 @@ Let's test this, because I think I fixed it.
 
 - [X] Basic fixed drag n drop
 - [ ] Allow for a less buggy interaction
+  I think one of the major problems has to do with moving the item while I am still draggin it. This means that I am then shifting the item's id whilst dragging and causing some unsuspected behavior? Not sure, need to maybe consult some one else if possible.
 - [ ] Need to check for edge cases
 
 ** TODO Finish toolbar in presentation display :ui:
