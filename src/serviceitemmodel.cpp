@@ -470,7 +470,6 @@ bool ServiceItemModel::activate(int id) {
       qDebug() << "################";
       emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
     }
-    return true;
   }
 
   item->setActive(true);

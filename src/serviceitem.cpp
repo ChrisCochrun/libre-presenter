@@ -1,4 +1,5 @@
 #include "serviceitem.h"
+#include <QDebug>
 
 ServiceItem::ServiceItem(QObject *parent)
   : QObject{parent}
@@ -166,11 +167,13 @@ void ServiceItem::setFontSize(int fontSize)
 
 void ServiceItem::setActive(bool active)
 {
-    if (m_active == active)
-        return;
+  qDebug() << "::::::::::::::::::::";
+  qDebug() << "CHANGE ME!";
+  if (m_active == active)
+    return;
 
-    m_active = active;
-    emit activeChanged(m_active);
+  m_active = active;
+  emit activeChanged(m_active);
 }
 
 void ServiceItem::setSelected(bool selected)
