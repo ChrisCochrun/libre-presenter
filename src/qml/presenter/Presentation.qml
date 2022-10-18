@@ -229,6 +229,7 @@ FocusScope {
                 MouseArea {
                     id: previewerMouse
                     anchors.fill: parent
+                    hoverEnabled: true
                     onClicked: changeServiceItem(index)
                     cursorShape: Qt.PointingHandCursor
                 }
