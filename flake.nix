@@ -15,7 +15,7 @@
         in 
         {
           devShell = import ./shell.nix { inherit pkgs; };
-          defaultPackage = import ./default.nix {inherit pkgs;};
+          defaultPackage = pkgs.libsForQt5.callPackage ./default.nix {};
         }
       );
 }

@@ -7,7 +7,7 @@ mkShell rec {
     gcc
     gnumake
     clang
-    clang-tools
+    # clang-tools
     qtcreator
     cmake
     extra-cmake-modules
@@ -38,7 +38,7 @@ mkShell rec {
 
     # This is only here because apparently it doesn't pick up the icon theme from the base system
     # papirus-icon-theme
-    # lightly-qt
+    lightly-qt
 
     podofo
     mpv

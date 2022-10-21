@@ -20,7 +20,6 @@ Controls.Page {
     property int totalServiceItems
 
     /* property var video */
-
     property int dragItemIndex
     property string dragItemTitle: ""
     property string dragItemType: ""

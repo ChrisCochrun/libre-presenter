@@ -1,34 +1,36 @@
-{ pkgs ? import <nixpkgs> { } }:
-with pkgs;
-# {
-#   stdenv,
-#   lib,
-#   # kglobalaccel,
-#   # kinit,
-#   # kwin,
-#   # kio,
-#   # kguiaddons,
-#   # kcoreaddons,
-#   gcc,
-#   gnumake,
-#   clang,
-#   cmake,
-#   extra-cmake-modules,
-#   pkg-config,
-#   wrapQtAppsHook,
-#   qtbase,
-#   qt5Full,
-#   clang-tools,
-#   qttools,
-#   qtquickcontrols2,
-#   qtx11extras,
-#   qtmultimedia,
-#   kirigami2,
-#   ki18n,
-#   kcoreaddons,
-#   # lightly-qt,
-#   mpv
-# }:
+# { pkgs ? import <nixpkgs> { } }:
+# with pkgs;
+{
+  stdenv,
+  lib,
+  # kglobalaccel,
+  # kinit,
+  # kwin,
+  # kio,
+  # kguiaddons,
+  # kcoreaddons,
+  gcc,
+  gnumake,
+  clang,
+  cmake,
+  extra-cmake-modules,
+  pkg-config,
+  wrapQtAppsHook,
+  qtbase,
+  qt5Full,
+  clang-tools,
+  qttools,
+  qtquickcontrols2,
+  qtx11extras,
+  qtmultimedia,
+  karchive,
+  kirigami2,
+  ki18n,
+  kcoreaddons,
+  # lightly-qt,
+  podofo,
+  mpv
+}:
 
 stdenv.mkDerivation rec {
   name = "Libre Presenter";
@@ -45,25 +47,25 @@ stdenv.mkDerivation rec {
     cmake
     extra-cmake-modules
     pkg-config
-    libsForQt5.wrapQtAppsHook
+    wrapQtAppsHook
     # gccStdenv
     # stdenv
   ];
 
   buildInputs = [
-    libsForQt5.qt5.full
-    libsForQt5.qttools
-    libsForQt5.qtquickcontrols2
-    libsForQt5.qtx11extras
-    libsForQt5.qtmultimedia
+    qtbase
+    qttools
+    qtquickcontrols2
+    qtx11extras
+    qtmultimedia
     # qtwayland
-    libsForQt5.kirigami2
+    kirigami2
     # breeze-icons
     # breeze-qt5
     # qqc2-desktop-style
-    libsForQt5.karchive
-    libsForQt5.ki18n
-    libsForQt5.kcoreaddons
+    karchive
+    ki18n
+    kcoreaddons
     # lightly-qt
     podofo
     mpv

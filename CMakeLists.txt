@@ -57,3 +57,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(src)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+find_program(XDG-DESKTOP-MENU_EXECUTABLE xdg-desktop-menu)
+execute_process(COMMAND ${XDG-DESKTOP-MENU_EXECUTABLE} install --novender librepresenter.desktop)
