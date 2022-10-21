@@ -36,6 +36,7 @@ FocusScope {
 
     GridLayout {
         anchors.fill: parent
+        /* anchors.bottomMargin: 40 */
         columns: 3
         rowSpacing: 5
         columnSpacing: 0
@@ -130,11 +131,11 @@ FocusScope {
             spacing: 2
             Layout.preferredWidth: previewSlide.width - 50
             /* Layout.columnSpan: 3 */
+            visible: itemType === "video";
             Kirigami.Icon {
                 source: previewSlide.mpvIsPlaying ? "media-pause" : "media-play"
                 Layout.preferredWidth: 25
                 Layout.preferredHeight: 25
-                visible: itemType === "video";
                 MouseArea {
                     anchors.fill: parent
                     onPressed: SlideObject.playPause();
@@ -143,7 +144,6 @@ FocusScope {
             }
             Controls.Slider {
                 id: videoSlider
-                visible: itemType === "video";
                 Layout.fillWidth: true
                 Layout.preferredHeight: 25
                 from: 0
@@ -155,7 +155,6 @@ FocusScope {
 
             Controls.Switch {
                 text: "Loop"
-                visible: itemType === "video";
                 checked: previewSlide.mpvLoop === "inf" ? true : false
                 onToggled: mainPage.loopVideo()
                 Keys.onLeftPressed: previousSlideAction()
@@ -249,7 +248,7 @@ FocusScope {
 
         }
         Item {
-            /* Layout.preferredHeight: 200 */
+            /* Layout.preferredHeight: 20 */
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.columnSpan: 3

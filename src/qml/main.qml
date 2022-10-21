@@ -26,7 +26,7 @@ Kirigami.ApplicationWindow {
 
     onActiveFocusItemChanged: print("FOCUS CHANGED TO: " + activeFocusControl)
 
-    pageStack.initialPage: mainPage
+    /* pageStack.initialPage: mainPage */
     header: Presenter.Header {}
 
     menuBar: Controls.MenuBar {
@@ -86,7 +86,10 @@ Kirigami.ApplicationWindow {
                     onTriggered: saveAs()
                 }
                 Labs.MenuSeparator { }
-                Labs.MenuItem { text: qsTr("Quit") }
+                Labs.MenuItem {
+                    text: qsTr("Quit")
+                    onTriggered: rootApp.quit()
+                }
             }
             Labs.Menu {
                 title: qsTr("Settings")
@@ -108,6 +111,7 @@ Kirigami.ApplicationWindow {
 
     Presenter.MainWindow {
         id: mainPage
+        anchors.fill: parent
     }
 
     FileDialog {
@@ -216,5 +220,4 @@ Kirigami.ApplicationWindow {
         id: settingsSheet
         theModel: screenModel
     }
-    
 }

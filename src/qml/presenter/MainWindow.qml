@@ -80,6 +80,7 @@ Controls.Page {
             FocusScope {
                 id: mainPageArea
                 Controls.SplitView.fillWidth: true
+                Controls.SplitView.fillHeight: true
                 Controls.SplitView.minimumWidth: 100
                 
                 Presenter.Presentation { 
