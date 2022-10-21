@@ -32,8 +32,8 @@ with pkgs;
 
 stdenv.mkDerivation rec {
   name = "Libre Presenter";
+  pname = "libre-presenter";
   version = "0.0.0";
-  # inherit src;
 
   src = ./.;
 
