@@ -3,8 +3,8 @@ import QtQuick 2.13
 import QtQuick.Controls 2.0 as Controls
 /* import QtQuick.Window 2.13 */
 import QtQuick.Layouts 1.2
-/* import QtQuick.Shapes 1.15 */
-import QtQml.Models 2.12
+import QtQuick.Shapes 1.15
+/* import QtQml.Models 2.12 */
 /* import QtMultimedia 5.15 */
 /* import QtAudioEngine 1.15 */
 import QtGraphicalEffects 1.15
@@ -365,6 +365,36 @@ Item {
                            Q13.5 6.8 15 3z"
                 }
             }
+
+            /* Shape { */
+            /*     x: dropHighlightLine.width - 8 */
+            /*     y: dropHighlightLine.y - 17 */
+            /*     z: 1 */
+            /*     width: 100; height: 100; */
+
+            /*     ShapePath { */
+            /*         fillColor: Kirigami.Theme.hoverColor */
+            /*         startX: 0; startY: 0 */
+            /*         PathLine { x: 180; y: 130 } */
+            /*         PathLine { x: 20; y: 130 } */
+            /*         PathLine { x: 20; y: 20 } */
+            /*         PathArc { */
+            /*             x: 40; y: 200; */
+            /*             radiusX: 200; */
+            /*             radiusY: 200; */
+            /*             useLargeArc: true */
+            /*         } */
+            /*         PathLine { x: 40; y: 120 } */
+            /*         PathArc { */
+            /*             x: -40; y: 120; */
+            /*             radiusX: 120; */
+            /*             radiusY: 120; */
+            /*             useLargeArc: true; */
+            /*             direction: PathArc.Counterclockwise */
+            /*         } */
+            /*         PathLine { x: -40; y: 200 } */
+            /*     } */
+            /* } */
         } 
 
         Kirigami.ActionToolBar {
