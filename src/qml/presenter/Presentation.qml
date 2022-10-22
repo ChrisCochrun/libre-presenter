@@ -11,6 +11,8 @@ import org.presenter 1.0
 FocusScope {
     id: root
 
+    height: parent.height
+
     property var text
     property int textIndex: 0
     property string itemType: SlideObject.type
@@ -21,29 +23,20 @@ FocusScope {
 
     property bool focusTimer: true
 
-    Item {
-        id: keyHandler
-        anchors.fill: parent
-        focus: true
-        Keys.onLeftPressed: previousSlideAction()
-        Keys.onRightPressed: nextSlideAction()
-        Keys.onUpPressed: previousSlideAction()
-        Keys.onDownPressed: nextSlideAction()
-        Keys.onSpacePressed: nextSlideAction()
-    }
-
     /* Component.onCompleted: nextSlideAction() */
 
-    GridLayout {
+    ColumnLayout {
+        id: mainGrid
         anchors.fill: parent
-        anchors.bottomMargin: 50
-        columns: 3
-        rowSpacing: 5
-        columnSpacing: 0
+        anchors.bottomMargin: 160
+        /* columns: 3 */
+        /* rowSpacing: 5 */
+        /* columnSpacing: 0 */
 
         Controls.ToolBar {
             Layout.fillWidth: true
-            Layout.columnSpan: 3
+            /* Layout.columnSpan: 3 */
+            Layout.alignment: Qt.AlignTop
             id: toolbar
             RowLayout {
                 anchors.fill: parent 
@@ -76,22 +69,17 @@ FocusScope {
         }
 
         Item {
-            /* Layout.preferredHeight: 200 */
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.columnSpan: 3
-        }
-
-        Item {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
+            /* Layout.columnSpan: 3 */
+            Layout.alignment: Qt.AlignTop
 
             Kirigami.Icon {
                 source: "arrow-left"
                 implicitWidth: 100
                 implicitHeight: 200
                 anchors.right: previewSlide.left
+                anchors.verticalCenter: parent.verticalCenter
                 /* Layout.alignment: Qt.AlignRight */
                 MouseArea {
                     anchors.fill: parent
@@ -122,6 +110,7 @@ FocusScope {
                 implicitWidth: 100
                 implicitHeight: 200
                 anchors.left: previewSlide.right
+                anchors.verticalCenter: parent.verticalCenter
                 /* Layout.alignment: Qt.AlignLeft */
                 MouseArea {
                     anchors.fill: parent
@@ -130,72 +119,74 @@ FocusScope {
                 }
             }
 
-        }
+            RowLayout {
+                spacing: 2
+                width: previewSlide.width
+                /* Layout.alignment: Qt.AlignHCenter, Qt.AlignTop */
+                anchors.top: previewSlide.bottom
+                anchors.topMargin: 10
+                anchors.horizontalCenter: previewSlide.horizontalCenter
+                /* Layout.columnSpan: 3 */
+                visible: itemType === "video";
+                Kirigami.Icon {
+                    source: previewSlide.mpvIsPlaying ? "media-pause" : "media-play"
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: SlideObject.playPause();
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
+                Controls.Slider {
+                    id: videoSlider
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 25
+                    from: 0
+                    to: previewSlide.mpvDuration
+                    value: previewSlide.mpvPosition
+                    live: true
+                    onMoved: changeVidPos(value);
+                }
 
-        Item {
-            Layout.fillWidth: true
-        }
-
-        RowLayout {
-            spacing: 2
-            Layout.preferredWidth: previewSlide.width - 50
-            /* Layout.columnSpan: 3 */
-            visible: itemType === "video";
-            Kirigami.Icon {
-                source: previewSlide.mpvIsPlaying ? "media-pause" : "media-play"
-                Layout.preferredWidth: 25
-                Layout.preferredHeight: 25
-                MouseArea {
-                    anchors.fill: parent
-                    onPressed: SlideObject.playPause();
-                    cursorShape: Qt.PointingHandCursor
+                Controls.Switch {
+                    text: "Loop"
+                    checked: previewSlide.mpvLoop === "inf" ? true : false
+                    onToggled: mainPage.loopVideo()
+                    Keys.onLeftPressed: previousSlideAction()
+                    Keys.onRightPressed: nextSlideAction()
+                    Keys.onUpPressed: previousSlideAction()
+                    Keys.onDownPressed: nextSlideAction()
                 }
             }
-            Controls.Slider {
-                id: videoSlider
-                Layout.fillWidth: true
-                Layout.preferredHeight: 25
-                from: 0
-                to: previewSlide.mpvDuration
-                value: previewSlide.mpvPosition
-                live: true
-                onMoved: changeVidPos(value);
-            }
-
-            Controls.Switch {
-                text: "Loop"
-                checked: previewSlide.mpvLoop === "inf" ? true : false
-                onToggled: mainPage.loopVideo()
-                Keys.onLeftPressed: previousSlideAction()
-                Keys.onRightPressed: nextSlideAction()
-                Keys.onUpPressed: previousSlideAction()
-                Keys.onDownPressed: nextSlideAction()
-            }
-        }
-
-        Item {
-            Layout.fillWidth: true
-        }
-
-        Item {
-            /* Layout.preferredHeight: 200 */
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
         }
 
         /* Item { */
-        /*     /\* Layout.preferredHeight: 20 *\/ */
         /*     Layout.fillHeight: true */
         /*     Layout.fillWidth: true */
         /*     Layout.columnSpan: 3 */
         /* } */
 
+        Item {
+            Layout.preferredHeight: 60
+            Layout.fillWidth: true
+            /* Layout.columnSpan: 3 */
+            Layout.alignment: Qt.AlignTop
+        }
+
     }
 
     ListView {
         id: previewSlidesList
-        anchors.bottom: parent.bottom
+        /* Layout.fillHeight: true */
+        /* Layout.fillWidth: true */
+        /* Layout.columnSpan: 3 */
+        /* Layout.alignment: Qt.AlignBottom */
+        /* Layout.bottomMargin: 140 */
+        anchors.top: mainGrid.bottom
+        anchors.bottom: root.bottom
+        /* anchors.bottomMargin: 100 */
+        width: parent.width
         orientation: ListView.Horizontal
         cacheBuffer: 900
         reuseItems: true
@@ -263,6 +254,18 @@ FocusScope {
         }
 
     }
+
+    Item {
+        id: keyHandler
+        /* anchors.fill: parent */
+        focus: true
+        Keys.onLeftPressed: previousSlideAction()
+        Keys.onRightPressed: nextSlideAction()
+        Keys.onUpPressed: previousSlideAction()
+        Keys.onDownPressed: nextSlideAction()
+        Keys.onSpacePressed: nextSlideAction()
+    }
+
     Connections {
         target: SlideObject
         function onVideoBackgroundChanged() {
