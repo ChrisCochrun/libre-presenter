@@ -36,7 +36,7 @@ FocusScope {
 
     GridLayout {
         anchors.fill: parent
-        /* anchors.bottomMargin: 40 */
+        anchors.bottomMargin: 50
         columns: 3
         rowSpacing: 5
         columnSpacing: 0
@@ -82,45 +82,54 @@ FocusScope {
             Layout.columnSpan: 3
         }
 
-        Kirigami.Icon {
-            source: "arrow-left"
-            Layout.preferredWidth: 100
-            Layout.preferredHeight: 200
-            Layout.alignment: Qt.AlignRight
-            MouseArea {
-                anchors.fill: parent
-                onPressed: previousSlideAction()
-                cursorShape: Qt.PointingHandCursor
-            }
-        }
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
 
-        Presenter.Slide {
-            id: previewSlide
-            Layout.preferredWidth: 700
-            Layout.preferredHeight: width / 16 * 9
-            Layout.minimumWidth: 300
-            Layout.alignment: Qt.AlignCenter
-            textSize: width / 15
-            itemType: root.itemType
-            imageSource: imagebackground
-            videoSource: vidbackground
-            audioSource: SlideObject.audio
-            chosenFont: SlideObject.font
-            text: SlideObject.text
-            pdfIndex: SlideObject.pdfIndex
-            preview: true 
-        }
-
-        Kirigami.Icon {
-            source: "arrow-right"
-            Layout.preferredWidth: 100
-            Layout.preferredHeight: 200
-            Layout.alignment: Qt.AlignLeft
-            MouseArea {
-                anchors.fill: parent
-                onPressed: nextSlideAction()
-                cursorShape: Qt.PointingHandCursor
+            Kirigami.Icon {
+                source: "arrow-left"
+                implicitWidth: 100
+                implicitHeight: 200
+                anchors.right: previewSlide.left
+                /* Layout.alignment: Qt.AlignRight */
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: previousSlideAction()
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
+
+            Presenter.Slide {
+                id: previewSlide
+                implicitWidth: 700
+                implicitHeight: width / 16 * 9
+                /* minimumWidth: 300 */
+                anchors.centerIn: parent
+                textSize: width / 15
+                itemType: root.itemType
+                imageSource: imagebackground
+                videoSource: vidbackground
+                audioSource: SlideObject.audio
+                chosenFont: SlideObject.font
+                text: SlideObject.text
+                pdfIndex: SlideObject.pdfIndex
+                preview: true 
+            }
+
+            Kirigami.Icon {
+                source: "arrow-right"
+                implicitWidth: 100
+                implicitHeight: 200
+                anchors.left: previewSlide.right
+                /* Layout.alignment: Qt.AlignLeft */
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: nextSlideAction()
+                    cursorShape: Qt.PointingHandCursor
+                }
+            }
+
         }
 
         Item {
@@ -175,87 +184,85 @@ FocusScope {
             Layout.columnSpan: 3
         }
 
-        ListView {
-            id: previewSlidesList
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.columnSpan: 3
-            orientation: ListView.Horizontal
-            cacheBuffer: 900
-            reuseItems: true
-
-            model: serviceItemModel
-            delegate: Rectangle {
-                id: previewHighlight
-                implicitWidth: 210
-                implicitHeight: width / 16 * 9
-                color: {
-                    if (active || previewerMouse.containsMouse)
-                        Kirigami.Theme.highlightColor
-                    else
-                        Kirigami.Theme.backgroundColor
-                }
-
-                Presenter.Slide {
-                    id: previewSlideItem
-                    anchors.centerIn: parent
-                    implicitWidth: 200
-                    implicitHeight: width / 16 * 9
-                    textSize: width / 4
-                    itemType: type
-                    imageSource: backgroundType === "image" ? background : ""
-                    videoSource: backgroundType === "video" ? background : ""
-                    audioSource: ""
-                    chosenFont: font
-                    text: model.text[0] === "This is demo text" ? "" : model.text[0]
-                    pdfIndex: 0
-                    preview: true 
-                    editMode: true 
-
-                }
-
-                Controls.Label {
-                    id: slidesTitle
-                    width: previewSlideItem.width
-                    anchors.top: previewSlideItem.bottom
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.topMargin: 5
-                    elide: Text.ElideRight
-                    text: name
-                    /* font.family: "Quicksand Bold" */
-                }
-
-                MouseArea {
-                    id: previewerMouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: changeServiceItem(index)
-                    cursorShape: Qt.PointingHandCursor
-                }
-
-
-                Connections {
-                    target: serviceItemModel
-                    onDataChanged: if (active)
-                        previewSlidesList.positionViewAtIndex(index, ListView.Center)
-                }
-            }
-            Kirigami.WheelHandler {
-                id: wheelHandler
-                target: previewSlidesList
-                filterMouseEvents: true
-            }
-
-        }
-        Item {
-            /* Layout.preferredHeight: 20 */
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
-        }
+        /* Item { */
+        /*     /\* Layout.preferredHeight: 20 *\/ */
+        /*     Layout.fillHeight: true */
+        /*     Layout.fillWidth: true */
+        /*     Layout.columnSpan: 3 */
+        /* } */
 
     }
 
+    ListView {
+        id: previewSlidesList
+        anchors.bottom: parent.bottom
+        orientation: ListView.Horizontal
+        cacheBuffer: 900
+        reuseItems: true
+
+        model: serviceItemModel
+        delegate: Rectangle {
+            id: previewHighlight
+            implicitWidth: 210
+            implicitHeight: width / 16 * 9
+            color: {
+                if (active || previewerMouse.containsMouse)
+                    Kirigami.Theme.highlightColor
+                else
+                    Kirigami.Theme.backgroundColor
+            }
+
+            Presenter.Slide {
+                id: previewSlideItem
+                anchors.centerIn: parent
+                implicitWidth: 200
+                implicitHeight: width / 16 * 9
+                textSize: width / 4
+                itemType: type
+                imageSource: backgroundType === "image" ? background : ""
+                videoSource: backgroundType === "video" ? background : ""
+                audioSource: ""
+                chosenFont: font
+                text: model.text[0] === "This is demo text" ? "" : model.text[0]
+                pdfIndex: 0
+                preview: true 
+                editMode: true 
+
+            }
+
+            Controls.Label {
+                id: slidesTitle
+                width: previewSlideItem.width
+                anchors.top: previewSlideItem.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 5
+                elide: Text.ElideRight
+                text: name
+                /* font.family: "Quicksand Bold" */
+            }
+
+            MouseArea {
+                id: previewerMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: changeServiceItem(index)
+                cursorShape: Qt.PointingHandCursor
+            }
+
+
+            Connections {
+                target: serviceItemModel
+                onDataChanged: if (active)
+                    previewSlidesList.positionViewAtIndex(index, ListView.Center)
+            }
+        }
+        Kirigami.WheelHandler {
+            id: wheelHandler
+            target: previewSlidesList
+            filterMouseEvents: true
+        }
+
+    }
     Connections {
         target: SlideObject
         function onVideoBackgroundChanged() {
