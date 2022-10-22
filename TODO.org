@@ -5,7 +5,8 @@
 
 * Tasks [65%] [27/41]
 
-** TODO Start planning out what a 1.0 release would look like and decide how to get there
+** TODO UI Blocks while saving :bug:
+** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
 
 *** TODO What is out
@@ -25,16 +26,18 @@ Others:
 - Multi Drag? Maybe...
 *** TODO Major Bugs
 - Drag and Drop of ServiceList
+- UI Blocking when saving
 *** TODO Deployment
-- [X] Linux
+- [ ] Linux
+  Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
-** TODO give images an aspect ratio option
-** TODO Fix ImageEditor to make more sense for images
-** TODO Add image slideshow with looping
+** TODO give images an aspect ratio option :feature:
+** TODO Fix ImageEditor to make more sense for images :ui:
+** TODO Add image slideshow with looping :feature:
 I could add this by adding a bool as a gallery option in the ImageSqlModel. Then add a loop bool as well. Then perhaps I'd ask if this image item contains a gallery and if so, make sure to loop through all of the filePaths as they could be saved as a list instead of a single filepath. Then decide on the last one whether or not to loop back to the beginning based on the loop bool in the image item.
-** TODO Add image gallery options
-** TODO Add video repeat pieces
+** TODO Add image gallery options :feature:
+** TODO Add video repeat pieces :feature:
 ** TODO Make libraries and models aware of being selected.
 This allows us to drag multiple to service list and delete multiple.
 final part to this is allowing for multiple select and multiple move in service list or library
