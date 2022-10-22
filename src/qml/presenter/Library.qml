@@ -1,5 +1,5 @@
 import QtQuick 2.13
-import QtQuick.Controls 2.0 as Controls
+import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
 import Qt.labs.platform 1.1 as Labs
 import org.kde.kirigami 2.13 as Kirigami
@@ -273,7 +273,8 @@ Item {
 
                 Controls.ScrollBar.vertical: Controls.ScrollBar {
                     anchors.right: songLibraryList.right
-                    anchors.leftMargin: 10
+                    /* anchors.leftMargin: 10 */
+                    /* anchors.left: songLibraryList.right */
                     active: hovered || pressed
                 }
 
@@ -485,6 +486,14 @@ Item {
                         }
                     }
                 }
+
+                Controls.ScrollBar.vertical: Controls.ScrollBar {
+                    anchors.right: videoLibraryList.right
+                    /* anchors.leftMargin: 10 */
+                    /* anchors.left: videoLibraryList.right */
+                    active: hovered || pressed
+                }
+
             }
 
             Rectangle {
