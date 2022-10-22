@@ -5,7 +5,6 @@
 
 * Tasks [65%] [27/41]
 
-** TODO UI Blocks while saving :bug:
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
 
@@ -32,6 +31,8 @@ Others:
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
+** TODO UI Blocks while saving :bug:
+** TODO Library and ServiceList scrollbar is in the way :bug:ui:
 ** TODO give images an aspect ratio option :feature:
 ** TODO Fix ImageEditor to make more sense for images :ui:
 ** TODO Add image slideshow with looping :feature:
