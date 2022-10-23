@@ -110,37 +110,44 @@ Item {
                 }
 
                 header: Component {
-                    Kirigami.ActionToolBar {
+                    Rectangle {
+                        id: songLibraryHeader
+                        z: 2
                         height: 40
                         width: parent.width
-                        display: Controls.Button.IconOnly
-                        visible: selectedLibrary == "songs"
-                        actions: [
-                            Kirigami.Action {
-                                icon.name: "document-new"
-                                text: "New Song"
-                                tooltip: "Add a new song"
-                                onTriggered: songLibraryList.newSong()
-                                /* visible: selectedLibrary == "songs" */
-                            },
-                            
-                            Kirigami.Action {
-                                displayComponent: Component {
-                                    Kirigami.SearchField {
-                                        id: searchField
-                                        height: parent.height
-                                        width: parent.width - 40
-                                        onAccepted: showPassiveNotification(searchField.text, 3000)
+                        color: Kirigami.Theme.backgroundColor
+                        Kirigami.ActionToolBar {
+                            height: parent.height
+                            width: parent.width
+                            display: Controls.Button.IconOnly
+                            visible: selectedLibrary == "songs"
+                            actions: [
+                                Kirigami.Action {
+                                    icon.name: "document-new"
+                                    text: "New Song"
+                                    tooltip: "Add a new song"
+                                    onTriggered: songLibraryList.newSong()
+                                    /* visible: selectedLibrary == "songs" */
+                                },
+                                
+                                Kirigami.Action {
+                                    displayComponent: Component {
+                                        Kirigami.SearchField {
+                                            id: searchField
+                                            height: parent.height
+                                            width: parent.width - 40
+                                            onAccepted: showPassiveNotification(searchField.text, 3000)
+                                        }
                                     }
+                                    /* visible: selectedLibrary == "songs" */
                                 }
-                                /* visible: selectedLibrary == "songs" */
-                            }
                             ]
 
-                        Behavior on height {
-                            NumberAnimation {
-                                easing.type: Easing.OutCubic
-                                duration: 300
+                            Behavior on height {
+                                NumberAnimation {
+                                    easing.type: Easing.OutCubic
+                                    duration: 300
+                                }
                             }
                         }
                     }
