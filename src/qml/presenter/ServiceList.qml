@@ -87,7 +87,11 @@ Item {
 
             ListView {
                 id: serviceItemList
-                anchors.fill: parent
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                width: serviceListScrollBar.visible ?
+                    parent.width - serviceListScrollBar.width : parent.width
                 clip: true
                 spacing: 3
                 property int indexDragged
@@ -307,8 +311,12 @@ Item {
                 }
 
                 Controls.ScrollBar.vertical: Controls.ScrollBar {
-                    anchors.right: serviceItemList.right
-                    anchors.rightMargin: 0
+                    id: serviceListScrollBar
+                    parent: serviceItemList.parent
+                    anchors.right: background.right
+                    anchors.left: serviceItemList.right
+                    anchors.top: serviceItemList.top
+                    anchors.bottom: serviceItemList.bottom
                     active: hovered || pressed
                 }
 
