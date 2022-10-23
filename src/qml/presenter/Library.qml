@@ -75,6 +75,50 @@ Item {
                 }
             }
 
+            Rectangle {
+                id: songLibraryHeader
+                z: 2
+                height: 40
+                Layout.fillWidth: true
+                /* width: parent.width */
+                color: Kirigami.Theme.backgroundColor
+                opacity: 1
+                Kirigami.ActionToolBar {
+                    height: parent.height
+                    width: parent.width
+                    display: Controls.Button.IconOnly
+                    visible: selectedLibrary == "songs"
+                    actions: [
+                        Kirigami.Action {
+                            icon.name: "document-new"
+                            text: "New Song"
+                            tooltip: "Add a new song"
+                            onTriggered: songLibraryList.newSong()
+                            /* visible: selectedLibrary == "songs" */
+                        },
+                        
+                        Kirigami.Action {
+                            displayComponent: Component {
+                                Kirigami.SearchField {
+                                    id: searchField
+                                    height: parent.height
+                                    width: parent.width - 40
+                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                }
+                            }
+                            /* visible: selectedLibrary == "songs" */
+                        }
+                    ]
+
+                    Behavior on height {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+                }
+            }
+
             ListView {
                 Layout.preferredHeight: parent.height - 200
                 Layout.fillWidth: true
@@ -108,52 +152,6 @@ Item {
                         duration: 300
                     }
                 }
-
-                header: Component {
-                    Rectangle {
-                        id: songLibraryHeader
-                        z: 2
-                        height: 40
-                        width: parent.width
-                        color: Kirigami.Theme.backgroundColor
-                        Kirigami.ActionToolBar {
-                            height: parent.height
-                            width: parent.width
-                            display: Controls.Button.IconOnly
-                            visible: selectedLibrary == "songs"
-                            actions: [
-                                Kirigami.Action {
-                                    icon.name: "document-new"
-                                    text: "New Song"
-                                    tooltip: "Add a new song"
-                                    onTriggered: songLibraryList.newSong()
-                                    /* visible: selectedLibrary == "songs" */
-                                },
-                                
-                                Kirigami.Action {
-                                    displayComponent: Component {
-                                        Kirigami.SearchField {
-                                            id: searchField
-                                            height: parent.height
-                                            width: parent.width - 40
-                                            onAccepted: showPassiveNotification(searchField.text, 3000)
-                                        }
-                                    }
-                                    /* visible: selectedLibrary == "songs" */
-                                }
-                            ]
-
-                            Behavior on height {
-                                NumberAnimation {
-                                    easing.type: Easing.OutCubic
-                                    duration: 300
-                                }
-                            }
-                        }
-                    }
-                }
-
-                headerPositioning: ListView.OverlayHeader
 
                 Component {
                     id: songDelegate
@@ -279,7 +277,10 @@ Item {
                 }
 
                 Controls.ScrollBar.vertical: Controls.ScrollBar {
-                    anchors.right: songLibraryList.right
+                    /* parent: songLibraryList.parent */
+                    /* anchors.right: songLibraryList.right */
+                    /* anchors.top: songLibraryList.headerItem.top */
+                    /* anchors.bottom: songLibraryList.bottom */
                     /* anchors.leftMargin: 10 */
                     /* anchors.left: songLibraryList.right */
                     active: hovered || pressed
@@ -701,6 +702,14 @@ Item {
                         }
                     }
                 }
+
+                Controls.ScrollBar.vertical: Controls.ScrollBar {
+                    /* anchors.right: videoLibraryList.right */
+                    /* anchors.leftMargin: 10 */
+                    /* anchors.left: videoLibraryList.right */
+                    active: hovered || pressed
+                }
+
             }
 
             Rectangle {
@@ -903,6 +912,13 @@ Item {
                         }
                     }
                 }
+                Controls.ScrollBar.vertical: Controls.ScrollBar {
+                    /* anchors.right: videoLibraryList.right */
+                    /* anchors.leftMargin: 10 */
+                    /* anchors.left: videoLibraryList.right */
+                    active: hovered || pressed
+                }
+
             }
 
             Rectangle {
@@ -960,6 +976,14 @@ Item {
                         duration: 300
                     }
                 }
+
+                Controls.ScrollBar.vertical: Controls.ScrollBar {
+                    /* anchors.right: videoLibraryList.right */
+                    /* anchors.leftMargin: 10 */
+                    /* anchors.left: videoLibraryList.right */
+                    active: hovered || pressed
+                }
+
             }
         }
 
