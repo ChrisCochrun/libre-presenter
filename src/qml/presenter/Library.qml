@@ -33,7 +33,11 @@ Item {
 
                 Controls.Label {
                     id: songLabel
-                    anchors.centerIn: parent
+                    /* anchors.centerIn: parent */
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15
+                    anchors.verticalCenter: parent.verticalCenter
+                    elide: Text.ElideLeft
                     text: "Songs"
                 }
 
@@ -50,7 +54,7 @@ Item {
                 Kirigami.Icon {
                     id: drawerArrow
                     anchors {right: parent.right
-                             verticalCenter: songCount.verticalCenter
+                             verticalCenter: songLabel.verticalCenter
                              rightMargin: 10}
                     source: "arrow-down"
                     rotation: selectedLibrary == "songs" ? 0 : 180
@@ -78,11 +82,28 @@ Item {
             Rectangle {
                 id: songLibraryHeader
                 z: 2
-                height: 40
+                Layout.preferredHeight: 40
                 Layout.fillWidth: true
                 /* width: parent.width */
                 color: Kirigami.Theme.backgroundColor
                 opacity: 1
+                state: "selected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "songs")
+                        PropertyChanges { target: songLibraryHeader
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "songs")
+                        PropertyChanges { target: songLibraryHeader }
+                    }
+                ]
+
                 Kirigami.ActionToolBar {
                     height: parent.height
                     width: parent.width
@@ -120,7 +141,7 @@ Item {
             }
 
             ListView {
-                Layout.preferredHeight: parent.height - 200
+                Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 id: songLibraryList
@@ -306,7 +327,10 @@ Item {
 
                 Controls.Label {
                     id: videoLabel
-                    anchors.centerIn: parent
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15
+                    anchors.verticalCenter: parent.verticalCenter
+                    elide: Text.ElideRight
                     text: "Videos"
                 }
 
@@ -323,7 +347,7 @@ Item {
                 Kirigami.Icon {
                     id: videoDrawerArrow
                     anchors {right: parent.right
-                             verticalCenter: videoCount.verticalCenter
+                             verticalCenter: videoLabel.verticalCenter
                              rightMargin: 10}
                     source: "arrow-down"
                     rotation: selectedLibrary == "videos" ? 0 : 180
@@ -348,9 +372,80 @@ Item {
                 }
             }
 
+            Rectangle {
+                id: videoLibraryHeader
+                z: 2
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                /* width: parent.width */
+                color: Kirigami.Theme.backgroundColor
+                opacity: 1
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "videos")
+                        PropertyChanges { target: videoLibraryHeader
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "videos")
+                        PropertyChanges { target: videoLibraryHeader }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: videoLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+
+                Kirigami.ActionToolBar {
+                    height: parent.height
+                    width: parent.width
+                    display: Controls.Button.IconOnly
+                    visible: selectedLibrary == "videos"
+                    actions: [
+                        Kirigami.Action {
+                            icon.name: "document-new"
+                            text: "New Video"
+                            tooltip: "Add a new video"
+                            onTriggered: videoLibraryList.newVideo()
+                            /* visible: selectedLibrary == "videos" */
+                        },
+                        
+                        Kirigami.Action {
+                            displayComponent: Component {
+                                Kirigami.SearchField {
+                                    id: searchField
+                                    height: parent.height
+                                    width: parent.width - 40
+                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                }
+                            }
+                            /* visible: selectedLibrary == "videos" */
+                        }
+                    ]
+
+                    Behavior on height {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+                }
+            }
+
             ListView {
                 id: videoLibraryList
-                Layout.preferredHeight: parent.height - 200
+                Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 model: videosqlmodel
@@ -514,7 +609,10 @@ Item {
 
                 Controls.Label {
                     id: imageLabel
-                    anchors.centerIn: parent
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15
+                    anchors.verticalCenter: parent.verticalCenter
+                    elide: Text.ElideRight
                     text: "Images"
                 }
 
@@ -531,7 +629,7 @@ Item {
                 Kirigami.Icon {
                     id: imageDrawerArrow
                     anchors {right: parent.right
-                             verticalCenter: imageCount.verticalCenter
+                             verticalCenter: imageLabel.verticalCenter
                              rightMargin: 10}
                     source: "arrow-down"
                     rotation: selectedLibrary == "images" ? 0 : 180
@@ -556,9 +654,80 @@ Item {
                 }
             }
 
+            Rectangle {
+                id: imageLibraryHeader
+                z: 2
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                /* width: parent.width */
+                color: Kirigami.Theme.backgroundColor
+                opacity: 1
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "images")
+                        PropertyChanges { target: imageLibraryHeader
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "images")
+                        PropertyChanges { target: imageLibraryHeader }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: imageLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+
+                Kirigami.ActionToolBar {
+                    height: parent.height
+                    width: parent.width
+                    display: Controls.Button.IconOnly
+                    visible: selectedLibrary == "images"
+                    actions: [
+                        Kirigami.Action {
+                            icon.name: "document-new"
+                            text: "New Image"
+                            tooltip: "Add a new image"
+                            onTriggered: imageLibraryList.newImage()
+                            /* visible: selectedLibrary == "images" */
+                        },
+                        
+                        Kirigami.Action {
+                            displayComponent: Component {
+                                Kirigami.SearchField {
+                                    id: searchField
+                                    height: parent.height
+                                    width: parent.width - 40
+                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                }
+                            }
+                            /* visible: selectedLibrary == "images" */
+                        }
+                    ]
+
+                    Behavior on height {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+                }
+            }
+
             ListView {
                 id: imageLibraryList
-                Layout.preferredHeight: parent.height - 200
+                Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 model: imagesqlmodel
@@ -721,18 +890,18 @@ Item {
 
                 Controls.Label {
                     id: presentationLabel
-                    anchors.right: presentationCount.left
-                    anchors.rightMargin: 15
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15
                     anchors.verticalCenter: parent.verticalCenter
-                    text: "Presentations"
                     elide: Text.ElideRight
+                    text: "Presentations"
                 }
 
                 Controls.Label {
                     id: presentationCount
-                    anchors {right: presentationDrawerArrow.left
+                    anchors {left: presentationLabel.right
                              verticalCenter: presentationLabel.verticalCenter
-                             rightMargin: 10}
+                             leftMargin: 10}
                     text: pressqlmodel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
@@ -741,7 +910,7 @@ Item {
                 Kirigami.Icon {
                     id: presentationDrawerArrow
                     anchors {right: parent.right
-                             verticalCenter: presentationCount.verticalCenter
+                             verticalCenter: presentationLabel.verticalCenter
                              rightMargin: 10}
                     source: "arrow-down"
                     rotation: selectedLibrary == "presentations" ? 0 : 180
@@ -766,15 +935,86 @@ Item {
                 }
             }
 
+            Rectangle {
+                id: presentationLibraryHeader
+                z: 2
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                /* width: parent.width */
+                color: Kirigami.Theme.backgroundColor
+                opacity: 1
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "presentations")
+                        PropertyChanges { target: presentationLibraryHeader
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "presentations")
+                        PropertyChanges { target: presentationLibraryHeader }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: presentationLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+
+                Kirigami.ActionToolBar {
+                    height: parent.height
+                    width: parent.width
+                    display: Controls.Button.IconOnly
+                    visible: selectedLibrary == "presentations"
+                    actions: [
+                        Kirigami.Action {
+                            icon.name: "document-new"
+                            text: "New Presentation"
+                            tooltip: "Add a new presentation"
+                            onTriggered: presentationLibraryList.newPresentation()
+                            /* visible: selectedLibrary == "presentations" */
+                        },
+                        
+                        Kirigami.Action {
+                            displayComponent: Component {
+                                Kirigami.SearchField {
+                                    id: searchField
+                                    height: parent.height
+                                    width: parent.width - 40
+                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                }
+                            }
+                            /* visible: selectedLibrary == "presentations" */
+                        }
+                    ]
+
+                    Behavior on height {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+                }
+            }
+
             ListView {
                 id: presentationLibraryList
-                Layout.preferredHeight: parent.height - 200
+                Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
-                state: "deselected"
                 clip: true
                 model: pressqlmodel
                 delegate: presDelegate
+                state: "deselected"
 
                 states: [
                     State {
@@ -945,9 +1185,80 @@ Item {
                 }
             }
 
+            Rectangle {
+                id: slideLibraryHeader
+                z: 2
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                /* width: parent.width */
+                color: Kirigami.Theme.backgroundColor
+                opacity: 1
+                state: "deselected"
+
+                states: [
+                    State {
+                        name: "deselected"
+                        when: (selectedLibrary !== "slides")
+                        PropertyChanges { target: slideLibraryHeader
+                                          Layout.preferredHeight: 0
+                                        }
+                    },
+                    State {
+                        name: "selected"
+                        when: (selectedLibrary == "slides")
+                        PropertyChanges { target: slideLibraryHeader }
+                    }
+                ]
+
+                transitions: Transition {
+                    to: "*"
+                    NumberAnimation {
+                        target: slideLibraryList
+                        properties: "preferredHeight"
+                        easing.type: Easing.OutCubic
+                        duration: 300
+                    }
+                }
+
+                Kirigami.ActionToolBar {
+                    height: parent.height
+                    width: parent.width
+                    display: Controls.Button.IconOnly
+                    visible: selectedLibrary == "slides"
+                    actions: [
+                        Kirigami.Action {
+                            icon.name: "document-new"
+                            text: "New Slide"
+                            tooltip: "Add a new slide"
+                            onTriggered: slideLibraryList.newSlide()
+                            /* visible: selectedLibrary == "slides" */
+                        },
+                        
+                        Kirigami.Action {
+                            displayComponent: Component {
+                                Kirigami.SearchField {
+                                    id: searchField
+                                    height: parent.height
+                                    width: parent.width - 40
+                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                }
+                            }
+                            /* visible: selectedLibrary == "slides" */
+                        }
+                    ]
+
+                    Behavior on height {
+                        NumberAnimation {
+                            easing.type: Easing.OutCubic
+                            duration: 300
+                        }
+                    }
+                }
+            }
+
             ListView {
                 id: slideLibraryList
-                Layout.preferredHeight: parent.height - 200
+                Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 state: "deselected"
