@@ -29,6 +29,7 @@ Item {
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
+                z: 2
                 color: Kirigami.Theme.backgroundColor
 
                 Controls.Label {
