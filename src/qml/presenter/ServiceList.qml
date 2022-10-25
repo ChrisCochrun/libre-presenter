@@ -85,6 +85,202 @@ Item {
 
             /* onExited: dropHighlightLine.visible = false; */
 
+            Component {
+                id: delegate
+                Kirigami.AbstractListItem {
+                    id: serviceListItem
+                    implicitWidth: serviceItemList.width
+                    height: 30
+                    Kirigami.ListItemDragHandle {
+                        anchors.fill: parent
+                        listItem: serviceListItem
+                        listView: serviceItemList
+                        onMoveRequested: serviceItemModel.move(oldIndex, newIndex, 1)
+                    }
+                    DropArea {
+                        id: serviceDrop
+                        anchors.fill: parent
+                        /* enabled: false */
+
+                        onEntered: (drag) => {
+                            if (drag.keys[0] === "library") {
+                                dropHighlightLine.visible = true;
+                                dropHighlightLine.y = y - 2;
+                            }
+                        }
+
+                        /* onExited: dropHighlightLine.visible = false; */
+
+                        onDropped: (drag) => {
+                            print("DROPPED IN ITEM AREA: " + drag.keys);
+                            print(dragItemIndex + " " + index);
+                            const hlIndex = serviceItemList.currentIndex;
+                            if (drag.keys[0] === "library") {
+                                addItem(index,
+                                        dragItemTitle,
+                                        dragItemType,
+                                        dragItemBackground,
+                                        dragItemBackgroundType,
+                                        dragItemText,
+                                        dragItemAudio,
+                                        dragItemFont,
+                                        dragItemFontSize,
+                                        dragItemIndex);
+                            } else if (drag.keys[0] === "serviceitem") {
+                                serviceItemModel.move(serviceItemList.indexDragged,
+                                                      serviceItemList.moveToIndex);
+                                serviceItemList.currentIndex = moveToIndex;
+                            }
+                            dropHighlightLine.visible = false;
+                        }
+
+                        keys: ["library","serviceitem"]
+
+                        Rectangle {
+                            id: visServiceItem
+                            width: serviceDrop.width
+                            height: serviceDrop.height
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                                verticalCenter: parent.verticalCenter
+                            }
+                            color: {
+                                if (active)
+                                    Kirigami.Theme.highlightColor;
+                                else if (selected)
+                                    Kirigami.Theme.focusColor;
+                                else if (mouseHandler.containsMouse)
+                                    Kirigami.Theme.hoverColor;
+                                else
+                                    Kirigami.Theme.backgroundColor;
+                            }
+
+                            Controls.Label {
+                                id: label
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.leftMargin: 5
+                                text: name
+                                elide: Text.ElideRight
+                                width: parent.width - trailing.width - 15
+                                color: {
+                                    if (selected ||
+                                        mouseHandler.containsMouse || active)
+                                        Kirigami.Theme.highlightedTextColor;
+                                    else
+                                        Kirigami.Theme.textColor;
+                                }
+                            }
+
+                            Controls.Label {
+                                id: trailing
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.rightMargin: 5
+                                text: type
+                                color: {
+                                    if (selected ||
+                                        mouseHandler.containsMouse || active)
+                                        Kirigami.Theme.highlightedTextColor;
+                                    else
+                                        Kirigami.Theme.disabledTextColor;
+                                }
+                            }
+
+                            onYChanged: serviceItemList.updateDrag(Math.round(y));
+
+                            states: [
+                                State {
+                                    when: mouseHandler.drag.active
+                                    ParentChange {
+                                        target: visServiceItem
+                                        parent: serviceItemList
+                                    }
+
+                                    PropertyChanges {
+                                        target: visServiceItem
+                                        /* backgroundColor: Kirigami.Theme.backgroundColor */
+                                        /* textColor: Kirigami.Theme.textColor */
+                                        anchors.verticalCenter: undefined
+                                        anchors.horizontalCenter: undefined
+                                    }
+                                }
+                            ]
+
+                            /* Drag.dragType: Drag.Automatic */
+                            Drag.active: mouseHandler.drag.active
+                            Drag.hotSpot.x: width / 2
+                            Drag.hotSpot.y: height / 2
+                            Drag.keys: ["serviceitem"]
+
+                            MouseArea {
+                                id: mouseHandler
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                preventStealing: true
+
+                                drag {
+                                    target: visServiceItem
+                                    axis: Drag.YAxis
+                                    /* minimumY: root.y */
+                                    /* maximumY: serviceItemList.height - serviceDrop.height */
+                                    smoothed: false
+                                }
+
+                                drag.onActiveChanged: {
+                                    if (mouseHandler.drag.active) {
+                                        serviceItemList.indexDragged = index;
+                                    } 
+                                }
+
+                                /* onPositionChanged: { */
+                                /*     if (!pressed) { */
+                                /*         return; */
+                                /*     } */
+                                /*     mouseArea.arrangeItem(); */
+                                /* } */
+
+                                onPressed: {
+                                    serviceItemList.interactive = false;
+                                }
+
+                                onClicked: {
+                                    if (mouse.button === Qt.RightButton)
+                                        rightClickMenu.popup();
+                                    else {
+                                        serviceItemList.currentIndex = index;
+                                        serviceItemModel.select(index);
+                                        /* currentServiceItem = index; */
+                                        /* changeItem(index); */
+                                    }
+                                }
+
+                                onDoubleClicked: {
+                                    /* showPassiveNotification("Double Clicked") */
+                                    /* serviceItemList.currentIndex = index; */
+                                    changeServiceItem(index);
+                                }
+
+                                onReleased: {
+                                    print("should drop");
+                                    visServiceItem.Drag.drop();
+                                }
+                            }
+                        }
+                        Controls.Menu {
+                            id: rightClickMenu
+                            x: mouseHandler.mouseX
+                            y: mouseHandler.mouseY + 10
+                            Kirigami.Action {
+                                text: "delete"
+                                onTriggered: removeItem(index);
+                            }
+                        }
+                    }
+                }
+            }
+
             ListView {
                 id: serviceItemList
                 anchors.top: parent.top
@@ -119,190 +315,10 @@ Item {
 
                 model: serviceItemModel
 
-                delegate: DropArea {
-                    id: serviceDrop
-                    implicitWidth: serviceItemList.width
-                    height: 30
-                    /* enabled: false */
-
-                    onEntered: (drag) => {
-                        if (drag.keys[0] === "library") {
-                            dropHighlightLine.visible = true;
-                            dropHighlightLine.y = y - 2;
-                        }
-                    }
-
-                    /* onExited: dropHighlightLine.visible = false; */
-
-                    onDropped: (drag) => {
-                        print("DROPPED IN ITEM AREA: " + drag.keys);
-                        print(dragItemIndex + " " + index);
-                        const hlIndex = serviceItemList.currentIndex;
-                        if (drag.keys[0] === "library") {
-                            addItem(index,
-                                    dragItemTitle,
-                                    dragItemType,
-                                    dragItemBackground,
-                                    dragItemBackgroundType,
-                                    dragItemText,
-                                    dragItemAudio,
-                                    dragItemFont,
-                                    dragItemFontSize,
-                                    dragItemIndex);
-                        } else if (drag.keys[0] === "serviceitem") {
-                            serviceItemModel.move(serviceItemList.indexDragged,
-                                                  serviceItemList.moveToIndex);
-                            serviceItemList.currentIndex = moveToIndex;
-                        }
-                        dropHighlightLine.visible = false;
-                    }
-
-                    keys: ["library","serviceitem"]
-
-                    Rectangle {
-                        id: visServiceItem
-                        width: serviceDrop.width
-                        height: serviceDrop.height
-                        anchors {
-                            horizontalCenter: parent.horizontalCenter
-                            verticalCenter: parent.verticalCenter
-                        }
-                        color: {
-                            if (active)
-                                Kirigami.Theme.highlightColor;
-                            else if (selected)
-                                Kirigami.Theme.focusColor;
-                            else if (mouseHandler.containsMouse)
-                                Kirigami.Theme.hoverColor;
-                            else
-                                Kirigami.Theme.backgroundColor;
-                        }
-
-                        Controls.Label {
-                            id: label
-                            anchors.left: parent.left
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.leftMargin: 5
-                            text: name
-                            elide: Text.ElideRight
-                            width: parent.width - trailing.width - 15
-                            color: {
-                                if (selected ||
-                                    mouseHandler.containsMouse || active)
-                                    Kirigami.Theme.highlightedTextColor;
-                                else
-                                    Kirigami.Theme.textColor;
-                            }
-                        }
-
-                        Controls.Label {
-                            id: trailing
-                            anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.rightMargin: 5
-                            text: type
-                            color: {
-                                if (selected ||
-                                    mouseHandler.containsMouse || active)
-                                    Kirigami.Theme.highlightedTextColor;
-                                else
-                                    Kirigami.Theme.disabledTextColor;
-                            }
-                        }
-
-                        onYChanged: serviceItemList.updateDrag(Math.round(y));
-
-                        states: [
-                            State {
-                                when: mouseHandler.drag.active
-                                ParentChange {
-                                    target: visServiceItem
-                                    parent: serviceItemList
-                                }
-
-                                PropertyChanges {
-                                    target: visServiceItem
-                                    /* backgroundColor: Kirigami.Theme.backgroundColor */
-                                    /* textColor: Kirigami.Theme.textColor */
-                                    anchors.verticalCenter: undefined
-                                    anchors.horizontalCenter: undefined
-                                }
-                            }
-                        ]
-
-                        /* Drag.dragType: Drag.Automatic */
-                        Drag.active: mouseHandler.drag.active
-                        Drag.hotSpot.x: width / 2
-                        Drag.hotSpot.y: height / 2
-                        Drag.keys: ["serviceitem"]
-
-                        MouseArea {
-                            id: mouseHandler
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            preventStealing: true
-
-                            drag {
-                                target: visServiceItem
-                                axis: Drag.YAxis
-                                /* minimumY: root.y */
-                                /* maximumY: serviceItemList.height - serviceDrop.height */
-                                smoothed: false
-                            }
-
-                            drag.onActiveChanged: {
-                                if (mouseHandler.drag.active) {
-                                    serviceItemList.indexDragged = index;
-                                } 
-                            }
-
-                            /* onPositionChanged: { */
-                            /*     if (!pressed) { */
-                            /*         return; */
-                            /*     } */
-                            /*     mouseArea.arrangeItem(); */
-                            /* } */
-
-                            onPressed: {
-                                serviceItemList.interactive = false;
-                            }
-
-                            onClicked: {
-                                if (mouse.button === Qt.RightButton)
-                                    rightClickMenu.popup();
-                                else {
-                                    serviceItemList.currentIndex = index;
-                                    serviceItemModel.select(index);
-                                    /* currentServiceItem = index; */
-                                    /* changeItem(index); */
-                                }
-                            }
-
-                            onDoubleClicked: {
-                                /* showPassiveNotification("Double Clicked") */
-                                /* serviceItemList.currentIndex = index; */
-                                changeServiceItem(index);
-                            }
-
-                            onReleased: {
-                                print("should drop");
-                                visServiceItem.Drag.drop();
-                            }
-                        }
-                    }
-                    Controls.Menu {
-                        id: rightClickMenu
-                        x: mouseHandler.mouseX
-                        y: mouseHandler.mouseY + 10
-                        Kirigami.Action {
-                            text: "delete"
-                            onTriggered: removeItem(index);
-                        }
-                    }
+                delegate: Kirigami.DelegateRecycler {
+                    width: serviceItemList.width
+                    sourceComponent: delegate
                 }
-
-
                 Kirigami.WheelHandler {
                     id: wheelHandler
                     target: serviceItemList
