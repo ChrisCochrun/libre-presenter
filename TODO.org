@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [65%] [28/43]
+* Tasks [67%] [29/43]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -42,7 +42,17 @@ I could add this by adding a bool as a gallery option in the ImageSqlModel. Then
 ** TODO Make libraries and models aware of being selected.
 This allows us to drag multiple to service list and delete multiple.
 final part to this is allowing for multiple select and multiple move in service list or library
-** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
+** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
+
+- [X] alignment
+- [X] font - Need to finish the UI portion of it
+- [X] fontsize - Need to finish the UI portion of it
+- [ ] effects?
+  For effects, I'm not 100% sure how to do this in an easy to build out way. Should I just do them the same as the other attributes or have effects be individually stored? Which effects to use?
+
+  I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
+
 ** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
 
@@ -62,23 +72,7 @@ final part to this is allowing for multiple select and multiple move in service 
 
   Maybe I'll need to change something else but what?
 
-** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
-[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
-
-- [X] alignment
-- [X] font - Need to finish the UI portion of it
-- [X] fontsize - Need to finish the UI portion of it
-- [ ] effects?
-  For effects, I'm not 100% sure how to do this in an easy to build out way. Should I just do them the same as the other attributes or have effects be individually stored? Which effects to use?
-
-  I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
-
-** TODO Check for edge cases in inputing wrong vorder and lyrics :core:
-[[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
-
-Let's test this, because I think I fixed it.
-*still extra bits on last slide*
-
+** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 ** TODO Fix possible bug in arrangingItems in draghandler [1/3] [33%] :bug:
 [[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
 
@@ -94,6 +88,12 @@ Let's test this, because I think I fixed it.
 https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
 This thread helped a lot
 
+
+** DONE Check for edge cases in inputing wrong vorder and lyrics     :core:
+[[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
+
+Let's test this, because I think I fixed it.
+*still extra bits on last slide*
 
 ** DONE Make serviceItemModel aware of being selected and active
 Being selected means that those items can be dragged or deleted or moved together.
