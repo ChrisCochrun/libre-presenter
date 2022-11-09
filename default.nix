@@ -104,7 +104,7 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
   mkdir -p $out/bin
-  mv build/bin/presenter $out/bin
+  cp -r build/bin/* $out/bin
   '';
 
   meta = with lib; {
