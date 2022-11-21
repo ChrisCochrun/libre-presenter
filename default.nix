@@ -93,18 +93,14 @@ stdenv.mkDerivation rec {
 
   # '';
 
-  configurePhase = ''
-  cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -B build/ .
-  '';
-
-  buildPhase = ''
-  make --dir build/
-  rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
-  '';
+  # buildPhase = ''
+  # rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
+  # '';
 
   installPhase = ''
   mkdir -p $out/bin
-  cp -r build/bin/* $out/bin
+  cp -r bin/* $out/bin
+  rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
   '';
 
   meta = with lib; {
