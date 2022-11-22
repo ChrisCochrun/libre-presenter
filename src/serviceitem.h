@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <qobject.h>
+#include "thumbnail.h"
 
 class ServiceItem : public QObject
 {
@@ -17,6 +18,7 @@ class ServiceItem : public QObject
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  // Q_PROPERTY(Thumbnail thumbnail READ thumbnail WRITE setThumbnail NOTIFY thumbnailChanged)
 
 public:
   explicit ServiceItem(QObject *parent = nullptr);
@@ -43,6 +45,7 @@ public:
   int fontSize() const;
   bool active() const;
   bool selected() const;
+  // Thumbnail thumbnail() const;
 
   void setName(QString name);
   void setType(QString type);
