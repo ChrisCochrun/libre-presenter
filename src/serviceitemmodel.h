@@ -82,7 +82,7 @@ public:
                               const QString &backgroundType, const QStringList &text,
                               const QString &audio, const QString &font, const int &fontSize);
   Q_INVOKABLE void removeItem(int index);
-  Q_INVOKABLE bool move(int sourceIndex, int destIndex);
+  Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);
   Q_INVOKABLE bool moveDown(int index);
   Q_INVOKABLE bool moveUp(int index);
   Q_INVOKABLE bool select(int id);

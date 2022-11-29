@@ -322,43 +322,32 @@ void ServiceItemModel::removeItem(int index) {
   endRemoveRows();
 }
 
-bool ServiceItemModel::move(int sourceIndex, int destIndex) {
+bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
   qDebug() << index(sourceIndex).row();
   qDebug() << index(destIndex).row();
-  QModelIndex parent = index(sourceIndex).parent();
-  if (sourceIndex >= 0 && sourceIndex != destIndex &&
-      destIndex > -1 && destIndex <= rowCount() &&
-      sourceIndex < rowCount()) {
-    qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
-    bool begsuc = beginMoveRows(parent, sourceIndex,
-                                sourceIndex, parent, destIndex);
-    if (begsuc) {
-      if (destIndex == -1)
-        {
-          qDebug() << "dest was too small, moving to row 0";
-          m_items.move(sourceIndex, 0);
-        }
-      else
-        {
-          qDebug() << "dest was not too small";
-          if (destIndex >= m_items.size())
-            {
-              qDebug() << "destIndex too big, moving to end";
-              m_items.move(sourceIndex, m_items.size() - 1);
-            }
-          else
-            m_items.move(sourceIndex, destIndex);
-        }
-      endMoveRows();
-      return true;
-    }
-    qDebug() << "Can't move row, not sure why, sourceIndex: "
-             << sourceIndex << " destIndex: " << destIndex;
+
+  if (sourceIndex < 0 || sourceIndex == destIndex ||
+      destIndex == -1 || destIndex > rowCount() ||
+      sourceIndex >= rowCount()) {
+    return false;
+  };
+
+  const QModelIndex parent = index(sourceIndex).parent();
+  const bool isMoveDown = destIndex > sourceIndex;
+
+
+  if (!beginMoveRows(parent, sourceIndex, sourceIndex + count - 1,
+                     parent, isMoveDown ? destIndex + 1 : destIndex)) {
+    qDebug() << "Can't move rows";
     return false;
   }
-  qDebug() << "Can't move row, invalid options, sourceIndex: "
-           << sourceIndex << " destIndex: " << destIndex;
-  return false;
+    
+  qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
+
+  m_items.move(sourceIndex, isMoveDown ? destIndex + 1 : destIndex);
+
+  endMoveRows();
+  return true;
 }
 
 bool ServiceItemModel::moveDown(int id) {
@@ -388,7 +377,20 @@ bool ServiceItemModel::moveUp(int id) {
   qDebug() << index(id - 1).row();
   QModelIndex parent = index(id).parent();
 
-
+  bool begsuc = beginMoveRows(parent, id,
+                              id, parent, id - 1);
+  if (begsuc) {
+    int dest = id - 1;
+    if (dest <= -1)
+      {
+        qDebug() << "dest too big, moving to beginning";
+        m_items.move(id, 0);
+      }
+    else
+      m_items.move(id, dest);
+    endMoveRows();
+    return true;
+  }
 
   return false;
 }

@@ -91,12 +91,7 @@ Item {
                     id: serviceListItem
                     implicitWidth: serviceItemList.width
                     height: 30
-                    Kirigami.ListItemDragHandle {
-                        anchors.fill: parent
-                        listItem: serviceListItem
-                        listView: serviceItemList
-                        onMoveRequested: serviceItemModel.move(oldIndex, newIndex, 1)
-                    }
+
                     DropArea {
                         id: serviceDrop
                         anchors.fill: parent
@@ -127,9 +122,9 @@ Item {
                                         dragItemFontSize,
                                         dragItemIndex);
                             } else if (drag.keys[0] === "serviceitem") {
-                                serviceItemModel.move(serviceItemList.indexDragged,
-                                                      serviceItemList.moveToIndex);
-                                serviceItemList.currentIndex = moveToIndex;
+                                /* serviceItemModel.moveRows(serviceItemList.indexDragged, */
+                                /*                       serviceItemList.moveToIndex, 1); */
+                                /* serviceItemList.currentIndex = moveToIndex; */
                             }
                             dropHighlightLine.visible = false;
                         }
@@ -157,12 +152,12 @@ Item {
 
                             Controls.Label {
                                 id: label
-                                anchors.left: parent.left
+                                anchors.left: dragHandle.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.leftMargin: 5
                                 text: name
                                 elide: Text.ElideRight
-                                width: parent.width - trailing.width - 15
+                                width: parent.width - trailing.width - dragHandle.width - 15
                                 color: {
                                     if (selected ||
                                         mouseHandler.containsMouse || active)
@@ -187,7 +182,7 @@ Item {
                                 }
                             }
 
-                            onYChanged: serviceItemList.updateDrag(Math.round(y));
+                            /* onYChanged: serviceItemList.updateDrag(Math.round(y)); */
 
                             states: [
                                 State {
@@ -208,31 +203,31 @@ Item {
                             ]
 
                             /* Drag.dragType: Drag.Automatic */
-                            Drag.active: mouseHandler.drag.active
-                            Drag.hotSpot.x: width / 2
-                            Drag.hotSpot.y: height / 2
-                            Drag.keys: ["serviceitem"]
+                            /* Drag.active: mouseHandler.drag.active */
+                            /* Drag.hotSpot.x: width / 2 */
+                            /* Drag.hotSpot.y: height / 2 */
+                            /* Drag.keys: ["serviceitem"] */
 
                             MouseArea {
                                 id: mouseHandler
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                preventStealing: true
+                                /* preventStealing: true */
 
-                                drag {
-                                    target: visServiceItem
-                                    axis: Drag.YAxis
-                                    /* minimumY: root.y */
-                                    /* maximumY: serviceItemList.height - serviceDrop.height */
-                                    smoothed: false
-                                }
+                                /* drag { */
+                                /*     target: visServiceItem */
+                                /*     axis: Drag.YAxis */
+                                /*     /\* minimumY: root.y *\/ */
+                                /*     /\* maximumY: serviceItemList.height - serviceDrop.height *\/ */
+                                /*     smoothed: false */
+                                /* } */
 
-                                drag.onActiveChanged: {
-                                    if (mouseHandler.drag.active) {
-                                        serviceItemList.indexDragged = index;
-                                    } 
-                                }
+                                /* drag.onActiveChanged: { */
+                                /*     if (mouseHandler.drag.active) { */
+                                /*         serviceItemList.indexDragged = index; */
+                                /*     }  */
+                                /* } */
 
                                 /* onPositionChanged: { */
                                 /*     if (!pressed) { */
@@ -267,6 +262,18 @@ Item {
                                     visServiceItem.Drag.drop();
                                 }
                             }
+
+                            Kirigami.ListItemDragHandle {
+                                id: dragHandle
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.leftMargin: 5
+                                width: 20
+                                listItem: serviceListItem
+                                listView: serviceItemList
+                                onMoveRequested: serviceItemModel.moveRows(oldIndex, newIndex, 1)
+                            }
+
                         }
                         Controls.Menu {
                             id: rightClickMenu
@@ -346,7 +353,7 @@ Item {
 
                 function moveRequested(oldIndex, newIndex) {
                     print("moveRequested: ", oldIndex, newIndex);
-                    serviceItemModel.move(oldIndex, newIndex);
+                    serviceItemModel.moveRows(oldIndex, newIndex, 1);
                     indexDragged = newIndex;
                     serviceItemList.currentIndex = newIndex;
                 }
@@ -439,7 +446,7 @@ Item {
                         const newid = serviceItemList.currentIndex - 1;
                         showPassiveNotification(oldid + " " + newid);
                         showPassiveNotification("Up");
-                        const ans = serviceItemModel.move(oldid, newid);
+                        const ans = serviceItemModel.moveRows(oldid, newid, 1);
                         if (ans)
                         {
                             serviceItemList.currentIndex = newid;
