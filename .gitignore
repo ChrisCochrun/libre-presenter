@@ -2,3 +2,5 @@ build
 .cache
 CMakeLists.txt.*
 present.pro
+.direnv
+bld

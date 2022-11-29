@@ -51,7 +51,7 @@ mkShell rec {
   shellHook = ''
     setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
     echo "shellHook: setQtEnvironment = $setQtEnvironment"
-    makeWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
+    makeQtWrapper "/bin/sh" "$setQtEnvironment" "''${qtWrapperArgs[@]}"
     sed "/^exec/d" -i "$setQtEnvironment"
     source "$setQtEnvironment"
   '';
