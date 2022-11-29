@@ -115,6 +115,8 @@ int main(int argc, char *argv[])
 
   connectToDatabase();
 
+  qSetMessagePattern("%{type}: %{time [h:m:s ap]} %{function} in %{file}: %{message}\n");
+
   QQmlApplicationEngine engine;
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
