@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [67%] [29/43]
+* Tasks [72%] [31/43]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -24,7 +24,7 @@ Others:
   - Need to have the model give back all ids of the selected items so they can be manipulated
 - Multi Drag? Maybe...
 *** TODO Major Bugs
-- Drag and Drop of ServiceList
+- ~Drag and Drop of ServiceList~
 - UI Blocking when saving
 *** TODO Deployment
 - [ ] Linux
@@ -32,7 +32,6 @@ Others:
 - [ ] Windows
 - [ ] Macos
 ** TODO UI Blocks while saving :bug:
-** DONE Library and ServiceList scrollbar is in the way            :bug:ui:
 ** TODO give images an aspect ratio option :feature:
 ** TODO Fix ImageEditor to make more sense for images :ui:
 ** TODO Add image slideshow with looping :feature:
@@ -72,15 +71,6 @@ final part to this is allowing for multiple select and multiple move in service 
 
   Maybe I'll need to change something else but what?
 
-** TODO bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
-** TODO Fix possible bug in arrangingItems in draghandler [1/3] [33%] :bug:
-[[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
-
-- [X] Basic fixed drag n drop
-- [ ] Allow for a less buggy interaction
-  I think one of the major problems has to do with moving the item while I am still draggin it. This means that I am then shifting the item's id whilst dragging and causing some unsuspected behavior? Not sure, need to maybe consult some one else if possible.
-- [ ] Need to check for edge cases
-
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
 
@@ -89,11 +79,22 @@ https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
 This thread helped a lot
 
 
+** DONE Library and ServiceList scrollbar is in the way            :bug:ui:
+** DONE bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
+I switched back to using Kirigami.dragHandler and properly implemented moveRows in the serviceItemModel
 ** DONE Check for edge cases in inputing wrong vorder and lyrics     :core:
 [[file:~/dev/church-presenter/TODO.org::*Fix broken append when importing River song][Fix broken append when importing River song]]
 
 Let's test this, because I think I fixed it.
 *still extra bits on last slide*
+
+** DONE Fix possible bug in arrangingItems in draghandler [1/3] [33%]   :bug:
+[[file:~/dev/church-presenter/src/qml/presenter/DragHandle.qml::function arrangeItem() {]]
+
+- [X] Basic fixed drag n drop
+- [ ] Allow for a less buggy interaction
+  I think one of the major problems has to do with moving the item while I am still draggin it. This means that I am then shifting the item's id whilst dragging and causing some unsuspected behavior? Not sure, need to maybe consult some one else if possible.
+- [ ] Need to check for edge cases
 
 ** DONE Make serviceItemModel aware of being selected and active
 Being selected means that those items can be dragged or deleted or moved together.
