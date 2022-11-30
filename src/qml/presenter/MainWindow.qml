@@ -44,6 +44,8 @@ Controls.Page {
 
     property var currentWindow: presentation
 
+    property var dragHighlightLine
+
     Component.onCompleted: {
         changeServiceItem(0);
         presentation.forceActiveFocus();

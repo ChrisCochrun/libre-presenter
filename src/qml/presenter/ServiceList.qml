@@ -366,7 +366,7 @@ Item {
                 height: 4
                 color: Kirigami.Theme.hoverColor
                 visible: false
-
+                Component.onCompleted: dragHighlightLine = dropHighlightLine
             }
             Canvas {
                 /* asynchronous: true; */

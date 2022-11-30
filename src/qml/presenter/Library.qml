@@ -253,12 +253,13 @@ Item {
                                         dragItemFontSize = fontSize;
                                         draggedLibraryItem = self;
                                     } else {
-                                        songListItem.Drag.drop()
+                                        songListItem.Drag.drop();
+                                        dragHighlightLine.visible = false;
                                     }
                                 }
                                 filterChildren: true
                                 threshold: 10
-                                /* onDropped: songDropped = true; */
+                                /* onDropped: dragHighlightLine.visible = false; */
                             }
                             MouseArea {
                                 id: songClickHandler
@@ -555,6 +556,7 @@ Item {
                                         dragItemBackground = filePath;
                                     } else {
                                         videoListItem.Drag.drop()
+                                        dragHighlightLine.visible = false;
                                     }
                                 }
                                 filterChildren: true
@@ -837,6 +839,7 @@ Item {
                                         dragItemBackground = filePath;
                                     } else {
                                         imageListItem.Drag.drop()
+                                        dragHighlightLine.visible = false;
                                     }
                                 }
                                 filterChildren: true
@@ -1118,6 +1121,7 @@ Item {
                                         dragItemBackground = filePath;
                                     } else {
                                         presListItem.Drag.drop()
+                                        dragHighlightLine.visible = false;
                                     }
                                 }
                                 filterChildren: true
