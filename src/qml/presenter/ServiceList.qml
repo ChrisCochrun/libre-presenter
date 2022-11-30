@@ -100,7 +100,10 @@ Item {
                         onEntered: (drag) => {
                             if (drag.keys[0] === "library") {
                                 dropHighlightLine.visible = true;
-                                dropHighlightLine.y = y - 2;
+                                showPassiveNotification("Y is: " + serviceDrop.mapToItem(
+                                    serviceItemList,0,0).y);
+                                dropHighlightLine.y = serviceDrop.mapToItem(
+                                    serviceItemList,0,0).y - 2;
                             }
                         }
 
