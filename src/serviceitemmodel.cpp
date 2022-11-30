@@ -557,7 +557,14 @@ bool ServiceItemModel::save(QUrl file) {
   QString filename = file.toString().right(file.toString().size() - 7);
   qDebug() << filename;
 
-  KTar tar(filename, "application/zstd");
+  QString tarname;
+  if (filename.endsWith(".pres")) {
+    qDebug() << "Perfect just go with it!";
+    tarname = filename;
+  } else
+    tarname = filename + ".pres";
+
+  KTar tar(tarname, "application/zstd");
 
   if (tar.open(QIODevice::WriteOnly)) {
     qDebug() << tar.isOpen();

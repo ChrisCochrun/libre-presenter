@@ -122,7 +122,7 @@ Kirigami.ApplicationWindow {
         defaultSuffix: ".pres"
         selectExisting: false
         onAccepted: {
-            save(saveFileDialog.fileUrl + ".pres");
+            save(saveFileDialog.fileUrl);
         }
         onRejected: {
             print("Canceled")
