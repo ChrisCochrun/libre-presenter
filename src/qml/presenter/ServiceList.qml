@@ -369,68 +369,71 @@ Item {
                 height: 4
                 color: Kirigami.Theme.hoverColor
                 visible: false
-                Component.onCompleted: dragHighlightLine = dropHighlightLine
+                Component.onCompleted: {
+                    dragHighlightLine = dropHighlightLine;
+                }
             }
-            /* Canvas { */
-            /*     /\* asynchronous: true; *\/ */
-            /*     x: dropHighlightLine.width - 8 */
-            /*     y: dropHighlightLine.y - 17 */
-            /*     z: 1 */
-            /*     width: 100; height: 100; */
-            /*     contextType: "2d" */
-            /*     renderStrategy: Canvas.Threaded */
-            /*     onPaint: { */
-            /*         var ctx = getContext("2d"); */
-            /*         ctx.fillRule = Qt.OddEvenFill */
-            /*         ctx.fillStyle = Kirigami.Theme.hoverColor.name(); */
-            /*         ctx.rotate(30); */
-            /*         ctx.transform(0.8, 0, 0, 0.8, 0, 30) */
-            /*         ctx.path = tearDropPath; */
-            /*         ctx.fill(); */
-            /*     } */
-            /*     visible: dropHighlightLine.visible */
-            /* } */
-            /* Path { */
-            /*     id: tearDropPath */
-            /*     startX: dropHighlightLine.width */
-            /*     startY: dropHighlightLine.y + 4 */
-            /*     PathSvg { */
-            /*         path: "M15 3 */
-            /*                Q16.5 6.8 25 18 */
-            /*                A12.8 12.8 0 1 1 5 18 */
-            /*                Q13.5 6.8 15 3z" */
-            /*     } */
-            /* } */
-
-            Shape {
+            Canvas {
+                /* asynchronous: true; */
                 x: dropHighlightLine.width - 8
                 y: dropHighlightLine.y - 17
                 z: 1
                 width: 100; height: 100;
-
-                ShapePath {
-                    fillColor: Kirigami.Theme.hoverColor
-                    startX: 0; startY: 0
-                    PathLine { x: 180; y: 130 }
-                    PathLine { x: 20; y: 130 }
-                    PathLine { x: 20; y: 20 }
-                    PathArc {
-                        x: 40; y: 200;
-                        radiusX: 200;
-                        radiusY: 200;
-                        useLargeArc: true
-                    }
-                    PathLine { x: 40; y: 120 }
-                    PathArc {
-                        x: -40; y: 120;
-                        radiusX: 120;
-                        radiusY: 120;
-                        useLargeArc: true;
-                        direction: PathArc.Counterclockwise
-                    }
-                    PathLine { x: -40; y: 200 }
+                contextType: "2d"
+                renderStrategy: Canvas.Threaded
+                onPaint: {
+                    print(Kirigami.Theme.hoverColor.name());
+                    var ctx = getContext("2d");
+                    ctx.fillRule = Qt.OddEvenFill
+                    ctx.fillStyle = Kirigami.Theme.hoverColor.rgb();
+                    ctx.rotate(30);
+                    ctx.transform(0.8, 0, 0, 0.8, 0, 30)
+                    ctx.path = tearDropPath;
+                    ctx.fill();
+                }
+                visible: dropHighlightLine.visible
+            }
+            Path {
+                id: tearDropPath
+                startX: dropHighlightLine.width
+                startY: dropHighlightLine.y + 4
+                PathSvg {
+                    path: "M15 3
+                           Q16.5 6.8 25 18
+                           A12.8 12.8 0 1 1 5 18
+                           Q13.5 6.8 15 3z"
                 }
             }
+
+            /* Shape { */
+            /*     x: dropHighlightLine.width - 8 */
+            /*     y: dropHighlightLine.y - 17 */
+            /*     z: 1 */
+            /*     width: 100; height: 100; */
+
+            /*     ShapePath { */
+            /*         fillColor: Kirigami.Theme.hoverColor */
+            /*         startX: 0; startY: 0 */
+            /*         PathLine { x: 180; y: 130 } */
+            /*         PathLine { x: 20; y: 130 } */
+            /*         PathLine { x: 20; y: 20 } */
+            /*         PathArc { */
+            /*             x: 40; y: 200; */
+            /*             radiusX: 200; */
+            /*             radiusY: 200; */
+            /*             useLargeArc: true */
+            /*         } */
+            /*         PathLine { x: 40; y: 120 } */
+            /*         PathArc { */
+            /*             x: -40; y: 120; */
+            /*             radiusX: 120; */
+            /*             radiusY: 120; */
+            /*             useLargeArc: true; */
+            /*             direction: PathArc.Counterclockwise */
+            /*         } */
+            /*         PathLine { x: -40; y: 200 } */
+            /*     } */
+            /* } */
         } 
 
         Kirigami.ActionToolBar {
