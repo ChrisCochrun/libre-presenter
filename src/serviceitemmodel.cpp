@@ -326,15 +326,16 @@ bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
   qDebug() << index(sourceIndex).row();
   qDebug() << index(destIndex).row();
 
-  if (sourceIndex < 0 || sourceIndex == destIndex ||
-      destIndex == -1 || destIndex > rowCount() ||
-      sourceIndex >= rowCount()) {
+  const int lastIndex = rowCount() - 1;
+
+  if (sourceIndex == destIndex
+      || (sourceIndex < 0 || sourceIndex > lastIndex)
+      || (destIndex < 0 || destIndex > lastIndex)) {
     return false;
-  };
+  }
 
   const QModelIndex parent = index(sourceIndex).parent();
   const bool isMoveDown = destIndex > sourceIndex;
-
 
   if (!beginMoveRows(parent, sourceIndex, sourceIndex + count - 1,
                      parent, isMoveDown ? destIndex + 1 : destIndex)) {
