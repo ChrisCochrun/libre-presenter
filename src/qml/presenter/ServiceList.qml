@@ -216,7 +216,6 @@ Item {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                /* preventStealing: true */
 
                                 /* drag { */
                                 /*     target: visServiceItem */
@@ -249,14 +248,10 @@ Item {
                                     else {
                                         serviceItemList.currentIndex = index;
                                         serviceItemModel.select(index);
-                                        /* currentServiceItem = index; */
-                                        /* changeItem(index); */
                                     }
                                 }
 
                                 onDoubleClicked: {
-                                    /* showPassiveNotification("Double Clicked") */
-                                    /* serviceItemList.currentIndex = index; */
                                     changeServiceItem(index);
                                 }
 
@@ -274,7 +269,9 @@ Item {
                                 width: 20
                                 listItem: serviceListItem
                                 listView: serviceItemList
-                                onMoveRequested: serviceItemModel.moveRows(oldIndex, newIndex, 1)
+                                onMoveRequested: serviceItemModel.moveRows(oldIndex,
+                                                                           newIndex,
+                                                                           1)
                             }
 
                         }
@@ -346,20 +343,20 @@ Item {
                     active: hovered || pressed
                 }
 
-                function updateDrag(y) {
-                    if (moveToIndex === serviceItemList.indexAt(0,y))
-                        return;
-                    else
-                        moveToIndex = serviceItemList.indexAt(0,y);
-                    moveRequested(indexDragged, moveToIndex);
-                }
+                /* function updateDrag(y) { */
+                /*     if (moveToIndex === serviceItemList.indexAt(0,y)) */
+                /*         return; */
+                /*     else */
+                /*         moveToIndex = serviceItemList.indexAt(0,y); */
+                /*     moveRequested(indexDragged, moveToIndex); */
+                /* } */
 
-                function moveRequested(oldIndex, newIndex) {
-                    print("moveRequested: ", oldIndex, newIndex);
-                    serviceItemModel.moveRows(oldIndex, newIndex, 1);
-                    indexDragged = newIndex;
-                    serviceItemList.currentIndex = newIndex;
-                }
+                /* function moveRequested(oldIndex, newIndex) { */
+                /*     print("moveRequested: ", oldIndex, newIndex); */
+                /*     serviceItemModel.moveRows(oldIndex, newIndex, 1); */
+                /*     indexDragged = newIndex; */
+                /*     serviceItemList.currentIndex = newIndex; */
+                /* } */
 
             }
 
@@ -374,7 +371,6 @@ Item {
                 }
             }
             Canvas {
-                /* asynchronous: true; */
                 x: dropHighlightLine.width - 8
                 y: dropHighlightLine.y - 17
                 z: 1
@@ -440,9 +436,10 @@ Item {
             id: serviceToolBar
             Layout.fillWidth: true
             opacity: 1.0
+            display: Button.IconOnly
             actions: [
                 Kirigami.Action {
-                    /* text: "Up" */
+                    text: "Up"
                     icon.name: "arrow-up"
                     onTriggered: {
                         const oldid = serviceItemList.currentIndex;
@@ -466,7 +463,7 @@ Item {
                     }
                 },
                 Kirigami.Action {
-                    /* text: "Down" */
+                    text: "Down"
                     icon.name: "arrow-down"
                     onTriggered: {
                         const id = serviceItemList.currentIndex;
@@ -489,7 +486,7 @@ Item {
                     }
                 },
                 Kirigami.Action {
-                    /* text: "Remove" */
+                    text: "Remove"
                     icon.name: "delete"
                     onTriggered: {
                         showPassiveNotification("remove");
