@@ -83,8 +83,6 @@ Item {
                 }
             }
 
-            /* onExited: dropHighlightLine.visible = false; */
-
             Component {
                 id: delegate
                 Kirigami.AbstractListItem {
@@ -95,7 +93,6 @@ Item {
                     DropArea {
                         id: serviceDrop
                         anchors.fill: parent
-                        /* enabled: false */
 
                         onEntered: (drag) => {
                             if (drag.keys[0] === "library") {
@@ -106,8 +103,6 @@ Item {
                                     serviceItemList,0,0).y - 2;
                             }
                         }
-
-                        /* onExited: dropHighlightLine.visible = false; */
 
                         onDropped: (drag) => {
                             print("DROPPED IN ITEM AREA: " + drag.keys);
