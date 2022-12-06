@@ -35,6 +35,7 @@ mkShell rec {
     # libsForQt5.kirigami-addons
     libsForQt5.ki18n
     libsForQt5.kcoreaddons
+    libsForQt5.kguiaddons
 
     # This is only here because apparently it doesn't pick up the icon theme from the base system
     # papirus-icon-theme
