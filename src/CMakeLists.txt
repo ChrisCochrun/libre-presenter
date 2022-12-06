@@ -24,6 +24,7 @@ target_link_libraries(presenter
         Qt5::Sql
         Qt5::X11Extras
         KF5::Kirigami2
+        KF5::CoreAddons
         KF5::I18n
         KF5::Archive
         podofo
