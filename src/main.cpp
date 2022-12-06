@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <KLocalizedContext>
 #include <KLocalizedString>
+#include <KAboutData>
 #include <iostream>
 #include <QQmlEngine>
 #include <QtSql>
@@ -74,12 +75,25 @@ static void connectToDatabase() {
 
 int main(int argc, char *argv[])
 {
-  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   QApplication app(argc, argv);
   KLocalizedString::setApplicationDomain("librepresenter");
+  KAboutData aboutData("librepresenter", i18n("Libre Presenter"), "0.1",
+                       i18n("A church presentation app built with KDE tech."),
+                       KAboutLicense::GPL_V3,
+                       i18n("Copyright 2017 Bar Foundation"), QString(),
+                       "https://www.foo-the-app.net");
+  // overwrite default-generated values of organizationDomain & desktopFileName
+  aboutData.setOrganizationDomain("tfcconnection.org");
+  aboutData.setDesktopFileName("org.tfcconnection.librepresenter");
+ 
+  // set the application metadata
+  KAboutData::setApplicationData(aboutData);
   QCoreApplication::setOrganizationName(QStringLiteral("librepresenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Libre Presenter"));
+  qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
 
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
@@ -91,9 +105,13 @@ int main(int argc, char *argv[])
   QQuickStyle::setFallbackStyle(QStringLiteral("Default"));
 #endif
 
-  QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   qDebug() << QQuickStyle::availableStyles();
   qDebug() << QIcon::themeName();
+
+  // integrate with commandline argument handling
+  QCommandLineParser parser;
+  aboutData.setupCommandLine(&parser);
+  // setup of app specific commandline args
 
   //Need to instantiate our slide
   QScopedPointer<Slide> slide(new Slide);
@@ -114,8 +132,6 @@ int main(int argc, char *argv[])
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
 
   connectToDatabase();
-
-  qSetMessagePattern("%{type}: %{time [h:m:s ap]} %{function} in %{file}: %{message}\n");
 
   QQmlApplicationEngine engine;
 
