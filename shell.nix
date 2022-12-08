@@ -7,15 +7,13 @@ mkShell rec {
     gcc
     gnumake
     clang
-    # clang-tools
+    clang-tools
     qtcreator
     cmake
     extra-cmake-modules
     pkg-config
     libsForQt5.wrapQtAppsHook
     makeWrapper
-    # gccStdenv
-    # stdenv
   ];
 
   buildInputs = [
