@@ -1,0 +1,24 @@
+[package]
+name = "qml-minimal"
+version = "0.1.0"
+edition = "2021"
+authors = [
+  "Chris Cochrun <chris@cochrun.xyz>"
+]
+license = "MIT OR Apache-2.0"
+
+# This will instruct Cargo to create a static
+# library which CMake can link against
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+cxx = "1.0.83"
+cxx-qt = "0.4.1"
+cxx-qt-lib = "0.4.1"
+
+# cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module
+# and compiles it together with the Rust static library
+[build-dependencies]
+cxx-qt-build = "0.4.1"
+
