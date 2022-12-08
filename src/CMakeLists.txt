@@ -1,4 +1,5 @@
-add_executable(presenter)
+
+add_executable(presenter main.cpp resources.qrc)
 
 target_sources(presenter
  PRIVATE
@@ -13,22 +14,6 @@ target_sources(presenter
  presentationsqlmodel.cpp presentationsqlmodel.h
  mpv/mpvobject.h mpv/mpvobject.cpp
  mpv/qthelper.hpp mpv/mpvhelpers.h
-)
-
-target_link_libraries(presenter
-        Qt5::Quick
-        Qt5::Qml
-        Qt5::Gui
-        Qt5::QuickControls2
-        Qt5::Widgets
-        Qt5::Sql
-        Qt5::X11Extras
-        KF5::Kirigami2
-        KF5::CoreAddons
-        KF5::I18n
-        KF5::Archive
-        podofo
-        mpv
 )
 
 target_compile_options (presenter PUBLIC -fexceptions)

@@ -7,7 +7,6 @@ mkShell rec {
     gcc
     gnumake
     clang
-    clang-tools
     qtcreator
     cmake
     extra-cmake-modules
@@ -19,7 +18,7 @@ mkShell rec {
   buildInputs = [
     clang-tools
     # clang-format
-    qt5.full
+    qt5.qtbase
     qt5.qttools
     qt5.qtquickcontrols2
     qt5.qtx11extras
@@ -35,17 +34,22 @@ mkShell rec {
     libsForQt5.kcoreaddons
     libsForQt5.kguiaddons
 
-    # This is only here because apparently it doesn't pick up the icon theme from the base system
-    # papirus-icon-theme
-    lightly-qt
-
     podofo
     mpv
     # libsForQt5.kconfig
     # ffmpeg-full
     # yt-dlp
+
+    # Rust tools
+    clippy
+    rustc
+    cargo
+    rustfmt
+    rust-analyzer
+    corrosion
   ];
   
+  RUST_BACKTRACE = 1;
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
     setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)

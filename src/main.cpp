@@ -43,6 +43,9 @@
 #include "filemanager.h"
 #include "slide.h"
 
+// RUST
+#include "cxx-qt-gen/my_object.cxxqt.h"
+
 static void connectToDatabase() {
   // let's setup our sql database
   QSqlDatabase db = QSqlDatabase::database();
@@ -128,6 +131,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
+  qmlRegisterType<MyObject>("org.presenter", 1, 0, "MyObject");
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
 

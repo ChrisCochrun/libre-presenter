@@ -50,11 +50,13 @@ FocusScope {
                     text: "Grid"
                     icon.name: "view-app-grid-symbolic"
                     hoverEnabled: true
+                    onClicked: myObject.sayHi(myObject.string, myObject.number);
                 }
                 Controls.ToolButton {
                     text: "Details"
                     icon.name: "view-list-details"
                     hoverEnabled: true
+                    onClicked: showPassiveNotification(myObject.string);
                 }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }

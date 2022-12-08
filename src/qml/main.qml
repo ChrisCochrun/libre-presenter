@@ -180,6 +180,12 @@ Kirigami.ApplicationWindow {
         /* print(loaded[0].audio); */
     }
 
+    MyObject {
+        id: myObject
+        number: 7
+        string: "HI from rust in my proj: " + myObject.number
+    }
+
     Component.onCompleted: {
         /* showPassiveNotification(Kirigami.Settings.style); */
         /* Kirigami.Settings.style = "Plasma"; */
