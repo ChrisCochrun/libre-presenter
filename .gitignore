@@ -4,3 +4,5 @@ CMakeLists.txt.*
 present.pro
 .direnv
 bld
+/src/rust/Cargo.lock
+/src/rust/target/
