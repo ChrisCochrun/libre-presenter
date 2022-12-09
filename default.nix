@@ -3,12 +3,6 @@
 {
   stdenv,
   lib,
-  # kglobalaccel,
-  # kinit,
-  # kwin,
-  # kio,
-  # kguiaddons,
-  # kcoreaddons,
   gcc,
   gnumake,
   clang,
@@ -16,18 +10,24 @@
   extra-cmake-modules,
   pkg-config,
   wrapQtAppsHook,
+  makeWrapper,
   qtbase,
-  qt5Full,
   clang-tools,
   qttools,
   qtquickcontrols2,
   qtx11extras,
   qtmultimedia,
+  qtwayland,
   karchive,
   kirigami2,
   ki18n,
   kcoreaddons,
-  # lightly-qt,
+  # kglobalaccel,
+  # kinit,
+  # kwin,
+  # kio,
+  # kguiaddons,
+  # kcoreaddons,
   podofo,
   mpv,
   # Rust tools
@@ -55,6 +55,10 @@ stdenv.mkDerivation rec {
     extra-cmake-modules
     pkg-config
     wrapQtAppsHook
+    rustc
+    cargo
+    corrosion
+    makeWrapper
     # gccStdenv
     # stdenv
   ];
@@ -65,29 +69,21 @@ stdenv.mkDerivation rec {
     qtquickcontrols2
     qtx11extras
     qtmultimedia
-    # qtwayland
+    qtwayland
     kirigami2
-    # breeze-icons
-    # breeze-qt5
-    # qqc2-desktop-style
     karchive
     ki18n
     kcoreaddons
-    # lightly-qt
     podofo
     mpv
     # libsForQt5.kconfig
-    # ffmpeg-full
-    # yt-dlp
     # Rust tools
     clippy
-    rustc
-    cargo
     rustfmt
     rust-analyzer
-    corrosion
   ];
 
+  RUST_BACKTRACE = 1;
   # preConfigure = ''
   #   # local modulepath=$(kf5-config --install module)
   #   # local datapath=$(kf5-config --install data)
@@ -117,7 +113,6 @@ stdenv.mkDerivation rec {
   rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
   '';
 
-  RUST_BACKTRACE = 1;
   meta = with lib; {
     name = "Libre Presenter";
     description = "A church presentation software made with QT/QML";
