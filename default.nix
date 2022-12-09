@@ -85,16 +85,7 @@ stdenv.mkDerivation rec {
 
   RUST_BACKTRACE = 1;
   # preConfigure = ''
-  #   # local modulepath=$(kf5-config --install module)
-  #   # local datapath=$(kf5-config --install data)
-  #   # local servicespath=$(kf5-config --install services)
-  #   # substituteInPlace CMakeLists.txt \
-  #   #   --replace "\''${MODULEPATH}" "$out/''${modulepath#/nix/store/*/}" \
-  #   #   --replace "\''${DATAPATH}"   "$out/''${datapath#/nix/store/*/}"
-
-  #   # substituteInPlace CMakeLists.txt \
-  #   #   --replace "\''${MODULEPATH}" "$out/qt-5.15.3/plugins" \
-  #   #   --replace "\''${DATAPATH}"   "$out/share"
+  # "${cargo-download}
   # '';
 
   # postConfigure = ''
@@ -104,7 +95,8 @@ stdenv.mkDerivation rec {
   # '';
 
   # buildPhase = ''
-  # rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
+  # cmake -B build/ -DCMAKE_BUILD_TYPE=Debug
+  # make -j8 --dir build/
   # '';
 
   installPhase = ''

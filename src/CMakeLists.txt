@@ -3,7 +3,7 @@ add_executable(presenter main.cpp resources.qrc)
 
 target_sources(presenter
  PRIVATE
- cpp/main.cpp resources.qrc
+ main.cpp resources.qrc
  cpp/songsqlmodel.cpp cpp/songsqlmodel.h
  cpp/serviceitemmodel.cpp cpp/serviceitemmodel.h
  cpp/serviceitem.cpp cpp/serviceitem.h

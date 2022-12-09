@@ -72,7 +72,7 @@ if(NOT Corrosion_FOUND)
 endif()
 
 add_subdirectory(src)
-set(CRATE qml-minimal)
+set(CRATE libre-presenter)
 
 # Corrosion creates a CMake target with the same name as the crate.
 corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml CRATES ${CRATE})

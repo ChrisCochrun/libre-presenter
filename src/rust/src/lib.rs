@@ -14,3 +14,4 @@ mod tests {
 }
 
 mod cxxqt_object;
+mod service_thing;

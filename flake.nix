@@ -18,15 +18,13 @@
           src = ./.;
           rustPkgs = pkgs.rustBuilder.makePackageSet {
             rustVersion = "1.61.0";
-            packageFun = import ./Cargo.nix;
+            packageFun = import ./cargo.nix;
           };
 
         in rec
         {
-            libre-presenter = (rustPkgs.workspace.libre-presenter {}).bin;
-
-            devShell = import ./shell.nix { inherit pkgs; };
-            defaultPackage = pkgs.libsForQt5.callPackage ./default.nix {};
+          devShell = import ./shell.nix { inherit pkgs; };
+          defaultPackage = pkgs.libsForQt5.callPackage ./default.nix {};
         }
       );
 }

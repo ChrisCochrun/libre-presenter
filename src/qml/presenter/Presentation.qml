@@ -45,6 +45,7 @@ FocusScope {
                     text: "Solo"
                     icon.name: "viewimage"
                     hoverEnabled: true
+                    onClicked: myObject.slapVariantAround(imagesqlmodel.getImage(1).title);
                 }
                 Controls.ToolButton {
                     text: "Grid"
@@ -130,15 +131,12 @@ FocusScope {
                 anchors.horizontalCenter: previewSlide.horizontalCenter
                 /* Layout.columnSpan: 3 */
                 visible: itemType === "video";
-                Kirigami.Icon {
-                    source: previewSlide.mpvIsPlaying ? "media-pause" : "media-play"
+                Controls.ToolButton {
                     Layout.preferredWidth: 25
                     Layout.preferredHeight: 25
-                    MouseArea {
-                        anchors.fill: parent
-                        onPressed: SlideObject.playPause();
-                        cursorShape: Qt.PointingHandCursor
-                    }
+                    icon.name: previewSlide.mpvIsPlaying ? "media-pause" : "media-play"
+                    hoverEnabled: true
+                    onClicked: SlideObject.playPause();
                 }
                 Controls.Slider {
                     id: videoSlider

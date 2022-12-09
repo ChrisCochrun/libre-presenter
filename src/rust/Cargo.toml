@@ -1,11 +1,11 @@
 [package]
-name = "qml-minimal"
+name = "libre-presenter"
 version = "0.1.0"
 edition = "2021"
 authors = [
   "Chris Cochrun <chris@cochrun.xyz>"
 ]
-license = "MIT OR Apache-2.0"
+license = "GPL-3.0"
 
 # This will instruct Cargo to create a static
 # library which CMake can link against

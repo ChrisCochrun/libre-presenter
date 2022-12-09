@@ -34,17 +34,18 @@
 #include <qsqlquery.h>
 #include <qstringliteral.h>
 
-#include "mpv/mpvobject.h"
-#include "serviceitemmodel.h"
-#include "songsqlmodel.h"
-#include "videosqlmodel.h"
-#include "imagesqlmodel.h"
-#include "presentationsqlmodel.h"
-#include "filemanager.h"
-#include "slide.h"
+#include "cpp/mpv/mpvobject.h"
+#include "cpp/serviceitemmodel.h"
+#include "cpp/songsqlmodel.h"
+#include "cpp/videosqlmodel.h"
+#include "cpp/imagesqlmodel.h"
+#include "cpp/presentationsqlmodel.h"
+#include "cpp/filemanager.h"
+#include "cpp/slide.h"
 
 // RUST
 #include "cxx-qt-gen/my_object.cxxqt.h"
+#include "cxx-qt-gen/service_thing.cxxqt.h"
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -132,6 +133,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
   qmlRegisterType<MyObject>("org.presenter", 1, 0, "MyObject");
+  qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
 
