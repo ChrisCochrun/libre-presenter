@@ -29,7 +29,14 @@
   kcoreaddons,
   # lightly-qt,
   podofo,
-  mpv
+  mpv,
+  # Rust tools
+  clippy,
+  rustc,
+  cargo,
+  rustfmt,
+  rust-analyzer,
+  corrosion
 }:
 
 stdenv.mkDerivation rec {
@@ -72,6 +79,13 @@ stdenv.mkDerivation rec {
     # libsForQt5.kconfig
     # ffmpeg-full
     # yt-dlp
+    # Rust tools
+    clippy
+    rustc
+    cargo
+    rustfmt
+    rust-analyzer
+    corrosion
   ];
 
   # preConfigure = ''
@@ -103,6 +117,7 @@ stdenv.mkDerivation rec {
   rm -rf ~/.cache/librepresenter/Libre\ Presenter/qmlcache/
   '';
 
+  RUST_BACKTRACE = 1;
   meta = with lib; {
     name = "Libre Presenter";
     description = "A church presentation software made with QT/QML";
