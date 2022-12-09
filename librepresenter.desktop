@@ -1,4 +1,11 @@
 [Desktop Entry]
-Exec=presenter
-Name=Libre Presenter
 Type=Application
+Name=Libre Presenter
+GenericName=Church Presentation
+Comment=A Kirigami based church presenter
+Exec=presenter %U
+TryExec=presenter
+Icon=present
+StartupNotify=true
+Terminal=false
+Categories=presentation
