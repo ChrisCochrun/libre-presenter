@@ -23,8 +23,12 @@
 
         in rec
         {
+          # packages = {
+          #   crate = (rustPkgs.workspace.qml-minimal {  }).bin;
+          #   default = packages.crate;
+          # };
           devShell = import ./shell.nix { inherit pkgs; };
-          defaultPackage = pkgs.libsForQt5.callPackage ./default.nix {};
+          defaultPackage = pkgs.libsForQt5.callPackage ./default.nix { inherit rustPkgs; };
         }
       );
 }

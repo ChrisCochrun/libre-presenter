@@ -75,7 +75,7 @@ add_subdirectory(src)
 set(CRATE libre-presenter)
 
 # Corrosion creates a CMake target with the same name as the crate.
-corrosion_import_crate(MANIFEST_PATH src/rust/Cargo.toml CRATES ${CRATE})
+corrosion_import_crate(MANIFEST_PATH Cargo.toml CRATES ${CRATE})
 
 # The Rust library's build script needs to be told where to output the
 # generated headers so CMake can find them. To do this, tell Corrosion
