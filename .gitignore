@@ -6,3 +6,4 @@ present.pro
 bld
 /src/rust/Cargo.lock
 /src/rust/target/
+target
