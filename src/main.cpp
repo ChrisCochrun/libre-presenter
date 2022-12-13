@@ -44,8 +44,9 @@
 #include "cpp/slide.h"
 
 // RUST
-#include "cxx-qt-gen/my_object.cxxqt.h"
+// #include "cxx-qt-gen/my_object.cxxqt.h"
 #include "cxx-qt-gen/service_thing.cxxqt.h"
+#include "cxx-qt-gen/file_helper.cxxqt.h"
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -97,7 +98,7 @@ int main(int argc, char *argv[])
   QCoreApplication::setOrganizationName(QStringLiteral("librepresenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Libre Presenter"));
-  qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
+  // qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
 
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
@@ -132,7 +133,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
-  qmlRegisterType<MyObject>("org.presenter", 1, 0, "MyObject");
+  qmlRegisterType<FileHelper>("org.presenter", 1, 0, "FileHelper");
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());

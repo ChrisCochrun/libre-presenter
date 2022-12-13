@@ -45,19 +45,19 @@ FocusScope {
                     text: "Solo"
                     icon.name: "viewimage"
                     hoverEnabled: true
-                    onClicked: myObject.slapVariantAround(imagesqlmodel.getImage(1).title);
+                    onClicked: serviceThing.slapVariantAround(imagesqlmodel.getImage(1).title);
                 }
                 Controls.ToolButton {
                     text: "Grid"
                     icon.name: "view-app-grid-symbolic"
                     hoverEnabled: true
-                    onClicked: myObject.sayHi(myObject.string, myObject.number);
+                    onClicked: serviceThing.checkActive();
                 }
                 Controls.ToolButton {
                     text: "Details"
                     icon.name: "view-list-details"
                     hoverEnabled: true
-                    onClicked: showPassiveNotification(myObject.string);
+                    onClicked: serviceThing.activate();
                 }
                 Controls.ToolSeparator {}
                 Item { Layout.fillWidth: true }

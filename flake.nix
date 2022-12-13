@@ -18,15 +18,15 @@
           src = ./.;
           rustPkgs = pkgs.rustBuilder.makePackageSet {
             rustVersion = "1.61.0";
-            packageFun = import ./cargo.nix;
+            packageFun = import ./Cargo.nix;
           };
 
         in rec
         {
-          # packages = {
-          #   crate = (rustPkgs.workspace.qml-minimal {  }).bin;
-          #   default = packages.crate;
-          # };
+          packages = {
+            crate = (rustPkgs.workspace.libre-presenter {  }).bin;
+            default = packages.crate;
+          };
           devShell = import ./shell.nix { inherit pkgs; };
           defaultPackage = pkgs.libsForQt5.callPackage ./default.nix { inherit rustPkgs; };
         }

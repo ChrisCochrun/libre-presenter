@@ -149,6 +149,10 @@ Controls.Page {
         id: serviceItemModel
     }
 
+    ServiceThing {
+        id: serviceThing
+    }
+
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
         currentServiceItem = index;

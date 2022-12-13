@@ -129,6 +129,10 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    FileHelper {
+        id: fileHelper
+    }
+
     FileDialog {
         id: loadFileDialog
         title: "Load"
@@ -178,12 +182,6 @@ Kirigami.ApplicationWindow {
             : showPassiveNotification("FAILED!");
         /* print("Number of items: " + loaded.length); */
         /* print(loaded[0].audio); */
-    }
-
-    MyObject {
-        id: myObject
-        number: 7
-        string: "HI from rust in my proj: " + myObject.number
     }
 
     Component.onCompleted: {

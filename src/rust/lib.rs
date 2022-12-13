@@ -13,5 +13,6 @@ mod tests {
     }
 }
 
-mod cxxqt_object;
+// mod my_object;
+mod file_helper;
 mod service_thing;

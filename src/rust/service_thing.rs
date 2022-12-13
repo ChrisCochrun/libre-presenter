@@ -9,6 +9,7 @@ mod service_thing {
         type QVariant = cxx_qt_lib::QVariant;
     }
 
+    #[derive(Clone)]
     #[cxx_qt::qobject]
     pub struct ServiceThing {
         #[qproperty]
@@ -53,28 +54,30 @@ mod service_thing {
     impl qobject::ServiceThing {
         #[qinvokable]
         pub fn activate(self: Pin<&mut Self>) {
-            self.set_active(true);
+            println!("{}", self.active());
+            let active: bool = *self.active();
+            self.set_active(!active);
+            println!("{}", !active);
         }
 
         #[qinvokable]
-        pub fn say_hi(self: Pin<&mut Self>, string: &QString, number: i32) {
-            println!(
-                "Hi from Rust! String is '{}' and number is {}",
-                string, number
-            );
-            println!("length is: {}", string.to_string().len());
-            let mut nstr: String = string.to_string();
-            nstr.push_str(" hi");
-            self.set_name(QString::from(nstr.as_str()));
+        pub fn check_active(self: Pin<&mut Self>) {
+            println!("Are we active?: {}", self.active());
         }
 
         #[qinvokable]
         pub fn slap_variant_around(self: Pin<&mut Self>, variant: &QVariant) {
             println!("wow!");
+            let sname: String;
             match variant.value() {
-                QVariantValue::QString(string) => self.set_name(string),
+                QVariantValue::QString(string) => {
+                    let nstr = string.to_string();
+                    self.set_name(QString::from(nstr.as_str()));
+                    sname = nstr;
+                    println!("New name is: {}", sname);
+                }
                 _ => println!("Unknown QVariant type"),
-            }
+            };
         }
     }
 }
