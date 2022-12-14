@@ -1,11 +1,14 @@
 #[cxx_qt::bridge]
 mod file_helper {
-    use cxx::{CxxString, CxxVector};
+    use cxx_qt_lib::QVariantValue;
+
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
         type QString = cxx_qt_lib::QString;
         include!("cxx-qt-lib/qurl.h");
         type QUrl = cxx_qt_lib::QUrl;
+        include!("cxx-qt-lib/qdate.h");
+        type QDate = cxx_qt_lib::QDate;
         include!("cxx-qt-lib/qvariant.h");
         type QVariant = cxx_qt_lib::QVariant;
     }
@@ -30,16 +33,21 @@ mod file_helper {
 
     impl qobject::FileHelper {
         #[qinvokable]
-        pub fn save(self: Pin<&mut Self>, file: QUrl, _service_list: QVariant) -> bool {
+        pub fn save(self: Pin<&mut Self>, file: QUrl, service_list: QVariant) -> bool {
             println!("{}", file);
+            match service_list.value() {
+                QVariantValue::QString(..) => println!("string"),
+                QVariantValue::QUrl(..) => println!("url"),
+                QVariantValue::QDate(..) => println!("date"),
+                _ => println!("QVariant is..."),
+            }
             return true;
         }
 
         #[qinvokable]
         pub fn load(self: Pin<&mut Self>, file: QUrl) -> Vec<String> {
             println!("{}", file);
-            let vc = vec![String::new()];
-            return vc;
+            return vec!["hi".to_string()];
         }
     }
 }
