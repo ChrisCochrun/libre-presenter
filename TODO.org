@@ -23,6 +23,7 @@ Others:
 - Multi Select and Delete
   - Need to have the model give back all ids of the selected items so they can be manipulated
 - Multi Drag? Maybe...
+- Adding the ability to use Librepresenter in other wayland compositors - Need to address the QWindow problem.
 *** TODO Major Bugs
 - ~Drag and Drop of ServiceList~
 - UI Blocking when saving
