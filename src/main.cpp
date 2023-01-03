@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
   QCoreApplication::setOrganizationName(QStringLiteral("librepresenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Libre Presenter"));
-  // qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
+  qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
 
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
