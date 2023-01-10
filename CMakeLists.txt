@@ -30,7 +30,7 @@ include(ECMPoQmTools)
 kde_enable_exceptions()
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets Sql X11Extras QmlImportScanner)
-find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 I18n Archive CoreAddons)
+find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 WindowSystem I18n Archive CoreAddons)
 
 find_package(Libmpv)
 set_package_properties(Libmpv PROPERTIES TYPE REQUIRED)
@@ -109,6 +109,7 @@ target_link_libraries(${CRATE} INTERFACE
         KF5::I18n
         KF5::Archive
         KF5::CoreAddons
+        KF5::WindowSystem
         podofo
         mpv
 )

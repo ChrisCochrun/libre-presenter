@@ -7,6 +7,7 @@
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <KAboutData>
+#include <KWindowSystem>
 #include <iostream>
 #include <QQmlEngine>
 #include <QtSql>
@@ -47,6 +48,14 @@
 // #include "cxx-qt-gen/my_object.cxxqt.h"
 #include "cxx-qt-gen/service_thing.cxxqt.h"
 #include "cxx-qt-gen/file_helper.cxxqt.h"
+
+static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
+{
+    const auto rootObjects = engine->rootObjects();
+    auto *window = qobject_cast<QQuickWindow *>(rootObjects.first());
+    Q_ASSERT(window);
+    return window;
+}
 
 static void connectToDatabase() {
   // let's setup our sql database
@@ -112,6 +121,7 @@ int main(int argc, char *argv[])
 
   qDebug() << QQuickStyle::availableStyles();
   qDebug() << QIcon::themeName();
+  qDebug() << QApplication::platformName();
 
   // integrate with commandline argument handling
   QCommandLineParser parser;
@@ -148,7 +158,6 @@ int main(int argc, char *argv[])
   // QQuickView *view = new QQuickView;
   // view->setSource(QUrl(QStringLiteral("qrc:qml/main.qml")));
   // view->show();
-
 #ifdef STATIC_KIRIGAMI
   KirigamiPlugin::getInstance().registerTypes();
 #endif
@@ -156,6 +165,15 @@ int main(int argc, char *argv[])
   if (engine.rootObjects().isEmpty()) {
     return -1;
   }
+
+  QWindow *window = windowFromEngine(&engine);
+
+  // KWindowSystem::setMainWindow(&window);
+  KWindowSystem::activateWindow(window);
+  qDebug() << "00000000000000000000000000000000";
+  qDebug() << KWindowSystem::isPlatformWayland();
+  qDebug() << "00000000000000000000000000000000";
+
 
   return app.exec();
 }
