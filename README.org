@@ -34,7 +34,7 @@ Then run.
 #+END_SRC
 
 ** Nix
-If you are using nix to develop with, which I would try to suggest since that will make sure all the appropriate dependencies are installed, you'll need to do the following:
+If you are using nix to develop with, which I would suggest since that will make sure all the appropriate dependencies are installed, you'll need to do the following:
 #+begin_src 
 cd church-presenter
 nix develop
