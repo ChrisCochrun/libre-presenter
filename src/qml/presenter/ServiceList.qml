@@ -88,7 +88,7 @@ Item {
                 Kirigami.AbstractListItem {
                     id: serviceListItem
                     implicitWidth: serviceItemList.width
-                    height: 30
+                    height: Kirigami.Units.gridUnit * 2
 
                     DropArea {
                         id: serviceDrop
@@ -261,7 +261,7 @@ Item {
                                 anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.leftMargin: 5
-                                width: 20
+                                /* width: 20 */
                                 listItem: serviceListItem
                                 listView: serviceItemList
                                 onMoveRequested: serviceItemModel.moveRows(oldIndex,

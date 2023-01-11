@@ -79,8 +79,8 @@ FocusScope {
 
             Kirigami.Icon {
                 source: "arrow-left"
-                implicitWidth: 100
-                implicitHeight: 200
+                implicitWidth: Kirigami.Units.largeSpacing * 20
+                implicitHeight: Kirigami.Units.largeSpacing * 40
                 anchors.right: previewSlide.left
                 anchors.verticalCenter: parent.verticalCenter
                 /* Layout.alignment: Qt.AlignRight */
@@ -93,7 +93,7 @@ FocusScope {
 
             Presenter.Slide {
                 id: previewSlide
-                implicitWidth: 700
+                implicitWidth: Kirigami.Units.largeSpacing * 100 
                 implicitHeight: width / 16 * 9
                 /* minimumWidth: 300 */
                 anchors.centerIn: parent
@@ -110,8 +110,8 @@ FocusScope {
 
             Kirigami.Icon {
                 source: "arrow-right"
-                implicitWidth: 100
-                implicitHeight: 200
+                implicitWidth: Kirigami.Units.largeSpacing * 20
+                implicitHeight: Kirigami.Units.largeSpacing * 40
                 anchors.left: previewSlide.right
                 anchors.verticalCenter: parent.verticalCenter
                 /* Layout.alignment: Qt.AlignLeft */
