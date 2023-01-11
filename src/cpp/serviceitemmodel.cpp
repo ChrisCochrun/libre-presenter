@@ -345,7 +345,7 @@ bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
     
   qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
 
-  m_items.move(sourceIndex, isMoveDown ? destIndex + 1 : destIndex);
+  m_items.insert(destIndex, m_items.takeAt(isMoveDown ? sourceIndex : sourceIndex + 1));
 
   endMoveRows();
   return true;
