@@ -239,7 +239,7 @@ Item {
 
                                 onClicked: {
                                     if (mouse.button === Qt.RightButton)
-                                        rightClickMenu.popup();
+                                        rightClickMenu.popup(mouse);
                                     else {
                                         serviceItemList.currentIndex = index;
                                         serviceItemModel.select(index);
@@ -272,8 +272,8 @@ Item {
                         }
                         Controls.Menu {
                             id: rightClickMenu
-                            x: mouseHandler.mouseX
-                            y: mouseHandler.mouseY + 10
+                            x: mouse.mouseX
+                            y: mouse.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
                                 onTriggered: removeItem(index);
