@@ -19,6 +19,7 @@
 #include <QOpenGLContext>
 #include <QGuiApplication>
 #include <QQuickStyle>
+#include <QSurfaceFormat>
 
 #include <QtGui/QOpenGLFramebufferObject>
 
@@ -89,6 +90,7 @@ static void connectToDatabase() {
 
 int main(int argc, char *argv[])
 {
+  qDebug() << QSurfaceFormat::defaultFormat();
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   QApplication app(argc, argv);
@@ -172,6 +174,7 @@ int main(int argc, char *argv[])
   KWindowSystem::activateWindow(window);
   qDebug() << "00000000000000000000000000000000";
   qDebug() << KWindowSystem::isPlatformWayland();
+  qDebug() << KWindowSystem::windows();
   qDebug() << "00000000000000000000000000000000";
 
 
