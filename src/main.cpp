@@ -133,6 +133,8 @@ int main(int argc, char *argv[])
   //Need to instantiate our slide
   QScopedPointer<Slide> slide(new Slide);
   QScopedPointer<File> filemanager(new File);
+  QQuickView *preswin = new QQuickView;
+  preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
   // apparently mpv needs this class set
   // let's register mpv as well
@@ -149,6 +151,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresentationWindow", preswin);
 
   connectToDatabase();
 
@@ -170,6 +173,7 @@ int main(int argc, char *argv[])
 
   QWindow *window = windowFromEngine(&engine);
 
+  window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   // KWindowSystem::setMainWindow(&window);
   KWindowSystem::activateWindow(window);
   qDebug() << "00000000000000000000000000000000";
