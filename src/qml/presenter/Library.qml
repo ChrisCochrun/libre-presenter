@@ -40,6 +40,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideLeft
                     text: "Songs"
+                    font.pixelSize: Kirigami.Units.gridUnit
                 }
 
                 Controls.Label {
@@ -48,7 +49,7 @@ Item {
                              verticalCenter: songLabel.verticalCenter
                              leftMargin: 15}
                     text: songsqlmodel.rowCount()
-                    font.pixelSize: 15
+                    font.pixelSize: Kirigami.Units.gridUnit
                     color: Kirigami.Theme.disabledTextColor
                 }
 

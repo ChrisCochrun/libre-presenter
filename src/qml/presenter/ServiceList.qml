@@ -154,6 +154,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.leftMargin: 5
                                 text: name
+                                font.pixelSize: Kirigami.Units.gridUnit
                                 elide: Text.ElideRight
                                 width: parent.width - trailing.width - dragHandle.width - 15
                                 color: {
@@ -170,6 +171,7 @@ Item {
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.rightMargin: 5
+                                font.pixelSize: Kirigami.Units.gridUnit
                                 text: type
                                 color: {
                                     if (selected ||
