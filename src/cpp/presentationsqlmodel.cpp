@@ -33,6 +33,7 @@ static void createPresentationTable()
                   "  'id' INTEGER NOT NULL,"
                   "  'title' TEXT NOT NULL,"
                   "  'filePath' TEXT NOT NULL,"
+                  "  'pageCount' INTEGER,"
                   "  PRIMARY KEY(id))")) {
     qFatal("Failed to query database: %s",
            qPrintable(query.lastError().text()));
@@ -74,10 +75,11 @@ QHash<int, QByteArray> PresentationSqlModel::roleNames() const
     names[Qt::UserRole] = "id";
     names[Qt::UserRole + 1] = "title";
     names[Qt::UserRole + 2] = "filePath";
+    names[Qt::UserRole + 3] = "pageCount";
     return names;
 }
 
-void PresentationSqlModel::newPresentation(const QUrl &filePath) {
+void PresentationSqlModel::newPresentation(const QUrl &filePath, int pageCount) {
   qDebug() << "adding new presentation";
   int rows = rowCount();
 
@@ -87,6 +89,7 @@ void PresentationSqlModel::newPresentation(const QUrl &filePath) {
   QString title = fileInfo.baseName();
   recordData.setValue("title", title);
   recordData.setValue("filePath", filePath);
+  recordData.setValue("pageCount", pageCount);
 
   if (insertRecord(rows, recordData)) {
     submitAll();
@@ -174,6 +177,40 @@ void PresentationSqlModel::updateFilePath(const int &row, const QUrl &filePath) 
   qDebug() << rowdata;
   submitAll();
   emit filePathChanged();
+}
+
+int PresentationSqlModel::pageCount() const {
+  return m_pageCount;
+}
+
+void PresentationSqlModel::setPageCount(const int &pageCount) {
+  if (pageCount == m_pageCount)
+    return;
+  
+  m_pageCount = pageCount;
+
+  select();
+  emit pageCountChanged();
+}
+
+// This function is for updating the pageCount from outside the delegate
+void PresentationSqlModel::updatePageCount(const int &row, const int &pageCount) {
+  qDebug() << "Row is " << row;
+  QSqlQuery query("select id from presentations");
+  QList<int> ids;
+  while (query.next()) {
+    ids.append(query.value(0).toInt());
+    // qDebug() << ids;
+  }
+  int id = ids.indexOf(row,0);
+
+  QSqlRecord rowdata = record(id);
+  qDebug() << rowdata;
+  rowdata.setValue("pageCount", pageCount);
+  setRecord(id, rowdata);
+  qDebug() << rowdata;
+  submitAll();
+  emit pageCountChanged();
 }
 
 QVariantMap PresentationSqlModel::getPresentation(const int &row) {

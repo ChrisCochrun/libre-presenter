@@ -14,6 +14,7 @@ class PresentationSqlModel : public QSqlTableModel
   Q_PROPERTY(int id READ id)
   Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
   Q_PROPERTY(QUrl filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
+  Q_PROPERTY(int pageCount READ pageCount WRITE setPageCount NOTIFY pageCountChanged)
   QML_ELEMENT
 
 public:
@@ -22,14 +23,17 @@ public:
   int id() const;
   QString title() const;
   QUrl filePath() const;
+  int pageCount() const;
 
   void setTitle(const QString &title);
   void setFilePath(const QUrl &filePath);
+  void setPageCount(const int &pageCount);
 
   Q_INVOKABLE void updateTitle(const int &row, const QString &title);
   Q_INVOKABLE void updateFilePath(const int &row, const QUrl &filePath);
+  Q_INVOKABLE void updatePageCount(const int &row, const int &pageCount);
 
-  Q_INVOKABLE void newPresentation(const QUrl &filePath);
+  Q_INVOKABLE void newPresentation(const QUrl &filePath, int pageCount);
   Q_INVOKABLE void deletePresentation(const int &row);
   Q_INVOKABLE QVariantMap getPresentation(const int &row);
 
@@ -39,11 +43,13 @@ public:
 signals:
     void titleChanged();
     void filePathChanged();
+    void pageCountChanged();
 
 private:
     int m_id;
     QString m_title;
     QUrl m_filePath;
+    int m_pageCount;
 };
 
 #endif //PRESENTATIONSQLMODEL_H
