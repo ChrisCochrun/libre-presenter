@@ -338,14 +338,14 @@ bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
   const bool isMoveDown = destIndex > sourceIndex;
 
   if (!beginMoveRows(parent, sourceIndex, sourceIndex + count - 1,
-                     parent, isMoveDown ? destIndex + 1 : destIndex)) {
+                     parent, isMoveDown ? destIndex + 2 : destIndex)) {
     qDebug() << "Can't move rows";
     return false;
   }
     
   qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
 
-  m_items.insert(destIndex, m_items.takeAt(isMoveDown ? sourceIndex : sourceIndex + 1));
+  m_items.move(sourceIndex, isMoveDown ? destIndex + 1 : destIndex);
 
   endMoveRows();
   return true;
