@@ -73,6 +73,8 @@ QVariant ServiceItemModel::data(const QModelIndex &index, int role) const {
     return item->font();
   case FontSizeRole:
     return item->fontSize();
+  case SlideNumberRole:
+    return item->slideNumber();
   case ActiveRole:
     return item->active();
   case SelectedRole:
@@ -91,6 +93,7 @@ QHash<int, QByteArray> ServiceItemModel::roleNames() const {
                                         {AudioRole, "audio"},
                                         {FontRole, "font"},
                                         {FontSizeRole, "fontSize"},
+                                        {SlideNumberRole, "slideNumber"},
                                         {ActiveRole, "active"},
                                         {SelectedRole, "selected"}};
 
@@ -149,6 +152,12 @@ bool ServiceItemModel::setData(const QModelIndex &index, const QVariant &value,
   case FontSizeRole:
     if (item->fontSize() != value.toInt()) {
       item->setFontSize(value.toInt());
+      somethingChanged = true;
+    }
+    break;
+  case SlideNumberRole:
+    if (item->slideNumber() != value.toInt()) {
+      item->setSlideNumber(value.toInt());
       somethingChanged = true;
     }
     break;
@@ -262,6 +271,21 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   addItem(item);
   qDebug() << "#################################";
   qDebug() << name << type << font << fontSize;
+  qDebug() << "#################################";
+}
+
+void ServiceItemModel::addItem(const QString &name, const QString &type,
+                               const QString &background, const QString &backgroundType,
+                               const QStringList &text, const QString &audio,
+                               const QString &font, const int &fontSize,
+                               const int &slideNumber) {
+  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+                                      text, audio, font, fontSize, slideNumber);
+  item->setSelected(false);
+  item->setActive(false);
+  addItem(item);
+  qDebug() << "#################################";
+  qDebug() << name << type << font << fontSize << slideNumber;
   qDebug() << "#################################";
 }
 
@@ -442,6 +466,7 @@ QVariantList ServiceItemModel::getItems() {
     itm["audio"] = item->audio();
     itm["font"] = item->font();
     itm["fontSize"] = item->fontSize();
+    itm["slideNumber"] = item->slideNumber();
     itm["selected"] = item->selected();
     itm["active"] = item->active();
     data.append(itm);
@@ -535,6 +560,7 @@ bool ServiceItemModel::save(QUrl file) {
     item.insert("audio", m_items[i]->audio());
     item.insert("font", m_items[i]->font());
     item.insert("fontSize", m_items[i]->fontSize());
+    item.insert("slideNumber", m_items[i]->slideNumber());
     item.insert("text", m_items[i]->text());
     item.insert("type", m_items[i]->type());
 
@@ -730,7 +756,8 @@ bool ServiceItemModel::load(QUrl file) {
                  realBackground,
                  item.value("backgroundType").toString(),
                  item.value("text").toStringList(), realAudio,
-                 item.value("font").toString(), item.value("fontSize").toInt());
+                 item.value("font").toString(), item.value("fontSize").toInt(),
+                 item.value("slideNumber").toInt());
     }
 
     return true;

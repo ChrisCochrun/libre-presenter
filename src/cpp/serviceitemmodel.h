@@ -66,6 +66,12 @@ public:
                            const QString &backgroundType,
                            const QStringList &text, const QString &audio,
                            const QString &font, const int &fontSize);
+  Q_INVOKABLE void addItem(const QString &name, const QString &type,
+                           const QString &background,
+                           const QString &backgroundType,
+                           const QStringList &text, const QString &audio,
+                           const QString &font, const int &fontSize,
+                           const int &slideNumber);
   Q_INVOKABLE void insertItem(const int &index, const QString &name,
                               const QString &type);
   Q_INVOKABLE void insertItem(const int &index, const QString &name,
