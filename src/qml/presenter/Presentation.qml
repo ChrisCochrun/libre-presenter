@@ -178,76 +178,85 @@ FocusScope {
 
     ListView {
         id: previewSlidesList
-        /* Layout.fillHeight: true */
-        /* Layout.fillWidth: true */
-        /* Layout.columnSpan: 3 */
-        /* Layout.alignment: Qt.AlignBottom */
-        /* Layout.bottomMargin: 140 */
         anchors.top: mainGrid.bottom
         anchors.bottom: root.bottom
-        /* anchors.bottomMargin: 100 */
         width: parent.width
         orientation: ListView.Horizontal
         cacheBuffer: 900
         reuseItems: true
 
         model: serviceItemModel
-        delegate: Repeater {
-            model: previewSlidesList.model.slideNumber
-            delegate: Rectangle {
-                id: previewHighlight
-                implicitWidth: 210
-                implicitHeight: width / 16 * 9
-                color: {
-                    if (active || previewerMouse.containsMouse)
-                        Kirigami.Theme.highlightColor
-                    else
-                        Kirigami.Theme.backgroundColor
-                }
-
-                Presenter.Slide {
+        delegate: Rectangle {
+            id: previewHighlight
+            property var outerModelData: modelData
+            implicitWidth: 210
+            implicitHeight: width / 16 * 9
+            color: {
+                if (active || previewerMouse.containsMouse)
+                    Kirigami.Theme.highlightColor
+                else
+                    Kirigami.Theme.backgroundColor
+            }
+            ListView {
+                id: slidesList
+                anchors.centerIn: parent
+                implicitHeight: parent.height
+                model: outerModelData.slideNumber
+                orientation: ListView.Horizontal
+                cacheBuffer: 900
+                reuseItems: true
+                Component.onCompleted: showPassiveNotification(outerModelData.slideNumber)
+                delegate: Presenter.Slide {
                     id: previewSlideItem
                     anchors.centerIn: parent
                     implicitWidth: 200
                     implicitHeight: width / 16 * 9
                     textSize: width / 4
-                    itemType: type
-                    imageSource: backgroundType === "image" ? background : ""
-                    videoSource: backgroundType === "video" ? background : ""
+                    itemType: outerModelData.type
+                    imageSource: outerModelData.backgroundType === "image" ? background : ""
+                    videoSource: outerModelData.backgroundType === "video" ? background : ""
                     audioSource: ""
-                    chosenFont: font
-                    text: model.text[index] === "This is demo text" ? "" : model.text[index]
+                    chosenFont: outerModelData.font
+                    text: outerModelData.text[index] === "This is demo text" ? "" : outerModelData.text[index]
                     pdfIndex: 0
                     preview: true 
                     editMode: true 
 
                 }
+            }
 
-                Controls.Label {
-                    id: slidesTitle
-                    width: previewSlideItem.width
-                    anchors.top: previewSlideItem.bottom
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.topMargin: 5
-                    elide: Text.ElideRight
-                    text: name
-                    /* font.family: "Quicksand Bold" */
-                }
+            Controls.Label {
+                id: slidesTitle
+                width: previewSlideItem.width
+                anchors.top: slidesList.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 5
+                elide: Text.ElideRight
+                text: name
+                /* font.family: "Quicksand Bold" */
+            }
 
-                MouseArea {
-                    id: previewerMouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: changeServiceItem(index)
-                    cursorShape: Qt.PointingHandCursor
-                }
+            Controls.ToolButton {
+                anchors.top: slidesTitle.bottom
+                text: "NUM"
+                icon.name: "viewimage"
+                hoverEnabled: true
+                onClicked: showPassiveNotification(slideNumber) && print(slideNumber);
+            }
+
+            MouseArea {
+                id: previewerMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: changeServiceItem(index)
+                cursorShape: Qt.PointingHandCursor
+            }
 
 
-                Connections {
-                    target: serviceItemModel
-                    onDataChanged: if (active)
-                        previewSlidesList.positionViewAtIndex(index, ListView.Center)
-                }
+            Connections {
+                target: serviceItemModel
+                onDataChanged: if (active)
+                    previewSlidesList.positionViewAtIndex(index, ListView.Center)
             }
         }
         Kirigami.WheelHandler {
