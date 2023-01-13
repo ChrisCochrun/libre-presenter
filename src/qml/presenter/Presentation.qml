@@ -192,59 +192,62 @@ FocusScope {
         reuseItems: true
 
         model: serviceItemModel
-        delegate: Rectangle {
-            id: previewHighlight
-            implicitWidth: 210
-            implicitHeight: width / 16 * 9
-            color: {
-                if (active || previewerMouse.containsMouse)
-                    Kirigami.Theme.highlightColor
-                else
-                    Kirigami.Theme.backgroundColor
-            }
-
-            Presenter.Slide {
-                id: previewSlideItem
-                anchors.centerIn: parent
-                implicitWidth: 200
+        delegate: Repeater {
+            model: previewSlidesList.model.slideNumber
+            delegate: Rectangle {
+                id: previewHighlight
+                implicitWidth: 210
                 implicitHeight: width / 16 * 9
-                textSize: width / 4
-                itemType: type
-                imageSource: backgroundType === "image" ? background : ""
-                videoSource: backgroundType === "video" ? background : ""
-                audioSource: ""
-                chosenFont: font
-                text: model.text[0] === "This is demo text" ? "" : model.text[0]
-                pdfIndex: 0
-                preview: true 
-                editMode: true 
+                color: {
+                    if (active || previewerMouse.containsMouse)
+                        Kirigami.Theme.highlightColor
+                    else
+                        Kirigami.Theme.backgroundColor
+                }
 
-            }
+                Presenter.Slide {
+                    id: previewSlideItem
+                    anchors.centerIn: parent
+                    implicitWidth: 200
+                    implicitHeight: width / 16 * 9
+                    textSize: width / 4
+                    itemType: type
+                    imageSource: backgroundType === "image" ? background : ""
+                    videoSource: backgroundType === "video" ? background : ""
+                    audioSource: ""
+                    chosenFont: font
+                    text: model.text[index] === "This is demo text" ? "" : model.text[index]
+                    pdfIndex: 0
+                    preview: true 
+                    editMode: true 
 
-            Controls.Label {
-                id: slidesTitle
-                width: previewSlideItem.width
-                anchors.top: previewSlideItem.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 5
-                elide: Text.ElideRight
-                text: name
-                /* font.family: "Quicksand Bold" */
-            }
+                }
 
-            MouseArea {
-                id: previewerMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked: changeServiceItem(index)
-                cursorShape: Qt.PointingHandCursor
-            }
+                Controls.Label {
+                    id: slidesTitle
+                    width: previewSlideItem.width
+                    anchors.top: previewSlideItem.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.topMargin: 5
+                    elide: Text.ElideRight
+                    text: name
+                    /* font.family: "Quicksand Bold" */
+                }
+
+                MouseArea {
+                    id: previewerMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: changeServiceItem(index)
+                    cursorShape: Qt.PointingHandCursor
+                }
 
 
-            Connections {
-                target: serviceItemModel
-                onDataChanged: if (active)
-                    previewSlidesList.positionViewAtIndex(index, ListView.Center)
+                Connections {
+                    target: serviceItemModel
+                    onDataChanged: if (active)
+                        previewSlidesList.positionViewAtIndex(index, ListView.Center)
+                }
             }
         }
         Kirigami.WheelHandler {
