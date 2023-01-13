@@ -29,6 +29,7 @@ Controls.Page {
     property string dragItemBackground: ""
     property string dragItemFont: ""
     property string dragItemFontSize
+    property string dragItemSlideNumber
 
     property bool editing: true
 
