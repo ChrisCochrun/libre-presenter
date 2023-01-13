@@ -23,6 +23,7 @@ public:
     AudioRole,
     FontRole,
     FontSizeRole,
+    SlideNumberRole,
     ActiveRole,
     SelectedRole
   };
@@ -81,6 +82,11 @@ public:
                               const QString &type, const QString &background,
                               const QString &backgroundType, const QStringList &text,
                               const QString &audio, const QString &font, const int &fontSize);
+  Q_INVOKABLE void insertItem(const int &index, const QString &name,
+                              const QString &type, const QString &background,
+                              const QString &backgroundType, const QStringList &text,
+                              const QString &audio, const QString &font,
+                              const int &fontSize, const int &slideNumber);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);
   Q_INVOKABLE bool moveDown(int index);

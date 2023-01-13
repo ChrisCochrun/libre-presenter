@@ -18,6 +18,7 @@ class ServiceItem : public QObject
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  Q_PROPERTY(int slideNumber READ slideNumber WRITE setSlideNumber NOTIFY slideNumberChanged)
   // Q_PROPERTY(Thumbnail thumbnail READ thumbnail WRITE setThumbnail NOTIFY thumbnailChanged)
 
 public:
@@ -34,6 +35,10 @@ public:
   ServiceItem(const QString &name, const QString &type, const QString &background,
               const QString &backgroundType, const QStringList &text, const QString &audio,
               const QString &font, const int &fontSize, QObject * parent = nullptr);
+  ServiceItem(const QString &name, const QString &type, const QString &background,
+              const QString &backgroundType, const QStringList &text, const QString &audio,
+              const QString &font, const int &fontSize, const int &slideNumber,
+              QObject * parent = nullptr);
 
   QString name() const;
   QString type() const;
@@ -45,6 +50,7 @@ public:
   int fontSize() const;
   bool active() const;
   bool selected() const;
+  int slideNumber() const;
   // Thumbnail thumbnail() const;
 
   void setName(QString name);
@@ -55,6 +61,7 @@ public:
   void setAudio(QString audio);
   void setFont(QString font);
   void setFontSize(int fontSize);
+  void setSlideNumber(int slideNumber);
   void setActive(bool active);
   void setSelected(bool selected);
 
@@ -67,6 +74,7 @@ signals:
   void audioChanged(QString audio);
   void fontChanged(QString font);
   void fontSizeChanged(int fontSize);
+  void slideNumberChanged(int slideNumber);
   void activeChanged(bool active);
   void selectedChanged(bool selected);
 
@@ -79,6 +87,7 @@ private:
   QString m_audio;
   QString m_font;
   int m_fontSize;
+  int m_slideNumber;
   bool m_active;
   bool m_selected;
 };

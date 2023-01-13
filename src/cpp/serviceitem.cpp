@@ -49,6 +49,16 @@ ServiceItem::ServiceItem(const QString &name, const QString &type, const QString
 
 }
 
+ServiceItem::ServiceItem(const QString &name, const QString &type, const QString &background,
+                         const QString &backgroundType, const QStringList &text,
+                         const QString &audio, const QString &font, const int &fontSize,
+                         const int &slideNumber, QObject *parent)
+  : QObject(parent),m_name(name),m_type(type),m_background(background),
+    m_backgroundType(backgroundType),m_text(text),m_audio(audio),m_font(font),m_fontSize(fontSize),m_slideNumber(slideNumber)
+{
+
+}
+
 QString ServiceItem::name() const {
   return m_name;
 }
@@ -82,6 +92,10 @@ QString ServiceItem::font() const {
 
 int ServiceItem::fontSize() const {
   return m_fontSize;
+}
+
+int ServiceItem::slideNumber() const {
+  return m_slideNumber;
 }
 
 bool ServiceItem::active() const {
@@ -163,6 +177,15 @@ void ServiceItem::setFontSize(int fontSize)
 
     m_fontSize = fontSize;
     emit fontSizeChanged(m_fontSize);
+}
+
+void ServiceItem::setSlideNumber(int slideNumber)
+{
+    if (m_slideNumber == slideNumber)
+        return;
+
+    m_slideNumber = slideNumber;
+    emit slideNumberChanged(m_slideNumber);
 }
 
 void ServiceItem::setActive(bool active)

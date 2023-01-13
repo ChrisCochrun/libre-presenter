@@ -316,6 +316,21 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
   qDebug() << "#################################";
 }
 
+void ServiceItemModel::insertItem(const int &index, const QString &name,
+                                  const QString &type,const QString &background,
+                                  const QString &backgroundType,const QStringList &text,
+                                  const QString &audio, const QString &font,
+                                  const int &fontSize, const int &slideNumber) {
+  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+                                      text, audio, font, fontSize, slideNumber);
+  item->setSelected(false);
+  item->setActive(false);
+  insertItem(index, item);
+  qDebug() << "#################################";
+  qDebug() << name << type << font << fontSize << slideNumber;
+  qDebug() << "#################################";
+}
+
 void ServiceItemModel::removeItem(int index) {
   beginRemoveRows(QModelIndex(), index, index);
   m_items.removeAt(index);
