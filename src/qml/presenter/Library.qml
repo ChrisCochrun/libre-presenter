@@ -2,6 +2,7 @@ import QtQuick 2.13
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
 import Qt.labs.platform 1.1 as Labs
+import QtQuick.Pdf 5.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
@@ -1348,7 +1349,13 @@ Item {
             }
 
             function addPres(url) {
-                pressqlmodel.newPresentation(url);
+                print(pdf.status);
+                pdf.source = url;
+                while (pdf.status != 2) {
+                    print(pdf.status);
+                    print("PAGECOUNT: " + pdf.pageCount);
+                }
+                pressqlmodel.newPresentation(url, pdf.pageCount);
                 selectedLibrary = "presentations";
                 presentationLibraryList.currentIndex = pressqlmodel.rowCount();
                 print(pressqlmodel.getPresentation(presentationLibraryList.currentIndex));
@@ -1357,6 +1364,7 @@ Item {
                 if (!editMode)
                     editMode = true;
                 editSwitch("presentation", presentation);
+                pdf.source = "";
             }
 
             function isDragFile(item) {
@@ -1419,6 +1427,10 @@ Item {
             anchors.fill: parent
             border.width: 8
             border.color: overlay ? Kirigami.Theme.hoverColor : "#00000000"
+        }
+
+        PdfDocument {
+            id: pdf
         }
 
         MpvObject {
