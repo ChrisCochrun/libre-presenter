@@ -50,6 +50,7 @@ mkShell rec {
   ];
   
   RUST_BACKTRACE = 1;
+  QT_SCALE_FACTOR = 1;
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
     setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
