@@ -73,8 +73,8 @@ Controls.Page {
 
             Presenter.ServiceList {
                 id: leftDock
-                Controls.SplitView.preferredWidth: Kirigami.Units.largeSpacing * 40
-                Controls.SplitView.maximumWidth: Kirigami.Units.largeSpacing * 60
+                Controls.SplitView.preferredWidth: Kirigami.Units.largeSpacing * 30
+                Controls.SplitView.maximumWidth: Kirigami.Units.largeSpacing * 50
                 z: 1
             }
             
@@ -117,8 +117,8 @@ Controls.Page {
 
             Presenter.Library {
                 id: library
-                Controls.SplitView.preferredWidth: libraryOpen ? Kirigami.Units.largeSpacing * 40 : 0
-                Controls.SplitView.maximumWidth: Kirigami.Units.largeSpacing * 60
+                Controls.SplitView.preferredWidth: libraryOpen ? Kirigami.Units.largeSpacing * 30 : 0
+                Controls.SplitView.maximumWidth: Kirigami.Units.largeSpacing * 50
                 visible: libraryOpen ? true : false
             }
             
