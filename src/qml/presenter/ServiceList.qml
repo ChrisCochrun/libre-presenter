@@ -508,14 +508,23 @@ Item {
                      font, fontSize, itemID) {
         if (type === "song") {
             const newtext = songsqlmodel.getLyricList(itemID);
-            print("adding: " + name + " of type " + type);
+            print("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
             serviceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, newtext,
-                                        audio, font, fontSize);
+                                        audio, font, fontSize, newtext.length);
             totalServiceItems++;
             return;
         }
+        /* if (type === "presentation") { */
+        /*     print("adding: " + name + " of type " + type + " with " + newtext.length + " slides"); */
+        /*     serviceItemModel.insertItem(index, name, */
+        /*                                 type, background, */
+        /*                                 backgroundType, "", */
+        /*                                 "", "", 0, pageCount); */
+        /*     totalServiceItems++; */
+        /*     return; */
+        /* } */
         print("adding: " + name + " of type " + type);
         serviceItemModel.insertItem(index, name,
                                     type, background,

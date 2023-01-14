@@ -93,9 +93,9 @@ FocusScope {
 
             Presenter.Slide {
                 id: previewSlide
-                implicitWidth: Kirigami.Units.gridUnit * 32 
+                implicitWidth: root.width - 400 
                 implicitHeight: width / 16 * 9
-                /* minimumWidth: 300 */
+                /* minimumWidth: 200 */
                 anchors.centerIn: parent
                 textSize: width / 15
                 itemType: root.itemType
@@ -182,15 +182,18 @@ FocusScope {
         anchors.bottom: root.bottom
         width: parent.width
         orientation: ListView.Horizontal
+        spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
         reuseItems: true
 
         model: serviceItemModel
         delegate: Rectangle {
             id: previewHighlight
-            property var outerModelData: modelData
-            implicitWidth: 210
-            implicitHeight: width / 16 * 9
+            property var outerModelData: model
+            implicitHeight: Kirigami.Units.gridUnit * 6
+            implicitWidth: Kirigami.Units.gridUnit * 11
+            border.color: Kirigami.Theme.highlightColor
+            radius: 5
             color: {
                 if (active || previewerMouse.containsMouse)
                     Kirigami.Theme.highlightColor
@@ -200,16 +203,21 @@ FocusScope {
             ListView {
                 id: slidesList
                 anchors.centerIn: parent
-                implicitHeight: parent.height
-                model: outerModelData.slideNumber
+                model: outerModelData.slideNumber === 0 ? 1 : outerModelData.slideNumber
+                width: parent.width * model - 10
+                height: parent.height
                 orientation: ListView.Horizontal
                 cacheBuffer: 900
                 reuseItems: true
-                Component.onCompleted: showPassiveNotification(outerModelData.slideNumber)
+                spacing: Kirigami.Units.smallSpacing
+                Component.onCompleted: {
+                    showPassiveNotification("Number of slides: " + outerModelData.slideNumber);
+                    parent.width = width;
+                }
                 delegate: Presenter.Slide {
                     id: previewSlideItem
                     anchors.centerIn: parent
-                    implicitWidth: 200
+                    implicitWidth: Kirigami.Units.gridUnit * 10
                     implicitHeight: width / 16 * 9
                     textSize: width / 4
                     itemType: outerModelData.type
@@ -217,31 +225,30 @@ FocusScope {
                     videoSource: outerModelData.backgroundType === "video" ? background : ""
                     audioSource: ""
                     chosenFont: outerModelData.font
-                    text: outerModelData.text[index] === "This is demo text" ? "" : outerModelData.text[index]
+                    text: outerModelData.text[index + 1] === "This is demo text" ? "" : outerModelData.text[index + 1]
                     pdfIndex: 0
                     preview: true 
                     editMode: true 
 
+                    MouseArea {
+                        id: innerMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: changeServiceItem(outerModelData.index)
+                        cursorShape: Qt.PointingHandCursor
+                    }
                 }
             }
 
             Controls.Label {
                 id: slidesTitle
-                width: previewSlideItem.width
+                width: Kirigami.Units.gridUnit * 7
                 anchors.top: slidesList.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 5
                 elide: Text.ElideRight
                 text: name
                 /* font.family: "Quicksand Bold" */
-            }
-
-            Controls.ToolButton {
-                anchors.top: slidesTitle.bottom
-                text: "NUM"
-                icon.name: "viewimage"
-                hoverEnabled: true
-                onClicked: showPassiveNotification(slideNumber) && print(slideNumber);
             }
 
             MouseArea {
