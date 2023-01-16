@@ -22,7 +22,7 @@ Item {
     property url audioSource
     property int pdfIndex
     property string chosenFont: "Quicksand"
-    property string text: "This is demo text"
+    property string text
     property string audioError
     property color backgroundColor
     property var hTextAlignment: Text.AlignHCenter
