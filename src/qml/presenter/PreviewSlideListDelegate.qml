@@ -77,7 +77,7 @@ Item {
             anchors.leftMargin: Kirigami.Units.smallSpacing * 8
             anchors.topMargin: 5
             elide: Text.ElideRight
-            text: name + " " + slidesListRepeater.model
+            text: name
             /* font.family: "Quicksand Bold" */
         }
 
