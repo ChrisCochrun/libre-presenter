@@ -29,6 +29,7 @@ Item {
                 Kirigami.Theme.backgroundColor
         }
 
+        // I couldn't get another listview to work but I may try it again
         Row {
             id: slidesList
             spacing: Kirigami.Units.smallSpacing * 2
