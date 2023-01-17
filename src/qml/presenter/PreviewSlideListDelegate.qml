@@ -58,12 +58,6 @@ Item {
                     pdfIndex: outerModelData.type != "presentation" ? 0 : index
                     preview: true
                     editMode: true
-                    /* Component.onCompleted: { */
-                    /*     if (outerModelData.name === "Death Was Arrested") { */
-                    /*         showPassiveNotification("Index of slide: " + index); */
-                    /*         showPassiveNotification("width: " + width) */
-                    /*     } */
-                    /* } */
 
                     MouseArea {
                         id: innerMouse
