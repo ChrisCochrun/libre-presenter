@@ -10,7 +10,7 @@ Item {
     // Lets set the outerModelData so we can access that data here.
     property var outerModelData: model;
 
-    implicitHeight: Kirigami.Units.gridUnit * 6
+    implicitHeight: Kirigami.Units.gridUnit * 6.25
     implicitWidth: {
         let slides = outerModelData.slideNumber === 0 ? 1 : outerModelData.slideNumber
         return Kirigami.Units.gridUnit * 10 * slides + Kirigami.Units.smallSpacing * 2;
@@ -55,7 +55,7 @@ Item {
                     audioSource: ""
                     chosenFont: outerModelData.font
                     text: outerModelData.text[index] === "This is demo text" ? "" : outerModelData.text[index]
-                    pdfIndex: 0
+                    pdfIndex: outerModelData.type != "presentation" ? 0 : index
                     preview: true
                     editMode: true
                     /* Component.onCompleted: { */
@@ -65,13 +65,13 @@ Item {
                     /*     } */
                     /* } */
 
-                    /* MouseArea { */
-                    /*     id: innerMouse */
-                    /*     anchors.fill: parent */
-                    /*     hoverEnabled: true */
-                    /*     onClicked: changeServiceItem(outerModelData.index) */
-                    /*     cursorShape: Qt.PointingHandCursor */
-                    /* } */
+                    MouseArea {
+                        id: innerMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: changeServiceItem(outerModelData.index)
+                        cursorShape: Qt.PointingHandCursor
+                    }
                 }
             }
         }
@@ -91,8 +91,9 @@ Item {
             id: previewerMouse
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: changeServiceItem(index)
+            /* onClicked: changeServiceItem(index) */
             cursorShape: Qt.PointingHandCursor
+            propagateComposedEvents: true
         }
 
 
