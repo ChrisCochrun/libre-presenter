@@ -203,16 +203,20 @@ FocusScope {
 
     Rectangle {
         id: activeHighlightBar
-        width: previewSlidesList.currentItem.width - Kirigami.Units.smallSpacing * 2
+        width: Kirigami.Units.gridUnit * 10
         height: Kirigami.Units.gridUnit / 4
         y: previewSlidesList.y + Kirigami.Units.gridUnit * 6
-        x: previewSlidesList.currentItem.x + Kirigami.Units.smallSpacing
+        x: {
+            let slideX = SlideObject.slideIndex === 0 ? previewSlidesList.currentItem.width : (SlideObject.slideIndex - 1) * previewSlidesList.currentItem.width
+            previewSlidesList.currentItem.x + Kirigami.Units.smallSpacing
+        }
         radius: 5
         color: Kirigami.Theme.negativeTextColor
 
         Behavior on x { PropertyAnimation {
             properties: "x"
-            easing.type: Easing.InOutQuad;
+            easing.type: Easing.InOutElastic;
+            easing.period: 1.5
             duration: 150
         }}
     }
