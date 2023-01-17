@@ -66,17 +66,6 @@ Item {
                         onClicked: changeSlideAndIndex(outerModelData, index)
                         cursorShape: Qt.PointingHandCursor
                     }
-
-                    Rectangle {
-                        id: activeHighlightBar
-                        width: previewSlideItem.width
-                        height: Kirigami.Units.gridUnit / 4
-                        anchors.top: previewSlideItem.bottom
-                        anchors.left: previewSlideItem.left
-                        anchors.topMargin: Kirigami.Units.smallSpacing
-                        color: Kirigami.Theme.negativeTextColor
-                        visible: outerModelData.active && SlideObject.slideIndex == index - 1
-                    }
                 }
             }
         }
@@ -105,15 +94,17 @@ Item {
         Connections {
             target: serviceItemModel
             onDataChanged: if (active)
-                previewSlidesList.positionViewAtIndex(index, ListView.Center)
+                previewSlidesList.positionViewAtIndex(index, ListView.Contain)
         }
     }
 
     function changeSlideAndIndex(serviceItem, index) {
         // TODO
         console.log("Item: " + serviceItem.index + " is " + serviceItem.active);
-        if (!serviceItem.active)
+        if (!serviceItem.active) {
             changeServiceItem(serviceItem.index)
+            previewSlidesList.currentIndex = serviceItem.index;
+        }
         console.log("Slide Index is: " + index);
         if (index === 0)
             return;

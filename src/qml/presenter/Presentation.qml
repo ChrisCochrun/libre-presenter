@@ -177,23 +177,44 @@ FocusScope {
     }
 
     ListView {
+        // The active items X value from root
+        property int activeX
         id: previewSlidesList
         anchors.top: mainGrid.bottom
-        anchors.bottom: root.bottom
+        anchors.bottom: root.bottom - Kirigami.Units.gridUnit
         width: parent.width
         orientation: ListView.Horizontal
         spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
         reuseItems: true
-
         model: serviceItemModel
         delegate: Presenter.PreviewSlideListDelegate {}
+
         Kirigami.WheelHandler {
             id: wheelHandler
             target: previewSlidesList
             filterMouseEvents: true
+            onWheel: {
+                wheel.accepted = true;
+                showPassiveNotification(wheel.inverted)
+            }
         }
+    }
 
+    Rectangle {
+        id: activeHighlightBar
+        width: previewSlidesList.currentItem.width - Kirigami.Units.smallSpacing * 2
+        height: Kirigami.Units.gridUnit / 4
+        y: previewSlidesList.y + Kirigami.Units.gridUnit * 6
+        x: previewSlidesList.currentItem.x + Kirigami.Units.smallSpacing
+        radius: 5
+        color: Kirigami.Theme.negativeTextColor
+
+        Behavior on x { PropertyAnimation {
+            properties: "x"
+            easing.type: Easing.InOutQuad;
+            duration: 150
+        }}
     }
 
     Item {
