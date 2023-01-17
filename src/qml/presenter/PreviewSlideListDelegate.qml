@@ -10,7 +10,7 @@ Item {
     // Lets set the outerModelData so we can access that data here.
     property var outerModelData: model;
 
-    implicitHeight: Kirigami.Units.gridUnit * 6.25
+    implicitHeight: Kirigami.Units.gridUnit * 6.5
     implicitWidth: {
         let slides = outerModelData.slideNumber === 0 ? 1 : outerModelData.slideNumber
         return Kirigami.Units.gridUnit * 10 * slides + Kirigami.Units.smallSpacing * 2;
@@ -72,6 +72,17 @@ Item {
                         onClicked: changeSlideAndIndex(outerModelData, index)
                         cursorShape: Qt.PointingHandCursor
                     }
+
+                    Rectangle {
+                        id: activeHighlightBar
+                        width: previewSlideItem.width
+                        height: Kirigami.Units.gridUnit / 4
+                        anchors.top: previewSlideItem.bottom
+                        anchors.left: previewSlideItem.left
+                        anchors.topMargin: Kirigami.Units.smallSpacing
+                        color: Kirigami.Theme.negativeTextColor
+                        visible: outerModelData.active && SlideObject.slideIndex == index - 1
+                    }
                 }
             }
         }
@@ -113,5 +124,6 @@ Item {
         if (index === 0)
             return;
         SlideObject.changeSlideIndex(index);
+        console.log("New slide index is: " + SlideObject.slideIndex);
     }
 }

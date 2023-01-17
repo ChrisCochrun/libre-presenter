@@ -20,7 +20,7 @@ Slide::Slide(const QString &text, const QString &audio, const QString &imageBack
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),
     m_fontSize(fontSize),m_imageCount(imageCount),m_pdfIndex(pdfIndex),
-    m_isPlaying(isPlaying),m_type(type)
+    m_isPlaying(isPlaying),m_type(type),m_slideIndex(0)
 {
   qDebug() << "Initializing slide with defaults";
 }
@@ -79,6 +79,11 @@ int Slide::imageCount() const
 int Slide::pdfIndex() const
 {
   return m_pdfIndex;
+}
+
+int Slide::slideIndex() const
+{
+  return m_slideIndex;
 }
 
 bool Slide::isPlaying() const
@@ -200,6 +205,16 @@ void Slide::setPdfIndex(int pdfIndex)
     qDebug() << "####changing pdfIndex to: " << pdfIndex;
     m_pdfIndex = pdfIndex;
     emit pdfIndexChanged(m_pdfIndex);
+}
+
+void Slide::setSlideIndex(int slideIndex)
+{
+    if (m_slideIndex == slideIndex)
+        return;
+
+    qDebug() << "####changing slideIndex to: " << slideIndex;
+    m_slideIndex = slideIndex;
+    emit slideIndexChanged(m_slideIndex);
 }
 
 void Slide::changeSlide(QVariantMap item)
@@ -329,7 +344,7 @@ bool Slide::changeSlideIndex(int index)
   qDebug() << "Starting to change slide index.";
   qDebug() << "Slide Index: " << m_slideIndex << " Slide Size: " << m_slideSize;
   QStringList text = m_serviceItem.value("text").toStringList();
-  if (index > m_slideSize || index < 0) {
+  if (index > m_slideSize - 1 || index < 0) {
     qDebug() << "index is invalid: " << index;
     return false;
   }

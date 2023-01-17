@@ -26,6 +26,7 @@ class Slide : public QObject
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(int imageCount READ imageCount WRITE setImageCount NOTIFY imageCountChanged)
   Q_PROPERTY(int pdfIndex READ pdfIndex WRITE setPdfIndex NOTIFY pdfIndexChanged)
+  Q_PROPERTY(int slideIndex READ slideIndex WRITE setSlideIndex NOTIFY slideIndexChanged)
   Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY isPlayingChanged)
   // QML_ELEMENT
 
@@ -49,6 +50,7 @@ public:
   int fontSize() const;
   int imageCount() const;
   int pdfIndex() const;
+  int slideIndex() const;
   bool isPlaying() const;
 
   Q_INVOKABLE void setText(QString text);
@@ -63,6 +65,7 @@ public:
   Q_INVOKABLE void setFontSize(int fontSize);
   Q_INVOKABLE void setImageCount(int imageCount);
   Q_INVOKABLE void setPdfIndex(int pdfIndex);
+  Q_INVOKABLE void setSlideIndex(int slideIndex);
 
   Q_INVOKABLE void changeSlide(QVariantMap item);
   Q_INVOKABLE void play();
@@ -85,6 +88,7 @@ signals:
     Q_INVOKABLE void fontSizeChanged(int fontSize);
     Q_INVOKABLE void imageCountChanged(int imageCount);
     Q_INVOKABLE void pdfIndexChanged(int pdfIndex);
+    Q_INVOKABLE void slideIndexChanged(int slideIndex);
     Q_INVOKABLE void isPlayingChanged(bool isPlaying);
 
 private:
