@@ -44,6 +44,8 @@ stdenv.mkDerivation rec {
   pname = "libre-presenter";
   version = "0.0.1";
 
+  __noChroot = true;
+
   src = ./.;
 
   nativeBuildInputs = [
