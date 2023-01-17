@@ -69,7 +69,7 @@ Item {
                         id: innerMouse
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: changeServiceItem(outerModelData.index)
+                        onClicked: changeSlideAndIndex(outerModelData, index)
                         cursorShape: Qt.PointingHandCursor
                     }
                 }
@@ -102,5 +102,16 @@ Item {
             onDataChanged: if (active)
                 previewSlidesList.positionViewAtIndex(index, ListView.Center)
         }
+    }
+
+    function changeSlideAndIndex(serviceItem, index) {
+        // TODO
+        console.log("Item: " + serviceItem.index + " is " + serviceItem.active);
+        if (!serviceItem.active)
+            changeServiceItem(serviceItem.index)
+        console.log("Slide Index is: " + index);
+        if (index === 0)
+            return;
+        SlideObject.changeSlideIndex(index);
     }
 }

@@ -324,6 +324,37 @@ bool Slide::previous(QVariantMap prevItem)
   return false;
 }
 
+bool Slide::changeSlideIndex(int index)
+{
+  qDebug() << "Starting to change slide index.";
+  qDebug() << "Slide Index: " << m_slideIndex << " Slide Size: " << m_slideSize;
+  QStringList text = m_serviceItem.value("text").toStringList();
+  if (index > m_slideSize || index < 0) {
+    qDebug() << "index is invalid: " << index;
+    return false;
+  }
+
+  // since the string list is 0 indexed m_slideIndex actually
+  // maps to the next item. So the prev text is minus 2
+  if (m_type == "song") {
+    int textIndex = index;
+    qDebug() << textIndex;
+    qDebug() << text[textIndex];
+    setText(text[textIndex]);
+    m_slideIndex = index;
+    return true;
+  }
+
+  if (m_type == "presentation") {
+    qDebug() << "prev slide index: " << m_pdfIndex;
+    setPdfIndex(index);
+    qDebug() << "new slide index: " << m_pdfIndex;
+    m_slideIndex = index;
+    return true;
+  }
+  return false;
+}
+
 void Slide::play()
 {
   m_isPlaying = true;

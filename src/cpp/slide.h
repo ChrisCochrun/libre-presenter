@@ -70,6 +70,7 @@ public:
   Q_INVOKABLE void playPause();
   Q_INVOKABLE bool next(QVariantMap nextItem);
   Q_INVOKABLE bool previous(QVariantMap prevItem);
+  Q_INVOKABLE bool changeSlideIndex(int index);
 
 signals:
     Q_INVOKABLE void textChanged(QString text);
