@@ -64,7 +64,7 @@ Item {
 
             if (Math.abs(listItem.y - mouseArea.startY) > height && newIndex > -1 &&
                 newIndex !== index) {
-                print("old index is: " + index + " and new index is: " + newIndex);
+                console.log("old index is: " + index + " and new index is: " + newIndex);
                 root.moveRequested(index, newIndex);
             }
         }

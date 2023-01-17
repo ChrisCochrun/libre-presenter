@@ -126,7 +126,7 @@ Item {
 
     function changeImage(image) {
         root.image = image;
-        print(image.filePath.toString());
+        console.log(image.filePath.toString());
     }
 
     function updateTitle(text) {

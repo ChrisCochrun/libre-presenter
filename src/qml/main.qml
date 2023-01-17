@@ -24,7 +24,7 @@ Kirigami.ApplicationWindow {
 
     signal edit()
 
-    onActiveFocusItemChanged: print("FOCUS CHANGED TO: " + activeFocusControl)
+    onActiveFocusItemChanged: console.log("FOCUS CHANGED TO: " + activeFocusControl)
 
     /* pageStack.initialPage: mainPage */
     header: Presenter.Header {}
@@ -60,7 +60,7 @@ Kirigami.ApplicationWindow {
         id: menuLoader
         active: Kirigami.Settings.hasPlatformMenuBar
         sourceComponent: globalMenuComponent
-        onLoaded: print("Loaded global menu")
+        onLoaded: console.log("Loaded global menu")
     }
 
     Component {
@@ -125,7 +125,7 @@ Kirigami.ApplicationWindow {
             save(saveFileDialog.fileUrl);
         }
         onRejected: {
-            print("Canceled")
+            console.log("Canceled")
         }
     }
 
@@ -144,7 +144,7 @@ Kirigami.ApplicationWindow {
             load(loadFileDialog.fileUrl);
         }
         onRejected: {
-            print("Canceled")
+            console.log("Canceled")
         }
     }
 
@@ -180,25 +180,25 @@ Kirigami.ApplicationWindow {
         const loaded = mainPage.serviceItems.load(file);
         loaded ? showPassiveNotification("Loaded: " + file)
             : showPassiveNotification("FAILED!");
-        /* print("Number of items: " + loaded.length); */
-        /* print(loaded[0].audio); */
+        /* console.log("Number of items: " + loaded.length); */
+        /* console.log(loaded[0].audio); */
     }
 
     Component.onCompleted: {
         /* showPassiveNotification(Kirigami.Settings.style); */
         /* Kirigami.Settings.style = "Plasma"; */
         /* showPassiveNotification(Kirigami.Settings.style); */
-        print("OS is: " + Qt.platform.os);
-        print("MENU " + Kirigami.Settings.hasPlatformMenuBar)
-        /* print("checking screens"); */
-        print("Present Mode is " + presenting);
-        /* print(Qt.application.state); */
+        console.log("OS is: " + Qt.platform.os);
+        console.log("MENU " + Kirigami.Settings.hasPlatformMenuBar)
+        /* console.log("checking screens"); */
+        console.log("Present Mode is " + presenting);
+        /* console.log(Qt.application.state); */
         screens = Qt.application.screens;
         presentationScreen = screens[1]
-        print(Kirigami.Settings.Style);
+        console.log(Kirigami.Settings.Style);
         for (let i = 0; i < screens.length; i++) {
-            /* print(screens[i]); */
-            /* print(screens[i].name); */
+            /* console.log(screens[i]); */
+            /* console.log(screens[i].name); */
             screenModel.append({
                 "name": screens[i].name,
                 "width": (screens[i].width * screens[i].devicePixelRatio),
@@ -206,13 +206,13 @@ Kirigami.ApplicationWindow {
                 "pixeldensity": screens[i].pixelDensity,
                 "pixelratio": screens[i].devicePixelRatio
             })
-            /* print("width of screen: " + (screens[i].width * screens[i].devicePixelRatio)); */
-            /* print("height of screen: " + (screens[i].height * screens[i].devicePixelRatio)); */
-            /* print("pixeldensity of screen: " + screens[i].pixelDensity); */
-            /* print("pixelratio of screen: " + screens[i].devicePixelRatio); */
+            /* console.log("width of screen: " + (screens[i].width * screens[i].devicePixelRatio)); */
+            /* console.log("height of screen: " + (screens[i].height * screens[i].devicePixelRatio)); */
+            /* console.log("pixeldensity of screen: " + screens[i].pixelDensity); */
+            /* console.log("pixelratio of screen: " + screens[i].devicePixelRatio); */
             if (i == 0)
-                print("Current Screens available: ");
-            print(screenModel.get(i).name);
+                console.log("Current Screens available: ");
+            console.log(screenModel.get(i).name);
         }
     }
 

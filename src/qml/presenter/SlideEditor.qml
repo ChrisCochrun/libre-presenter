@@ -109,8 +109,8 @@ Item {
     }
 
     function appendVerse(verse) {
-        /* print("Let's append some verses") */
-        /* print(verse); */
+        /* console.log("Let's append some verses") */
+        /* console.log(verse); */
         songModel.append({"verse": verse})
     }
 
@@ -147,7 +147,7 @@ Item {
 
     function playPauseSlide() {
         firstItem = slideList.itemAtIndex(0);
-        print(firstItem);
+        console.log(firstItem);
         playingVideo = !playingVideo;
         /* firstItem.editMode = false; */
         firstItem.playPauseVideo();
@@ -166,7 +166,7 @@ Item {
         for (var i = 0; i < slideList.count; ++i) {
             slideList.currentIndex = i;
             slideList.currentItem.representation.loadVideo();
-            print(slideList.currentItem);
+            console.log(slideList.currentItem);
         }
     }
 

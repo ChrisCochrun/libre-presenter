@@ -149,7 +149,7 @@ Item {
 
     function changePresentation(presentation) {
         root.presentation = presentation;
-        print(presentation.filePath.toString());
+        console.log(presentation.filePath.toString());
         updatePageCount(presentationPreview.frameCount);
         console.log("page count " + presentation.pageCount);
     }

@@ -75,7 +75,7 @@ Item {
                             selectedLibrary = ""
                         else
                             selectedLibrary = "songs"
-                        print(selectedLibrary)
+                        console.log(selectedLibrary)
                     }
                 }
             }
@@ -369,7 +369,7 @@ Item {
                             selectedLibrary = ""
                         else
                             selectedLibrary = "videos"
-                        print(selectedLibrary)
+                        console.log(selectedLibrary)
                     }
                 }
             }
@@ -652,7 +652,7 @@ Item {
                             selectedLibrary = ""
                         else
                             selectedLibrary = "images"
-                        print(selectedLibrary)
+                        console.log(selectedLibrary)
                     }
                 }
             }
@@ -934,7 +934,7 @@ Item {
                             selectedLibrary = ""
                         else
                             selectedLibrary = "presentations"
-                        print(selectedLibrary)
+                        console.log(selectedLibrary)
                     }
                 }
             }
@@ -1186,7 +1186,7 @@ Item {
                             selectedLibrary = ""
                         else
                             selectedLibrary = "slides"
-                        print(selectedLibrary)
+                        console.log(selectedLibrary)
                     }
                 }
             }
@@ -1309,15 +1309,15 @@ Item {
             anchors.fill: parent
             onDropped: drop => {
                 overlay = false;
-                print("dropped");
-                print(drop.urls);
+                console.log("dropped");
+                console.log(drop.urls);
                 /* thumbnailer.loadFile(drop.urls[0]); */
                 if (drop.urls.length > 1){
                     addFiles(drop.urls);
                 } else if (drop.urls.length === 1)
                     addFile(drop.urls[0]);
                 else if (drop.urls.length === 0)
-                    print("stoppp it ya dum dum");
+                    console.log("stoppp it ya dum dum");
             }
             onEntered: {
                 if (isDragFile(drag.urls[0]))
@@ -1329,7 +1329,7 @@ Item {
                 videosqlmodel.newVideo(url);
                 selectedLibrary = "videos";
                 videoLibraryList.currentIndex = videosqlmodel.rowCount();
-                print(videosqlmodel.getVideo(videoLibraryList.currentIndex));
+                console.log(videosqlmodel.getVideo(videoLibraryList.currentIndex));
                 const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
                 showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
@@ -1341,7 +1341,7 @@ Item {
                 imagesqlmodel.newImage(url);
                 selectedLibrary = "images";
                 imageLibraryList.currentIndex = imagesqlmodel.rowCount();
-                print(imagesqlmodel.getImage(imageLibraryList.currentIndex));
+                console.log(imagesqlmodel.getImage(imageLibraryList.currentIndex));
                 const image = imagesqlmodel.getImage(imageLibraryList.currentIndex);
                 showPassiveNotification("newest image: " + image.title);
                 if (!editMode)
@@ -1350,16 +1350,16 @@ Item {
             }
 
             function addPres(url) {
-                print(pdf.status);
+                console.log(pdf.status);
                 pdf.source = url;
                 while (pdf.status != 2) {
-                    print(pdf.status);
-                    print("PAGECOUNT: " + pdf.pageCount);
+                    console.log(pdf.status);
+                    console.log("PAGECOUNT: " + pdf.pageCount);
                 }
                 pressqlmodel.newPresentation(url, pdf.pageCount);
                 selectedLibrary = "presentations";
                 presentationLibraryList.currentIndex = pressqlmodel.rowCount();
-                print(pressqlmodel.getPresentation(presentationLibraryList.currentIndex));
+                console.log(pressqlmodel.getPresentation(presentationLibraryList.currentIndex));
                 const presentation = pressqlmodel.getImage(presentationLibraryList.currentIndex);
                 showPassiveNotification("newest image: " + presentation.title);
                 if (!editMode)
@@ -1373,7 +1373,7 @@ Item {
                 var valid = false;
 
                 if(extension) {
-                    print(extension);
+                    console.log(extension);
                     valid = true;
                 }
 
@@ -1440,10 +1440,10 @@ Item {
             enableAudio: false
             width: 0
             height: 0
-            Component.onCompleted: print("ready")
+            Component.onCompleted: console.log("ready")
             onFileLoaded: {
                 thumbnailer.pause();
-                print("FILE: " + thumbnailer.mediaTitle);
+                console.log("FILE: " + thumbnailer.mediaTitle);
                 thumbnailer.screenshotToFile(thumbnailFile(thumbnailer.mediaTitle));
                 showPassiveNotification("Screenshot Taken to: " + thumbnailFile(thumbnailer.mediaTitle));
                 thumbnailer.stop();

@@ -157,13 +157,13 @@ Controls.Page {
     function changeServiceItem(index) {
         const item = serviceItemModel.getItem(index);
         currentServiceItem = index;
-        print("index grabbed: " + index);
-        print(item);
+        console.log("index grabbed: " + index);
+        console.log(item);
 
         presentation.stopVideo();
         pWindow.stopVideo();
         /* presentation.itemType = item.type; */
-        print("Time to start changing");
+        console.log("Time to start changing");
 
         serviceItemModel.activate(index);
         SlideObject.changeSlide(item);
@@ -177,7 +177,7 @@ Controls.Page {
         /* serviceItemModel.select(index); */
         /* presentation.changeSlide(); */
 
-        print("Slide changed to: " + item.name);
+        console.log("Slide changed to: " + item.name);
     }
 
     function loopVideo() {
@@ -256,10 +256,10 @@ Controls.Page {
         if (present)
         {
             presentation.loadVideo();
-            print("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
+            console.log("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
             pWindow.showFullScreen();
             /* pWindow.screen = presentationScreen; */
-            print("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
+            console.log("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
         }
         else
             pWindow.close();

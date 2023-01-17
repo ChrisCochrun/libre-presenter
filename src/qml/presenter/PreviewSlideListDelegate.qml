@@ -39,8 +39,8 @@ Item {
                 model: outerModelData.slideNumber === 0 ? 1 : outerModelData.slideNumber
                 Component.onCompleted: {
                     if (name === "Death Was Arrested") {
-                        showPassiveNotification("Number of slides: " + outerModelData.slideNumber);
-                        showPassiveNotification("model number: " + model);
+                        console.log("Number of slides: " + outerModelData.slideNumber);
+                        console.log("model number: " + model);
                     }
                 }
                 /* Rectangle { width: 20; height: 20; radius: 10; color: "green" } */

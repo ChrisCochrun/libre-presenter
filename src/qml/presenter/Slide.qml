@@ -79,7 +79,7 @@ Item {
                 /* showPassiveNotification("YIPPEEE!") */
                 mpv.loadFile(videoSource.toString());
                 if (editMode) {
-                    print("WHY AREN'T YOU PASUING!");
+                    console.log("WHY AREN'T YOU PASUING!");
                     pauseTimer.restart();
                 }
                 blackTimer.restart();
@@ -194,7 +194,7 @@ Item {
     function stopVideo() {
         mpv.stop();
         black.visible = true;
-        print("Stopped video");
+        console.log("Stopped video");
     }
 
     function seek(pos) {

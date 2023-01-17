@@ -28,7 +28,7 @@ Window {
     }
 
     Component.onCompleted: {
-        print(screen.name);
+        console.log(screen.name);
     }
 
     Presenter.Slide {
@@ -71,7 +71,7 @@ Window {
     }
 
     function stopVideo() {
-        print("####I STOPPING####");
+        console.log("####I STOPPING####");
         presentationSlide.stopVideo()
     }
 

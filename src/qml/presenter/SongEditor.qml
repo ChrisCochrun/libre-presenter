@@ -278,10 +278,10 @@ Item {
         nameFilters: ["Audio files (*.mp3 *.flac *.wav *.opus *.MP3 *.FLAC *.WAV *.OPUS)"]
         onAccepted: {
             updateAudioFile(audioFileDialog.fileUrls[0]);
-            print("audio = " + audioFileDialog.fileUrls[0]);
+            console.log("audio = " + audioFileDialog.fileUrls[0]);
         }
         onRejected: {
-            print("Canceled")
+            console.log("Canceled")
         }
 
     }
@@ -294,10 +294,10 @@ Item {
         nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)"]
         onAccepted: {
             updateBackground(videoFileDialog.fileUrls[0], "video");
-            print("video background = " + videoFileDialog.fileUrls[0]);
+            console.log("video background = " + videoFileDialog.fileUrls[0]);
         }
         onRejected: {
-            print("Canceled")
+            console.log("Canceled")
         }
 
     }
@@ -310,17 +310,17 @@ Item {
         nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG)"]
         onAccepted: {
             updateBackground(imageFileDialog.fileUrls[0], "image");
-            print("image background = " + imageFileDialog.fileUrls[0]);
+            console.log("image background = " + imageFileDialog.fileUrls[0]);
         }
         onRejected: {
-            print("Canceled")
+            console.log("Canceled")
         }
 
     }
 
     function changeSong(index) {
         clearSlides();
-        print(index);
+        console.log(index);
         const s = songsqlmodel.getSong(index);
         song = s;
         songLyrics = s.lyrics;
@@ -340,7 +340,7 @@ Item {
         changeSlideFont(song.font, true);
         changeSlideFontSize(song.fontSize, true)
         changeSlideText(songIndex);
-        print(s.title);
+        console.log(s.title);
     }
 
     function updateLyrics(lyrics) {
@@ -379,7 +379,7 @@ Item {
         song.background = background;
         songsqlmodel.updateBackground(songIndex, background);
         songsqlmodel.updateBackgroundType(songIndex, backgroundType);
-        print("changed background");
+        console.log("changed background");
         if (backgroundType === "image") {
             //todo
             slideEditor.videoBackground = "";
@@ -467,7 +467,7 @@ Item {
     }
 
     function changeSlideText(id) {
-        /* print("Here are the verses: " + verses); */
+        /* console.log("Here are the verses: " + verses); */
         const verses = songsqlmodel.getLyricList(id);
         verses.forEach(slideEditor.appendVerse);
         /* slideEditor.loadVideo(); */

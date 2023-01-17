@@ -38,7 +38,7 @@ ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
         onDropped: (drag) => {
-            print("DROPPED AT END");
+            console.log("DROPPED AT END");
             appendItem(dragItemTitle,
                        dragItemType,
                        dragItemBackground,
@@ -113,8 +113,8 @@ ColumnLayout {
                     /* onExited: dropHighlightLine.visible = false; */
 
                     onDropped: (drag) => {
-                        print("DROPPED IN ITEM AREA: " + drag.keys);
-                        print(dragItemIndex + " " + index);
+                        console.log("DROPPED IN ITEM AREA: " + drag.keys);
+                        console.log(dragItemIndex + " " + index);
                         const hlIndex = serviceItemList.currentIndex;
                         if (drag.keys[0] === "library") {
                             addItem(index,
@@ -238,7 +238,7 @@ ColumnLayout {
                             }
 
                             onReleased: {
-                                print("should drop");
+                                console.log("should drop");
                                 visServiceItem.Drag.drop();
                             }
                         }
@@ -284,7 +284,7 @@ ColumnLayout {
                     return;
                 if (newIndex === -1)
                     newIndex = 0;
-                print("moveRequested: ", oldIndex, newIndex);
+                console.log("moveRequested: ", oldIndex, newIndex);
                 visualModel.items.move(oldIndex, newIndex);
                 indexDragged = newIndex;
                 serviceItemList.currentIndex = indexDragged;
@@ -370,7 +370,7 @@ ColumnLayout {
 
     Component.onCompleted: {
         totalServiceItems = serviceItemList.count;
-        print("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
+        console.log("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
     }
 
     function removeItem(index) {
@@ -381,7 +381,7 @@ ColumnLayout {
     function addItem(index, name, type,
                      background, backgroundType, text, itemID) {
         const newtext = songsqlmodel.getLyricList(itemID);
-        print("adding: " + name + " of type " + type);
+        console.log("adding: " + name + " of type " + type);
         serviceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType, newtext);
@@ -389,16 +389,16 @@ ColumnLayout {
     }
 
     function appendItem(name, type, background, backgroundType, text, itemID) {
-        print("adding: " + name + " of type " + type);
+        console.log("adding: " + name + " of type " + type);
         let lyrics;
         if (type === "song") {
-            print(itemID);
+            console.log(itemID);
             lyrics = songsqlmodel.getLyricList(itemID);
-            print(lyrics);
+            console.log(lyrics);
         }
 
-        print(background);
-        print(backgroundType);
+        console.log(background);
+        console.log(backgroundType);
 
         serviceItemModel.addItem(name, type, background,
                                  backgroundType, lyrics);

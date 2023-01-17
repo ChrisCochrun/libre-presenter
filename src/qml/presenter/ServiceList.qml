@@ -59,7 +59,7 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             onDropped: (drag) => {
-                print("DROPPED AT END");
+                console.log("DROPPED AT END");
                 showPassiveNotification(drag.source.title);
                 appendItem(dragItemTitle,
                            dragItemType,
@@ -105,8 +105,8 @@ Item {
                         }
 
                         onDropped: (drag) => {
-                            print("DROPPED IN ITEM AREA: " + drag.keys);
-                            print(dragItemIndex + " " + index);
+                            console.log("DROPPED IN ITEM AREA: " + drag.keys);
+                            console.log(dragItemIndex + " " + index);
                             const hlIndex = serviceItemList.currentIndex;
                             if (drag.keys[0] === "library") {
                                 addItem(index,
@@ -251,7 +251,7 @@ Item {
                                 }
 
                                 onReleased: {
-                                    print("should drop");
+                                    console.log("should drop");
                                     visServiceItem.Drag.drop();
                                 }
                             }
@@ -347,7 +347,7 @@ Item {
                 /* } */
 
                 /* function moveRequested(oldIndex, newIndex) { */
-                /*     print("moveRequested: ", oldIndex, newIndex); */
+                /*     console.log("moveRequested: ", oldIndex, newIndex); */
                 /*     serviceItemModel.moveRows(oldIndex, newIndex, 1); */
                 /*     indexDragged = newIndex; */
                 /*     serviceItemList.currentIndex = newIndex; */
@@ -373,7 +373,7 @@ Item {
                 contextType: "2d"
                 renderStrategy: Canvas.Threaded
                 onPaint: {
-                    print(Kirigami.Theme.hoverColor.name());
+                    console.log(Kirigami.Theme.hoverColor.name());
                     var ctx = getContext("2d");
                     ctx.fillRule = Qt.OddEvenFill
                     ctx.fillStyle = Kirigami.Theme.hoverColor.rgb();
@@ -495,7 +495,7 @@ Item {
 
     Component.onCompleted: {
         totalServiceItems = serviceItemList.count;
-        print("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
+        console.log("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
     }
 
     function removeItem(index) {
@@ -508,7 +508,7 @@ Item {
                      font, fontSize, itemID) {
         if (type === "song") {
             const newtext = songsqlmodel.getLyricList(itemID);
-            print("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
+            console.log("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
             serviceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, newtext,
@@ -517,7 +517,7 @@ Item {
             return;
         }
         if (type === "presentation") {
-            print("adding: " + name + " of type " + type + " with " + dragItemSlideNumber + " slides");
+            console.log("adding: " + name + " of type " + type + " with " + dragItemSlideNumber + " slides");
             serviceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, "",
@@ -525,7 +525,7 @@ Item {
             totalServiceItems++;
             return;
         }
-        print("adding: " + name + " of type " + type);
+        console.log("adding: " + name + " of type " + type);
         serviceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType);
@@ -534,13 +534,13 @@ Item {
 
     function appendItem(name, type, background, backgroundType,
                         text, audio, font, fontSize, itemID) {
-        print("adding: " + name + " of type " + type);
+        console.log("adding: " + name + " of type " + type);
         let lyrics;
         if (type === "song") {
-            print("THIS IS A SONG!!!!!");
-            print(itemID);
+            console.log("THIS IS A SONG!!!!!");
+            console.log(itemID);
             lyrics = songsqlmodel.getLyricList(itemID);
-            print(lyrics);
+            console.log(lyrics);
             serviceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
                                      audio, font, fontSize);
@@ -548,8 +548,8 @@ Item {
             return;
         };
 
-        print(background);
-        print(backgroundType);
+        console.log(background);
+        console.log(backgroundType);
 
         serviceItemModel.addItem(name, type, background,
                                  backgroundType);

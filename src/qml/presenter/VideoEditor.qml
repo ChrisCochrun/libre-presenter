@@ -223,9 +223,9 @@ Item {
     }
 
     function stop() {
-        print("stopping video");
+        console.log("stopping video");
         videoPreview.pause();
-        print("quit mpv");
+        console.log("quit mpv");
     }
 
     function updateEndTime(value) {

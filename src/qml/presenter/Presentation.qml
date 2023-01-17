@@ -253,14 +253,14 @@ FocusScope {
 
     function nextSlideAction() {
         keyHandler.forceActiveFocus();
-        print(currentServiceItem);
+        console.log(currentServiceItem);
         const nextServiceItemIndex = currentServiceItem + 1;
         const nextItem = serviceItemModel.getItem(nextServiceItemIndex);
-        print("currentServiceItem " + currentServiceItem);
-        print("nextServiceItem " + nextServiceItemIndex);
-        print(nextItem.name);
+        console.log("currentServiceItem " + currentServiceItem);
+        console.log("nextServiceItem " + nextServiceItemIndex);
+        console.log(nextItem.name);
         const change = SlideObject.next(nextItem);
-        print(change);
+        console.log(change);
         if (currentServiceItem === totalServiceItems - 1 & change)
             return;
         if (change) {
@@ -273,18 +273,18 @@ FocusScope {
 
     function nextSlide() {
         changeServiceItem(currentServiceItem++);
-        print(slideItem);
+        console.log(slideItem);
     }
 
     function previousSlideAction() {
         keyHandler.forceActiveFocus();
         const prevServiceItemIndex = currentServiceItem - 1;
         const prevItem = serviceItemModel.getItem(prevServiceItemIndex);
-        print("currentServiceItem " + currentServiceItem);
-        print("prevServiceItem " + prevServiceItemIndex);
-        print(prevItem.name);
+        console.log("currentServiceItem " + currentServiceItem);
+        console.log("prevServiceItem " + prevServiceItemIndex);
+        console.log(prevItem.name);
         const change = SlideObject.previous(prevItem);
-        print(change);
+        console.log(change);
         if (currentServiceItem === 0 & change) {
             return;
         };
@@ -298,13 +298,13 @@ FocusScope {
 
     function previousSlide() {
         changeServiceItem(--currentServiceItem);
-        print(slideItem);
+        console.log(slideItem);
     }
 
     function changeSlide() {
         if (itemType === "song") {
             SlideObject.setText(root.text[textIndex]);
-            print(root.text[textIndex]);
+            console.log(root.text[textIndex]);
             textIndex++;
         } else if (itemType === "video") {
             clearText();
