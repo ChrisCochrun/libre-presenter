@@ -167,6 +167,9 @@ Item {
     }
 
     function updatePageCount(pageCount) {
+        let curPageCount = presentation.pageCount;
+        if (curPageCount === presentation.pageCount)
+            return;
         presentation.pageCount = pageCount;
         pressqlmodel.updatePageCount(presentation.id, pageCount);
     }
