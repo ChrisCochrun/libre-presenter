@@ -1119,6 +1119,7 @@ Item {
                                         dragItemText = "";
                                         dragItemBackgroundType = "image";
                                         dragItemBackground = filePath;
+                                        dragItemSlideNumber = pageCount;
                                     } else {
                                         presListItem.Drag.drop()
                                         dragHighlightLine.visible = false;

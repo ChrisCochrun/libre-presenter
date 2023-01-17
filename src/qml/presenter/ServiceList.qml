@@ -516,15 +516,15 @@ Item {
             totalServiceItems++;
             return;
         }
-        /* if (type === "presentation") { */
-        /*     print("adding: " + name + " of type " + type + " with " + newtext.length + " slides"); */
-        /*     serviceItemModel.insertItem(index, name, */
-        /*                                 type, background, */
-        /*                                 backgroundType, "", */
-        /*                                 "", "", 0, pageCount); */
-        /*     totalServiceItems++; */
-        /*     return; */
-        /* } */
+        if (type === "presentation") {
+            print("adding: " + name + " of type " + type + " with " + dragItemSlideNumber + " slides");
+            serviceItemModel.insertItem(index, name,
+                                        type, background,
+                                        backgroundType, "",
+                                        "", "", 0, dragItemSlideNumber);
+            totalServiceItems++;
+            return;
+        }
         print("adding: " + name + " of type " + type);
         serviceItemModel.insertItem(index, name,
                                     type, background,

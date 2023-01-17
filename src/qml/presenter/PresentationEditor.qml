@@ -108,11 +108,15 @@ Item {
 
             Image {
                 id: presentationPreview
-                Layout.preferredWidth: 1000
+                Layout.preferredWidth: root.width - Kirigami.Units.largeSpacing
                 Layout.preferredHeight: Layout.preferredWidth / 16 * 9
                 Layout.alignment: Qt.AlignCenter
                 fillMode: Image.PreserveAspectFit
                 source: presentation.filePath
+                Component.onCompleted: {
+                    updatePageCount(frameCount);
+                    showPassiveNotification(presentation.pageCount);
+                }
             }
             RowLayout {
                 Layout.fillWidth: true;
@@ -146,6 +150,8 @@ Item {
     function changePresentation(presentation) {
         root.presentation = presentation;
         print(presentation.filePath.toString());
+        updatePageCount(presentationPreview.frameCount);
+        console.log("page count " + presentation.pageCount);
     }
 
     function updateTitle(text) {
@@ -158,5 +164,10 @@ Item {
         if (updateBox)
             presentationTitleField.text = text;
         presentation.title = text;
+    }
+
+    function updatePageCount(pageCount) {
+        presentation.pageCount = pageCount;
+        pressqlmodel.updatePageCount(presentation.id, pageCount);
     }
 }
