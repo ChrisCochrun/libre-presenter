@@ -38,12 +38,13 @@
 
 #include "cpp/mpv/mpvobject.h"
 #include "cpp/serviceitemmodel.h"
+#include "cpp/slidemodel.h"
 #include "cpp/songsqlmodel.h"
 #include "cpp/videosqlmodel.h"
 #include "cpp/imagesqlmodel.h"
 #include "cpp/presentationsqlmodel.h"
 #include "cpp/filemanager.h"
-#include "cpp/slide.h"
+#include "cpp/slideobject.h"
 
 // RUST
 // #include "cxx-qt-gen/my_object.cxxqt.h"
@@ -131,9 +132,11 @@ int main(int argc, char *argv[])
   // setup of app specific commandline args
 
   //Need to instantiate our slide
-  QScopedPointer<Slide> slide(new Slide);
+  QScopedPointer<SlideModel> slideModel(new SlideModel);
+  QScopedPointer<SlideObject> slideobject(new SlideObject);
   QScopedPointer<File> filemanager(new File);
   QScopedPointer<QQuickView> preswin(new QQuickView);
+  QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel(slideModel.get()));
   preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
   // apparently mpv needs this class set
@@ -146,10 +149,11 @@ int main(int argc, char *argv[])
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
-  qmlRegisterType<ServiceItemModel>("org.presenter", 1, 0, "ServiceItemModel");
   qmlRegisterType<FileHelper>("org.presenter", 1, 0, "FileHelper");
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
-  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slide.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0,
+                               "ServiceItemModel", serviceItemModel.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slideobject.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", preswin.get());
 
