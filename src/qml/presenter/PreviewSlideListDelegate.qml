@@ -107,7 +107,7 @@ Item {
             previewSlidesList.currentIndex = serviceItem.index;
         }
         console.log("Slide Index is: " + index);
-        if (index === 0)
+        if (outerModelData.slideNumber === 0)
             return;
         SlideObject.changeSlideIndex(index);
         console.log("New slide index is: " + SlideObject.slideIndex);
