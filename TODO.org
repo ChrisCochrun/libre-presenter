@@ -8,6 +8,9 @@
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
 
+*** REFACTORING THE BACKEND
+A large portion of the back I am refactoring to create a slide class with a slide object for QML to look at as the master slide. Then a slide model for us to use to know for sure what the next slide will look like always and jump to it better within listviews and gridviews. Then use a serviceitemmodel that is aware of the slidemodel to know which slides belong to it. A lot of the UI will need to be refactored a bit to point to the new objects properly.
+
 *** TODO What is out
 Some of the special effects and things that I wanted to do could perhaps hold off. A lot of the things that I want to do to help make this really special could hold off. Blur, Color Adjustments, and Shadows for backgrounds and text and stuff can hold off for now. More of the special propresenter kind of things.
 
