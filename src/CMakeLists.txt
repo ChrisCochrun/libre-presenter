@@ -7,6 +7,8 @@ target_sources(presenter
  cpp/songsqlmodel.cpp cpp/songsqlmodel.h
  cpp/serviceitemmodel.cpp cpp/serviceitemmodel.h
  cpp/serviceitem.cpp cpp/serviceitem.h
+ cpp/slideobject.cpp cpp/slideobject.h
+ cpp/slidemodel.cpp cpp/slidemodel.h
  cpp/slide.cpp cpp/slide.h
  cpp/videosqlmodel.cpp cpp/videosqlmodel.h
  cpp/imagesqlmodel.cpp cpp/imagesqlmodel.h
