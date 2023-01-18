@@ -2,6 +2,7 @@
 #define SERVICEITEMMODEL_H
 
 #include "serviceitem.h"
+#include "slidemodel.h"
 #include <QAbstractListModel>
 #include <qabstractitemmodel.h>
 #include <qnamespace.h>
@@ -12,7 +13,7 @@ class ServiceItemModel : public QAbstractListModel {
   Q_OBJECT
 
 public:
-  explicit ServiceItemModel(QObject *parent = nullptr);
+  explicit ServiceItemModel(QObject *parent = nullptr, SlideModel *slideModel = nullptr);
 
   enum Roles {
     NameRole = Qt::UserRole,

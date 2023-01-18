@@ -1,6 +1,7 @@
 #include "serviceitemmodel.h"
 #include "serviceitem.h"
 #include "filemanager.h"
+#include "slidemodel.h"
 #include <qabstractitemmodel.h>
 #include <qglobal.h>
 #include <qnamespace.h>
@@ -24,7 +25,7 @@
 #include <QImage>
 
 
-ServiceItemModel::ServiceItemModel(QObject *parent)
+ServiceItemModel::ServiceItemModel(QObject *parent, SlideModel *slideModel)
     : QAbstractListModel(parent) {
   if (!loadLastSaved()) {
     addItem(new ServiceItem("10,000 Reasons", "song",
