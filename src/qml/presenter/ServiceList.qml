@@ -520,7 +520,7 @@ Item {
             ServiceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, newtext,
-                                        audio, font, fontSize, newtext.length);
+                                        audio, font, fontSize, newtext.length, SlideModel);
             /* totalServiceItems++; */
             return;
         }
@@ -529,14 +529,15 @@ Item {
             ServiceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, "",
-                                        "", "", 0, dragItemSlideNumber);
+                                        "", "", 0, dragItemSlideNumber, SlideModel);
             /* totalServiceItems++; */
             return;
         }
         console.log("adding: " + name + " of type " + type);
         ServiceItemModel.insertItem(index, name,
                                     type, background,
-                                    backgroundType);
+                                    backgroundType, "", "",
+                                    "", 0, 0, SlideModel);
         /* totalServiceItems++; */
     }
 
@@ -551,16 +552,30 @@ Item {
             console.log(lyrics);
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
-                                     audio, font, fontSize);
+                                     audio, font, fontSize, lyrics.length(),
+                                     SlideModel);
             /* totalServiceItems++; */
             return;
         };
 
+        if (type === "presentation") {
+            console.log("THIS IS A PRESENTATION!!!!!");
+            console.log(itemID);
+            console.log(lyrics);
+            ServiceItemModel.addItem(name, type, background,
+                                     backgroundType, "",
+                                     audio, font, fontSize,
+                                     dragSlideItemNumber,
+                                     SlideModel);
+            /* totalServiceItems++; */
+            return;
+        };
         console.log(background);
         console.log(backgroundType);
 
         ServiceItemModel.addItem(name, type, background,
-                                 backgroundType);
+                                 backgroundType, [""], "",
+                                 "", 0, 0, SlideModel);
         /* totalServiceItems++; */
     }
 
