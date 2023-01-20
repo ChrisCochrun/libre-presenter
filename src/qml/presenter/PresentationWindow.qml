@@ -39,6 +39,7 @@ Window {
         audioSource: SlideObject.audio
         text: SlideObject.text
         chosenFont: SlideObject.font
+        textSize: SlideObject.fontSize
         pdfIndex: SlideObject.pdfIndex
         itemType: SlideObject.type
     }
