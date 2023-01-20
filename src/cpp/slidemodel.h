@@ -82,6 +82,17 @@ public:
   Q_INVOKABLE void clearAll();
   Q_INVOKABLE int findSlideIdFromServItm(int index);
 
+public slots:
+  void addItemFromService(const int &index, const QString &type,
+                          const QString &background, const QString &backgroundType,
+                          const QStringList &text, const QString &audio,
+                          const QString &font, const int &fontSize, const int &slideNumber);
+
+  void insertItemFromService(const int &index, const QString &type,
+                             const QString &background, const QString &backgroundType,
+                             const QStringList &text, const QString &audio,
+                             const QString &font, const int &fontSize, const int &slideNumber);
+
 private:
   QList<Slide *> m_items;
 };

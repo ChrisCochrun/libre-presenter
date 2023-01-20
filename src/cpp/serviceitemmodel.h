@@ -48,47 +48,47 @@ public:
   // Helper methods
   void addItem(ServiceItem *item);
   void insertItem(const int &index, ServiceItem *item);
-  Q_INVOKABLE void addItem(const QString &name, const QString &type);
+  // Q_INVOKABLE void addItem(const QString &name, const QString &type);
+  // // Q_INVOKABLE void addItem(const QString &name, const QString &type,
+  // //                          const QString &background);
   // Q_INVOKABLE void addItem(const QString &name, const QString &type,
-  //                          const QString &background);
-  Q_INVOKABLE void addItem(const QString &name, const QString &type,
-                           const QString &background,
-                           const QString &backgroundType);
-  Q_INVOKABLE void addItem(const QString &name, const QString &type,
-                           const QString &background,
-                           const QString &backgroundType,
-                           const QStringList &text);
-  Q_INVOKABLE void addItem(const QString &name, const QString &type,
-                           const QString &background,
-                           const QString &backgroundType,
-                           const QStringList &text, const QString &audio);
-  Q_INVOKABLE void addItem(const QString &name, const QString &type,
-                           const QString &background,
-                           const QString &backgroundType,
-                           const QStringList &text, const QString &audio,
-                           const QString &font, const int &fontSize);
+  //                          const QString &background,
+  //                          const QString &backgroundType);
+  // Q_INVOKABLE void addItem(const QString &name, const QString &type,
+  //                          const QString &background,
+  //                          const QString &backgroundType,
+  //                          const QStringList &text);
+  // Q_INVOKABLE void addItem(const QString &name, const QString &type,
+  //                          const QString &background,
+  //                          const QString &backgroundType,
+  //                          const QStringList &text, const QString &audio);
+  // Q_INVOKABLE void addItem(const QString &name, const QString &type,
+  //                          const QString &background,
+  //                          const QString &backgroundType,
+  //                          const QStringList &text, const QString &audio,
+  //                          const QString &font, const int &fontSize);
   Q_INVOKABLE void addItem(const QString &name, const QString &type,
                            const QString &background,
                            const QString &backgroundType,
                            const QStringList &text, const QString &audio,
                            const QString &font, const int &fontSize,
                            const int &slideNumber, SlideModel &slideModel);
-  Q_INVOKABLE void insertItem(const int &index, const QString &name,
-                              const QString &type);
-  Q_INVOKABLE void insertItem(const int &index, const QString &name,
-                              const QString &type, const QString &background,
-                              const QString &backgroundType);
-  Q_INVOKABLE void insertItem(const int &index, const QString &name,
-                              const QString &type, const QString &background,
-                              const QString &backgroundType, const QStringList &text);
-  Q_INVOKABLE void insertItem(const int &index, const QString &name,
-                              const QString &type, const QString &background,
-                              const QString &backgroundType, const QStringList &text,
-                              const QString &audio);
-  Q_INVOKABLE void insertItem(const int &index, const QString &name,
-                              const QString &type, const QString &background,
-                              const QString &backgroundType, const QStringList &text,
-                              const QString &audio, const QString &font, const int &fontSize);
+  // Q_INVOKABLE void insertItem(const int &index, const QString &name,
+  //                             const QString &type);
+  // Q_INVOKABLE void insertItem(const int &index, const QString &name,
+  //                             const QString &type, const QString &background,
+  //                             const QString &backgroundType);
+  // Q_INVOKABLE void insertItem(const int &index, const QString &name,
+  //                             const QString &type, const QString &background,
+  //                             const QString &backgroundType, const QStringList &text);
+  // Q_INVOKABLE void insertItem(const int &index, const QString &name,
+  //                             const QString &type, const QString &background,
+  //                             const QString &backgroundType, const QStringList &text,
+  //                             const QString &audio);
+  // Q_INVOKABLE void insertItem(const int &index, const QString &name,
+  //                             const QString &type, const QString &background,
+  //                             const QString &backgroundType, const QStringList &text,
+  //                             const QString &audio, const QString &font, const int &fontSize);
   Q_INVOKABLE void insertItem(const int &index, const QString &name,
                               const QString &type, const QString &background,
                               const QString &backgroundType, const QStringList &text,
@@ -109,6 +109,17 @@ public:
   Q_INVOKABLE bool save(QUrl file);
   Q_INVOKABLE bool load(QUrl file, SlideModel &slideModel);
   Q_INVOKABLE bool loadLastSaved(SlideModel &slideModel);
+
+signals:
+  void itemAdded(const int &index, const QString &type,
+                 const QString &background, const QString &backgroundType,
+                 const QStringList &text, const QString &audio,
+                 const QString &font, const int &fontSize, const int &slideNumber);
+
+  void itemInserted(const int &index, const QString &type,
+                    const QString &background, const QString &backgroundType,
+                    const QStringList &text, const QString &audio,
+                    const QString &font, const int &fontSize, const int &slideNumber);
 
 private:
 

@@ -223,61 +223,64 @@ void ServiceItemModel::insertItem(const int &index, ServiceItem *item) {
   qDebug() << "Success";
 }
 
-void ServiceItemModel::addItem(const QString &name, const QString &type) {
-  ServiceItem *item = new ServiceItem(name, type);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-}
+// void ServiceItemModel::addItem(const QString &name, const QString &type) {
+//   ServiceItem *item = new ServiceItem(name, type);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   addItem(item);
+// }
 
-void ServiceItemModel::addItem(const QString &name, const QString &type,
-                               const QString &background, const QString &backgroundType) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-}
+// void ServiceItemModel::addItem(const QString &name, const QString &type,
+//                                const QString &background, const QString &backgroundType) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   addItem(item);
+// }
 
-void ServiceItemModel::addItem(const QString &name, const QString &type,
-                               const QString &background, const QString &backgroundType,
-                               const QStringList &text) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << name << type << background;
-}
+// void ServiceItemModel::addItem(const QString &name, const QString &type,
+//                                const QString &background, const QString &backgroundType,
+//                                const QStringList &text) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   addItem(item);
+//   qDebug() << name << type << background;
+// }
 
-void ServiceItemModel::addItem(const QString &name, const QString &type,
-                               const QString &background, const QString &backgroundType,
-                               const QStringList &text, const QString &audio) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-                                      text, audio);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << name << type << background;
-}
+// void ServiceItemModel::addItem(const QString &name, const QString &type,
+//                                const QString &background, const QString &backgroundType,
+//                                const QStringList &text, const QString &audio) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+//                                       text, audio);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   addItem(item);
+//   qDebug() << name << type << background;
+// }
 
-void ServiceItemModel::addItem(const QString &name, const QString &type,
-                               const QString &background, const QString &backgroundType,
-                               const QStringList &text, const QString &audio,
-                               const QString &font, const int &fontSize) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-                                      text, audio, font, fontSize);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize;
-  qDebug() << "#################################";
-}
+// void ServiceItemModel::addItem(const QString &name, const QString &type,
+//                                const QString &background, const QString &backgroundType,
+//                                const QStringList &text, const QString &audio,
+//                                const QString &font, const int &fontSize) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+//                                       text, audio, font, fontSize);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   addItem(item);
+//   qDebug() << "#################################";
+//   qDebug() << name << type << font << fontSize;
+//   qDebug() << "#################################";
+// }
 
 void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType,
                                const QStringList &text, const QString &audio,
                                const QString &font, const int &fontSize,
                                const int &slideNumber, SlideModel &slideModel) {
+  qDebug() << "*************************";
+  qDebug() << "Plain adding item: " << name;
+  qDebug() << "*************************";
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
                                       text, audio, font, fontSize, slideNumber);
   item->setSelected(false);
@@ -317,56 +320,57 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   qDebug() << "#################################";
 }
 
-void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type) {
-  ServiceItem *item = new ServiceItem(name, type);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << name << type;
-}
+// void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type) {
+//   ServiceItem *item = new ServiceItem(name, type);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   insertItem(index, item);
+//   qDebug() << name << type;
+// }
 
-void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
-                               const QString &background, const QString &backgroundType) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << name << type << background;
-}
+// void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
+//                                const QString &background, const QString &backgroundType) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   insertItem(index, item);
+//   qDebug() << name << type << background;
+// }
 
-void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
-                               const QString &background, const QString &backgroundType,
-                               const QStringList &text) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
-  insertItem(index, item);
-  qDebug() << name << type << background << text;
-}
+// void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
+//                                const QString &background, const QString &backgroundType,
+//                                const QStringList &text) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
+//   insertItem(index, item);
+//   qDebug() << name << type << background << text;
+// }
 
-void ServiceItemModel::insertItem(const int &index, const QString &name,
-                                  const QString &type,const QString &background,
-                                  const QString &backgroundType,const QStringList &text,
-                                  const QString &audio) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-                                      text, audio);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << name << type << background << text;
-}
+// void ServiceItemModel::insertItem(const int &index, const QString &name,
+//                                   const QString &type,const QString &background,
+//                                   const QString &backgroundType,const QStringList &text,
+//                                   const QString &audio) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+//                                       text, audio);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   insertItem(index, item);
+//   qDebug() << name << type << background << text;
+// }
 
-void ServiceItemModel::insertItem(const int &index, const QString &name,
-                                  const QString &type,const QString &background,
-                                  const QString &backgroundType,const QStringList &text,
-                                  const QString &audio, const QString &font, const int &fontSize) {
-  ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-                                      text, audio, font, fontSize);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize;
-  qDebug() << "#################################";
-}
+// void ServiceItemModel::insertItem(const int &index, const QString &name,
+//                                   const QString &type,const QString &background,
+//                                   const QString &backgroundType,const QStringList &text,
+//                                   const QString &audio, const QString &font, const int &fontSize) {
+//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
+//                                       text, audio, font, fontSize);
+//   item->setSelected(false);
+//   item->setActive(false);
+//   insertItem(index, item);
+//   qDebug() << "#################################";
+//   qDebug() << "missing slidenumber and slidemodel";
+//   qDebug() << name << type << font << fontSize;
+//   qDebug() << "#################################";
+// }
 
 void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &type,const QString &background,
@@ -374,6 +378,9 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &audio, const QString &font,
                                   const int &fontSize, const int &slideNumber,
                                   SlideModel &slideModel) {
+  qDebug() << "*************************";
+  qDebug() << "Inserting serviceItem: " << name << " and index is " << index;
+  qDebug() << "*************************";
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
                                       text, audio, font, fontSize, slideNumber);
   item->setSelected(false);

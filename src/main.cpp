@@ -139,6 +139,9 @@ int main(int argc, char *argv[])
   QScopedPointer<SlideObject> slideobject(new SlideObject);
   preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
+  QObject::connect(serviceItemModel.get(), &ServiceItemModel::itemAdded,
+                   slideModel.get(), &SlideModel::addItem())
+
   bool loading = serviceItemModel.get()->loadLastSaved(*slideModel.get());
 
   // apparently mpv needs this class set
