@@ -57,7 +57,7 @@ Item {
         id: previewerMouse
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: changeServiceItem(index)
+        onClicked: SlideObject.changeSlide(SlideModel.getItem(index))
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true
     }
