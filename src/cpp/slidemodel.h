@@ -25,6 +25,8 @@ public:
     FontRole,
     FontSizeRole,
     ServiceItemIdRole,
+    SlideIndexRole,
+    ImageCountRole,
     ActiveRole,
     SelectedRole
   };
@@ -48,26 +50,6 @@ public:
   // Helper methods
   void addItem(Slide *item);
   void insertItem(const int &index, Slide *item);
-  Q_INVOKABLE void addItem(const QString &name, const QString &type);
-  Q_INVOKABLE void addItem(const QString &text, const QString &type,
-                           const QString &imageBackground,
-                           const QString &videoBackground);
-  Q_INVOKABLE void addItem(const QString &text, const QString &type,
-                           const QString &imageBackground,
-                           const QString &videoBackground,
-                           const QString &audio);
-  Q_INVOKABLE void addItem(const QString &text, const QString &type,
-                           const QString &imageBackground,
-                           const QString &videoBackground,
-                           const QString &audio,
-                           const QString &font, const int &fontSize);
-  Q_INVOKABLE void addItem(const QString &text, const QString &type,
-                           const QString &imageBackground,
-                           const QString &videoBackground,
-                           const QString &audio,
-                           const QString &font, const int &fontSize,
-                           const QString &horizontalTextAlignment,
-                           const QString &verticalTextAlignment);
   Q_INVOKABLE void addItem(const QString &text, const QString &type,
                            const QString &imageBackground,
                            const QString &videoBackground,
@@ -75,28 +57,9 @@ public:
                            const QString &font, const int &fontSize,
                            const QString &horizontalTextAlignment,
                            const QString &verticalTextAlignment,
-                           const int &serviceItemId);
-  Q_INVOKABLE void insertItem(const int &index, const QString &text,
-                              const QString &type);
-  Q_INVOKABLE void insertItem(const int &index, const QString &text,
-                              const QString &type, const QString &imageBackground,
-                              const QString &videoBackground);
-  Q_INVOKABLE void insertItem(const int &index, const QString &text,
-                              const QString &type, const QString &imageBackground,
-                              const QString &videoBackground,
-                              const QString &audio);
-  Q_INVOKABLE void insertItem(const int &index, const QString &text,
-                              const QString &type, const QString &imageBackground,
-                              const QString &videoBackground,
-                              const QString &audio, const QString &font,
-                              const int &fontSize);
-  Q_INVOKABLE void insertItem(const int &index, const QString &text,
-                              const QString &type, const QString &imageBackground,
-                              const QString &videoBackground,
-                              const QString &audio, const QString &font,
-                              const int &fontSize,
-                              const QString &horizontalTextAlignment,
-                              const QString &verticalTextAlignment);
+                           const int &serviceItemId,
+                           const int &slideIndex,
+                           const int &imageCount);
   Q_INVOKABLE void insertItem(const int &index, const QString &text,
                               const QString &type, const QString &imageBackground,
                               const QString &videoBackground,
@@ -104,7 +67,9 @@ public:
                               const int &fontSize,
                               const QString &horizontalTextAlignment,
                               const QString &verticalTextAlignment,
-                              const int &serviceItemId);
+                              const int &serviceItemId,
+                              const int &slideIndex,
+                              const int &imageCount);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);
   Q_INVOKABLE bool moveDown(int index);
@@ -115,6 +80,7 @@ public:
   Q_INVOKABLE QVariantMap getItem(int index) const;
   Q_INVOKABLE QVariantList getItems();
   Q_INVOKABLE void clearAll();
+  Q_INVOKABLE int findSlideIdFromServItm(int index);
 
 private:
   QList<Slide *> m_items;

@@ -20,18 +20,18 @@
 
 SlideModel::SlideModel(QObject *parent)
     : QAbstractListModel(parent) {
-  if (!loadLastSaved()) {
-    addItem(new Slide("10,000 Reasons", "song",
-                            "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg",
-                            "image", QStringList("Yip Yip"),
-                            "file:/home/chris/nextcloud/tfc/openlp/music/Eden-Phil Wickham [lyrics].mp3"));
-    addItem(new Slide("Marvelous Light", "song",
-                            "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4",
-                            "video", QStringList("Hallelujah!")));
-    addItem(new Slide("BP Text", "video",
-                            "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4",
-                            "video", QStringList()));
-  }
+  // if () {
+  //   addItem(new Slide("10,000 Reasons", "song",
+  //                           "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg",
+  //                           "image", QString("Yip Yip"),
+  //                           "file:/home/chris/nextcloud/tfc/openlp/music/Eden-Phil Wickham [lyrics].mp3"));
+  //   addItem(new Slide("Marvelous Light", "song",
+  //                           "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4",
+  //                           "video", QString("Hallelujah!")));
+  //   addItem(new Slide("BP Text", "video",
+  //                           "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4",
+  //                           "video", QString()));
+  // }
 }
 
 int SlideModel::rowCount(const QModelIndex &parent) const {
@@ -51,16 +51,14 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const {
 
   Slide *item = m_items[index.row()];
   switch (role) {
-  case NameRole:
-    return item->name();
-  case TypeRole:
-    return item->type();
-  case BackgroundRole:
-    return item->background();
-  case BackgroundTypeRole:
-    return item->backgroundType();
   case TextRole:
     return item->text();
+  case TypeRole:
+    return item->type();
+  case ImageBackgroundRole:
+    return item->imageBackground();
+  case VideoBackgroundRole:
+    return item->videoBackground();
   case AudioRole:
     return item->audio();
   case FontRole:
@@ -69,6 +67,8 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const {
     return item->fontSize();
   case ServiceItemIdRole:
     return item->serviceItemId();
+  case SlideIndexRole:
+    return item->slideIndex();
   case HorizontalTextAlignmentRole:
     return item->horizontalTextAlignment();
   case VerticalTextAlignmentRole:
@@ -83,18 +83,18 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const {
 }
 
 QHash<int, QByteArray> SlideModel::roleNames() const {
-  static QHash<int, QByteArray> mapping{
-    {NameRole, "name"},
-    {TypeRole, "type"},
-    {BackgroundRole, "background"},
-    {BackgroundTypeRole, "backgroundType"},
+  static QHash<int, QByteArray> mapping {
     {TextRole, "text"},
+    {TypeRole, "type"},
+    {ImageBackgroundRole, "imageBackground"},
+    {VideoBackgroundRole, "videoBackground"},
     {AudioRole, "audio"},
     {FontRole, "font"},
     {FontSizeRole, "fontSize"},
     {ServiceItemIdRole, "serviceItemId"},
     {HorizontalTextAlignmentRole, "horizontalTextAlignment"},
     {VerticalTextAlignmentRole, "verticalTextAlignment"},
+    {SlideIndexRole, "slideIndex"},
     {ActiveRole, "active"},
     {SelectedRole, "selected"}
   };
@@ -115,15 +115,15 @@ bool SlideModel::setData(const QModelIndex &index, const QVariant &value,
       somethingChanged = true;
     }
     break;
-  case BackgroundRole:
-    if (item->background() != value.toString()) {
-      item->setBackground(value.toString());
+  case ImageBackgroundRole:
+    if (item->imageBackground() != value.toString()) {
+      item->setImageBackground(value.toString());
       somethingChanged = true;
     }
     break;
-  case BackgroundTypeRole:
-    if (item->backgroundType() != value.toString()) {
-      item->setBackgroundType(value.toString());
+  case VideoBackgroundRole:
+    if (item->videoBackground() != value.toString()) {
+      item->setVideoBackground(value.toString());
       somethingChanged = true;
     }
     break;
@@ -154,6 +154,12 @@ bool SlideModel::setData(const QModelIndex &index, const QVariant &value,
   case ServiceItemIdRole:
     if (item->serviceItemId() != value.toInt()) {
       item->setServiceItemId(value.toInt());
+      somethingChanged = true;
+    }
+    break;
+  case SlideIndexRole:
+    if (item->slideIndex() != value.toInt()) {
+      item->setSlideIndex(value.toInt());
       somethingChanged = true;
     }
     break;
@@ -232,156 +238,44 @@ void SlideModel::insertItem(const int &index, Slide *item) {
   qDebug() << "Success";
 }
 
-void SlideModel::addItem(const QString &text, const QString &type) {
-  Slide *item = new Slide(name, type);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-}
-
-void SlideModel::addItem(const QString &name, const QString &type,
-                         const QString &imageBackground, const QString &videoBackground) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-}
-
-void SlideModel::addItem(const QString &name, const QString &type,
+void SlideModel::addItem(const QString &text, const QString &type,
                          const QString &imageBackground, const QString &videoBackground,
-                         const QStringList &text) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground, text);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << name << type << imageBackground;
-}
-
-void SlideModel::addItem(const QString &name, const QString &type,
-                         const QString &imageBackground, const QString &videoBackground,
-                         const QStringList &text, const QString &audio) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                          text, audio);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << name << type << imageBackground;
-}
-
-void SlideModel::addItem(const QString &name, const QString &type,
-                         const QString &imageBackground, const QString &videoBackground,
-                         const QStringList &text, const QString &audio,
-                         const QString &font, const int &fontSize) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                          text, audio, font, fontSize);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize;
-  qDebug() << "#################################";
-}
-
-void SlideModel::addItem(const QString &name, const QString &type,
-                         const QString &imageBackground, const QString &videoBackground,
-                         const QStringList &text, const QString &audio,
-                         const QString &font, const int &fontSize,
-                         const QString &horizontalTextAlignment,
-                         const QString &verticalTextAlignment) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                          text, audio, font, fontSize, horizontalTextAlignment,
-                          verticalTextAlignment);
-  item->setSelected(false);
-  item->setActive(false);
-  addItem(item);
-  qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize;
-  qDebug() << "#################################";
-}
-
-void SlideModel::addItem(const QString &name, const QString &type,
-                         const QString &imageBackground, const QString &videoBackground,
-                         const QStringList &text, const QString &audio,
+                         const QString &audio,
                          const QString &font, const int &fontSize,
                          const QString &horizontalTextAlignment,
                          const QString &verticalTextAlignment,
-                         const int &serviceItemId) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                          text, audio, font, fontSize, horizontalTextAlignment,
-                          verticalTextAlignment);
+                         const int &serviceItemId, const int &slideIndex,
+                         const int &imageCount) {
+  Slide *item = new Slide(text, audio, imageBackground, videoBackground,
+                          horizontalTextAlignment,
+                          verticalTextAlignment,
+                          font, fontSize, imageCount, type, slideIndex );
   item->setSelected(false);
   item->setActive(false);
   item->setServiceItemId(serviceItemId);
   addItem(item);
   qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize << serviceItemId;
+  qDebug() << type << font << fontSize << serviceItemId;
   qDebug() << "#################################";
 }
 
-void SlideModel::insertItem(const int &index, const QString &name, const QString &type) {
-  Slide *item = new Slide(name, type);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << name << type;
-}
-
-void SlideModel::insertItem(const int &index, const QString &name, const QString &type,
-                            const QString &imageBackground, const QString &videoBackground) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << name << type << imageBackground;
-}
-
-void SlideModel::insertItem(const int &index, const QString &name, const QString &type,
-                            const QString &imageBackground, const QString &videoBackground,
-                            const QStringList &text) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground, text);
-  insertItem(index, item);
-  qDebug() << name << type << imageBackground << text;
-}
-
-void SlideModel::insertItem(const int &index, const QString &name,
-                            const QString &type,const QString &imageBackground,
-                            const QString &videoBackground,const QStringList &text,
-                            const QString &audio) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                          text, audio);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << name << type << imageBackground << text;
-}
-
-void SlideModel::insertItem(const int &index, const QString &name,
-                            const QString &type,const QString &imageBackground,
-                            const QString &videoBackground,const QStringList &text,
+void SlideModel::insertItem(const int &index,
+                            const QString &type, const QString &imageBackground,
+                            const QString &videoBackground, const QString &text,
                             const QString &audio, const QString &font,
-                            const int &fontSize) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                                      text, audio, font, fontSize);
+                            const int &fontSize, const QString &horizontalTextAlignment,
+                            const QString &verticalTextAlignment,
+                            const int &serviceItemId, const int &slideIndex,
+                            const int &imageCount) {
+  Slide *item = new Slide(text, audio, imageBackground, videoBackground,
+                          horizontalTextAlignment, verticalTextAlignment, font, fontSize,
+                          imageCount, type, slideIndex);
   item->setSelected(false);
   item->setActive(false);
+  item->setServiceItemId(serviceItemId);
   insertItem(index, item);
   qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize;
-  qDebug() << "#################################";
-}
-
-void SlideModel::insertItem(const int &index, const QString &name,
-                            const QString &type,const QString &imageBackground,
-                            const QString &videoBackground,const QStringList &text,
-                            const QString &audio, const QString &font,
-                            const int &fontSize, const int &slideNumber) {
-  Slide *item = new Slide(name, type, imageBackground, videoBackground,
-                                      text, audio, font, fontSize, slideNumber);
-  item->setSelected(false);
-  item->setActive(false);
-  insertItem(index, item);
-  qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize << slideNumber;
+  qDebug() << type << font << fontSize << slideIndex;
   qDebug() << "#################################";
 }
 
@@ -497,7 +391,7 @@ QVariantList SlideModel::getItems() {
     itm["fontSize"] = item->fontSize();
     itm["horizontalTextAlignment"] = item->horizontalTextAlignment();
     itm["verticalTextAlignment"] = item->verticalTextAlignment();
-    itm["serviceItemId"] = item->seviceItemId();
+    itm["serviceItemId"] = item->serviceItemId();
     itm["selected"] = item->selected();
     itm["active"] = item->active();
     data.append(itm);
@@ -515,7 +409,7 @@ bool SlideModel::select(int id) {
     if (item->selected()) {
       item->setSelected(false);
       qDebug() << "################";
-      qDebug() << "deselected" << item->name();
+      qDebug() << "deselected" << item->slideIndex();
       qDebug() << "################";
       emit dataChanged(idx, idx, QVector<int>() << SelectedRole);
     }
@@ -524,7 +418,7 @@ bool SlideModel::select(int id) {
   Slide *item = m_items[idx.row()];
   item->setSelected(true);
   qDebug() << "################";
-  qDebug() << "selected" << item->name();
+  qDebug() << "selected" << item->slideIndex();
   qDebug() << "################";
   emit dataChanged(idx, idx, QVector<int>() << SelectedRole);
   return true;
@@ -540,7 +434,7 @@ bool SlideModel::activate(int id) {
     if (itm->active()) {
       itm->setActive(false);
       qDebug() << "################";
-      qDebug() << "deactivated" << itm->name();
+      qDebug() << "deactivated" << itm->slideIndex();
       qDebug() << "################";
       emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
     }
@@ -548,7 +442,7 @@ bool SlideModel::activate(int id) {
 
   item->setActive(true);
   qDebug() << "################";
-  qDebug() << "activated" << item->name();
+  qDebug() << "activated" << item->slideIndex();
   qDebug() << "################";
   emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
   return true;
@@ -560,7 +454,7 @@ bool SlideModel::deactivate(int id) {
 
   item->setActive(false);
   qDebug() << "################";
-  qDebug() << "deactivated" << item->name();
+  qDebug() << "deactivated" << item->slideIndex();
   qDebug() << "################";
   emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
   return true;
@@ -570,4 +464,14 @@ void SlideModel::clearAll() {
   for (int i = m_items.size(); i >= 0; i--) {
     removeItem(i);
   }
+}
+
+int SlideModel::findSlideIdFromServItm(int index) {
+  for (int i = 0; i < m_items.size(); i++) {
+    Slide *itm = m_items[i];
+    if (itm->serviceItemId() == index) {
+      return i;
+    }
+  }
+  return -1;
 }

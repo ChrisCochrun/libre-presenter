@@ -1,7 +1,9 @@
 #ifndef SLIDEOBJECT_H
 #define SLIDEOBJECT_H
 
+#include "serviceitemmodel.h"
 #include "slide.h"
+#include "slidemodel.h"
 #include <qobjectdefs.h>
 #include <qqml.h>
 #include <QObject>
@@ -28,12 +30,12 @@ public:
   int slideIndex() const;
   int slideSize() const;
 
-  Q_INVOKABLE void changeSlide(QVariantMap item);
+  Q_INVOKABLE void changeSlide(QVariantMap item, ServiceItemModel *serviceItemModel);
   Q_INVOKABLE void play();
   Q_INVOKABLE void pause();
   Q_INVOKABLE void playPause();
-  Q_INVOKABLE bool next(QVariantMap nextItem);
-  Q_INVOKABLE bool previous(QVariantMap prevItem);
+  Q_INVOKABLE bool next(QVariantMap nextItem, ServiceItemModel *serviceItemModel);
+  Q_INVOKABLE bool previous(QVariantMap prevItem, ServiceItemModel *serviceItemModel);
   Q_INVOKABLE bool changeSlideIndex(int index);
 
 signals:

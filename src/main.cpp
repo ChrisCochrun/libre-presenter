@@ -133,11 +133,13 @@ int main(int argc, char *argv[])
 
   //Need to instantiate our slide
   QScopedPointer<SlideModel> slideModel(new SlideModel);
-  QScopedPointer<SlideObject> slideobject(new SlideObject);
   QScopedPointer<File> filemanager(new File);
   QScopedPointer<QQuickView> preswin(new QQuickView);
-  QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel(slideModel.get()));
+  QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel);
+  QScopedPointer<SlideObject> slideobject(new SlideObject);
   preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
+
+  bool loading = serviceItemModel.get()->loadLastSaved(*slideModel.get());
 
   // apparently mpv needs this class set
   // let's register mpv as well
@@ -153,6 +155,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
   qmlRegisterSingletonInstance("org.presenter", 1, 0,
                                "ServiceItemModel", serviceItemModel.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideModel", slideModel.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slideobject.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", preswin.get());

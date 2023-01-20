@@ -13,11 +13,12 @@ Slide::Slide(const QString &text, const QString &audio, const QString &imageBack
              const QString &videoBackground, const QString &horizontalTextAlignment,
              const QString &verticalTextAlignment, const QString &font,
              const int &fontSize, const int &imageCount,
-             const QString &type, QObject *parent)
+             const QString &type, const int &slideIndex, QObject *parent)
   : QObject(parent),m_text(text),m_audio(audio),m_imageBackground(imageBackground),
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),
-    m_fontSize(fontSize),m_imageCount(imageCount),m_type(type)
+    m_fontSize(fontSize),m_imageCount(imageCount),m_type(type),
+    m_slideIndex(slideIndex),m_active(false),m_selected(false)
 {
   qDebug() << "Initializing slide with defaults";
 }
@@ -71,6 +72,19 @@ int Slide::fontSize() const
 int Slide::imageCount() const
 {
   return m_imageCount;
+}
+
+int Slide::slideIndex() const
+{
+  return m_slideIndex;
+}
+
+bool Slide::active() const {
+  return m_active;
+}
+
+bool Slide::selected() const {
+  return m_selected;
 }
 
 void Slide::setText(QString text)
@@ -177,4 +191,34 @@ void Slide::setImageCount(int imageCount)
     qDebug() << "####changing imageCount to: " << imageCount;
     m_imageCount = imageCount;
     emit imageCountChanged(m_imageCount);
+}
+
+void Slide::setSlideIndex(int slideIndex)
+{
+    if (m_slideIndex == slideIndex)
+        return;
+
+    qDebug() << "####changing slideIndex to: " << slideIndex;
+    m_slideIndex = slideIndex;
+    emit slideIndexChanged(m_slideIndex);
+}
+
+void Slide::setActive(bool active)
+{
+  qDebug() << "::::::::::::::::::::";
+  qDebug() << "CHANGE ME!";
+  if (m_active == active)
+    return;
+
+  m_active = active;
+  emit activeChanged(m_active);
+}
+
+void Slide::setSelected(bool selected)
+{
+    if (m_selected == selected)
+        return;
+
+    m_selected = selected;
+    emit selectedChanged(m_selected);
 }
