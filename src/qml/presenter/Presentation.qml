@@ -11,7 +11,7 @@ import org.presenter 1.0
 FocusScope {
     id: root
 
-    height: parent.height
+    /* height: parent.height */
 
     property var text
     property int textIndex: 0
@@ -28,7 +28,7 @@ FocusScope {
     ColumnLayout {
         id: mainGrid
         anchors.fill: parent
-        anchors.bottomMargin: 160
+        anchors.bottomMargin: Kirigami.Units.largeSpacing * 20
         /* columns: 3 */
         /* rowSpacing: 5 */
         /* columnSpacing: 0 */
@@ -183,7 +183,7 @@ FocusScope {
         anchors.top: mainGrid.bottom
         anchors.bottom: root.bottom - Kirigami.Units.gridUnit
         width: parent.width
-        orientation: Qt.Horizontal
+        orientation: ListView.Horizontal
         spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
         reuseItems: true
@@ -195,17 +195,25 @@ FocusScope {
             target: previewSlidesList
             filterMouseEvents: true
         }
+
+        Controls.ScrollBar.horizontal: Controls.ScrollBar {
+            /* parent: songLibraryList.parent */
+            /* anchors.right: previewSlidesList.right */
+            /* anchors.top: previewSlidesList.bottom */
+            /* anchors.topMargin: Kirigami.Units.smallSpacing */
+            /* anchors.left: previewSlidesList.right */
+            /* anchors.top: activeHighlightBar.bottom */
+            active: hovered || pressed
+        }
+
     }
 
     Rectangle {
         id: activeHighlightBar
         width: Kirigami.Units.gridUnit * 10
         height: Kirigami.Units.gridUnit / 4
-        y: previewSlidesList.y + Kirigami.Units.gridUnit * 6
-        x: {
-            let slideX = SlideObject.slideIndex === 0 ? previewSlidesList.currentItem.width : (SlideObject.slideIndex - 1) * previewSlidesList.currentItem.width
-            previewSlidesList.currentItem.x + Kirigami.Units.smallSpacing
-        }
+        y: previewSlidesList.y + Kirigami.Units.gridUnit * 6.15
+        x: previewSlidesList.currentItem.x + Kirigami.Units.smallSpacing
         radius: 5
         color: Kirigami.Theme.negativeTextColor
 
