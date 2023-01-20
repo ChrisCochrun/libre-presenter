@@ -368,14 +368,22 @@ ColumnLayout {
         ]
     }
 
+    Connections {
+        target: ServiceItemModel
+        onDataChanged: {
+            if (active)
+                serviceItemList.positionViewAtIndex(index, ListView.Contain);
+        }
+    }
+
     Component.onCompleted: {
-        totalServiceItems = serviceItemList.count;
+        /* totalServiceItems = serviceItemList.count; */
         console.log("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
     }
 
     function removeItem(index) {
         ServiceItemModel.removeItem(index);
-        totalServiceItems--;
+        /* totalServiceItems--; */
     }
 
     function addItem(index, name, type,
@@ -385,7 +393,7 @@ ColumnLayout {
         ServiceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType, newtext);
-        totalServiceItems++;
+        /* totalServiceItems++; */
     }
 
     function appendItem(name, type, background, backgroundType, text, itemID) {
@@ -402,7 +410,7 @@ ColumnLayout {
 
         ServiceItemModel.addItem(name, type, background,
                                  backgroundType, lyrics);
-        totalServiceItems++;
+        /* totalServiceItems++; */
     }
 
 }

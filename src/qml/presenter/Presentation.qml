@@ -183,7 +183,7 @@ FocusScope {
         anchors.top: mainGrid.bottom
         anchors.bottom: root.bottom - Kirigami.Units.gridUnit
         width: parent.width
-        orientation: ListView.Horizontal
+        orientation: Qt.Horizontal
         spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
         reuseItems: true
@@ -194,10 +194,6 @@ FocusScope {
             id: wheelHandler
             target: previewSlidesList
             filterMouseEvents: true
-            onWheel: {
-                wheel.accepted = true;
-                showPassiveNotification(wheel.inverted)
-            }
         }
     }
 
@@ -279,21 +275,28 @@ FocusScope {
     function nextSlideAction() {
         keyHandler.forceActiveFocus();
         console.log(currentServiceItem);
-        const nextServiceItemIndex = currentServiceItem + 1;
-        const nextItem = ServiceItemModel.getItem(nextServiceItemIndex);
-        console.log("currentServiceItem " + currentServiceItem);
-        console.log("nextServiceItem " + nextServiceItemIndex);
-        console.log(nextItem.name);
-        const change = SlideObject.next(nextItem);
-        console.log(change);
-        if (currentServiceItem === totalServiceItems - 1 & change)
+        const nextSlideIdx = currentSlide + 1;
+        if (nextSlideIdx > totalSlides || nextSlideIdx < 0)
             return;
-        if (change) {
-            SlideObject.changeSlide(nextItem);
-            currentServiceItem++;
-            changeServiceItem(currentServiceItem);
-            leftDock.changeItem();
-        }
+        const nextItem = SlideModel.getItem(nextSlideIdx);
+        console.log("currentServiceItem " + currentServiceItem);
+        console.log("currentSlide " + currentSlide);
+        console.log("nextSlideIdx " + nextSlideIdx);
+        console.log(nextItem.index);
+        SlideObject.changeSlide(nextItem);
+        currentSlide = nextSlideIdx;
+        currentServiceItem = nextItem.serviceItemId;
+        changeServiceItem(currentServiceItem);
+        /* const change = SlideObject.next(nextItem); */
+        /* console.log(change); */
+        /* if (currentServiceItem === totalServiceItems - 1 & change) */
+        /*     return; */
+        /* if (change) { */
+        /*     SlideObject.changeSlide(nextItem); */
+        /*     currentServiceItem++; */
+        /*     changeServiceItem(currentServiceItem); */
+        /*     leftDock.changeItem(); */
+        /* } */
     }
 
     function nextSlide() {
@@ -303,22 +306,29 @@ FocusScope {
 
     function previousSlideAction() {
         keyHandler.forceActiveFocus();
-        const prevServiceItemIndex = currentServiceItem - 1;
-        const prevItem = ServiceItemModel.getItem(prevServiceItemIndex);
-        console.log("currentServiceItem " + currentServiceItem);
-        console.log("prevServiceItem " + prevServiceItemIndex);
-        console.log(prevItem.name);
-        const change = SlideObject.previous(prevItem);
-        console.log(change);
-        if (currentServiceItem === 0 & change) {
+        const prevSlideIdx = currentSlide - 1;
+        if (prevSlideIdx > totalSlides || prevSlideIdx < 0)
             return;
-        };
-        if (change) {
-            SlideObject.changeSlide(prevItem);
-            currentServiceItem--;
-            changeServiceItem(currentServiceItem);
-            leftDock.changeItem();
-        }
+        const prevItem = SlideModel.getItem(prevSlideIdx);
+        console.log("currentServiceItem " + currentServiceItem);
+        console.log("currentSlide " + currentSlide);
+        console.log("prevSlideIdx " + prevSlideIdx);
+        console.log(prevItem.index);
+        SlideObject.changeSlide(prevItem);
+        currentSlide = prevSlideIdx;
+        currentServiceItem = prevItem.serviceItemId;
+        changeServiceItem(currentServiceItem);
+        /* const change = SlideObject.previous(prevItem); */
+        /* console.log(change); */
+        /* if (currentServiceItem === 0 & change) { */
+        /*     return; */
+        /* }; */
+        /* if (change) { */
+        /*     SlideObject.changeSlide(prevItem); */
+        /*     currentServiceItem--; */
+        /*     changeServiceItem(currentServiceItem); */
+        /*     leftDock.changeItem(); */
+        /* } */
     }
 
     function previousSlide() {

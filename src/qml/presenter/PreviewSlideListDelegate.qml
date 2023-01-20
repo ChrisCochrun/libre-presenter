@@ -7,8 +7,6 @@ import org.presenter 1.0
 
 Item {
     id: root
-    // Lets set the outerModelData so we can access that data here.
-
     implicitHeight: Kirigami.Units.gridUnit * 6.5
     implicitWidth: Kirigami.Units.gridUnit * 10
     Rectangle {
@@ -59,7 +57,7 @@ Item {
         id: previewerMouse
         anchors.fill: parent
         hoverEnabled: true
-        /* onClicked: changeServiceItem(index) */
+        onClicked: changeServiceItem(index)
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true
     }
@@ -67,8 +65,10 @@ Item {
 
     Connections {
         target: SlideModel
-        onDataChanged: if (active)
-            previewSlidesList.positionViewAtIndex(index, ListView.Contain)
+        onDataChanged: {
+            if (active)
+                previewSlidesList.positionViewAtIndex(index, ListView.Contain);
+        }
     }
 
     function changeSlideAndIndex(serviceItem, index) {

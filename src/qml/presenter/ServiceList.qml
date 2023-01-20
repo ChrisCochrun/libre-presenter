@@ -502,13 +502,13 @@ Item {
     }
 
     Component.onCompleted: {
-        totalServiceItems = serviceItemList.count;
+        /* totalServiceItems = serviceItemList.count; */
         console.log("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
     }
 
     function removeItem(index) {
         ServiceItemModel.removeItem(index);
-        totalServiceItems--;
+        /* totalServiceItems--; */
     }
 
     function addItem(index, name, type,
@@ -521,7 +521,7 @@ Item {
                                         type, background,
                                         backgroundType, newtext,
                                         audio, font, fontSize, newtext.length);
-            totalServiceItems++;
+            /* totalServiceItems++; */
             return;
         }
         if (type === "presentation") {
@@ -530,14 +530,14 @@ Item {
                                         type, background,
                                         backgroundType, "",
                                         "", "", 0, dragItemSlideNumber);
-            totalServiceItems++;
+            /* totalServiceItems++; */
             return;
         }
         console.log("adding: " + name + " of type " + type);
         ServiceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType);
-        totalServiceItems++;
+        /* totalServiceItems++; */
     }
 
     function appendItem(name, type, background, backgroundType,
@@ -552,7 +552,7 @@ Item {
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
                                      audio, font, fontSize);
-            totalServiceItems++;
+            /* totalServiceItems++; */
             return;
         };
 
@@ -561,7 +561,7 @@ Item {
 
         ServiceItemModel.addItem(name, type, background,
                                  backgroundType);
-        totalServiceItems++;
+        /* totalServiceItems++; */
     }
 
     function changeItem() {

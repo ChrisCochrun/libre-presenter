@@ -13,11 +13,13 @@ Controls.Page {
 
     // properties passed around for the slides
     property int currentServiceItem
+    property int currentSlide
+    property int totalServiceItems: ServiceItemModel.rowCount()
+    property int totalSlides: SlideModel.rowCount()
     property url imageBackground: presentation.imageBackground
     property url videoBackground: presentation.vidBackground
     property string currentText: presentation.text
     property int blurRadius: 0
-    property int totalServiceItems
 
     /* property var video */
     property int dragItemIndex
@@ -153,6 +155,9 @@ Controls.Page {
     function changeServiceItem(index) {
         const item = ServiceItemModel.getItem(index);
         currentServiceItem = index;
+        const slideId = SlideModel.findSlideIdFromServItm(index);
+        currentSlide = slideId;
+        const slide = SlideModel.getItem(slideId);
         console.log("index grabbed: " + index);
         console.log(item);
 
@@ -162,7 +167,7 @@ Controls.Page {
         console.log("Time to start changing");
 
         ServiceItemModel.activate(index);
-        SlideObject.changeSlide(item);
+        SlideObject.changeSlide(slide);
         
         /* if (item.backgroundType === "video") */
         /* { */
