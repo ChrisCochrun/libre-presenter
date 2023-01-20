@@ -22,6 +22,7 @@
   kirigami2,
   ki18n,
   kcoreaddons,
+  kwindowsystem,
   # kglobalaccel,
   # kinit,
   # kwin,
@@ -76,6 +77,7 @@ stdenv.mkDerivation rec {
     karchive
     ki18n
     kcoreaddons
+    kwindowsystem
     podofo
     mpv
     # libsForQt5.kconfig
