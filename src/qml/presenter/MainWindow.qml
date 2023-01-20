@@ -37,7 +37,7 @@ Controls.Page {
     property var song
     property var draggedLibraryItem
 
-    property var serviceItems: serviceItemModel
+    property var serviceItems: ServiceItemModel
 
     property bool songDragged: false
 
@@ -50,7 +50,7 @@ Controls.Page {
     Component.onCompleted: {
         changeServiceItem(0);
         presentation.forceActiveFocus();
-        /* const loaded = serviceItemModel.loadLastSaved(); */
+        /* const loaded = ServiceItemModel.loadLastSaved(); */
         /* if (!loaded) */
         /*     showPassiveNotification("Failed loading last file"); */
     }
@@ -146,16 +146,12 @@ Controls.Page {
         id: pressqlmodel
     }
 
-    ServiceItemModel {
-        id: serviceItemModel
-    }
-
     ServiceThing {
         id: serviceThing
     }
 
     function changeServiceItem(index) {
-        const item = serviceItemModel.getItem(index);
+        const item = ServiceItemModel.getItem(index);
         currentServiceItem = index;
         console.log("index grabbed: " + index);
         console.log(item);
@@ -165,7 +161,7 @@ Controls.Page {
         /* presentation.itemType = item.type; */
         console.log("Time to start changing");
 
-        serviceItemModel.activate(index);
+        ServiceItemModel.activate(index);
         SlideObject.changeSlide(item);
         
         /* if (item.backgroundType === "video") */
@@ -174,7 +170,7 @@ Controls.Page {
         /* } */
 
         presentation.textIndex = 0;
-        /* serviceItemModel.select(index); */
+        /* ServiceItemModel.select(index); */
         /* presentation.changeSlide(); */
 
         console.log("Slide changed to: " + item.name);

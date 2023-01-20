@@ -78,7 +78,7 @@ Item {
             onEntered: (drag) => {
                 if (drag.keys[0] === "library") {
                     dropHighlightLine.visible = true;
-                    var lastItem = serviceItemList.itemAtIndex(serviceItemModel.rowCount() - 1);
+                    var lastItem = serviceItemList.itemAtIndex(ServiceItemModel.rowCount() - 1);
                     dropHighlightLine.y = lastItem.y + lastItem.height;
                 }
             }
@@ -120,7 +120,7 @@ Item {
                                         dragItemFontSize,
                                         dragItemIndex);
                             } else if (drag.keys[0] === "serviceitem") {
-                                /* serviceItemModel.moveRows(serviceItemList.indexDragged, */
+                                /* ServiceItemModel.moveRows(serviceItemList.indexDragged, */
                                 /*                       serviceItemList.moveToIndex, 1); */
                                 /* serviceItemList.currentIndex = moveToIndex; */
                             }
@@ -242,7 +242,7 @@ Item {
                                         rightClickMenu.popup(mouse);
                                     else {
                                         serviceItemList.currentIndex = index;
-                                        serviceItemModel.select(index);
+                                        ServiceItemModel.select(index);
                                     }
                                 }
 
@@ -264,7 +264,7 @@ Item {
                                 /* width: 20 */
                                 listItem: serviceListItem
                                 listView: serviceItemList
-                                onMoveRequested: serviceItemModel.moveRows(oldIndex,
+                                onMoveRequested: ServiceItemModel.moveRows(oldIndex,
                                                                            newIndex,
                                                                            1)
                             }
@@ -315,7 +315,7 @@ Item {
                     NumberAnimation {properties: "x, y"; duration: 100}
                 }
 
-                model: serviceItemModel
+                model: ServiceItemModel
 
                 delegate: Kirigami.DelegateRecycler {
                     width: serviceItemList.width
@@ -348,7 +348,7 @@ Item {
 
                 /* function moveRequested(oldIndex, newIndex) { */
                 /*     console.log("moveRequested: ", oldIndex, newIndex); */
-                /*     serviceItemModel.moveRows(oldIndex, newIndex, 1); */
+                /*     ServiceItemModel.moveRows(oldIndex, newIndex, 1); */
                 /*     indexDragged = newIndex; */
                 /*     serviceItemList.currentIndex = newIndex; */
                 /* } */
@@ -446,7 +446,7 @@ Item {
                         const newid = serviceItemList.currentIndex - 1;
                         showPassiveNotification(oldid + " " + newid);
                         showPassiveNotification("Up");
-                        const ans = serviceItemModel.moveRows(oldid, newid, 1);
+                        const ans = ServiceItemModel.moveRows(oldid, newid, 1);
                         if (ans)
                         {
                             serviceItemList.currentIndex = newid;
@@ -468,7 +468,7 @@ Item {
                             return;
                         };
                         showPassiveNotification("moving ", id, " down");
-                        const ans = serviceItemModel.moveDown(id);
+                        const ans = ServiceItemModel.moveDown(id);
                         if (ans)
                         {
                             serviceItemList.currentIndex = id + 1;
@@ -487,6 +487,14 @@ Item {
                         showPassiveNotification("remove");
                         removeItem(serviceItemList.currentIndex);
                     }
+                },
+                Kirigami.Action {
+                    text: "Clear"
+                    icon.name: "recycle"
+                    onTriggered: {
+                        showPassiveNotification("clearing all items");
+                        ServiceItemModel.clearAll();
+                    }
                 }
             ]
         }
@@ -499,7 +507,7 @@ Item {
     }
 
     function removeItem(index) {
-        serviceItemModel.removeItem(index);
+        ServiceItemModel.removeItem(index);
         totalServiceItems--;
     }
 
@@ -509,7 +517,7 @@ Item {
         if (type === "song") {
             const newtext = songsqlmodel.getLyricList(itemID);
             console.log("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
-            serviceItemModel.insertItem(index, name,
+            ServiceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, newtext,
                                         audio, font, fontSize, newtext.length);
@@ -518,7 +526,7 @@ Item {
         }
         if (type === "presentation") {
             console.log("adding: " + name + " of type " + type + " with " + dragItemSlideNumber + " slides");
-            serviceItemModel.insertItem(index, name,
+            ServiceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, "",
                                         "", "", 0, dragItemSlideNumber);
@@ -526,7 +534,7 @@ Item {
             return;
         }
         console.log("adding: " + name + " of type " + type);
-        serviceItemModel.insertItem(index, name,
+        ServiceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType);
         totalServiceItems++;
@@ -541,7 +549,7 @@ Item {
             console.log(itemID);
             lyrics = songsqlmodel.getLyricList(itemID);
             console.log(lyrics);
-            serviceItemModel.addItem(name, type, background,
+            ServiceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
                                      audio, font, fontSize);
             totalServiceItems++;
@@ -551,7 +559,7 @@ Item {
         console.log(background);
         console.log(backgroundType);
 
-        serviceItemModel.addItem(name, type, background,
+        ServiceItemModel.addItem(name, type, background,
                                  backgroundType);
         totalServiceItems++;
     }

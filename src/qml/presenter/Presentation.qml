@@ -187,7 +187,7 @@ FocusScope {
         spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
         reuseItems: true
-        model: serviceItemModel
+        model: ServiceItemModel
         delegate: Presenter.PreviewSlideListDelegate {}
 
         Kirigami.WheelHandler {
@@ -280,7 +280,7 @@ FocusScope {
         keyHandler.forceActiveFocus();
         console.log(currentServiceItem);
         const nextServiceItemIndex = currentServiceItem + 1;
-        const nextItem = serviceItemModel.getItem(nextServiceItemIndex);
+        const nextItem = ServiceItemModel.getItem(nextServiceItemIndex);
         console.log("currentServiceItem " + currentServiceItem);
         console.log("nextServiceItem " + nextServiceItemIndex);
         console.log(nextItem.name);
@@ -304,7 +304,7 @@ FocusScope {
     function previousSlideAction() {
         keyHandler.forceActiveFocus();
         const prevServiceItemIndex = currentServiceItem - 1;
-        const prevItem = serviceItemModel.getItem(prevServiceItemIndex);
+        const prevItem = ServiceItemModel.getItem(prevServiceItemIndex);
         console.log("currentServiceItem " + currentServiceItem);
         console.log("prevServiceItem " + prevServiceItemIndex);
         console.log(prevItem.name);

@@ -93,7 +93,7 @@ Item {
 
 
         Connections {
-            target: serviceItemModel
+            target: ServiceItemModel
             onDataChanged: if (active)
                 previewSlidesList.positionViewAtIndex(index, ListView.Contain)
         }

@@ -53,7 +53,7 @@ ColumnLayout {
         onEntered: (drag) => {
             if (drag.keys[0] === "library") {
                 dropHighlightLine.visible = true;
-                var lastItem = serviceItemList.itemAtIndex(serviceItemModel.rowCount() - 1);
+                var lastItem = serviceItemList.itemAtIndex(ServiceItemModel.rowCount() - 1);
                 dropHighlightLine.y = lastItem.y + lastItem.height;
             }
         }
@@ -63,7 +63,7 @@ ColumnLayout {
         ListView {
             id: serviceItemList
             anchors.fill: parent
-            /* model: serviceItemModel */
+            /* model: ServiceItemModel */
             /* delegate: Kirigami.DelegateRecycler { */
             /*     width: serviceItemList.width */
             /*     sourceComponent: itemDelegate */
@@ -95,7 +95,7 @@ ColumnLayout {
 
             model: DelegateModel {
                 id: visualModel
-                model: serviceItemModel
+                model: ServiceItemModel
 
                 delegate: DropArea {
                     id: serviceDrop
@@ -125,7 +125,7 @@ ColumnLayout {
                                     dragItemText,
                                     dragItemIndex);
                         } else if (drag.keys[0] === "serviceitem") {
-                            serviceItemModel.move(serviceItemList.indexDragged,
+                            ServiceItemModel.move(serviceItemList.indexDragged,
                                                   serviceItemList.moveToIndex);
                             serviceItemList.currentIndex = moveToIndex;
                         }
@@ -374,7 +374,7 @@ ColumnLayout {
     }
 
     function removeItem(index) {
-        serviceItemModel.removeItem(index);
+        ServiceItemModel.removeItem(index);
         totalServiceItems--;
     }
 
@@ -382,7 +382,7 @@ ColumnLayout {
                      background, backgroundType, text, itemID) {
         const newtext = songsqlmodel.getLyricList(itemID);
         console.log("adding: " + name + " of type " + type);
-        serviceItemModel.insertItem(index, name,
+        ServiceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType, newtext);
         totalServiceItems++;
@@ -400,7 +400,7 @@ ColumnLayout {
         console.log(background);
         console.log(backgroundType);
 
-        serviceItemModel.addItem(name, type, background,
+        ServiceItemModel.addItem(name, type, background,
                                  backgroundType, lyrics);
         totalServiceItems++;
     }
