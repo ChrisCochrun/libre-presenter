@@ -44,7 +44,7 @@ Item {
 
     Controls.Label {
         id: slidesTitle
-        width: parent.width * 7
+        width: previewHighlight.width
         anchors.top: previewHighlight.bottom
         /* anchors.leftMargin: Kirigami.Units.smallSpacing * 8 */
         anchors.topMargin: Kirigami.Units.smallSpacing * 3
@@ -57,7 +57,7 @@ Item {
         id: previewerMouse
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: SlideObject.changeSlide(SlideModel.getItem(index))
+        onClicked: changeSlide(index)
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true
     }
@@ -69,19 +69,5 @@ Item {
             if (active)
                 previewSlidesList.positionViewAtIndex(index, ListView.Contain);
         }
-    }
-
-    function changeSlideAndIndex(serviceItem, index) {
-        // TODO
-        console.log("Item: " + serviceItem.index + " is " + serviceItem.active);
-        if (!serviceItem.active) {
-            changeServiceItem(serviceItem.index)
-            previewSlidesList.currentIndex = serviceItem.index;
-        }
-        console.log("Slide Index is: " + index);
-        if (outerModelData.slideNumber === 0)
-            return;
-        SlideObject.changeSlideIndex(index);
-        console.log("New slide index is: " + SlideObject.slideIndex);
     }
 }

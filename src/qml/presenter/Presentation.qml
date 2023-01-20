@@ -286,25 +286,10 @@ FocusScope {
         const nextSlideIdx = currentSlide + 1;
         if (nextSlideIdx > totalSlides || nextSlideIdx < 0)
             return;
-        const nextItem = SlideModel.getItem(nextSlideIdx);
         console.log("currentServiceItem " + currentServiceItem);
         console.log("currentSlide " + currentSlide);
         console.log("nextSlideIdx " + nextSlideIdx);
-        console.log(nextItem.index);
-        SlideObject.changeSlide(nextItem);
-        currentSlide = nextSlideIdx;
-        currentServiceItem = nextItem.serviceItemId;
-        changeServiceItem(currentServiceItem);
-        /* const change = SlideObject.next(nextItem); */
-        /* console.log(change); */
-        /* if (currentServiceItem === totalServiceItems - 1 & change) */
-        /*     return; */
-        /* if (change) { */
-        /*     SlideObject.changeSlide(nextItem); */
-        /*     currentServiceItem++; */
-        /*     changeServiceItem(currentServiceItem); */
-        /*     leftDock.changeItem(); */
-        /* } */
+        changeSlide(nextSlideIdx);
     }
 
     function nextSlide() {
@@ -317,44 +302,15 @@ FocusScope {
         const prevSlideIdx = currentSlide - 1;
         if (prevSlideIdx > totalSlides || prevSlideIdx < 0)
             return;
-        const prevItem = SlideModel.getItem(prevSlideIdx);
         console.log("currentServiceItem " + currentServiceItem);
         console.log("currentSlide " + currentSlide);
         console.log("prevSlideIdx " + prevSlideIdx);
-        console.log(prevItem.index);
-        SlideObject.changeSlide(prevItem);
-        currentSlide = prevSlideIdx;
-        currentServiceItem = prevItem.serviceItemId;
-        changeServiceItem(currentServiceItem);
-        /* const change = SlideObject.previous(prevItem); */
-        /* console.log(change); */
-        /* if (currentServiceItem === 0 & change) { */
-        /*     return; */
-        /* }; */
-        /* if (change) { */
-        /*     SlideObject.changeSlide(prevItem); */
-        /*     currentServiceItem--; */
-        /*     changeServiceItem(currentServiceItem); */
-        /*     leftDock.changeItem(); */
-        /* } */
+        changeSlide(prevSlideIdx);
     }
 
     function previousSlide() {
         changeServiceItem(--currentServiceItem);
         console.log(slideItem);
-    }
-
-    function changeSlide() {
-        if (itemType === "song") {
-            SlideObject.setText(root.text[textIndex]);
-            console.log(root.text[textIndex]);
-            textIndex++;
-        } else if (itemType === "video") {
-            clearText();
-        }
-        else if (itemType === "image") {
-            clearText();
-        }
     }
 
     function clearText() {

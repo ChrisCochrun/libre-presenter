@@ -181,6 +181,25 @@ Controls.Page {
         console.log("Slide changed to: " + item.name);
     }
 
+    function changeSlide(index) {
+        console.log("index grabbed: " + index);
+        const item = SlideModel.getItem(index);
+        currentSlide = index;
+        currentServiceItem = item.serviceItemId;
+        console.log("index grabbed: " + index);
+        console.log(item);
+
+        presentation.stopVideo();
+        pWindow.stopVideo();
+        /* presentation.itemType = item.type; */
+        console.log("Time to start changing");
+
+        ServiceItemModel.activate(currentServiceItem);
+        SlideObject.changeSlide(item);
+        presentation.textIndex = 0;
+        console.log("Slide changed to: " + index);
+    }
+
     function loopVideo() {
         presentation.loopVideo();
         pWindow.loopVideo();
