@@ -394,12 +394,12 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
     slideModel.insertItem(slideModelIdx, type, "", background, "",
                           audio, font, fontSize,
                           "center", "center",
-                          rowCount(), 1, 1);
+                          rowCount(), 0, 1);
   } else {
     slideModel.insertItem(slideModelIdx, type, background, "", "",
                           audio, font, fontSize,
                           "center", "center",
-                          rowCount(), 1, 1);
+                          rowCount(), 0, 1);
   }
   insertItem(index, item);
   qDebug() << "#################################";

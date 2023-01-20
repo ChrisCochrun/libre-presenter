@@ -275,6 +275,7 @@ void SlideModel::insertItem(const int &index,
   item->setServiceItemId(serviceItemId);
   insertItem(index, item);
   qDebug() << "#################################";
+  qDebug() << "ADDING A NEW SLIDE INTO MODEL!";
   qDebug() << type << font << fontSize << slideIndex;
   qDebug() << "#################################";
 }
