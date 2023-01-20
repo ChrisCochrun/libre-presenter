@@ -187,7 +187,7 @@ FocusScope {
         spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
         reuseItems: true
-        model: ServiceItemModel
+        model: SlideModel
         delegate: Presenter.PreviewSlideListDelegate {}
 
         Kirigami.WheelHandler {

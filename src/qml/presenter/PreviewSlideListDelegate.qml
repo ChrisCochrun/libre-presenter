@@ -8,18 +8,14 @@ import org.presenter 1.0
 Item {
     id: root
     // Lets set the outerModelData so we can access that data here.
-    property var outerModelData: model;
 
     implicitHeight: Kirigami.Units.gridUnit * 6.5
-    implicitWidth: {
-        let slides = outerModelData.slideNumber === 0 ? 1 : outerModelData.slideNumber
-        return Kirigami.Units.gridUnit * 10 * slides + Kirigami.Units.smallSpacing * 2;
-    }
-
+    implicitWidth: Kirigami.Units.gridUnit * 10
     Rectangle {
         id: previewHighlight
+        anchors.centerIn: parent
         width: parent.width
-        height: parent.height
+        height: parent.height - slidesTitle.height - 5
         border.color: Kirigami.Theme.highlightColor
         radius: 5
         color: {
@@ -29,74 +25,50 @@ Item {
                 Kirigami.Theme.backgroundColor
         }
 
-        // I couldn't get another listview to work but I may try it again
-        Row {
-            id: slidesList
-            spacing: Kirigami.Units.smallSpacing * 2
-            anchors.fill: parent
-            padding: Kirigami.Units.smallSpacing * 2
-            Repeater {
-                id: slidesListRepeater
-                model: outerModelData.slideNumber === 0 ? 1 : outerModelData.slideNumber
-                Component.onCompleted: {
-                    if (name === "Death Was Arrested") {
-                        console.log("Number of slides: " + outerModelData.slideNumber);
-                        console.log("model number: " + model);
-                    }
-                }
-                /* Rectangle { width: 20; height: 20; radius: 10; color: "green" } */
-                Presenter.Slide {
-                    id: previewSlideItem
-                    implicitWidth: Kirigami.Units.gridUnit * 10 - Kirigami.Units.smallSpacing * 2
-                    implicitHeight: width / 16 * 9
-                    textSize: width / 4
-                    itemType: outerModelData.type
-                    imageSource: outerModelData.backgroundType === "image" ? background : ""
-                    videoSource: outerModelData.backgroundType === "video" ? background : ""
-                    audioSource: ""
-                    chosenFont: outerModelData.font
-                    text: outerModelData.text[index] === "This is demo text" ? "" : outerModelData.text[index]
-                    pdfIndex: outerModelData.type != "presentation" ? 0 : index
-                    preview: true
-                    editMode: true
+        Presenter.Slide {
+            id: previewSlideItem
+            anchors.centerIn: parent
+            implicitWidth: height / 9 * 16
+            implicitHeight: parent.height - Kirigami.Units.smallSpacing * 2
+            textSize: width / 4
+            itemType: type
+            imageSource: imageBackground
+            videoSource: videoBackground
+            audioSource: ""
+            chosenFont: font
+            text: text
+            pdfIndex: slideIndex
+            preview: true
+            editMode: true
 
-                    MouseArea {
-                        id: innerMouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked: changeSlideAndIndex(outerModelData, index)
-                        cursorShape: Qt.PointingHandCursor
-                    }
-                }
-            }
         }
+    }
 
-        Controls.Label {
-            id: slidesTitle
-            width: parent.width * 7
-            anchors.top: slidesList.bottom
-            anchors.leftMargin: Kirigami.Units.smallSpacing * 8
-            anchors.topMargin: 5
-            elide: Text.ElideRight
-            text: name
-            /* font.family: "Quicksand Bold" */
-        }
+    Controls.Label {
+        id: slidesTitle
+        width: parent.width * 7
+        anchors.top: previewHighlight.bottom
+        /* anchors.leftMargin: Kirigami.Units.smallSpacing * 8 */
+        anchors.topMargin: 5
+        elide: Text.ElideRight
+        text: ServiceItemModel.getItem(serviceItemId).name
+        /* font.family: "Quicksand Bold" */
+    }
 
-        MouseArea {
-            id: previewerMouse
-            anchors.fill: parent
-            hoverEnabled: true
-            /* onClicked: changeServiceItem(index) */
-            cursorShape: Qt.PointingHandCursor
-            propagateComposedEvents: true
-        }
+    MouseArea {
+        id: previewerMouse
+        anchors.fill: parent
+        hoverEnabled: true
+        /* onClicked: changeServiceItem(index) */
+        cursorShape: Qt.PointingHandCursor
+        propagateComposedEvents: true
+    }
 
 
-        Connections {
-            target: ServiceItemModel
-            onDataChanged: if (active)
-                previewSlidesList.positionViewAtIndex(index, ListView.Contain)
-        }
+    Connections {
+        target: SlideModel
+        onDataChanged: if (active)
+            previewSlidesList.positionViewAtIndex(index, ListView.Contain)
     }
 
     function changeSlideAndIndex(serviceItem, index) {
