@@ -97,10 +97,10 @@ FocusScope {
                 implicitHeight: width / 16 * 9
                 /* minimumWidth: 200 */
                 anchors.centerIn: parent
-                textSize: width / 15
-                itemType: root.itemType
-                imageSource: imagebackground
-                videoSource: vidbackground
+                textSize: SlideObject.fontSize
+                itemType: SlideObject.type
+                imageSource: SlideObject.imageBackground
+                videoSource: SlideObject.videoBackground
                 audioSource: SlideObject.audio
                 chosenFont: SlideObject.font
                 text: SlideObject.text
