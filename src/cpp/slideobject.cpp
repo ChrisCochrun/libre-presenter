@@ -55,7 +55,7 @@ int SlideObject::slideSize() const
   return m_slideSize;
 }
 
-void SlideObject::changeSlide(QVariantMap item, ServiceItemModel *serviceItemModel)
+void SlideObject::changeSlide(QVariantMap item)
 {
   // setServiceItem(item);
   // setType(serviceItemId().value("type").toString());
@@ -117,7 +117,7 @@ void SlideObject::changeSlide(QVariantMap item, ServiceItemModel *serviceItemMod
 
 
   //New implementation
-  QVariantMap serviceItem = serviceItemModel->getItem(item.value("serviceItemId").toInt());
+  // QVariantMap serviceItem = serviceItemModel->getItem(item.value("serviceItemId").toInt());
   setText(item.value("text").toString());
   setType(item.value("type").toString());
   setAudio(item.value("audio").toString());
@@ -129,12 +129,12 @@ void SlideObject::changeSlide(QVariantMap item, ServiceItemModel *serviceItemMod
   setFontSize(item.value("fontSize").toInt());
   setImageCount(item.value("imageCount").toInt());
   setSlideIndex(item.value("slideIndex").toInt());
-  m_slideSize = serviceItem.value("slideNumber").toInt();
+  // m_slideSize = serviceItem.value("slideNumber").toInt();
 
-  emit slideSizeChanged(m_slideSize);
+  // emit slideSizeChanged(m_slideSize);
 }
 
-bool SlideObject::next(QVariantMap nextItem, ServiceItemModel *serviceItemModel)
+bool SlideObject::next(QVariantMap nextItem, SlideModel *slideModel)
 {
   // qDebug() << "Starting to go to next item.";
   // qDebug() << "SlideObject Index: " << slideIndex() << " SlideObject Size: " << slideSize();
@@ -164,7 +164,7 @@ bool SlideObject::next(QVariantMap nextItem, ServiceItemModel *serviceItemModel)
   // }
 
   //new implementation
-  QVariantMap serviceItem = serviceItemModel->getItem(nextItem.value("serviceItemId").toInt());
+  // QVariantMap serviceItem = serviceItemModel->getItem(nextItem.value("serviceItemId").toInt());
   setText(nextItem.value("text").toString());
   setType(nextItem.value("type").toString());
   setAudio(nextItem.value("audio").toString());
@@ -176,14 +176,14 @@ bool SlideObject::next(QVariantMap nextItem, ServiceItemModel *serviceItemModel)
   setFontSize(nextItem.value("fontSize").toInt());
   setImageCount(nextItem.value("imageCount").toInt());
   setSlideIndex(nextItem.value("slideIndex").toInt());
-  m_slideSize = serviceItem.value("slideNumber").toInt();
+  // m_slideSize = serviceItem.value("slideNumber").toInt();
 
 
-  emit slideSizeChanged(m_slideSize);
+  // emit slideSizeChanged(m_slideSize);
   return false;
 }
 
-bool SlideObject::previous(QVariantMap prevItem, ServiceItemModel *serviceItemModel)
+bool SlideObject::previous(QVariantMap prevItem, SlideModel *slideModel)
 {
   // qDebug() << "Starting to go to previous item.";
   // qDebug() << "SlideObject Index: " << slideIndex() << " SlideObject Size: " << slideSize();
@@ -212,7 +212,7 @@ bool SlideObject::previous(QVariantMap prevItem, ServiceItemModel *serviceItemMo
   // }
 
   //new implementation
-  QVariantMap serviceItem = serviceItemModel->getItem(prevItem.value("serviceItemId").toInt());
+  // QVariantMap serviceItem = serviceItemModel->getItem(prevItem.value("serviceItemId").toInt());
   setText(prevItem.value("text").toString());
   setType(prevItem.value("type").toString());
   setAudio(prevItem.value("audio").toString());
@@ -224,9 +224,9 @@ bool SlideObject::previous(QVariantMap prevItem, ServiceItemModel *serviceItemMo
   setFontSize(prevItem.value("fontSize").toInt());
   setImageCount(prevItem.value("imageCount").toInt());
   setSlideIndex(prevItem.value("slideIndex").toInt());
-  m_slideSize = serviceItem.value("slideNumber").toInt();
+  // m_slideSize = serviceItem.value("slideNumber").toInt();
 
-  emit slideSizeChanged(m_slideSize);
+  // emit slideSizeChanged(m_slideSize);
   return false;
 }
 

@@ -30,12 +30,12 @@ public:
   int slideIndex() const;
   int slideSize() const;
 
-  Q_INVOKABLE void changeSlide(QVariantMap item, ServiceItemModel *serviceItemModel);
+  Q_INVOKABLE void changeSlide(QVariantMap item);
   Q_INVOKABLE void play();
   Q_INVOKABLE void pause();
   Q_INVOKABLE void playPause();
-  Q_INVOKABLE bool next(QVariantMap nextItem, ServiceItemModel *serviceItemModel);
-  Q_INVOKABLE bool previous(QVariantMap prevItem, ServiceItemModel *serviceItemModel);
+  Q_INVOKABLE bool next(QVariantMap nextItem, SlideModel *slideModel);
+  Q_INVOKABLE bool previous(QVariantMap prevItem, SlideModel *slideModel);
   Q_INVOKABLE bool changeSlideIndex(int index);
 
 signals:
