@@ -300,6 +300,16 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                           "horizontalTextAlignment", "verticalTextAlignment",
                           rowCount(), i, slideNumber);
     }
+  } else if (type == "video") {
+    slideModel.addItem("", type, "", background,
+                       audio, font, fontSize,
+                       "center", "center",
+                       rowCount(), 0, 1);
+  } else {
+    slideModel.addItem("", type, background, "",
+                       audio, font, fontSize,
+                       "center", "center",
+                       rowCount(), 0, 1);
   }
   addItem(item);
   qDebug() << "#################################";
@@ -403,7 +413,8 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
   }
   insertItem(index, item);
   qDebug() << "#################################";
-  qDebug() << name << type << font << fontSize << slideNumber;
+  qDebug() << "INSERTING SERVICE ITEM!";
+  qDebug() << name << type << font << fontSize << slideNumber << index << slideModelIdx;
   qDebug() << "#################################";
 }
 
@@ -804,7 +815,7 @@ bool ServiceItemModel::load(QUrl file, SlideModel &slideModel) {
         realAudio = audFile.filePath();
       }
 
-      insertItem(i, item.value("name").toString(), item.value("type").toString(),
+      addItem(item.value("name").toString(), item.value("type").toString(),
                  realBackground,
                  item.value("backgroundType").toString(),
                  item.value("text").toStringList(), realAudio,
