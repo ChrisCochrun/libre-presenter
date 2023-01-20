@@ -28,13 +28,13 @@ Item {
             anchors.centerIn: parent
             implicitWidth: height / 9 * 16
             implicitHeight: parent.height - Kirigami.Units.smallSpacing * 2
-            textSize: width / 4
-            itemType: type
-            imageSource: imageBackground
-            videoSource: videoBackground
+            textSize: model.fontSize
+            itemType: model.type
+            imageSource: model.imageBackground
+            videoSource: model.videoBackground
             audioSource: ""
-            chosenFont: font
-            text: text
+            chosenFont: model.font
+            text: model.text
             pdfIndex: slideIndex
             preview: true
             editMode: true
@@ -47,7 +47,7 @@ Item {
         width: parent.width * 7
         anchors.top: previewHighlight.bottom
         /* anchors.leftMargin: Kirigami.Units.smallSpacing * 8 */
-        anchors.topMargin: 5
+        anchors.topMargin: Kirigami.Units.smallSpacing * 3
         elide: Text.ElideRight
         text: ServiceItemModel.getItem(serviceItemId).name
         /* font.family: "Quicksand Bold" */
