@@ -6,9 +6,9 @@
 * Tasks [72%] [31/43]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
-A 1.0 release may be achievable soon as long as I can figure out what is good have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
+A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
 
-*** REFACTORING THE BACKEND
+*** DONE REFACTORING THE BACKEND
 A large portion of the back I am refactoring to create a slide class with a slide object for QML to look at as the master slide. Then a slide model for us to use to know for sure what the next slide will look like always and jump to it better within listviews and gridviews. Then use a serviceitemmodel that is aware of the slidemodel to know which slides belong to it. A lot of the UI will need to be refactored a bit to point to the new objects properly.
 
 *** TODO What is out
@@ -29,6 +29,7 @@ Others:
 - Adding the ability to use Librepresenter in other wayland compositors - Need to address the QWindow problem.
 *** TODO Major Bugs
 - ~Drag and Drop of ServiceList~
+  this is fixed, but now I need to mode the slides around as you change the serviceItemModel
 - UI Blocking when saving
 *** TODO Deployment
 - [ ] Linux
@@ -42,9 +43,12 @@ Others:
 I could add this by adding a bool as a gallery option in the ImageSqlModel. Then add a loop bool as well. Then perhaps I'd ask if this image item contains a gallery and if so, make sure to loop through all of the filePaths as they could be saved as a list instead of a single filepath. Then decide on the last one whether or not to loop back to the beginning based on the loop bool in the image item.
 ** TODO Add image gallery options :feature:
 ** TODO Add video repeat pieces :feature:
+This is possible with a toggle in the presenter but it'd be even better to have that built into the video model so that videos remember whether they should repeat. This would make sense in things like countdowns or video slideshows.
 ** TODO Make libraries and models aware of being selected.
 This allows us to drag multiple to service list and delete multiple.
 final part to this is allowing for multiple select and multiple move in service list or library
+
+This is mostly done, just need to include the ability to multi select and then figure out multi drag.
 ** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
@@ -73,10 +77,14 @@ final part to this is allowing for multiple select and multiple move in service 
 
 - [ ] Another issue I discovered was that when switching to a song with videoBackgrounds, the mpv object doesn't ALWAYS load the first frame of the slide. Can I let the video play a tiny bit longer to make sure frames ALWAYS get loaded? That didn't work..
 
+- [ ] There is one other issue with videoBackgrounds now going black on the second slide after switching to a slideModel. I need to check if the videos are the same and if so do nothing.
+
   Maybe I'll need to change something else but what?
 
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
+
+** TODO Need to test on other wayland compositors but Hyprland doesn't show the presentation window.
 
 ** WAIT nix-shell needs a little bit of work perhaps yet. But may be working under plasma just not minimal window managers using qt5ct.
 https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
