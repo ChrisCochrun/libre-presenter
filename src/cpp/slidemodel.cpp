@@ -1,4 +1,5 @@
 #include "slidemodel.h"
+#include "serviceitem.h"
 #include "slide.h"
 #include <qabstractitemmodel.h>
 #include <qglobal.h>
@@ -475,4 +476,75 @@ int SlideModel::findSlideIdFromServItm(int index) {
     }
   }
   return -1;
+}
+
+void SlideModel::addItemFromService(const int &index, const ServiceItem &item) {
+  qDebug() << "***INSERTING SLIDE FROM SERVICEITEM***";
+  if (item.type() == "song") {
+    for (int i = 0; i < item.text().size(); i++) {
+      if (item.backgroundType() == "image") {
+        addItem(item.text()[i], item.type(), item.background(), "",
+                item.audio(), item.font(), item.fontSize(), "center", "center",
+                index, i, item.text().size());
+      } else {
+        addItem(item.text()[i], item.type(), "", item.background(), 
+                item.audio(), item.font(), item.fontSize(), "center", "center",
+                index, i, item.text().size());
+      }
+    }
+  } else if (item.type() == "presentation") {
+    for (int i = 0; i < item.slideNumber(); i++) {
+      addItem("", item.type(), item.background(), "",
+              item.audio(), item.font(), item.fontSize(),
+              "center", "center",
+              index, i, item.slideNumber());
+    }
+  } else if (item.type() == "video") {
+    addItem("", item.type(), "", item.background(), 
+            item.audio(), item.font(), item.fontSize(),
+            "center", "center",
+            index, 0, 1);
+  } else {
+    addItem("", item.type(), item.background(), "", 
+            item.audio(), item.font(), item.fontSize(),
+            "center", "center",
+            index, 0, 1);
+  }
+
+}
+
+void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {
+  qDebug() << "***INSERTING SLIDE FROM SERVICEITEM***";
+  int slideId = findSlideIdFromServItm(index);
+  if (item.type() == "song") {
+    for (int i = 0; i < item.text().size(); i++) {
+      if (item.backgroundType() == "image") {
+        insertItem(slideId + i, item.type(), item.background(), "", item.text()[i],
+                   item.audio(), item.font(), item.fontSize(), "center", "center",
+                   index, i, item.text().size());
+      } else {
+        insertItem(slideId + i, item.type(), "", item.background(), item.text()[i],
+                   item.audio(), item.font(), item.fontSize(), "center", "center",
+                   index, i, item.text().size());
+      }
+    }
+  } else if (item.type() == "presentation") {
+    for (int i = 0; i < item.slideNumber(); i++) {
+      insertItem(slideId + i, item.type(), item.background(), "",
+                 "", item.audio(), item.font(), item.fontSize(),
+                 "center", "center",
+                 index, i, item.slideNumber());
+    }
+  } else if (item.type() == "video") {
+    insertItem(slideId, item.type(), "", item.background(), "",
+               item.audio(), item.font(), item.fontSize(),
+               "center", "center",
+               index, 0, 1);
+  } else {
+    insertItem(slideId, item.type(), item.background(), "", "",
+               item.audio(), item.font(), item.fontSize(),
+               "center", "center",
+               index, 0, 1);
+  }
+
 }

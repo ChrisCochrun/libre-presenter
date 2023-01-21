@@ -520,7 +520,7 @@ Item {
             ServiceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, newtext,
-                                        audio, font, fontSize, newtext.length, SlideModel);
+                                        audio, font, fontSize, newtext.length);
             /* totalServiceItems++; */
             return;
         }
@@ -529,7 +529,7 @@ Item {
             ServiceItemModel.insertItem(index, name,
                                         type, background,
                                         backgroundType, "",
-                                        "", "", 0, dragItemSlideNumber, SlideModel);
+                                        "", "", 0, dragItemSlideNumber);
             /* totalServiceItems++; */
             return;
         }
@@ -537,7 +537,7 @@ Item {
         ServiceItemModel.insertItem(index, name,
                                     type, background,
                                     backgroundType, "", "",
-                                    "", 0, 0, SlideModel);
+                                    "", 0, 0);
         /* totalServiceItems++; */
     }
 
@@ -552,8 +552,7 @@ Item {
             console.log(lyrics);
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
-                                     audio, font, fontSize, lyrics.length(),
-                                     SlideModel);
+                                     audio, font, fontSize, lyrics.length());
             /* totalServiceItems++; */
             return;
         };
@@ -565,8 +564,7 @@ Item {
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, "",
                                      audio, font, fontSize,
-                                     dragSlideItemNumber,
-                                     SlideModel);
+                                     dragSlideItemNumber);
             /* totalServiceItems++; */
             return;
         };
@@ -575,7 +573,7 @@ Item {
 
         ServiceItemModel.addItem(name, type, background,
                                  backgroundType, [""], "",
-                                 "", 0, 0, SlideModel);
+                                 "", 0, 0);
         /* totalServiceItems++; */
     }
 

@@ -1,6 +1,7 @@
 #ifndef SLIDEMODEL_H
 #define SLIDEMODEL_H
 
+#include "serviceitem.h"
 #include "slide.h"
 #include <QAbstractListModel>
 #include <qabstractitemmodel.h>
@@ -83,15 +84,8 @@ public:
   Q_INVOKABLE int findSlideIdFromServItm(int index);
 
 public slots:
-  void addItemFromService(const int &index, const QString &type,
-                          const QString &background, const QString &backgroundType,
-                          const QStringList &text, const QString &audio,
-                          const QString &font, const int &fontSize, const int &slideNumber);
-
-  void insertItemFromService(const int &index, const QString &type,
-                             const QString &background, const QString &backgroundType,
-                             const QStringList &text, const QString &audio,
-                             const QString &font, const int &fontSize, const int &slideNumber);
+  void addItemFromService(const int &index, const ServiceItem &item);
+  void insertItemFromService(const int &index, const ServiceItem &item);
 
 private:
   QList<Slide *> m_items;

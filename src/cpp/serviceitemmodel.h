@@ -72,7 +72,7 @@ public:
                            const QString &backgroundType,
                            const QStringList &text, const QString &audio,
                            const QString &font, const int &fontSize,
-                           const int &slideNumber, SlideModel &slideModel);
+                           const int &slideNumber);
   // Q_INVOKABLE void insertItem(const int &index, const QString &name,
   //                             const QString &type);
   // Q_INVOKABLE void insertItem(const int &index, const QString &name,
@@ -93,8 +93,7 @@ public:
                               const QString &type, const QString &background,
                               const QString &backgroundType, const QStringList &text,
                               const QString &audio, const QString &font,
-                              const int &fontSize, const int &slideNumber,
-                              SlideModel &slideModel);
+                              const int &fontSize, const int &slideNumber);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);
   Q_INVOKABLE bool moveDown(int index);
@@ -107,19 +106,12 @@ public:
   Q_INVOKABLE void clearAll();
 
   Q_INVOKABLE bool save(QUrl file);
-  Q_INVOKABLE bool load(QUrl file, SlideModel &slideModel);
-  Q_INVOKABLE bool loadLastSaved(SlideModel &slideModel);
+  Q_INVOKABLE bool load(QUrl file);
+  Q_INVOKABLE bool loadLastSaved();
 
 signals:
-  void itemAdded(const int &index, const QString &type,
-                 const QString &background, const QString &backgroundType,
-                 const QStringList &text, const QString &audio,
-                 const QString &font, const int &fontSize, const int &slideNumber);
-
-  void itemInserted(const int &index, const QString &type,
-                    const QString &background, const QString &backgroundType,
-                    const QStringList &text, const QString &audio,
-                    const QString &font, const int &fontSize, const int &slideNumber);
+  void itemAdded(const int &, const ServiceItem &);
+  void itemInserted(const int &, const ServiceItem &);
 
 private:
 

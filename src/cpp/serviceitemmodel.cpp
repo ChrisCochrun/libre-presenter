@@ -277,7 +277,7 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType,
                                const QStringList &text, const QString &audio,
                                const QString &font, const int &fontSize,
-                               const int &slideNumber, SlideModel &slideModel) {
+                               const int &slideNumber) {
   qDebug() << "*************************";
   qDebug() << "Plain adding item: " << name;
   qDebug() << "*************************";
@@ -285,36 +285,9 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                                       text, audio, font, fontSize, slideNumber);
   item->setSelected(false);
   item->setActive(false);
-  if (type == "song") {
-    for (int i = 0; i < text.size(); i++) {
-      if (backgroundType == "image") {
-        slideModel.addItem(text[i], type, background, "", audio, font, fontSize,
-                            "horizontalTextAlignment", "verticalTextAlignment",
-                            rowCount(), i, 0);
-      } else {
-        slideModel.addItem(text[i], type, "", background, audio, font, fontSize,
-                            "horizontalTextAlignment", "verticalTextAlignment",
-                            rowCount(), i, 0);
-      }
-    }
-  } else if (type == "presentation") {
-    for (int i = 0; i < slideNumber; i++) {
-      slideModel.addItem("", type, background, "", audio, font, fontSize,
-                          "horizontalTextAlignment", "verticalTextAlignment",
-                          rowCount(), i, slideNumber);
-    }
-  } else if (type == "video") {
-    slideModel.addItem("", type, "", background,
-                       audio, font, fontSize,
-                       "center", "center",
-                       rowCount(), 0, 1);
-  } else {
-    slideModel.addItem("", type, background, "",
-                       audio, font, fontSize,
-                       "center", "center",
-                       rowCount(), 0, 1);
-  }
   addItem(item);
+  emit itemAdded(rowCount() - 1, *item);
+  qDebug() << "EMITTED ITEM ADDED" << rowCount();
   qDebug() << "#################################";
   qDebug() << name << type << font << fontSize << slideNumber;
   qDebug() << "#################################";
@@ -376,8 +349,7 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &type,const QString &background,
                                   const QString &backgroundType,const QStringList &text,
                                   const QString &audio, const QString &font,
-                                  const int &fontSize, const int &slideNumber,
-                                  SlideModel &slideModel) {
+                                  const int &fontSize, const int &slideNumber) {
   qDebug() << "*************************";
   qDebug() << "Inserting serviceItem: " << name << " and index is " << index;
   qDebug() << "*************************";
@@ -385,43 +357,12 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                       text, audio, font, fontSize, slideNumber);
   item->setSelected(false);
   item->setActive(false);
-  int slideModelIdx = slideModel.findSlideIdFromServItm(index);
-  if (type == "song") {
-    for (int i = 0; i < text.size(); i++) {
-      if (backgroundType == "image") {
-        slideModel.insertItem(slideModelIdx, type, background, "",
-                              text[i], audio, font, fontSize,
-                              "center", "center",
-                              rowCount(), i, 0);
-      } else {
-        slideModel.insertItem(slideModelIdx, type, "", background,
-                              text[i], audio, font, fontSize,
-                              "center", "center",
-                              rowCount(), i, 0);
-      }
-    }
-  } else if (type == "presentation") {
-    for (int i = 0; i < slideNumber; i++) {
-      slideModel.insertItem(slideModelIdx, type, background, "",
-                            "", audio, font, fontSize,
-                            "center", "center",
-                            rowCount(), i, slideNumber);
-    }
-  } else if (type == "video") {
-    slideModel.insertItem(slideModelIdx, type, "", background, "",
-                          audio, font, fontSize,
-                          "center", "center",
-                          rowCount(), 0, 1);
-  } else {
-    slideModel.insertItem(slideModelIdx, type, background, "", "",
-                          audio, font, fontSize,
-                          "center", "center",
-                          rowCount(), 0, 1);
-  }
   insertItem(index, item);
+  emit itemInserted(index, *item);
+  qDebug() << "EMITTED ITEM INSERTED";
   qDebug() << "#################################";
   qDebug() << "INSERTING SERVICE ITEM!";
-  qDebug() << name << type << font << fontSize << slideNumber << index << slideModelIdx;
+  qDebug() << name << type << font << fontSize << slideNumber << index;
   qDebug() << "#################################";
 }
 
@@ -721,7 +662,7 @@ bool ServiceItemModel::save(QUrl file) {
   return false;
 }
 
-bool ServiceItemModel::load(QUrl file, SlideModel &slideModel) {
+bool ServiceItemModel::load(QUrl file) {
   qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
   qDebug() << "Loading...";
   qDebug() << "File path is: " << file.toString();
@@ -827,7 +768,7 @@ bool ServiceItemModel::load(QUrl file, SlideModel &slideModel) {
                  item.value("backgroundType").toString(),
                  item.value("text").toStringList(), realAudio,
                  item.value("font").toString(), item.value("fontSize").toInt(),
-                 item.value("slideNumber").toInt(), slideModel);
+                 item.value("slideNumber").toInt());
     }
 
     return true;
@@ -843,7 +784,7 @@ void ServiceItemModel::clearAll() {
   }
 }
 
-bool ServiceItemModel::loadLastSaved(SlideModel &slideModel) {
+bool ServiceItemModel::loadLastSaved() {
   QSettings settings;
-  return load(settings.value("lastSaveFile").toUrl(), slideModel);
+  return load(settings.value("lastSaveFile").toUrl());
 }
