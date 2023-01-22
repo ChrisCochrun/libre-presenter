@@ -444,7 +444,7 @@ bool SlideModel::activate(int id) {
 
   item->setActive(true);
   qDebug() << "################";
-  qDebug() << "activated" << item->slideIndex();
+  qDebug() << "slide activated" << item->slideIndex();
   qDebug() << "################";
   emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
   return true;

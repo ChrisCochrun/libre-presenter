@@ -30,7 +30,7 @@ public:
   int slideIndex() const;
   int slideSize() const;
 
-  Q_INVOKABLE void changeSlide(QVariantMap item);
+  Q_INVOKABLE void changeSlide(QVariantMap item, int index);
   Q_INVOKABLE void play();
   Q_INVOKABLE void pause();
   Q_INVOKABLE void playPause();
@@ -42,6 +42,7 @@ signals:
   Q_INVOKABLE void isPlayingChanged(bool isPlaying);
   Q_INVOKABLE void slideIndexChanged(int slideIndex);
   Q_INVOKABLE void slideSizeChanged(int slideSize);
+  Q_INVOKABLE void slideChanged(int slide);
 
 private:
   bool m_isPlaying;

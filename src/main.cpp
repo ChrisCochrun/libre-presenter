@@ -147,6 +147,10 @@ int main(int argc, char *argv[])
                    SIGNAL(itemAdded(const int&, const ServiceItem&)),
                    slideModel.get(),
                    SLOT(addItemFromService(const int&, const ServiceItem&)));
+  QObject::connect(slideobject.get(),
+                   SIGNAL(slideChanged(int)),
+                   slideModel.get(),
+                   SLOT(activate(int)));
 
   bool loading = serviceItemModel.get()->loadLastSaved();
 
