@@ -57,7 +57,9 @@ Item {
         id: previewerMouse
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: changeSlide(index)
+        onClicked: {
+            changeSlide(index);
+        }
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true
     }
@@ -66,8 +68,10 @@ Item {
     Connections {
         target: SlideModel
         onDataChanged: {
-            if (active)
+            if (active) {
+                previewSlidesList.currentIndex = index;
                 previewSlidesList.positionViewAtIndex(index, ListView.Contain);
+            }
         }
     }
 }
