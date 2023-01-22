@@ -161,13 +161,13 @@ Controls.Page {
         console.log("index grabbed: " + index);
         console.log(item);
 
-        presentation.stopVideo();
-        pWindow.stopVideo();
+        /* presentation.stopVideo(); */
+        /* pWindow.stopVideo(); */
         /* presentation.itemType = item.type; */
         console.log("Time to start changing");
 
         ServiceItemModel.activate(index);
-        SlideObject.changeSlide(slide);
+        SlideObject.changeSlide(slide, slideId);
         
         /* if (item.backgroundType === "video") */
         /* { */
@@ -189,13 +189,13 @@ Controls.Page {
         console.log("index grabbed: " + index);
         console.log(item);
 
-        presentation.stopVideo();
-        pWindow.stopVideo();
+        /* presentation.stopVideo(); */
+        /* pWindow.stopVideo(); */
         /* presentation.itemType = item.type; */
         console.log("Time to start changing");
 
         ServiceItemModel.activate(currentServiceItem);
-        SlideObject.changeSlide(item);
+        SlideObject.changeSlide(item, index);
         presentation.textIndex = 0;
         console.log("Slide changed to: " + index);
     }
