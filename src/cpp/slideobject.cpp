@@ -55,7 +55,7 @@ int SlideObject::slideSize() const
   return m_slideSize;
 }
 
-void SlideObject::changeSlide(QVariantMap item)
+void SlideObject::changeSlide(QVariantMap item, int index)
 {
   // setServiceItem(item);
   // setType(serviceItemId().value("type").toString());
@@ -118,17 +118,30 @@ void SlideObject::changeSlide(QVariantMap item)
 
   //New implementation
   // QVariantMap serviceItem = serviceItemModel->getItem(item.value("serviceItemId").toInt());
-  setText(item.value("text").toString());
-  setType(item.value("type").toString());
-  setAudio(item.value("audio").toString());
-  setImageBackground(item.value("imageBackground").toString());
-  setVideoBackground(item.value("videoBackground").toString());
-  setVerticalTextAlignment(item.value("verticalTextAlignment").toString());
-  setHorizontalTextAlignment(item.value("horizontalTextAlignment").toString());
-  setFont(item.value("font").toString());
-  setFontSize(item.value("fontSize").toInt());
+  if (item.value("text").toString() != text())
+    setText(item.value("text").toString());
+  if (item.value("type").toString() != type())
+    setType(item.value("type").toString());
+  if (item.value("audio").toString() != audio())
+    setAudio(item.value("audio").toString());
+  if (item.value("imageBackground").toString() != imageBackground())
+    setImageBackground(item.value("imageBackground").toString());
+  if (item.value("videoBackground").toString() != videoBackground()) {
+    qDebug() << "Setting VIDEOBACKGROUND to:" << item.value("videoBackgroundl").toString();
+    setVideoBackground(item.value("videoBackground").toString());
+  }
+  if (item.value("verticalTextAlignment").toString() != verticalTextAlignment())
+    setVerticalTextAlignment(item.value("verticalTextAlignment").toString());
+  if (item.value("horizontalTextAlignment").toString() != horizontalTextAlignment())
+    setHorizontalTextAlignment(item.value("horizontalTextAlignment").toString());
+  if (item.value("font").toString() != font())
+    setFont(item.value("font").toString());
+  if (item.value("fontSize").toInt() != fontSize())
+    setFontSize(item.value("fontSize").toInt());
+
   setImageCount(item.value("imageCount").toInt());
   setSlideIndex(item.value("slideIndex").toInt());
+  emit slideChanged(index);
   // m_slideSize = serviceItem.value("slideNumber").toInt();
 
   // emit slideSizeChanged(m_slideSize);
