@@ -29,7 +29,7 @@ Others:
 - Adding the ability to use Librepresenter in other wayland compositors - Need to address the QWindow problem.
 *** TODO Major Bugs
 - ~Drag and Drop of ServiceList~
-  this is fixed, but now I need to mode the slides around as you change the serviceItemModel
+  this is fixed, but now I need to move the slides around as you change the serviceItemModel
 - UI Blocking when saving
 *** TODO Deployment
 - [ ] Linux
