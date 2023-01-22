@@ -28,7 +28,7 @@ FocusScope {
     ColumnLayout {
         id: mainGrid
         anchors.fill: parent
-        anchors.bottomMargin: Kirigami.Units.largeSpacing * 20
+        anchors.bottomMargin: Kirigami.Units.largeSpacing * 21
         /* columns: 3 */
         /* rowSpacing: 5 */
         /* columnSpacing: 0 */
@@ -181,8 +181,8 @@ FocusScope {
         property int activeX
         id: previewSlidesList
         anchors.top: mainGrid.bottom
-        anchors.bottom: root.bottom - Kirigami.Units.gridUnit
         width: parent.width
+        height: Kirigami.Units.gridUnit * 9
         orientation: ListView.Horizontal
         spacing: Kirigami.Units.smallSpacing * 2
         cacheBuffer: 900
@@ -197,12 +197,6 @@ FocusScope {
         }
 
         Controls.ScrollBar.horizontal: Controls.ScrollBar {
-            /* parent: songLibraryList.parent */
-            /* anchors.right: previewSlidesList.right */
-            /* anchors.top: previewSlidesList.bottom */
-            /* anchors.topMargin: Kirigami.Units.smallSpacing */
-            /* anchors.left: previewSlidesList.right */
-            /* anchors.top: activeHighlightBar.bottom */
             active: hovered || pressed
         }
 
