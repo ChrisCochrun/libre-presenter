@@ -45,7 +45,7 @@ FocusScope {
                     text: "Solo"
                     icon.name: "viewimage"
                     hoverEnabled: true
-                    onClicked: serviceThing.slapVariantAround(imagesqlmodel.getImage(1).title);
+                    onClicked: serviceThing.slapVariantAround(ServiceItemModel.getItems());
                 }
                 Controls.ToolButton {
                     text: "Grid"

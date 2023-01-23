@@ -11,6 +11,8 @@ A 1.0 release may be achievable soon as long as I can figure out what is good to
 *** DONE REFACTORING THE BACKEND
 A large portion of the back I am refactoring to create a slide class with a slide object for QML to look at as the master slide. Then a slide model for us to use to know for sure what the next slide will look like always and jump to it better within listviews and gridviews. Then use a serviceitemmodel that is aware of the slidemodel to know which slides belong to it. A lot of the UI will need to be refactored a bit to point to the new objects properly.
 
+Could start working on moving slide.h and slide.cpp to a slide.rs. Then creating a slide_object.rs. Then maybe a service_item.rs. Creating these very basic classes in Rust would mean I start learning more and more Rust, and I would be preventing more memory bugs.
+
 *** TODO What is out
 Some of the special effects and things that I wanted to do could perhaps hold off. A lot of the things that I want to do to help make this really special could hold off. Blur, Color Adjustments, and Shadows for backgrounds and text and stuff can hold off for now. More of the special propresenter kind of things.
 

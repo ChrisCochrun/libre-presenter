@@ -7,8 +7,6 @@ mod file_helper {
         type QString = cxx_qt_lib::QString;
         include!("cxx-qt-lib/qurl.h");
         type QUrl = cxx_qt_lib::QUrl;
-        include!("cxx-qt-lib/qdate.h");
-        type QDate = cxx_qt_lib::QDate;
         include!("cxx-qt-lib/qvariant.h");
         type QVariant = cxx_qt_lib::QVariant;
     }
