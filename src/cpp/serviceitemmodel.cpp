@@ -510,6 +510,35 @@ bool ServiceItemModel::select(int id) {
   return true;
 }
 
+bool ServiceItemModel::selectItems(QVariantList items) {
+  qDebug() << "Let's select some items!";
+  for (int i = 0; i < m_items.length(); i++) {
+    QModelIndex idx = index(i);
+    ServiceItem *item = m_items[idx.row()];
+    if (item->selected()) {
+      item->setSelected(false);
+      qDebug() << "################";
+      qDebug() << "deselected" << item->name();
+      qDebug() << "################";
+      emit dataChanged(idx, idx, QVector<int>() << SelectedRole);
+    }
+  }
+  qDebug() << "All things have been deselected";
+  foreach (QVariant it, items) {
+    int i = it.toInt();
+    QModelIndex idx = index(i);
+    ServiceItem *item = m_items[idx.row()];
+    if (!item->selected()) {
+      item->setSelected(true);
+      qDebug() << "################";
+      qDebug() << "selected" << item->name();
+      qDebug() << "################";
+      emit dataChanged(idx, idx, QVector<int>() << SelectedRole);
+    }
+  }
+  return true;
+}
+
 bool ServiceItemModel::activate(int id) {
   QModelIndex idx = index(id);
   ServiceItem *item = m_items[idx.row()];

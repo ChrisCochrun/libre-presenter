@@ -240,7 +240,9 @@ Item {
                                 onClicked: {
                                     if (mouse.button === Qt.RightButton)
                                         rightClickMenu.popup(mouse);
-                                    else {
+                                    else if ((mouse.button === Qt.LeftButton) && (mouse.modifiers === Qt.ShiftModifier)) {
+                                        selectItems(index);
+                                    } else {
                                         serviceItemList.currentIndex = index;
                                         ServiceItemModel.select(index);
                                     }
@@ -577,7 +579,21 @@ Item {
         /* totalServiceItems++; */
     }
 
-    function changeItem() {
+    function selectItems(index) {
+        if (index === serviceItemList.currentIndex)
+            return;
+        var arr = [];
+        if (index > serviceItemList.currentIndex) {
+            for (let i = serviceItemList.currentIndex; i < index + 1; i++) {
+                arr.push(i);
+                console.log("Select all these here items..." + arr);
+            }
+        } else {
+            for (let i = serviceItemList.currentIndex; i > index - 1; i--) {
+                arr.push(i);
+                console.log("Select all these here items..." + arr);
+            }
+        }
+        ServiceItemModel.selectItems(arr);
     }
-
 }
