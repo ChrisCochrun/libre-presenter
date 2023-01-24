@@ -372,6 +372,22 @@ void ServiceItemModel::removeItem(int index) {
   endRemoveRows();
 }
 
+void ServiceItemModel::removeItems() {
+  for (int i = m_items.length() - 1; i > -1; i--) {
+    QModelIndex idx = index(i);
+    ServiceItem *item = m_items[idx.row()];
+    if (item->selected()) {
+      qDebug() << "Removing item:" << i;
+      beginRemoveRows(QModelIndex(), i, i);
+      m_items.removeAt(i);
+      endRemoveRows();
+      emit rowRemoved(i, *item);
+      qDebug() << "emitted removal of item:" << item->name();
+    }
+  }
+
+}
+
 bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
   qDebug() << sourceIndex;
   qDebug() << destIndex;

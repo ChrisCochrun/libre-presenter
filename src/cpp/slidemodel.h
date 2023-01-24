@@ -72,6 +72,7 @@ public:
                               const int &slideIndex,
                               const int &imageCount);
   Q_INVOKABLE void removeItem(int index);
+  Q_INVOKABLE void removeItems();
   Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);
   Q_INVOKABLE bool moveDown(int index);
   Q_INVOKABLE bool moveUp(int index);
@@ -84,6 +85,7 @@ public slots:
   Q_INVOKABLE bool select(int id);
   Q_INVOKABLE bool activate(int id);
   Q_INVOKABLE bool deactivate(int id);
+  Q_INVOKABLE void removeServiceItem(const int &index, const ServiceItem &item);
   void addItemFromService(const int &index, const ServiceItem &item);
   void insertItemFromService(const int &index, const ServiceItem &item);
   void moveRowFromService(const int &fromIndex, const int &toIndex, const ServiceItem &item);

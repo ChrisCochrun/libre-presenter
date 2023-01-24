@@ -287,6 +287,39 @@ void SlideModel::removeItem(int index) {
   endRemoveRows();
 }
 
+void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {
+  qDebug() << "Need to remove serviceItem:" << item.name() << "with" << item.slideNumber() << "slides.";
+  int id = findSlideIdFromServItm(index);
+  if (item.slideNumber() > 1) {
+    for (int i = item.slideNumber() + id; i > id - 1; i--) {
+      qDebug() << "Removing serviceItem:" << i;
+      beginRemoveRows(QModelIndex(), i, i);
+      m_items.removeAt(i);
+      endRemoveRows();
+      m_items[i]->setServiceItemId(index);
+    }
+  } else {
+    qDebug() << "Removing serviceItem:" << id;
+    beginRemoveRows(QModelIndex(), id, id);
+    m_items.removeAt(id);
+    endRemoveRows();
+    m_items[id]->setServiceItemId(index);
+  }
+}
+
+void SlideModel::removeItems() {
+  for (int i = m_items.length() - 1; i > -1; i--) {
+    QModelIndex idx = index(i);
+    Slide *item = m_items[idx.row()];
+    if (item->selected()) {
+      qDebug() << "Removing item:" << i;
+      beginRemoveRows(QModelIndex(), i, i);
+      m_items.removeAt(i);
+      endRemoveRows();
+    }
+  }
+}
+
 bool SlideModel::moveRows(int sourceIndex, int destIndex, int count) {
   qDebug() << index(sourceIndex).row();
   qDebug() << index(destIndex).row();

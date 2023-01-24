@@ -90,6 +90,8 @@ Item {
                     implicitWidth: serviceItemList.width
                     height: Kirigami.Units.gridUnit * 2
 
+                    property var selectedItems
+
                     DropArea {
                         id: serviceDrop
                         anchors.fill: parent
@@ -238,8 +240,13 @@ Item {
                                 }
 
                                 onClicked: {
-                                    if (mouse.button === Qt.RightButton)
+                                    if (mouse.button === Qt.RightButton) {
+                                        if (!selected) {
+                                            serviceItemList.currentIndex = index;
+                                            ServiceItemModel.select(index);
+                                        }
                                         rightClickMenu.popup(mouse);
+                                    }
                                     else if ((mouse.button === Qt.LeftButton) && (mouse.modifiers === Qt.ShiftModifier)) {
                                         selectItems(index);
                                     } else {
@@ -277,8 +284,14 @@ Item {
                             x: mouse.mouseX
                             y: mouse.mouseY + 10
                             Kirigami.Action {
+                                text: "copy"
+                            }
+                            Kirigami.Action {
+                                text: "paste"
+                            }
+                            Kirigami.Action {
                                 text: "delete"
-                                onTriggered: removeItem(index);
+                                onTriggered: removeItems()
                             }
                         }
                     }
@@ -511,6 +524,10 @@ Item {
     function removeItem(index) {
         ServiceItemModel.removeItem(index);
         /* totalServiceItems--; */
+    }
+
+    function removeItems() {
+        ServiceItemModel.removeItems();
     }
 
     function addItem(index, name, type,

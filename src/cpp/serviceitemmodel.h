@@ -95,6 +95,7 @@ public:
                               const QString &audio, const QString &font,
                               const int &fontSize, const int &slideNumber);
   Q_INVOKABLE void removeItem(int index);
+  Q_INVOKABLE void removeItems();
   Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);
   Q_INVOKABLE bool moveDown(int index);
   Q_INVOKABLE bool moveUp(int index);
@@ -114,6 +115,7 @@ signals:
   void itemAdded(const int &, const ServiceItem &);
   void itemInserted(const int &, const ServiceItem &);
   void rowMoved(const int &, const int &, const ServiceItem &);
+  void rowRemoved(const int &, const ServiceItem &);
 
 private:
 

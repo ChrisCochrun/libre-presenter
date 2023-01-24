@@ -155,6 +155,10 @@ int main(int argc, char *argv[])
                    SIGNAL(rowMoved(const int&, const int&, const ServiceItem&)),
                    slideModel.get(),
                    SLOT(moveRowFromService(const int&, const int&, const ServiceItem&)));
+  QObject::connect(serviceItemModel.get(),
+                   SIGNAL(rowRemoved(const int&, const ServiceItem&)),
+                   slideModel.get(),
+                   SLOT(removeServiceItem(const int&, const ServiceItem&)));
 
   bool loading = serviceItemModel.get()->loadLastSaved();
 
