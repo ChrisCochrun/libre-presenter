@@ -555,7 +555,8 @@ void SlideModel::moveRowFromService(const int &fromIndex,
   const bool isMoveDown = toIndex > fromIndex;
   qDebug() << "@@@Move SIs" << fromIndex << "to" << toIndex << "@@@";
   int slideId = findSlideIdFromServItm(fromIndex);
-  int toSlideId = findSlideIdFromServItm(toIndex);
+  int toSlideId = isMoveDown ? findSlideIdFromServItm(toIndex + 1) - 1 : findSlideIdFromServItm(toIndex);
+  // Slide toSlide = m_items[toSlideId];
   int count;
   if (item.type() == "song")
     count = item.text().length();
@@ -563,10 +564,21 @@ void SlideModel::moveRowFromService(const int &fromIndex,
     count = item.slideNumber();
   else
     count = 1;
+  // int toCount = toSlide.imageCount();
   int toId = count + slideId;
   qDebug() << "@@@Move Row" << slideId << "to" << toSlideId << "@@@";
   qDebug() << count;
-  moveRows(slideId, toSlideId, count);
+  if (isMoveDown) {
+    if (toSlideId - slideId > 1)
+      moveRows(slideId, toSlideId - 1, count);
+    else
+      moveRows(slideId, toSlideId, count);
+  } else {
+    if (slideId - toSlideId > 1)
+      moveRows(slideId - 1, toSlideId, count);
+    else
+      moveRows(slideId, toSlideId, count);
+  }
   m_items[toSlideId]->setServiceItemId(toIndex);
   if (isMoveDown) {
     for (int i = slideId; i < toSlideId; i++) {
