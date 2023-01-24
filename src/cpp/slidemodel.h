@@ -86,6 +86,7 @@ public slots:
   Q_INVOKABLE bool deactivate(int id);
   void addItemFromService(const int &index, const ServiceItem &item);
   void insertItemFromService(const int &index, const ServiceItem &item);
+  void moveRowFromService(const int &fromIndex, const int &toIndex, const ServiceItem &item);
 
 private:
   QList<Slide *> m_items;

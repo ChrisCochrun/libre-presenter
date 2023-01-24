@@ -373,8 +373,8 @@ void ServiceItemModel::removeItem(int index) {
 }
 
 bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
-  qDebug() << index(sourceIndex).row();
-  qDebug() << index(destIndex).row();
+  qDebug() << sourceIndex;
+  qDebug() << destIndex;
 
   const int lastIndex = rowCount() - 1;
 
@@ -388,16 +388,21 @@ bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
   const bool isMoveDown = destIndex > sourceIndex;
 
   if (!beginMoveRows(parent, sourceIndex, sourceIndex + count - 1,
-                     parent, isMoveDown ? destIndex + 2 : destIndex)) {
+                     parent, isMoveDown ? destIndex + 1 : destIndex)) {
     qDebug() << "Can't move rows";
     return false;
   }
     
   qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
 
-  m_items.move(sourceIndex, isMoveDown ? destIndex + 1 : destIndex);
+  m_items.move(sourceIndex, destIndex);
 
   endMoveRows();
+
+  QModelIndex idx = index(destIndex);
+  ServiceItem *item = m_items[idx.row()];
+  emit rowMoved(sourceIndex, destIndex, *item);
+
   return true;
 }
 

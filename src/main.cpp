@@ -151,6 +151,10 @@ int main(int argc, char *argv[])
                    SIGNAL(slideChanged(int)),
                    slideModel.get(),
                    SLOT(activate(int)));
+  QObject::connect(serviceItemModel.get(),
+                   SIGNAL(rowMoved(const int&, const int&, const ServiceItem&)),
+                   slideModel.get(),
+                   SLOT(moveRowFromService(const int&, const int&, const ServiceItem&)));
 
   bool loading = serviceItemModel.get()->loadLastSaved();
 

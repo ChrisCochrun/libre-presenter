@@ -303,14 +303,14 @@ bool SlideModel::moveRows(int sourceIndex, int destIndex, int count) {
   const bool isMoveDown = destIndex > sourceIndex;
 
   if (!beginMoveRows(parent, sourceIndex, sourceIndex + count - 1,
-                     parent, isMoveDown ? destIndex + 2 : destIndex)) {
+                     parent, isMoveDown ? destIndex + 1 : destIndex)) {
     qDebug() << "Can't move rows";
     return false;
   }
     
   qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
 
-  m_items.move(sourceIndex, isMoveDown ? destIndex + 1 : destIndex);
+  m_items.move(sourceIndex, destIndex);
 
   endMoveRows();
   return true;
@@ -547,4 +547,34 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
                index, 0, 1);
   }
 
+}
+
+void SlideModel::moveRowFromService(const int &fromIndex,
+                                    const int &toIndex,
+                                    const ServiceItem &item) {
+  const bool isMoveDown = toIndex > fromIndex;
+  qDebug() << "@@@Move SIs" << fromIndex << "to" << toIndex << "@@@";
+  int slideId = findSlideIdFromServItm(fromIndex);
+  int toSlideId = findSlideIdFromServItm(toIndex);
+  int count;
+  if (item.type() == "song")
+    count = item.text().length();
+  else if (item.type() == "presentation")
+    count = item.slideNumber();
+  else
+    count = 1;
+  int toId = count + slideId;
+  qDebug() << "@@@Move Row" << slideId << "to" << toSlideId << "@@@";
+  qDebug() << count;
+  moveRows(slideId, toSlideId, count);
+  m_items[toSlideId]->setServiceItemId(toIndex);
+  if (isMoveDown) {
+    for (int i = slideId; i < toSlideId; i++) {
+      m_items[i]->setServiceItemId(m_items[i]->serviceItemId() - 1);
+    }
+  } else {
+    for (int i = slideId; i > toSlideId; i--) {
+      m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
+    }
+  }
 }

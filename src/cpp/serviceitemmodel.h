@@ -113,6 +113,7 @@ public:
 signals:
   void itemAdded(const int &, const ServiceItem &);
   void itemInserted(const int &, const ServiceItem &);
+  void rowMoved(const int &, const int &, const ServiceItem &);
 
 private:
 
