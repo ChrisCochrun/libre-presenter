@@ -288,22 +288,33 @@ void SlideModel::removeItem(int index) {
 }
 
 void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {
-  qDebug() << "Need to remove serviceItem:" << item.name() << "with" << item.slideNumber() << "slides.";
+  qDebug() << "Need to remove serviceItem:"
+           << item.name()
+           << "with"
+           << item.slideNumber()
+           << "slides.";
   int id = findSlideIdFromServItm(index);
+  if (id < 0) {
+    qWarning() << "There is no slide with that ServiceItem";
+    return;
+  }
   if (item.slideNumber() > 1) {
-    for (int i = item.slideNumber() + id; i > id - 1; i--) {
-      qDebug() << "Removing serviceItem:" << i;
+    for (int i = item.slideNumber() + id - 1; i > id - 1; i--) {
+      qDebug() << "Removing multiple slides";
+      qDebug() << "Removing slide:" << i;
       beginRemoveRows(QModelIndex(), i, i);
       m_items.removeAt(i);
       endRemoveRows();
-      m_items[i]->setServiceItemId(index);
     }
+    for (int i = id; i < m_items.length(); i++)
+      m_items[i]->setServiceItemId(m_items[i]->serviceItemId() - 1);
   } else {
     qDebug() << "Removing serviceItem:" << id;
     beginRemoveRows(QModelIndex(), id, id);
     m_items.removeAt(id);
     endRemoveRows();
-    m_items[id]->setServiceItemId(index);
+    for (int i = id; i < m_items.length(); i++)
+      m_items[i]->setServiceItemId(m_items[i]->serviceItemId() - 1);
   }
 }
 

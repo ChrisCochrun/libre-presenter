@@ -112,7 +112,7 @@ void Slide::setServiceItemId(int serviceItemId)
     if (m_serviceItemId == serviceItemId)
         return;
 
-    qDebug() << "####changing serviceItemId of" << "to:" << serviceItemId;
+    qDebug() << "####changing serviceItemId of slide:" << m_serviceItemId << "and" << m_slideIndex << "TO:" << serviceItemId;
     m_serviceItemId = serviceItemId;
     emit serviceItemIdChanged(m_serviceItemId);
 }
