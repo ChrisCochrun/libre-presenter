@@ -25,8 +25,6 @@ Others:
 I need to make the UI fit so much better. A lot of making the UI work is going to start being top priority. So for starters.
 
 Others:
-- Multi Select and Delete
-  - Need to have the model give back all ids of the selected items so they can be manipulated
 - Multi Drag? Maybe...
 - Adding the ability to use Librepresenter in other wayland compositors - Need to address the QWindow problem.
 *** TODO Major Bugs
@@ -35,8 +33,10 @@ Others:
 - UI Blocking when saving
 **** TODO Fix inserting items from service bugs
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {]]
+**** DONE Multi Select and Delete
 **** TODO need to finish figuring out proper removal of slides
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
+**** TODO Items in library with missing videos or images don't show any helpful UI.
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
