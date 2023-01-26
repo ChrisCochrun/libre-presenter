@@ -33,6 +33,10 @@ Others:
 - ~Drag and Drop of ServiceList~
   this is fixed, but now I need to move the slides around as you change the serviceItemModel
 - UI Blocking when saving
+**** TODO Fix inserting items from service bugs
+[[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {]]
+**** TODO need to finish figuring out proper removal of slides
+[[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
@@ -79,7 +83,7 @@ This is mostly done, just need to include the ability to multi select and then f
 
 - [ ] Another issue I discovered was that when switching to a song with videoBackgrounds, the mpv object doesn't ALWAYS load the first frame of the slide. Can I let the video play a tiny bit longer to make sure frames ALWAYS get loaded? That didn't work..
 
-- [ ] There is one other issue with videoBackgrounds now going black on the second slide after switching to a slideModel. I need to check if the videos are the same and if so do nothing.
+- [X] There is one other issue with videoBackgrounds now going black on the second slide after switching to a slideModel. I need to check if the videos are the same and if so do nothing. fixed.
 
   Maybe I'll need to change something else but what?
 
@@ -215,3 +219,4 @@ or at least turns the entry above it into the same as itself while retaining it'
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::FileDialog {]]
 
 
+* Inbox
