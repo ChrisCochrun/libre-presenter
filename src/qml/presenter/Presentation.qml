@@ -7,6 +7,7 @@ import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
+import mpv 1.0
 
 FocusScope {
     id: root
@@ -67,6 +68,14 @@ FocusScope {
                     icon.name: "image-auto-adjust"
                     hoverEnabled: true
                     onClicked: {}
+                }
+                Controls.ToolButton {
+                    text: "Wah!"
+                    icon.name: "audio-volume-high"
+                    hoverEnabled: true
+                    onClicked: {
+                        audio.loadFile("/home/chris/nextcloud/tfcstaff/Lessons/2022-2023 Lessons/Unit 4/4.1/Wah Wahh Wahhh Sound Effect.m4a");
+                    }
                 }
             }
         }
@@ -256,6 +265,15 @@ FocusScope {
         onTriggered: root.visible ? keyHandler.forceActiveFocus() : null
     }
 
+    MpvObject {
+        id: audio
+        useHwdec: true
+        enableAudio: true
+        // embeded mpv allows to set commandline propertys using the options/<name>
+        // syntax. This could be abstracted later, but for now this works.
+        Component.onCompleted: audio.setProperty("options/audio-display", "no");
+    }
+
     function pauseVideo() {
         previewSlide.pauseVideo();
     }
@@ -310,4 +328,8 @@ FocusScope {
     function clearText() {
         SlideObject.setText("");
     }
+
+    function playAudio() {
+    }
+
 }
