@@ -832,6 +832,7 @@ void ServiceItemModel::clearAll() {
   for (int i = m_items.size(); i >= 0; i--) {
     removeItem(i);
   }
+  emit allRemoved();
 }
 
 bool ServiceItemModel::loadLastSaved() {

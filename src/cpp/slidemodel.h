@@ -78,7 +78,6 @@ public:
   Q_INVOKABLE bool moveUp(int index);
   Q_INVOKABLE QVariantMap getItem(int index) const;
   Q_INVOKABLE QVariantList getItems();
-  Q_INVOKABLE void clearAll();
   Q_INVOKABLE int findSlideIdFromServItm(int index);
 
 public slots:
@@ -86,6 +85,7 @@ public slots:
   Q_INVOKABLE bool activate(int id);
   Q_INVOKABLE bool deactivate(int id);
   Q_INVOKABLE void removeServiceItem(const int &index, const ServiceItem &item);
+  Q_INVOKABLE void clearAll();
   void addItemFromService(const int &index, const ServiceItem &item);
   void insertItemFromService(const int &index, const ServiceItem &item);
   void moveRowFromService(const int &fromIndex, const int &toIndex, const ServiceItem &item);

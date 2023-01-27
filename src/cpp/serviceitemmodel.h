@@ -116,6 +116,7 @@ signals:
   void itemInserted(const int &, const ServiceItem &);
   void rowMoved(const int &, const int &, const ServiceItem &);
   void rowRemoved(const int &, const ServiceItem &);
+  void allRemoved();
 
 private:
 
