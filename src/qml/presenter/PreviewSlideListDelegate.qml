@@ -49,7 +49,7 @@ Item {
         /* anchors.leftMargin: Kirigami.Units.smallSpacing * 8 */
         anchors.topMargin: Kirigami.Units.smallSpacing * 3
         elide: Text.ElideRight
-        text: ServiceItemModel.getItem(serviceItemId).name
+        text: serviceItemId //ServiceItemModel.getItem(serviceItemId).name
         /* font.family: "Quicksand Bold" */
     }
 

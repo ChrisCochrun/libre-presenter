@@ -155,7 +155,7 @@ Item {
                                 anchors.left: dragHandle.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.leftMargin: 5
-                                text: name
+                                text: index + " " + name
                                 elide: Text.ElideRight
                                 width: parent.width - trailing.width - dragHandle.width - 25
                                 color: {
