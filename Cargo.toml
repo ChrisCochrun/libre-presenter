@@ -14,7 +14,7 @@ crate-type = ["staticlib"]
 path = "src/rust/lib.rs"
 
 [dependencies]
-config = "0.13.1"
+configparser = "3.0.2"
 cxx = "1.0.83"
 cxx-qt = "0.4.1"
 cxx-qt-lib = "0.4.1"
