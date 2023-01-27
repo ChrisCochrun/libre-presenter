@@ -16,3 +16,4 @@ mod tests {
 // mod my_object;
 mod file_helper;
 mod service_thing;
+mod settings;
