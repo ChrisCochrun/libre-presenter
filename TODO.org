@@ -220,3 +220,5 @@ or at least turns the entry above it into the same as itself while retaining it'
 
 
 * Inbox
+** TODO Create a setting for holding static slides and audios
+[[file:~/dev/church-presenter/src/qml/presenter/Settings.qml]]
