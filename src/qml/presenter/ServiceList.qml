@@ -157,7 +157,7 @@ Item {
                                 anchors.leftMargin: 5
                                 text: name
                                 elide: Text.ElideRight
-                                width: parent.width - trailing.width - dragHandle.width - 15
+                                width: parent.width - trailing.width - dragHandle.width - 25
                                 color: {
                                     if (selected ||
                                         mouseHandler.containsMouse || active)
@@ -167,12 +167,21 @@ Item {
                                 }
                             }
 
-                            Controls.Label {
+                            Kirigami.Icon {
                                 id: trailing
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.rightMargin: 5
-                                text: type
+                                implicitWidth: Kirigami.Units.gridUnit
+                                source: {
+                                    switch (type) {
+                                    case 'image': return "folder-pictures-symbolic";
+                                    case 'video': return "folder-videos-symbolic";
+                                    case 'song': return "folder-music-symbolic";
+                                    case 'presentation': return "x-office-presentation-symbolic";
+                                    default: return "slideshow-plugin";
+                                    }
+                                }
                                 color: {
                                     if (selected ||
                                         mouseHandler.containsMouse || active)
