@@ -513,8 +513,8 @@ Item {
                     }
                 },
                 Kirigami.Action {
-                    text: "Clear"
-                    icon.name: "recycle"
+                    text: "Clear All"
+                    icon.name: "list-remove-all"
                     onTriggered: {
                         showPassiveNotification("clearing all items");
                         ServiceItemModel.clearAll();
