@@ -562,7 +562,7 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
   int slideId = findSlideIdFromServItm(index);
   for (int i = slideId; i < rowCount(); i++) {
     //increment serviceItemIds
-    m_items[i]->setServiceItemId(m_items[i].serviceItemId() + 1);
+    m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
   }
 
   // inserting item
