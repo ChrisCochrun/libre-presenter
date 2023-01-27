@@ -6,6 +6,7 @@ mkShell rec {
   nativeBuildInputs = [
     gcc
     gnumake
+    gdb
     clang
     qtcreator
     cmake
