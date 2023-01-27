@@ -574,7 +574,6 @@ Item {
         console.log("adding: " + name + " of type " + type);
         if (type === "song") {
             console.log("THIS IS A SONG!!!!!");
-            console.log(itemID);
             let lyrics = songsqlmodel.getLyricList(itemID);
             console.log(lyrics);
             ServiceItemModel.addItem(name, type, background,
@@ -586,8 +585,6 @@ Item {
 
         if (type === "presentation") {
             console.log("THIS IS A PRESENTATION!!!!!");
-            console.log(itemID);
-            console.log(lyrics);
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, "",
                                      audio, font, fontSize,
