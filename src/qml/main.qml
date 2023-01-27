@@ -22,6 +22,8 @@ Kirigami.ApplicationWindow {
 
     property bool editMode: false
 
+    property string soundEffect
+
     signal edit()
 
     onActiveFocusItemChanged: console.log("FOCUS CHANGED TO: " + activeFocusControl)
@@ -142,6 +144,22 @@ Kirigami.ApplicationWindow {
         selectExisting: true
         onAccepted: {
             load(loadFileDialog.fileUrl);
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+    }
+
+    FileDialog {
+        id: soundFileDialog
+        title: "Pick a Sound Effect"
+        folder: shortcuts.home
+        /* fileMode: FileDialog.SaveFile */
+        /* defaultSuffix: ".pres" */
+        selectExisting: true
+        onAccepted: {
+            soundEffect = loadFileDialog.fileUrl;
+            showPassiveNotification(soundEffect);
         }
         onRejected: {
             console.log("Canceled")
