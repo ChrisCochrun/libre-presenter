@@ -18,7 +18,7 @@ Item {
     property var hlItem 
 
     Rectangle {
-        id: background
+        id: bg
         color: Kirigami.Theme.backgroundColor
         anchors.fill: parent
     }
@@ -26,7 +26,7 @@ Item {
     FastBlur {
         id: backgroundBlur
         source: ShaderEffectSource {
-            sourceItem: background
+            sourceItem: bg
             sourceRect: Qt.rect(0, 0, backgroundBlur.width, backgroundBlur.height)
         }
         anchors.fill: parent
@@ -572,15 +572,14 @@ Item {
     function appendItem(name, type, background, backgroundType,
                         text, audio, font, fontSize, itemID) {
         console.log("adding: " + name + " of type " + type);
-        let lyrics;
         if (type === "song") {
             console.log("THIS IS A SONG!!!!!");
             console.log(itemID);
-            lyrics = songsqlmodel.getLyricList(itemID);
+            let lyrics = songsqlmodel.getLyricList(itemID);
             console.log(lyrics);
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
-                                     audio, font, fontSize, lyrics.length());
+                                     audio, font, fontSize, lyrics.length);
             /* totalServiceItems++; */
             return;
         };
