@@ -17,8 +17,8 @@ Window {
     width: maximumWidth
     screen: presentationScreen
     opacity: 1.0
-    transientParent: null
-    modality: Qt.NonModal
+    /* transientParent: null */
+    /* modality: Qt.NonModal */
     flags: Qt.FramelessWindowHint
     onClosing: {
         presentationSlide.stopVideo();
