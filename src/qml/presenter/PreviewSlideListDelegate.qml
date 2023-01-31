@@ -9,6 +9,7 @@ Item {
     id: root
     implicitHeight: Kirigami.Units.gridUnit * 6.5
     implicitWidth: Kirigami.Units.gridUnit * 10
+    property bool showVidBG
     Rectangle {
         id: previewHighlight
         anchors.centerIn: parent
@@ -31,7 +32,7 @@ Item {
             textSize: model.fontSize
             itemType: model.type
             imageSource: model.imageBackground
-            videoSource: model.videoBackground
+            videoSource: showVidBG ? model.videoBackground : ""
             audioSource: ""
             chosenFont: model.font
             text: model.text

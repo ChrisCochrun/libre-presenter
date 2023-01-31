@@ -275,7 +275,7 @@ Controls.Page {
     function present(present) {
         if (present)
         {
-            presentation.loadVideo();
+            /* presentation.loadVideo(); */
             console.log("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
             pWindow.showFullScreen();
             /* pWindow.screen = presentationScreen; */
