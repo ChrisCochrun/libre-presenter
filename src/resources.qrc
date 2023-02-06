@@ -19,6 +19,7 @@
         <file>qml/presenter/Presentation.qml</file>
         <file>qml/presenter/PresentationWindow.qml</file>
         <file>qml/presenter/PreviewSlideListDelegate.qml</file>
+        <file>qml/presenter/PreviewSlide.qml</file>
         <file>qml/presenter/Settings.qml</file>
         <file>assets/parallel.jpg</file>
         <file>assets/black.jpg</file>
