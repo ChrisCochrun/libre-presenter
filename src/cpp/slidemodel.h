@@ -79,6 +79,8 @@ public:
   Q_INVOKABLE QVariantMap getItem(int index) const;
   Q_INVOKABLE QVariantList getItems();
   Q_INVOKABLE int findSlideIdFromServItm(int index);
+  Q_INVOKABLE void thumbnailVideo(QString video);
+
 
 public slots:
   Q_INVOKABLE bool select(int id);

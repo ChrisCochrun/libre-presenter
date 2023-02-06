@@ -18,6 +18,7 @@
 #include <QStandardPaths>
 #include <QImage>
 
+#include <iostream>
 
 SlideModel::SlideModel(QObject *parent)
     : QAbstractListModel(parent) {
@@ -638,4 +639,16 @@ void SlideModel::moveRowFromService(const int &fromIndex,
       m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
     }
   }
+}
+
+QString SlideModel::thumbnailVideo(QString video) {
+
+  std::system("ffmpeg -i Rust\ Tutorial\ Full\ Course.webm -vframes 1 -an -s 576x324 -ss 35 OutputFile.jpg");
+
+  QTemporaryFile thumbnail;
+  if (thumbnail.open()) {
+
+    return thumbnail.fileName();
+  }
+
 }
