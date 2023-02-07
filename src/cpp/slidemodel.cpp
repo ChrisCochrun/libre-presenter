@@ -1,4 +1,5 @@
 #include "slidemodel.h"
+#include "mpv/mpvobject.h"
 #include "serviceitem.h"
 #include "slide.h"
 #include <qabstractitemmodel.h>
@@ -12,6 +13,7 @@
 #include <QFile>
 #include <QMap>
 #include <QTemporaryFile>
+#include <QTemporaryDir>
 #include <QDir>
 #include <QUrl>
 #include <QSettings>
@@ -645,31 +647,41 @@ void SlideModel::moveRowFromService(const int &fromIndex,
 
 QString SlideModel::thumbnailVideo(QString video, int serviceItemId) {
 
-  // if (!writeDir.mkpath(".")) {
-  //   qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
+  qDebug() << "dir location " << writeDir.absolutePath();
+  if (!writeDir.mkpath(".")) {
+    qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
+  }
+
+  QDir dir = writeDir.absolutePath() + "/librepresenter/thumbnails";
+  qDebug() << "thumbnails dir: " << dir;
+  QDir absDir = writeDir.absolutePath() + "/librepresenter";
+  if (!dir.exists()) {
+    qDebug() << dir.path() << "does not exist";
+    absDir.mkdir("thumbnails");
+  }
+  qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
+  qDebug() << dir.path();
+  qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
+
+  QFileInfo vid(video);
+  QString id;
+  id.setNum(serviceItemId);
+  QString vidName(vid.fileName() + "-" + id);
+  qDebug() << vidName;
+  QString thumbnail = dir.path() + "/" + vidName + ".webp";
+  QFileInfo thumbnailInfo(dir.path() + "/" + vidName + ".jpg");
+  qDebug() << thumbnailInfo.filePath();
+  // if (thumbnail.open(QIODevice::ReadOnly)) {
+  //   qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
+  //   qDebug() << thumbnailInfo.filePath();
+  //   qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
   // }
 
-  // qDebug() << "Url of screenshot to be taken: " << url;
-  // QDir dir = writeDir.absolutePath() + "/thumbnails";
-  // qDebug() << "thumbnails dir: " << dir;
-  // QDir absDir = writeDir.absolutePath();
-  // if (!dir.exists())
-  //   absDir.mkdir("thumbnails");
+  MpvObject *mpv;
+  mpv->loadFile(video);
+  mpv->seek(5);
+  mpv->screenshotToFile(thumbnail);
+  // mpv.quit();
 
-  QTemporaryFile thumbnail = ;
-  if (thumbnail.open()) {
-    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-    qDebug() << thumbnail.fileName();
-    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-
-    // return thumbnail.fileName();
-  }
-
-  QTemporaryDir dir;
-  if (dir.isValid()) {
-    // dir.path() returns the unique directory path
-    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-    qDebug() << dir.path();
-    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-  }
+  return thumbnailInfo.filePath();
 }

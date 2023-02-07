@@ -59,7 +59,8 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
-            changeSlide(index);
+            /* changeSlide(index); */
+            showPassiveNotification(SlideModel.thumbnailVideo(model.videoBackground, model.serviceItemId));
         }
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true

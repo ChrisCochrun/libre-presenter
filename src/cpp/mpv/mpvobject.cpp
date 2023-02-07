@@ -533,7 +533,7 @@ void MpvObject::seek(double pos)
 {
   // qDebug() << "seek" << pos;
   pos = qMax(0.0, qMin(pos, m_duration));
-  commandAsync(QVariantList() << "seek" << pos << "absolute");
+  command(QVariantList() << "seek" << pos << "absolute");
 }
 
 void MpvObject::loadFile(QVariant urls)
@@ -542,9 +542,13 @@ void MpvObject::loadFile(QVariant urls)
   command(QVariantList() << "loadfile" << urls);
 }
 
-void MpvObject::screenshotToFile(QUrl url) {
-  QString file = url.path() + ".jpg";
-  commandAsync(QVariantList() << "screenshot-to-file" << file << "video");
+void MpvObject::screenshotToFile(QString file) {
+  command(QVariantList() << "show-progress");
+  command(QVariantList() << "screenshot-to-file" << file << "video");
+  command(QVariantList() << "show-progress");
+  qDebug() << "screenshot-to-file" << file << "video";
+  qDebug() << "screenshot made: " << file;
+  quit();
 }
 
 void MpvObject::subAdd(QVariant urls)
