@@ -543,12 +543,6 @@ void MpvObject::loadFile(QVariant urls)
 }
 
 void MpvObject::screenshotToFile(QUrl url) {
-  qDebug() << "Url of screenshot to be taken: " << url;
-  QDir dir = writeDir.absolutePath() + "/presenter/Church Presenter/thumbnails";
-  qDebug() << "thumbnails dir: " << dir;
-  QDir absDir = writeDir.absolutePath() + "/presenter/Church Presenter";
-  if (!dir.exists())
-    absDir.mkdir("thumbnails");
   QString file = url.path() + ".jpg";
   commandAsync(QVariantList() << "screenshot-to-file" << file << "video");
 }

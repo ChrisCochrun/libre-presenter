@@ -20,6 +20,8 @@
 
 #include <iostream>
 
+const QDir writeDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+
 SlideModel::SlideModel(QObject *parent)
     : QAbstractListModel(parent) {
   // if () {
@@ -641,14 +643,33 @@ void SlideModel::moveRowFromService(const int &fromIndex,
   }
 }
 
-QString SlideModel::thumbnailVideo(QString video) {
+QString SlideModel::thumbnailVideo(QString video, int serviceItemId) {
 
-  std::system("ffmpeg -i Rust\ Tutorial\ Full\ Course.webm -vframes 1 -an -s 576x324 -ss 35 OutputFile.jpg");
+  // if (!writeDir.mkpath(".")) {
+  //   qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
+  // }
 
-  QTemporaryFile thumbnail;
+  // qDebug() << "Url of screenshot to be taken: " << url;
+  // QDir dir = writeDir.absolutePath() + "/thumbnails";
+  // qDebug() << "thumbnails dir: " << dir;
+  // QDir absDir = writeDir.absolutePath();
+  // if (!dir.exists())
+  //   absDir.mkdir("thumbnails");
+
+  QTemporaryFile thumbnail = ;
   if (thumbnail.open()) {
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
+    qDebug() << thumbnail.fileName();
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
 
-    return thumbnail.fileName();
+    // return thumbnail.fileName();
   }
 
+  QTemporaryDir dir;
+  if (dir.isValid()) {
+    // dir.path() returns the unique directory path
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
+    qDebug() << dir.path();
+    qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
+  }
 }
