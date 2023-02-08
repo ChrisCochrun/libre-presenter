@@ -245,8 +245,8 @@ FocusScope {
                 cellWidth: Kirigami.Units.gridUnit * 11
                 cellHeight: Kirigami.Units.gridUnit * 8
                 /* spacing: Kirigami.Units.smallSpacing * 2 */
-                cacheBuffer: 200
-                reuseItems: false
+                cacheBuffer: 800
+                reuseItems: true
                 clip: true
                 model: SlideModel
                 delegate: Presenter.PreviewSlideListDelegate { showVidBG: false }

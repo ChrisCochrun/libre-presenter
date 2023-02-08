@@ -29,7 +29,8 @@ public:
     SlideIndexRole,
     ImageCountRole,
     ActiveRole,
-    SelectedRole
+    SelectedRole,
+    VidThumbnailRole
   };
 
   // Basic functionality:
@@ -79,7 +80,8 @@ public:
   Q_INVOKABLE QVariantMap getItem(int index) const;
   Q_INVOKABLE QVariantList getItems();
   Q_INVOKABLE int findSlideIdFromServItm(int index);
-  Q_INVOKABLE QString thumbnailVideo(QString video, int serviceItemId);
+  Q_INVOKABLE QString thumbnailVideo(QString video, int serviceItemId, int index);
+  QImage frameToImage(const QString &video, int width);
 
 
 public slots:

@@ -35,6 +35,15 @@ find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 WindowSystem I1
 find_package(Libmpv)
 set_package_properties(Libmpv PROPERTIES TYPE REQUIRED)
 
+find_package(FFmpeg)
+set_package_properties(FFmpeg PROPERTIES TYPE REQUIRED)
+
+find_package(YouTubeDl)
+set_package_properties(YouTubeDl PROPERTIES TYPE RUNTIME)
+
+find_package(Ytdlp)
+set_package_properties(Ytdlp PROPERTIES TYPE RUNTIME)
+
 FIND_PACKAGE(LIBPODOFO)
 IF(NOT LIBPODOFO_FOUND)
 	MESSAGE("+++PoDoFo not found... building private copy")

@@ -28,6 +28,8 @@ class Slide : public QObject
   Q_PROPERTY(int slideIndex READ slideIndex WRITE setSlideIndex NOTIFY slideIndexChanged)
   Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  Q_PROPERTY(QString vidThumbnail READ vidThumbnail WRITE setVidThumbnail
+             NOTIFY vidThumbnailChanged)
   // QML_ELEMENT
 
 public:
@@ -53,6 +55,7 @@ public:
   int serviceItemId() const;
   bool active() const;
   bool selected() const;
+  QString vidThumbnail() const;
 
   Q_INVOKABLE void setText(QString text);
   Q_INVOKABLE void setType(QString type);
@@ -68,6 +71,7 @@ public:
   Q_INVOKABLE void setSlideIndex(int slideIndex);
   Q_INVOKABLE void setActive(bool active);
   Q_INVOKABLE void setSelected(bool selected);
+  Q_INVOKABLE void setVidThumbnail(QString vidThumbnail);
 
 signals:
   Q_INVOKABLE void textChanged(QString text);
@@ -84,6 +88,7 @@ signals:
   Q_INVOKABLE void slideIndexChanged(int slideIndex);
   Q_INVOKABLE void activeChanged(bool active);
   Q_INVOKABLE void selectedChanged(bool selected);
+  Q_INVOKABLE void vidThumbnailChanged(QString vidThumbnail);
 
 private:
   int m_id;
@@ -101,6 +106,7 @@ private:
   int m_slideIndex;
   bool m_active;
   bool m_selected;
+  QString m_vidThumbnail;
 };
 
 #endif //SLIDE_H

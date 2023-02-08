@@ -14,6 +14,7 @@ mkShell rec {
     pkg-config
     libsForQt5.wrapQtAppsHook
     makeWrapper
+    # ffmpeg
   ];
 
   buildInputs = [
@@ -34,11 +35,11 @@ mkShell rec {
     libsForQt5.ki18n
     libsForQt5.kcoreaddons
     libsForQt5.kguiaddons
+    # libsForQt5.kconfig
 
     podofo
     mpv
-    # libsForQt5.kconfig
-    # ffmpeg-full
+    ffmpeg-full
     # yt-dlp
 
     # Rust tools

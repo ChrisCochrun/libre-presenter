@@ -44,6 +44,11 @@ QString Slide::imageBackground() const
   return m_imageBackground;
 }
 
+QString Slide::vidThumbnail() const
+{
+  return m_vidThumbnail;
+}
+
 QString Slide::videoBackground() const
 {
   return m_videoBackground;
@@ -135,6 +140,16 @@ void Slide::setImageBackground(QString imageBackground)
     qDebug() << "####changing image background to: " << imageBackground;
     m_imageBackground = imageBackground;
     emit imageBackgroundChanged(m_imageBackground);
+}
+
+void Slide::setVidThumbnail(QString vidThumbnail)
+{
+    if (m_vidThumbnail == vidThumbnail)
+        return;
+
+    qDebug() << "####changing video thumbnail to: " << vidThumbnail;
+    m_vidThumbnail = vidThumbnail;
+    emit vidThumbnailChanged(m_vidThumbnail);
 }
 
 void Slide::setVideoBackground(QString videoBackground)

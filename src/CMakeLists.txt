@@ -16,6 +16,15 @@ target_sources(presenter
  cpp/presentationsqlmodel.cpp cpp/presentationsqlmodel.h
  cpp/mpv/mpvobject.h cpp/mpv/mpvobject.cpp
  cpp/mpv/qthelper.hpp cpp/mpv/mpvhelpers.h
+ cpp/framedecoder.h cpp/framedecoder.cpp
 )
 
 target_compile_options (presenter PUBLIC -fexceptions)
+
+target_link_libraries(presenter PRIVATE
+    ${AVUTIL_LIBRARIES}
+    ${AVFILTER_LIBRARIES}
+    ${AVFORMAT_LIBRARIES}
+    ${AVCODEC_LIBRARIES}
+    ${SWSCALE_LIBRARIES}
+)

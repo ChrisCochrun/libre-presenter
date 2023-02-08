@@ -10,6 +10,11 @@ Item {
     implicitHeight: Kirigami.Units.gridUnit * 6.5
     implicitWidth: Kirigami.Units.gridUnit * 10
     property bool showVidBG
+    Component.onCompleted: {
+        if (model.videoBackground != "")
+            SlideModel.thumbnailVideo(model.videoBackground, model.serviceItemId, index);
+    }
+
     Rectangle {
         id: previewHighlight
         anchors.centerIn: parent
@@ -24,21 +29,17 @@ Item {
                 Kirigami.Theme.backgroundColor
         }
 
-        Presenter.Slide {
+        Presenter.PreviewSlide {
             id: previewSlideItem
             anchors.centerIn: parent
             implicitWidth: height / 9 * 16
             implicitHeight: parent.height - Kirigami.Units.smallSpacing * 2
             textSize: model.fontSize
             itemType: model.type
-            imageSource: model.imageBackground
-            videoSource: showVidBG ? model.videoBackground : ""
-            audioSource: ""
+            imageSource: model.videoBackground != "" ? model.vidThumbnail : model.imageBackground
             chosenFont: model.font
             text: model.text
             pdfIndex: slideIndex
-            preview: true
-            editMode: true
 
         }
     }
@@ -59,8 +60,8 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
-            /* changeSlide(index); */
-            showPassiveNotification(SlideModel.thumbnailVideo(model.videoBackground, model.serviceItemId));
+            changeSlide(index);
+            /* showPassiveNotification(SlideModel.thumbnailVideo(model.videoBackground, model.serviceItemId, index)); */
         }
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true
@@ -69,7 +70,7 @@ Item {
 
     Connections {
         target: SlideModel
-        onDataChanged: {
+        function onDataChanged() {
             if (active) {
                 previewSlidesList.currentIndex = index;
                 previewSlidesList.positionViewAtIndex(index, ListView.Contain);

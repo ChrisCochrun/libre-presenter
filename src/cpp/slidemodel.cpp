@@ -2,6 +2,8 @@
 #include "mpv/mpvobject.h"
 #include "serviceitem.h"
 #include "slide.h"
+#include "framedecoder.h"
+
 #include <qabstractitemmodel.h>
 #include <qglobal.h>
 #include <qnamespace.h>
@@ -83,6 +85,8 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const {
     return item->active();
   case SelectedRole:
     return item->selected();
+  case VidThumbnailRole:
+    return item->vidThumbnail();
   default:
     return QVariant();
   }
@@ -102,7 +106,8 @@ QHash<int, QByteArray> SlideModel::roleNames() const {
     {VerticalTextAlignmentRole, "verticalTextAlignment"},
     {SlideIndexRole, "slideIndex"},
     {ActiveRole, "active"},
-    {SelectedRole, "selected"}
+    {SelectedRole, "selected"},
+    {VidThumbnailRole, "vidThumbnail"}
   };
 
   return mapping;
@@ -645,24 +650,15 @@ void SlideModel::moveRowFromService(const int &fromIndex,
   }
 }
 
-QString SlideModel::thumbnailVideo(QString video, int serviceItemId) {
-
-  qDebug() << "dir location " << writeDir.absolutePath();
-  if (!writeDir.mkpath(".")) {
-    qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
-  }
+QString SlideModel::thumbnailVideo(QString video, int serviceItemId, int index) {
 
   QDir dir = writeDir.absolutePath() + "/librepresenter/thumbnails";
-  qDebug() << "thumbnails dir: " << dir;
   QDir absDir = writeDir.absolutePath() + "/librepresenter";
   if (!dir.exists()) {
     qDebug() << dir.path() << "does not exist";
     absDir.mkdir("thumbnails");
   }
-  qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-  qDebug() << dir.path();
-  qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-
+  
   QFileInfo vid(video);
   QString id;
   id.setNum(serviceItemId);
@@ -670,18 +666,63 @@ QString SlideModel::thumbnailVideo(QString video, int serviceItemId) {
   qDebug() << vidName;
   QString thumbnail = dir.path() + "/" + vidName + ".webp";
   QFileInfo thumbnailInfo(dir.path() + "/" + vidName + ".jpg");
-  qDebug() << thumbnailInfo.filePath();
-  // if (thumbnail.open(QIODevice::ReadOnly)) {
-  //   qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-  //   qDebug() << thumbnailInfo.filePath();
-  //   qDebug() << "@@@@@@@@@@@@@@@@@@@@@";
-  // }
+  qDebug() << thumbnailInfo.filePath() << "FOR" << index;
+  if (thumbnailInfo.exists()) {
+    for (int i = 0; i < rowCount(); i++) {
+      if (m_items[i]->serviceItemId() == serviceItemId) {
+        m_items[i]->setVidThumbnail("file://" + thumbnailInfo.absoluteFilePath());
+      }
+    }
+    return thumbnailInfo.filePath();
+  }
 
-  MpvObject *mpv;
-  mpv->loadFile(video);
-  mpv->seek(5);
-  mpv->screenshotToFile(thumbnail);
+
+  QImage image;
+  QString filename = video.right(video.size() - 7);
+  image = frameToImage(filename, 576);
+  if (image.isNull()) {
+        qDebug() << QStringLiteral("Failed to create thumbnail for file: %1").arg(video);
+        return "failed";
+  }
+
+  qDebug() << "dir location " << writeDir.absolutePath();
+  if (!writeDir.mkpath(".")) {
+    qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
+  }
+
+  if (!image.save(thumbnailInfo.filePath())) {
+    qDebug() << QStringLiteral("Failed to save thumbnail for file: %1").arg(video);
+  }
+
+  for (int i = 0; i < rowCount(); i++) {
+    if (m_items[i]->serviceItemId() == serviceItemId) {
+      m_items[i]->setVidThumbnail("file://" + thumbnailInfo.absoluteFilePath());
+    }
+  }
+  // MpvObject mpv;
+  // mpv.loadFile(video);
+  // mpv.seek(5);
+  // mpv.screenshotToFile(thumbnail);
   // mpv.quit();
 
   return thumbnailInfo.filePath();
+}
+
+QImage SlideModel::frameToImage(const QString &video, int width)
+{
+    QImage image;
+    FrameDecoder frameDecoder(video, nullptr);
+    if (!frameDecoder.getInitialized()) {
+        return image;
+    }
+    // before seeking, a frame has to be decoded
+    if (!frameDecoder.decodeVideoFrame()) {
+        return image;
+    }
+
+    int secondToSeekTo = frameDecoder.getDuration() * 20 / 100;
+    frameDecoder.seek(secondToSeekTo);
+    frameDecoder.getScaledVideoFrame(width, true, image);
+
+    return image;
 }
