@@ -364,7 +364,11 @@ bool SlideModel::moveRows(int sourceIndex, int destIndex, int count) {
     
   qDebug() << "starting move: " << "source: " << sourceIndex << "dest: " << destIndex;
 
-  m_items.move(sourceIndex, destIndex);
+  qDebug() << "items " << m_items;
+  for (int i = 0; i < count; i++) {
+    m_items.move(sourceIndex, destIndex);
+  }
+  qDebug() << "items " << m_items;
 
   endMoveRows();
   return true;
@@ -613,10 +617,7 @@ void SlideModel::moveRowFromService(const int &fromIndex,
                                     const ServiceItem &item) {
   const bool isMoveDown = toIndex > fromIndex;
   qDebug() << "@@@Move SIs" << fromIndex << "to" << toIndex << "@@@";
-  int slideId = findSlideIdFromServItm(fromIndex);
-  int toSlideId = isMoveDown ? findSlideIdFromServItm(toIndex + 1) - 1 : findSlideIdFromServItm(toIndex);
-  qDebug() << slideId << toSlideId;
-  // Slide toSlide = m_items[toSlideId];
+  int sourceStartId = findSlideIdFromServItm(fromIndex);
   int count;
   if (item.type() == "song")
     count = item.text().length();
@@ -624,41 +625,48 @@ void SlideModel::moveRowFromService(const int &fromIndex,
     count = item.slideNumber();
   else
     count = 1;
+  int sourceEndId = sourceStartId + count;
+  qDebug() << sourceStartId << sourceEndId;
+  // Slide toSlide = m_items[sourceEndId];
   // int toCount = toSlide.imageCount();
-  int toId = count + slideId;
-  qDebug() << "@@@Move Row" << slideId << "to" << toSlideId << "@@@";
+  // int toId = count + sourceStartId;
+  qDebug() << "@@@Move Row" << sourceStartId << "to" << sourceEndId << "@@@";
   qDebug() << count;
-  if (isMoveDown) {
-    qDebug() << "Moving Down in service list" << slideId << "to" << toSlideId;
-    if (toSlideId - slideId > 1)
-      if (!moveRows(slideId, toSlideId - 1, count)) {
-        // failed code
-        return;
-      }
-    else
-      if (!moveRows(slideId, toSlideId, count)) {
+  // if (isMoveDown) {
+  //   qDebug() << "Moving Down in service list" << sourceStartId << "to" << sourceEndId;
+  //   if (sourceEndId - sourceStartId > 1)
+  //     if (!moveRows(sourceStartId, sourceEndId - 1, count)) {
+  //       // failed code
+  //       return;
+  //     }
+  //   else
+  //     if (!moveRows(sourceStartId, sourceEndId, count)) {
 
-        return;
-      }
-  } else {
-    if (slideId - toSlideId > 1)
-      if (!moveRows(slideId - 1, toSlideId, count)) {
+  //       return;
+  //     }
+  // } else {
+  //   if (sourceStartId - sourceEndId > 1)
+  //     if (!moveRows(sourceStartId - 1, sourceEndId, count)) {
 
-        return;
-      }
-    else
-      if (!moveRows(slideId, toSlideId, count)) {
+  //       return;
+  //     }
+  //   else
+  //     if (!moveRows(sourceStartId, sourceEndId, count)) {
 
-        return;
-      }
+  //       return;
+  //     }
+  // }
+  if (!moveRows(sourceStartId, sourceEndId, count)) {
+    qDebug() << "Failed to move rows";
+    return;
   }
-  m_items[toSlideId]->setServiceItemId(toIndex);
+  m_items[sourceEndId]->setServiceItemId(toIndex);
   if (isMoveDown) {
-    for (int i = slideId; i < toSlideId; i++) {
+    for (int i = sourceStartId; i < sourceEndId; i++) {
       m_items[i]->setServiceItemId(m_items[i]->serviceItemId() - 1);
     }
   } else {
-    for (int i = slideId; i > toSlideId; i--) {
+    for (int i = sourceStartId; i > sourceEndId; i--) {
       m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
     }
   }
