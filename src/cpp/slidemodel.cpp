@@ -615,6 +615,7 @@ void SlideModel::moveRowFromService(const int &fromIndex,
   qDebug() << "@@@Move SIs" << fromIndex << "to" << toIndex << "@@@";
   int slideId = findSlideIdFromServItm(fromIndex);
   int toSlideId = isMoveDown ? findSlideIdFromServItm(toIndex + 1) - 1 : findSlideIdFromServItm(toIndex);
+  qDebug() << slideId << toSlideId;
   // Slide toSlide = m_items[toSlideId];
   int count;
   if (item.type() == "song")
@@ -628,15 +629,28 @@ void SlideModel::moveRowFromService(const int &fromIndex,
   qDebug() << "@@@Move Row" << slideId << "to" << toSlideId << "@@@";
   qDebug() << count;
   if (isMoveDown) {
+    qDebug() << "Moving Down in service list" << slideId << "to" << toSlideId;
     if (toSlideId - slideId > 1)
-      moveRows(slideId, toSlideId - 1, count);
+      if (!moveRows(slideId, toSlideId - 1, count)) {
+        // failed code
+        return;
+      }
     else
-      moveRows(slideId, toSlideId, count);
+      if (!moveRows(slideId, toSlideId, count)) {
+
+        return;
+      }
   } else {
     if (slideId - toSlideId > 1)
-      moveRows(slideId - 1, toSlideId, count);
+      if (!moveRows(slideId - 1, toSlideId, count)) {
+
+        return;
+      }
     else
-      moveRows(slideId, toSlideId, count);
+      if (!moveRows(slideId, toSlideId, count)) {
+
+        return;
+      }
   }
   m_items[toSlideId]->setServiceItemId(toIndex);
   if (isMoveDown) {
