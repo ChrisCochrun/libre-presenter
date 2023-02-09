@@ -15,6 +15,7 @@ class SlideObject : public Slide
   Q_PROPERTY(bool isPlaying READ isPlaying NOTIFY isPlayingChanged)
   Q_PROPERTY(int slideIndex READ slideIndex NOTIFY slideIndexChanged)
   Q_PROPERTY(int slideSize READ slideSize NOTIFY slideSizeChanged)
+  Q_PROPERTY(bool loop READ loop NOTIFY loopChanged)
   // QML_ELEMENT
 
 public:
@@ -29,6 +30,7 @@ public:
   bool isPlaying() const;
   int slideIndex() const;
   int slideSize() const;
+  bool loop() const;
 
   Q_INVOKABLE void changeSlide(QVariantMap item, int index);
   Q_INVOKABLE void play();
@@ -37,17 +39,20 @@ public:
   Q_INVOKABLE bool next(QVariantMap nextItem, SlideModel *slideModel);
   Q_INVOKABLE bool previous(QVariantMap prevItem, SlideModel *slideModel);
   Q_INVOKABLE bool changeSlideIndex(int index);
+  Q_INVOKABLE void setLoop();
 
 signals:
   Q_INVOKABLE void isPlayingChanged(bool isPlaying);
   Q_INVOKABLE void slideIndexChanged(int slideIndex);
   Q_INVOKABLE void slideSizeChanged(int slideSize);
   Q_INVOKABLE void slideChanged(int slide);
+  Q_INVOKABLE void loopChanged(bool loop);
 
 private:
   bool m_isPlaying;
   int m_slideIndex;
   int m_slideSize;
+  bool m_loop;
 };
 
 #endif //SLIDEOBJECT_H

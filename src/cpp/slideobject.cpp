@@ -55,6 +55,11 @@ int SlideObject::slideSize() const
   return m_slideSize;
 }
 
+bool SlideObject::loop() const
+{
+  return m_loop;
+}
+
 void SlideObject::changeSlide(QVariantMap item, int index)
 {
   // setServiceItem(item);
@@ -279,6 +284,12 @@ void SlideObject::play()
 {
   m_isPlaying = true;
   emit isPlayingChanged(m_isPlaying);
+}
+
+void SlideObject::setLoop()
+{
+  m_loop = true;
+  emit loopChanged(m_loop);
 }
 
 void SlideObject::pause()
