@@ -31,6 +31,7 @@
   # kcoreaddons,
   podofo,
   mpv,
+  ffmpeg-full,
   # Rust tools
   clippy,
   rustc,
@@ -80,6 +81,7 @@ stdenv.mkDerivation rec {
     kwindowsystem
     podofo
     mpv
+    ffmpeg-full
     # libsForQt5.kconfig
     # Rust tools
     clippy
