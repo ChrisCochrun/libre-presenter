@@ -227,7 +227,7 @@ FocusScope {
             }
         }
 
-        Component {
+        Item {
             id: gridView
             /* Layout.fillHeight: true */
             /* Layout.fillWidth: true */
