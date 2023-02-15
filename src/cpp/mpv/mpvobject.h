@@ -139,6 +139,7 @@ public slots:
   void loadFile(QVariant urls);
   void screenshotToFile(QString file);
   void subAdd(QVariant urls);
+  void subRemove();
 
   bool enableAudio() const { return m_enableAudio; }
   void setEnableAudio(bool value) {

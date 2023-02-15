@@ -556,6 +556,10 @@ void MpvObject::subAdd(QVariant urls)
   command(QVariantList() << "sub-add" << urls);
 }
 
+void MpvObject::subRemove()
+{
+  command(QVariantList() << "sub-remove");
+}
 
 void MpvObject::updateState()
 {

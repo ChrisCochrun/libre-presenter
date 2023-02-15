@@ -60,6 +60,7 @@ Item {
                 else
                     mpv.setProperty("loop", "no");
                 /* showPassiveNotification(mpv.getProperty("loop")); */
+                mpv.setProperty("sid", "no");
             }
             /* onIsPlayingChanged: showPassiveNotification(mpv.getProperty("pause")) */
 
