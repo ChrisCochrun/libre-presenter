@@ -44,7 +44,7 @@ set_package_properties(YouTubeDl PROPERTIES TYPE RUNTIME)
 find_package(Ytdlp)
 set_package_properties(Ytdlp PROPERTIES TYPE RUNTIME)
 
-FIND_PACKAGE(LIBPODOFO)
+FIND_PACKAGE(LibPoDoFo)
 IF(NOT LIBPODOFO_FOUND)
 	MESSAGE("+++PoDoFo not found... building private copy")
 	SET(PODOFO_BUILD_STATIC 1)
