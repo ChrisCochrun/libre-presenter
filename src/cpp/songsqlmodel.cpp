@@ -714,7 +714,7 @@ void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
 SongProxyModel::SongProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  SongSqlModel songModel = new SongSqlModel;
+  SongSqlModel *songModel = new SongSqlModel;
   setSourceModel(songModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
