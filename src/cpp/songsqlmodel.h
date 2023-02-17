@@ -111,11 +111,20 @@ private:
 class SongProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
+  Q_PROPERTY(SongSqlModel *songModel READ songModel)
 
 public:
   explicit SongProxyModel(QObject *parent = nullptr);
+  ~SongProxyModel() = default;
+
+  SongSqlModel *songModel();
   
-  
+public slots:
+  Q_INVOKABLE QVariantMap getSong(const int &row);
+  Q_INVOKABLE void deleteSong(const int &row);
+
+private:
+  SongSqlModel *m_songModel;
 };
 
 

@@ -50,11 +50,20 @@ private:
 class ImageProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
+  Q_PROPERTY(ImageSqlModel *imageModel READ imageModel)
 
 public:
   explicit ImageProxyModel(QObject *parent = nullptr);
+  ~ImageProxyModel() = default;
+
+  ImageSqlModel *imageModel();
   
-  
+public slots:
+  Q_INVOKABLE QVariantMap getImage(const int &row);
+  Q_INVOKABLE void deleteImage(const int &row);
+
+private:
+  ImageSqlModel *m_imageModel;
 };
 
 

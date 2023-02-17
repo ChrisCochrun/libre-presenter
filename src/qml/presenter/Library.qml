@@ -48,7 +48,7 @@ Item {
                     anchors {left: songLabel.right
                              verticalCenter: songLabel.verticalCenter
                              leftMargin: 15}
-                    text: songSqlModel.rowCount()
+                    text: songProxyModel.songModel.rowCount()
                     color: Kirigami.Theme.disabledTextColor
                 }
 
@@ -288,7 +288,7 @@ Item {
                             y: songClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: songSqlModel.deleteSong(index)
+                                onTriggered: songProxyModel.deleteSong(index)
                             }
                         }
                     }
@@ -312,8 +312,8 @@ Item {
                 }
 
                 function newSong() {
-                    songSqlModel.newSong();
-                    songLibraryList.currentIndex = songSqlModel.rowCount() - 1;
+                    songProxyModel.songModel.newSong();
+                    songLibraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
                     if (!editMode)
                         editMode = true;
                     editType = "song";
@@ -343,7 +343,7 @@ Item {
                     anchors {left: videoLabel.right
                              verticalCenter: videoLabel.verticalCenter
                              leftMargin: 15}
-                    text: videoSqlModel.rowCount()
+                    text: videoProxyModel.videoModel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
                 }
@@ -586,7 +586,7 @@ Item {
                                         rightClickVideoMenu.popup()
                                     else{
                                         videoLibraryList.currentIndex = index
-                                        const video = videoSqlModel.getVideo(videoLibraryList.currentIndex);
+                                        const video = videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "video";
@@ -602,7 +602,7 @@ Item {
                             y: videoClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: videoSqlModel.deleteVideo(index)
+                                onTriggered: videoProxyModel.deleteVideo(index)
                             }
                         }
                     }
@@ -614,7 +614,6 @@ Item {
                     /* anchors.left: videoLibraryList.right */
                     active: hovered || pressed
                 }
-
             }
 
             Rectangle {
@@ -639,7 +638,7 @@ Item {
                     anchors {left: imageLabel.right
                              verticalCenter: imageLabel.verticalCenter
                              leftMargin: 15}
-                    text: imageSqlModel.rowCount()
+                    text: imageProxyModel.imageModel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
                 }
@@ -881,7 +880,7 @@ Item {
                                         rightClickImageMenu.popup()
                                     else{
                                         imageLibraryList.currentIndex = index
-                                        const image = imageSqlModel.getImage(imageLibraryList.currentIndex);
+                                        const image = imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "image";
@@ -897,7 +896,7 @@ Item {
                             y: imageClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: imageSqlModel.deleteImage(index)
+                                onTriggered: imageProxyModel.deleteImage(index)
                             }
                         }
                     }
@@ -933,7 +932,7 @@ Item {
                     anchors {left: presentationLabel.right
                              verticalCenter: presentationLabel.verticalCenter
                              leftMargin: 10}
-                    text: presSqlModel.rowCount()
+                    text: presProxyModel.presentationModel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
                 }
@@ -1166,7 +1165,7 @@ Item {
                                         rightClickPresMenu.popup()
                                     else{
                                         presentationLibraryList.currentIndex = index
-                                        const pres = presSqlModel.getPresentation(presentationLibraryList.currentIndex);
+                                        const pres = presProxyModel.presentationModel.getPresentation(presentationLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "presentation";
@@ -1182,7 +1181,7 @@ Item {
                             y: presClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: presSqlModel.deletePresentation(index)
+                                onTriggered: presProxyModel.deletePresentation(index)
                             }
                         }
                     }
@@ -1355,11 +1354,11 @@ Item {
             onExited: overlay = false
 
             function addVideo(url) {
-                videoSqlModel.newVideo(url);
+                videoProxyModel.videoModel.newVideo(url);
                 selectedLibrary = "videos";
-                videoLibraryList.currentIndex = videoSqlModel.rowCount();
-                console.log(videoSqlModel.getVideo(videoLibraryList.currentIndex));
-                const video = videoSqlModel.getVideo(videoLibraryList.currentIndex);
+                videoLibraryList.currentIndex = videoProxyModel.videoModel.rowCount();
+                console.log(videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex));
+                const video = videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex);
                 showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
                     editMode = true;
@@ -1367,11 +1366,11 @@ Item {
             }
 
             function addImg(url) {
-                imageSqlModel.newImage(url);
+                imageProxyModel.imageModel.newImage(url);
                 selectedLibrary = "images";
-                imageLibraryList.currentIndex = imageSqlModel.rowCount();
-                console.log(imageSqlModel.getImage(imageLibraryList.currentIndex));
-                const image = imageSqlModel.getImage(imageLibraryList.currentIndex);
+                imageLibraryList.currentIndex = imageProxyModel.imageModel.rowCount();
+                console.log(imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex));
+                const image = imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex);
                 showPassiveNotification("newest image: " + image.title);
                 if (!editMode)
                     editMode = true;
@@ -1385,11 +1384,11 @@ Item {
                     console.log(pdf.status);
                     console.log("PAGECOUNT: " + pdf.pageCount);
                 }
-                presSqlModel.newPresentation(url, pdf.pageCount);
+                presProxyModel.presentationModel.newPresentation(url, pdf.pageCount);
                 selectedLibrary = "presentations";
-                presentationLibraryList.currentIndex = presSqlModel.rowCount();
-                console.log(presSqlModel.getPresentation(presentationLibraryList.currentIndex));
-                const presentation = presSqlModel.getImage(presentationLibraryList.currentIndex);
+                presentationLibraryList.currentIndex = presProxyModel.presentationModel.rowCount();
+                console.log(presProxyModel.presentationModel.getPresentation(presentationLibraryList.currentIndex));
+                const presentation = presProxyModel.presentationModel.getImage(presentationLibraryList.currentIndex);
                 showPassiveNotification("newest image: " + presentation.title);
                 if (!editMode)
                     editMode = true;
@@ -1459,29 +1458,9 @@ Item {
             border.color: overlay ? Kirigami.Theme.hoverColor : "#00000000"
         }
 
+        // used for detecting number of pages without the need for PoDoFo
         PdfDocument {
             id: pdf
         }
-
-        MpvObject {
-            id: thumbnailer
-            useHwdec: true
-            enableAudio: false
-            width: 0
-            height: 0
-            Component.onCompleted: console.log("ready")
-            onFileLoaded: {
-                thumbnailer.pause();
-                console.log("FILE: " + thumbnailer.mediaTitle);
-                thumbnailer.screenshotToFile(thumbnailFile(thumbnailer.mediaTitle));
-                showPassiveNotification("Screenshot Taken to: " + thumbnailFile(thumbnailer.mediaTitle));
-                thumbnailer.stop();
-            }
-            function thumbnailFile(title) {
-                const thumbnailFolder = Labs.StandardPaths.writableLocation(Labs.StandardPaths.AppDataLocation) + "/thumbnails/";
-                return Qt.resolvedUrl(thumbnailFolder + title);
-            }
-        }
-
     }
 }

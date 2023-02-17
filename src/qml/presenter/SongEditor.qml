@@ -321,7 +321,7 @@ Item {
     function changeSong(index) {
         clearSlides();
         console.log(index);
-        const s = songsqlmodel.getSong(index);
+        const s = songProxyModel.songModel.getSong(index);
         song = s;
         songLyrics = s.lyrics;
         songIndex = index;
@@ -344,41 +344,41 @@ Item {
     }
 
     function updateLyrics(lyrics) {
-        songsqlmodel.updateLyrics(songIndex, lyrics);
+        songProxyModel.songModel.updateLyrics(songIndex, lyrics);
         songLyrics = lyrics;
         clearSlides();
         changeSlideText(songIndex);
     }
 
     function updateTitle(title) {
-        songsqlmodel.updateTitle(songIndex, title)
+        songProxyModel.songModel.updateTitle(songIndex, title)
     }
 
     function updateAuthor(author) {
-        songsqlmodel.updateAuthor(songIndex, author)
+        songProxyModel.songModel.updateAuthor(songIndex, author)
     }
 
     function updateAudio(audio) {
-        songsqlmodel.updateAudio(songIndex, audio)
+        songProxyModel.songModel.updateAudio(songIndex, audio)
     }
 
     function updateCcli(ccli) {
-        songsqlmodel.updateCcli(songIndex, ccli)
+        songProxyModel.songModel.updateCcli(songIndex, ccli)
     }
 
     function updateVerseOrder(vorder) {
-        songsqlmodel.updateVerseOrder(songIndex, vorder)
+        songProxyModel.songModel.updateVerseOrder(songIndex, vorder)
     }
 
     function updateAudioFile(file) {
-        songsqlmodel.updateAudio(songIndex, file);
+        songProxyModel.songModel.updateAudio(songIndex, file);
     }
 
     function updateBackground(background, backgroundType) {
         song.backgroundType = backgroundType;
         song.background = background;
-        songsqlmodel.updateBackground(songIndex, background);
-        songsqlmodel.updateBackgroundType(songIndex, backgroundType);
+        songProxyModel.songModel.updateBackground(songIndex, background);
+        songProxyModel.songModel.updateBackgroundType(songIndex, backgroundType);
         console.log("changed background");
         if (backgroundType === "image") {
             //todo
@@ -395,23 +395,23 @@ Item {
 
     function updateHorizontalTextAlignment(textAlignment) {
         changeSlideHAlignment(textAlignment);
-        songsqlmodel.updateHorizontalTextAlignment(songIndex, textAlignment);
+        songProxyModel.songModel.updateHorizontalTextAlignment(songIndex, textAlignment);
     }
 
     function updateVerticalTextAlignment(textAlignment) {
         changeSlideVAlignment(textAlignment);
-        songsqlmodel.updateVerticalTextAlignment(songIndex, textAlignment)
+        songProxyModel.songModel.updateVerticalTextAlignment(songIndex, textAlignment)
     }
 
     function updateFont(font) {
         changeSlideFont(font, false);
-        songsqlmodel.updateFont(songIndex, font);
+        songProxyModel.songModel.updateFont(songIndex, font);
         song.font = font;
     }
 
     function updateFontSize(fontSize) {
         changeSlideFontSize(fontSize, false);
-        songsqlmodel.updateFontSize(songIndex, fontSize);
+        songProxyModel.songModel.updateFontSize(songIndex, fontSize);
         song.fontSize = fontSize;
     }
 
@@ -468,7 +468,7 @@ Item {
 
     function changeSlideText(id) {
         /* console.log("Here are the verses: " + verses); */
-        const verses = songsqlmodel.getLyricList(id);
+        const verses = songProxyModel.songModel.getLyricList(id);
         verses.forEach(slideEditor.appendVerse);
         /* slideEditor.loadVideo(); */
     }

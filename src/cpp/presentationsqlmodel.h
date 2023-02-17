@@ -53,14 +53,24 @@ private:
     int m_pageCount;
 };
 
+
 class PresentationProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
+  Q_PROPERTY(PresentationSqlModel *presentationModel READ presentationModel)
 
 public:
   explicit PresentationProxyModel(QObject *parent = nullptr);
+  ~PresentationProxyModel() = default;
+
+  PresentationSqlModel *presentationModel();
   
-  
+public slots:
+  Q_INVOKABLE QVariantMap getPresentation(const int &row);
+  Q_INVOKABLE void deletePresentation(const int &row);
+
+private:
+  PresentationSqlModel *m_presentationModel;
 };
 
 #endif //PRESENTATIONSQLMODEL_H

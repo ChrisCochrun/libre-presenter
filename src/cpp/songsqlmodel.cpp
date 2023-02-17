@@ -714,9 +714,22 @@ void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
 SongProxyModel::SongProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  SongSqlModel *songModel = new SongSqlModel;
-  setSourceModel(songModel);
+  m_songModel = new SongSqlModel;
+  setSourceModel(m_songModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
+}
+
+SongSqlModel *SongProxyModel::songModel() {
+  return m_songModel;
+}
+
+QVariantMap SongProxyModel::getSong(const int &row) {
+  return QVariantMap();
+}
+
+void SongProxyModel::deleteSong(const int &row) {
+  auto model = qobject_cast<SongSqlModel *>(sourceModel());
+  model->deleteSong(row);
 }

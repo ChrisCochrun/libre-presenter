@@ -208,9 +208,22 @@ QVariantMap ImageSqlModel::getImage(const int &row) {
 ImageProxyModel::ImageProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  ImageSqlModel *imageModel = new ImageSqlModel;
-  setSourceModel(imageModel);
+  m_imageModel = new ImageSqlModel;
+  setSourceModel(m_imageModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
+}
+
+ImageSqlModel *ImageProxyModel::imageModel() {
+  return m_imageModel;
+}
+
+QVariantMap ImageProxyModel::getImage(const int &row) {
+  return QVariantMap();
+}
+
+void ImageProxyModel::deleteImage(const int &row) {
+  auto model = qobject_cast<ImageSqlModel *>(sourceModel());
+  model->deleteImage(row);
 }
