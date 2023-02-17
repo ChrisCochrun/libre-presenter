@@ -33,6 +33,7 @@ Others:
 - UI Blocking when saving
 **** TODO Fix inserting items from service bugs
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {]]
+I THINK THIS IS DONE?!
 **** DONE Multi Select and Delete
 **** TODO need to finish figuring out proper removal of slides
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
