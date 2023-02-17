@@ -56,7 +56,7 @@ mod file_helper {
             match _file_string {
                 None => {
                     let _exists = Path::new(&file.to_string()).exists();
-                    println!("{} does not exist", file.to_string());
+                    println!("{} exists? {_exists}", file.to_string());
                     _exists
                 }
                 Some(file) => {
