@@ -709,3 +709,14 @@ void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
   submitAll();
   emit fontSizeChanged();
 }
+// SongProxyModel
+
+SongProxyModel::SongProxyModel(QObject *parent)
+  :QSortFilterProxyModel(parent)
+{
+  SongSqlModel songModel = new SongSqlModel;
+  setSourceModel(songModel);
+  setDynamicSortFilter(true);
+  setFilterRole(Qt::UserRole + 1);
+  setFilterCaseSensitivity(Qt::CaseInsensitive);
+}

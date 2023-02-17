@@ -2,6 +2,7 @@
 #define SONGSQLMODEL_H
 
 #include <QSqlTableModel>
+#include <QSortFilterProxyModel>
 #include <qobjectdefs.h>
 #include <qqml.h>
 #include <qvariant.h>
@@ -106,5 +107,16 @@ private:
     QString m_font;
     int m_fontSize;
 };
+
+class SongProxyModel : public QSortFilterProxyModel
+{
+  Q_OBJECT
+
+public:
+  explicit SongProxyModel(QObject *parent = nullptr);
+  
+  
+};
+
 
 #endif //SONGSQLMODEL_H

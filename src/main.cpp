@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
   //register our models
-  qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
+  qmlRegisterType<SongProxyModel>("org.presenter", 1, 0, "SongSqlModel");
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
