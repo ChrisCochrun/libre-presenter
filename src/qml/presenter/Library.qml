@@ -485,16 +485,25 @@ Item {
                     Item{
                         implicitWidth: ListView.view.width
                         height: selectedLibrary == "videos" ? 50 : 0
+
                         Kirigami.BasicListItem {
                             id: videoListItem
 
                             property bool rightMenu: false
+                            property bool fileValidation: fileHelper.validate(filePath)
 
                             implicitWidth: videoLibraryList.width
                             height: selectedLibrary == "videos" ? 50 : 0
                             clip: true
                             label: title
-                            /* subtitle: author */
+                            icon: "folder-videos-symbolic"
+                            iconSize: Kirigami.Units.gridUnit
+                            subtitle: {
+                                if (fileValidation)
+                                    filePath;
+                                else
+                                    "file is missing"
+                            }
                             supportsMouseEvents: false
                             backgroundColor: {
                                 if (parent.ListView.isCurrentItem) {
@@ -506,10 +515,14 @@ Item {
                                 }
                             }
                             textColor: {
-                                if (parent.ListView.isCurrentItem || videoDragHandler.containsMouse)
-                                    activeTextColor;
+                                if (fileValidation) {
+                                    if (parent.ListView.isCurrentItem || videoDragHandler.containsMouse)
+                                        activeTextColor;
+                                    else
+                                        Kirigami.Theme.textColor;
+                                }
                                 else
-                                    Kirigami.Theme.textColor;
+                                    "red"
                             }
 
                             Behavior on height {
@@ -772,12 +785,20 @@ Item {
                             id: imageListItem
 
                             property bool rightMenu: false
+                            property bool fileValidation: fileHelper.validate(filePath)
 
                             implicitWidth: imageLibraryList.width
                             height: selectedLibrary == "images" ? 50 : 0
                             clip: true
                             label: title
-                            /* subtitle: author */
+                            icon: "folder-pictures-symbolic"
+                            iconSize: Kirigami.Units.gridUnit
+                            subtitle: {
+                                if (fileValidation)
+                                    filePath;
+                                else
+                                    "file is missing"
+                            }
                             supportsMouseEvents: false
                             backgroundColor: {
                                 if (parent.ListView.isCurrentItem) {
@@ -789,10 +810,14 @@ Item {
                                 }
                             }
                             textColor: {
-                                if (parent.ListView.isCurrentItem || imageDragHandler.containsMouse)
-                                    activeTextColor;
+                                if (fileValidation) {
+                                    if (parent.ListView.isCurrentItem || imageDragHandler.containsMouse)
+                                        activeTextColor;
+                                    else
+                                        Kirigami.Theme.textColor;
+                                }
                                 else
-                                    Kirigami.Theme.textColor;
+                                    "red"
                             }
 
                             Behavior on height {

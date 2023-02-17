@@ -1,6 +1,7 @@
 #[cxx_qt::bridge]
 mod file_helper {
     use cxx_qt_lib::QVariantValue;
+    use std::path::Path;
 
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
@@ -46,6 +47,24 @@ mod file_helper {
         pub fn load(self: Pin<&mut Self>, file: QUrl) -> Vec<String> {
             println!("{}", file);
             return vec!["hi".to_string()];
+        }
+
+        #[qinvokable]
+        pub fn validate(self: Pin<&mut Self>, file: QUrl) -> bool {
+            let file_string = file.to_string();
+            let _file_string = file_string.strip_prefix("file://");
+            match _file_string {
+                None => {
+                    let _exists = Path::new(&file.to_string()).exists();
+                    println!("{} does not exist", file.to_string());
+                    _exists
+                }
+                Some(file) => {
+                    let _exists = Path::new(&file).exists();
+                    println!("{} exists? {_exists}", file);
+                    _exists
+                }
+            }
         }
     }
 }
