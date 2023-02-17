@@ -51,7 +51,8 @@ Item {
         /* anchors.leftMargin: Kirigami.Units.smallSpacing * 8 */
         anchors.topMargin: Kirigami.Units.smallSpacing * 3
         elide: Text.ElideRight
-        text: serviceItemId //ServiceItemModel.getItem(serviceItemId).name
+        text: ServiceItemModel.getItem(serviceItemId).name
+        font.bold: true
         /* font.family: "Quicksand Bold" */
     }
 
@@ -61,7 +62,7 @@ Item {
         hoverEnabled: true
         onClicked: {
             changeSlide(index);
-            /* showPassiveNotification(SlideModel.thumbnailVideo(model.videoBackground, model.serviceItemId, index)); */
+            showPassiveNotification(model.serviceItemId);
         }
         cursorShape: Qt.PointingHandCursor
         propagateComposedEvents: true
