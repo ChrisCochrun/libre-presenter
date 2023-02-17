@@ -238,3 +238,14 @@ QVariantMap PresentationSqlModel::getPresentation(const int &row) {
   }
   return data;
 }
+// PresentationProxyModel
+
+PresentationProxyModel::PresentationProxyModel(QObject *parent)
+  :QSortFilterProxyModel(parent)
+{
+  PresentationSqlModel *presentationModel = new PresentationSqlModel;
+  setSourceModel(presentationModel);
+  setDynamicSortFilter(true);
+  setFilterRole(Qt::UserRole + 1);
+  setFilterCaseSensitivity(Qt::CaseInsensitive);
+}

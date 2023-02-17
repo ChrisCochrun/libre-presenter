@@ -314,3 +314,15 @@ QVariantMap VideoSqlModel::getVideo(const int &row) {
   return data;
 
 }
+
+// VideoProxyModel
+
+VideoProxyModel::VideoProxyModel(QObject *parent)
+  :QSortFilterProxyModel(parent)
+{
+  VideoSqlModel *videoModel = new VideoSqlModel;
+  setSourceModel(videoModel);
+  setDynamicSortFilter(true);
+  setFilterRole(Qt::UserRole + 1);
+  setFilterCaseSensitivity(Qt::CaseInsensitive);
+}

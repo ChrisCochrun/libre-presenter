@@ -2,6 +2,7 @@
 #define VIDEOSQLMODEL_H
 
 #include <QSqlTableModel>
+#include <QSortFilterProxyModel>
 #include <qobject.h>
 #include <qobjectdefs.h>
 #include <qqml.h>
@@ -62,6 +63,16 @@ private:
     int m_startTime;
     int m_endTime;
     bool m_loop;
+};
+
+class VideoProxyModel : public QSortFilterProxyModel
+{
+  Q_OBJECT
+
+public:
+  explicit VideoProxyModel(QObject *parent = nullptr);
+  
+  
 };
 
 #endif //VIDEOSQLMODEL_H

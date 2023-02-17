@@ -429,7 +429,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                    onAccepted: videosqlmodel.setFilterRegExp(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "videos" */
@@ -712,7 +712,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                    onAccepted: imagesqlmodel.setFilterRegExp(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "images" */
@@ -994,7 +994,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: showPassiveNotification(searchField.text, 3000)
+                                    onAccepted: pressqlmodel.setFilterRegExp(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "presentations" */

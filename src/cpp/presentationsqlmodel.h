@@ -2,6 +2,7 @@
 #define PRESENTATIONSQLMODEL_H
 
 #include <QSqlTableModel>
+#include <QSortFilterProxyModel>
 #include <qobject.h>
 #include <qobjectdefs.h>
 #include <qqml.h>
@@ -50,6 +51,16 @@ private:
     QString m_title;
     QUrl m_filePath;
     int m_pageCount;
+};
+
+class PresentationProxyModel : public QSortFilterProxyModel
+{
+  Q_OBJECT
+
+public:
+  explicit PresentationProxyModel(QObject *parent = nullptr);
+  
+  
 };
 
 #endif //PRESENTATIONSQLMODEL_H

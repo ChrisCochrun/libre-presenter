@@ -202,3 +202,15 @@ QVariantMap ImageSqlModel::getImage(const int &row) {
   }
   return data;
 }
+
+// ImageProxyModel
+
+ImageProxyModel::ImageProxyModel(QObject *parent)
+  :QSortFilterProxyModel(parent)
+{
+  ImageSqlModel *imageModel = new ImageSqlModel;
+  setSourceModel(imageModel);
+  setDynamicSortFilter(true);
+  setFilterRole(Qt::UserRole + 1);
+  setFilterCaseSensitivity(Qt::CaseInsensitive);
+}
