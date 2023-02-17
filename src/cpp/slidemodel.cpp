@@ -198,6 +198,12 @@ bool SlideModel::setData(const QModelIndex &index, const QVariant &value,
       somethingChanged = true;
     }
     break;
+  case VidThumbnailRole:
+    if (item->vidThumbnail() != value.toString()) {
+      item->setVidThumbnail(value.toString());
+      somethingChanged = true;
+    }
+    break;
     if (somethingChanged) {
       emit dataChanged(index, index, QVector<int>() << role);
       return true;
@@ -605,7 +611,7 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
                "center", "center",
                index, 0, 1);
   }
-  for (int i = slideId; i < rowCount(); i++) {
+  for (int i = slideId + 1; i < rowCount(); i++) {
     //increment serviceItemIds
     m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
   }
