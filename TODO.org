@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [72%] [31/43]
+* Tasks [72%] [32/44]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -67,27 +67,6 @@ This is mostly done, just need to include the ability to multi select and then f
 
   I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
 
-** TODO Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
-[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
-
-- [X] Initial ListView with text coming from =getLyricList=
-- [X] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
-- [X] Need to perhaps address the MPV crashing problem for a smoother experience.
-
-  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware. So far I haven't seen too many problems with the =reuseItems= piece yet.
-
-  Apparently, I still have crashing
-
-  Setting a really high =cacheBuffer= in the ListView seems to have fixed the crashing, but will result in higher memory use. As of right now we are using 1.1Gb total, so I may think of a better solution later, but for now, that'll have to work.
-
-- [X] There is also a small hiccup in switching between songs. I appears as if songs that don't have any slides will have ghost slides from the previously selected song.
-
-- [ ] Another issue I discovered was that when switching to a song with videoBackgrounds, the mpv object doesn't ALWAYS load the first frame of the slide. Can I let the video play a tiny bit longer to make sure frames ALWAYS get loaded? That didn't work..
-
-- [X] There is one other issue with videoBackgrounds now going black on the second slide after switching to a slideModel. I need to check if the videos are the same and if so do nothing. fixed.
-
-  Maybe I'll need to change something else but what?
-
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
 
@@ -114,6 +93,27 @@ Let's test this, because I think I fixed it.
 - [ ] Allow for a less buggy interaction
   I think one of the major problems has to do with moving the item while I am still draggin it. This means that I am then shifting the item's id whilst dragging and causing some unsuspected behavior? Not sure, need to maybe consult some one else if possible.
 - [ ] Need to check for edge cases
+
+** DONE Build out a slide preview system so we can see each slide in the song or image slideshow :ui:
+[[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Presenter.SlideEditor {]]
+
+- [X] Initial ListView with text coming from =getLyricList=
+- [X] Depending on this [[*Need to make getLyricList give back the verses with empty lines as separate slides][Need to make getLyricList give back the verses with empty lines as separate slides]]
+- [X] Need to perhaps address the MPV crashing problem for a smoother experience.
+
+  Essentially, mpv objects cause a seg fault when we remove them from the qml graph scene and are somehow re-referencing them. Using =reuseItems=, I can prevent the seg fault but then we are storing a lot of things in memory and will definitely cause slowdowns on older hardware. So far I haven't seen too many problems with the =reuseItems= piece yet.
+
+  Apparently, I still have crashing
+
+  Setting a really high =cacheBuffer= in the ListView seems to have fixed the crashing, but will result in higher memory use. As of right now we are using 1.1Gb total, so I may think of a better solution later, but for now, that'll have to work.
+
+- [X] There is also a small hiccup in switching between songs. I appears as if songs that don't have any slides will have ghost slides from the previously selected song.
+
+- [X] Another issue I discovered was that when switching to a song with videoBackgrounds, the mpv object doesn't ALWAYS load the first frame of the slide. Can I let the video play a tiny bit longer to make sure frames ALWAYS get loaded? That didn't work..
+
+- [X] There is one other issue with videoBackgrounds now going black on the second slide after switching to a slideModel. I need to check if the videos are the same and if so do nothing. fixed.
+
+  Maybe I'll need to change something else but what?
 
 ** DONE Make serviceItemModel aware of being selected and active
 Being selected means that those items can be dragged or deleted or moved together.
