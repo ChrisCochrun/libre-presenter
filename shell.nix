@@ -39,7 +39,7 @@ mkShell rec {
 
     podofo
     mpv
-    ffmpeg-full
+    ffmpeg_5-full
     # yt-dlp
 
     # Rust tools

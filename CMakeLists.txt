@@ -32,11 +32,11 @@ kde_enable_exceptions()
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets Sql X11Extras QmlImportScanner)
 find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 WindowSystem I18n Archive CoreAddons)
 
-find_package(Libmpv)
-set_package_properties(Libmpv PROPERTIES TYPE REQUIRED)
-
 find_package(FFmpeg)
 set_package_properties(FFmpeg PROPERTIES TYPE REQUIRED)
+
+find_package(Libmpv)
+set_package_properties(Libmpv PROPERTIES TYPE REQUIRED)
 
 find_package(YouTubeDl)
 set_package_properties(YouTubeDl PROPERTIES TYPE RUNTIME)
