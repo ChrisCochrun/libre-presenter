@@ -68,12 +68,20 @@ private:
 class VideoProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
+  Q_PROPERTY(VideoSqlModel *videoModel READ videoModel)
 
 public:
   explicit VideoProxyModel(QObject *parent = nullptr);
+  ~VideoProxyModel() = default;
+
+  VideoSqlModel *videoModel();
   
 public slots:
   Q_INVOKABLE QVariantMap getVideo(const int &row);
+  Q_INVOKABLE void deleteVideo(const int &row);
+
+private:
+  VideoSqlModel *m_videoModel;
 };
 
 #endif //VIDEOSQLMODEL_H

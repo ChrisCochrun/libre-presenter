@@ -133,13 +133,9 @@ Controls.Page {
     }
 
     SongProxyModel { id: songProxyModel }
-    VideoProxyModel { id: videoProxyModel }
     ImageProxyModel { id: imageProxyModel }
     PresentationProxyModel { id: presProxyModel }
-    SongSqlModel { id: songSqlModel }
-    VideoSqlModel { id: videoSqlModel }
-    ImageSqlModel { id: imageSqlModel }
-    PresentationSqlModel { id: presSqlModel }
+    VideoProxyModel { id: videoProxyModel }
     ServiceThing { id: serviceThing } 
     FileHelper { id: fileHelper } 
 

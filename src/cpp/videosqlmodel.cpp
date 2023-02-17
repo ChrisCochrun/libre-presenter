@@ -106,12 +106,16 @@ void VideoSqlModel::newVideo(const QUrl &filePath) {
 }
 
 void VideoSqlModel::deleteVideo(const int &row) {
+  const QModelIndex parent = QModelIndex();
   QSqlRecord recordData = record(row);
   if (recordData.isEmpty())
     return;
-
+  // emit beginRemoveRows(parent, row, row);
+  // emit beginResetModel();
   removeRow(row);
   submitAll();
+  // emit endRemoveRows();
+  // emit endResetModel();
 }
 
 int VideoSqlModel::id() const {
@@ -320,13 +324,24 @@ QVariantMap VideoSqlModel::getVideo(const int &row) {
 VideoProxyModel::VideoProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  VideoSqlModel *videoModel = new VideoSqlModel;
-  setSourceModel(videoModel);
+  m_videoModel = new VideoSqlModel();
+  setSourceModel(m_videoModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
+VideoSqlModel *VideoProxyModel::videoModel() {
+  return m_videoModel;
+}
+
 QVariantMap VideoProxyModel::getVideo(const int &row) {
-  return QVariantMap();
+  auto model = qobject_cast<VideoSqlModel *>(sourceModel());
+  QVariantMap video = model->getVideo(mapToSource(index(row, 0)).row());
+  return video;
+}
+
+void VideoProxyModel::deleteVideo(const int &row) {
+  auto model = qobject_cast<VideoSqlModel *>(sourceModel());
+  model->deleteVideo(mapToSource(index(row,0)).row());
 }
