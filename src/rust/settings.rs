@@ -2,7 +2,7 @@
 mod settings {
 
     use configparser::ini::Ini;
-    use std::error::Error;
+    // use std::error::Error;
 
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
@@ -31,7 +31,7 @@ mod settings {
         #[qinvokable]
         pub fn print_sound(self: Pin<&mut Self>) {
             let mut config = Ini::new();
-            let map = config.load("~/.config/librepresenter/Libre Presenter.conf");
+            let _map = config.load("~/.config/librepresenter/Libre Presenter.conf");
 
             println!("{}", self.sound_effect());
         }
