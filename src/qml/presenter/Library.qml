@@ -1080,6 +1080,7 @@ Item {
                             id: presListItem
 
                             property bool rightMenu: false
+                            property bool fileValidation: fileHelper.validate(filePath)
 
                             implicitWidth: presentationLibraryList.width
                             height: selectedLibrary == "presentations" ? 50 : 0
@@ -1087,7 +1088,12 @@ Item {
                             label: title
                             icon: "x-office-presentation-symbolic"
                             iconSize: Kirigami.Units.gridUnit
-                            /* subtitle: author */
+                            subtitle: {
+                                if (fileValidation)
+                                    filePath;
+                                else
+                                    "file is missing"
+                            }
                             supportsMouseEvents: false
                             backgroundColor: {
                                 if (parent.ListView.isCurrentItem) {
@@ -1099,10 +1105,14 @@ Item {
                                 }
                             }
                             textColor: {
-                                if (parent.ListView.isCurrentItem || presDragHandler.containsMouse)
-                                    activeTextColor;
+                                if (fileValidation) {
+                                    if (parent.ListView.isCurrentItem || presDragHandler.containsMouse)
+                                        activeTextColor;
+                                    else
+                                        Kirigami.Theme.textColor;
+                                }
                                 else
-                                    Kirigami.Theme.textColor;
+                                    "red"
                             }
 
                             Behavior on height {
