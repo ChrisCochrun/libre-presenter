@@ -172,10 +172,14 @@ int main(int argc, char *argv[])
   qmlRegisterType<MpvObject>("mpv", 1, 0, "MpvObject");
 
   //register our models
-  qmlRegisterType<SongProxyModel>("org.presenter", 1, 0, "SongSqlModel");
-  qmlRegisterType<VideoProxyModel>("org.presenter", 1, 0, "VideoSqlModel");
-  qmlRegisterType<ImageProxyModel>("org.presenter", 1, 0, "ImageSqlModel");
-  qmlRegisterType<PresentationProxyModel>("org.presenter", 1, 0, "PresentationSqlModel");
+  qmlRegisterType<SongProxyModel>("org.presenter", 1, 0, "SongProxyModel");
+  qmlRegisterType<VideoProxyModel>("org.presenter", 1, 0, "VideoProxyModel");
+  qmlRegisterType<ImageProxyModel>("org.presenter", 1, 0, "ImageProxyModel");
+  qmlRegisterType<PresentationProxyModel>("org.presenter", 1, 0, "PresentationProxyModel");
+  qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
+  qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
+  qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
+  qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<FileHelper>("org.presenter", 1, 0, "FileHelper");
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
   qmlRegisterSingletonInstance("org.presenter", 1, 0,

@@ -110,6 +110,13 @@ Item {
             Layout.columnSpan: 2
         }
 
+        Controls.Label {
+            id: filePathLabel
+            Layout.columnSpan: 2
+            Layout.preferredWidth: 600
+            Layout.alignment: Qt.AlignCenter
+            text: video.filePath
+        }
 
         MpvObject {
             id: videoPreview

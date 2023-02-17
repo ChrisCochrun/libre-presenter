@@ -48,7 +48,7 @@ Item {
                     anchors {left: songLabel.right
                              verticalCenter: songLabel.verticalCenter
                              leftMargin: 15}
-                    text: songsqlmodel.rowCount()
+                    text: songSqlModel.rowCount()
                     color: Kirigami.Theme.disabledTextColor
                 }
 
@@ -125,7 +125,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: songsqlmodel.setFilterRegExp(searchField.text)
+                                    onAccepted: songProxyModel.setFilterRegularExpression(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "songs" */
@@ -146,7 +146,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 id: songLibraryList
-                model: songsqlmodel
+                model: songProxyModel
                 delegate: songDelegate
                 state: "selected"
 
@@ -190,6 +190,8 @@ Item {
                             clip: true
                             label: title
                             subtitle: author
+                            icon: "folder-music-symbolic"
+                            iconSize: Kirigami.Units.gridUnit
                             supportsMouseEvents: false
                             backgroundColor: {
                                 if (parent.ListView.isCurrentItem) {
@@ -286,7 +288,7 @@ Item {
                             y: songClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: songsqlmodel.deleteSong(index)
+                                onTriggered: songSqlModel.deleteSong(index)
                             }
                         }
                     }
@@ -310,8 +312,8 @@ Item {
                 }
 
                 function newSong() {
-                    songsqlmodel.newSong();
-                    songLibraryList.currentIndex = songsqlmodel.rowCount() - 1;
+                    songSqlModel.newSong();
+                    songLibraryList.currentIndex = songSqlModel.rowCount() - 1;
                     if (!editMode)
                         editMode = true;
                     editType = "song";
@@ -341,7 +343,7 @@ Item {
                     anchors {left: videoLabel.right
                              verticalCenter: videoLabel.verticalCenter
                              leftMargin: 15}
-                    text: videosqlmodel.rowCount()
+                    text: videoSqlModel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
                 }
@@ -429,7 +431,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: videosqlmodel.setFilterRegExp(searchField.text)
+                                    onAccepted: videoProxyModel.setFilterRegularExpression(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "videos" */
@@ -450,7 +452,7 @@ Item {
                 Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
-                model: videosqlmodel
+                model: videoProxyModel
                 delegate: videoDelegate
                 clip: true
                 state: "deselected"
@@ -584,7 +586,7 @@ Item {
                                         rightClickVideoMenu.popup()
                                     else{
                                         videoLibraryList.currentIndex = index
-                                        const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
+                                        const video = videoSqlModel.getVideo(videoLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "video";
@@ -600,7 +602,7 @@ Item {
                             y: videoClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: videosqlmodel.deleteVideo(index)
+                                onTriggered: videoSqlModel.deleteVideo(index)
                             }
                         }
                     }
@@ -637,7 +639,7 @@ Item {
                     anchors {left: imageLabel.right
                              verticalCenter: imageLabel.verticalCenter
                              leftMargin: 15}
-                    text: imagesqlmodel.rowCount()
+                    text: imageSqlModel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
                 }
@@ -725,7 +727,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: imagesqlmodel.setFilterRegExp(searchField.text)
+                                    onAccepted: imageProxyModel.setFilterRegularExpression(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "images" */
@@ -746,7 +748,7 @@ Item {
                 Layout.preferredHeight: parent.height - 240
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
-                model: imagesqlmodel
+                model: imageProxyModel
                 delegate: imageDelegate
                 clip: true
                 state: "deselected"
@@ -879,7 +881,7 @@ Item {
                                         rightClickImageMenu.popup()
                                     else{
                                         imageLibraryList.currentIndex = index
-                                        const image = imagesqlmodel.getImage(imageLibraryList.currentIndex);
+                                        const image = imageSqlModel.getImage(imageLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "image";
@@ -895,7 +897,7 @@ Item {
                             y: imageClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: imagesqlmodel.deleteImage(index)
+                                onTriggered: imageSqlModel.deleteImage(index)
                             }
                         }
                     }
@@ -931,7 +933,7 @@ Item {
                     anchors {left: presentationLabel.right
                              verticalCenter: presentationLabel.verticalCenter
                              leftMargin: 10}
-                    text: pressqlmodel.rowCount()
+                    text: presSqlModel.rowCount()
                     font.pixelSize: 15
                     color: Kirigami.Theme.disabledTextColor
                 }
@@ -1019,7 +1021,7 @@ Item {
                                     id: searchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: pressqlmodel.setFilterRegExp(searchField.text)
+                                    onAccepted: presProxyModel.setFilterRegularExpression(searchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "presentations" */
@@ -1041,7 +1043,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
                 clip: true
-                model: pressqlmodel
+                model: presProxyModel
                 delegate: presDelegate
                 state: "deselected"
 
@@ -1084,6 +1086,8 @@ Item {
                             height: selectedLibrary == "presentations" ? 50 : 0
                             clip: true
                             label: title
+                            icon: "x-office-presentation-symbolic"
+                            iconSize: Kirigami.Units.gridUnit
                             /* subtitle: author */
                             supportsMouseEvents: false
                             backgroundColor: {
@@ -1162,7 +1166,7 @@ Item {
                                         rightClickPresMenu.popup()
                                     else{
                                         presentationLibraryList.currentIndex = index
-                                        const pres = pressqlmodel.getPresentation(presentationLibraryList.currentIndex);
+                                        const pres = presSqlModel.getPresentation(presentationLibraryList.currentIndex);
                                         if (!editMode)
                                             editMode = true;
                                         editType = "presentation";
@@ -1178,7 +1182,7 @@ Item {
                             y: presClickHandler.mouseY + 10
                             Kirigami.Action {
                                 text: "delete"
-                                onTriggered: pressqlmodel.deletePresentation(index)
+                                onTriggered: presSqlModel.deletePresentation(index)
                             }
                         }
                     }
@@ -1351,11 +1355,11 @@ Item {
             onExited: overlay = false
 
             function addVideo(url) {
-                videosqlmodel.newVideo(url);
+                videoSqlModel.newVideo(url);
                 selectedLibrary = "videos";
-                videoLibraryList.currentIndex = videosqlmodel.rowCount();
-                console.log(videosqlmodel.getVideo(videoLibraryList.currentIndex));
-                const video = videosqlmodel.getVideo(videoLibraryList.currentIndex);
+                videoLibraryList.currentIndex = videoSqlModel.rowCount();
+                console.log(videoSqlModel.getVideo(videoLibraryList.currentIndex));
+                const video = videoSqlModel.getVideo(videoLibraryList.currentIndex);
                 showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
                     editMode = true;
@@ -1363,11 +1367,11 @@ Item {
             }
 
             function addImg(url) {
-                imagesqlmodel.newImage(url);
+                imageSqlModel.newImage(url);
                 selectedLibrary = "images";
-                imageLibraryList.currentIndex = imagesqlmodel.rowCount();
-                console.log(imagesqlmodel.getImage(imageLibraryList.currentIndex));
-                const image = imagesqlmodel.getImage(imageLibraryList.currentIndex);
+                imageLibraryList.currentIndex = imageSqlModel.rowCount();
+                console.log(imageSqlModel.getImage(imageLibraryList.currentIndex));
+                const image = imageSqlModel.getImage(imageLibraryList.currentIndex);
                 showPassiveNotification("newest image: " + image.title);
                 if (!editMode)
                     editMode = true;
@@ -1381,11 +1385,11 @@ Item {
                     console.log(pdf.status);
                     console.log("PAGECOUNT: " + pdf.pageCount);
                 }
-                pressqlmodel.newPresentation(url, pdf.pageCount);
+                presSqlModel.newPresentation(url, pdf.pageCount);
                 selectedLibrary = "presentations";
-                presentationLibraryList.currentIndex = pressqlmodel.rowCount();
-                console.log(pressqlmodel.getPresentation(presentationLibraryList.currentIndex));
-                const presentation = pressqlmodel.getImage(presentationLibraryList.currentIndex);
+                presentationLibraryList.currentIndex = presSqlModel.rowCount();
+                console.log(presSqlModel.getPresentation(presentationLibraryList.currentIndex));
+                const presentation = presSqlModel.getImage(presentationLibraryList.currentIndex);
                 showPassiveNotification("newest image: " + presentation.title);
                 if (!editMode)
                     editMode = true;

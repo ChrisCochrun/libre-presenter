@@ -132,25 +132,16 @@ Controls.Page {
         id: pWindow
     }
 
-    SongSqlModel {
-        id: songsqlmodel
-    }
-
-    VideoSqlModel {
-        id: videosqlmodel
-    }
-
-    ImageSqlModel {
-        id: imagesqlmodel
-    }
-
-    PresentationSqlModel {
-        id: pressqlmodel
-    }
-
-    ServiceThing {
-        id: serviceThing
-    }
+    SongProxyModel { id: songProxyModel }
+    VideoProxyModel { id: videoProxyModel }
+    ImageProxyModel { id: imageProxyModel }
+    PresentationProxyModel { id: presProxyModel }
+    SongSqlModel { id: songSqlModel }
+    VideoSqlModel { id: videoSqlModel }
+    ImageSqlModel { id: imageSqlModel }
+    PresentationSqlModel { id: presSqlModel }
+    ServiceThing { id: serviceThing } 
+    FileHelper { id: fileHelper } 
 
     function changeServiceItem(index) {
         const item = ServiceItemModel.getItem(index);

@@ -326,3 +326,7 @@ VideoProxyModel::VideoProxyModel(QObject *parent)
   setFilterRole(Qt::UserRole + 1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
+
+QVariantMap VideoProxyModel::getVideo(const int &row) {
+  return QVariantMap();
+}

@@ -72,7 +72,8 @@ class VideoProxyModel : public QSortFilterProxyModel
 public:
   explicit VideoProxyModel(QObject *parent = nullptr);
   
-  
+public slots:
+  Q_INVOKABLE QVariantMap getVideo(const int &row);
 };
 
 #endif //VIDEOSQLMODEL_H
