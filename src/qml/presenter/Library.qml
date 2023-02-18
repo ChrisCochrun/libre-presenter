@@ -122,10 +122,10 @@ Item {
                         Kirigami.Action {
                             displayComponent: Component {
                                 Kirigami.SearchField {
-                                    id: searchField
+                                    id: songSearchField
                                     height: parent.height
                                     width: parent.width - 40
-                                    onAccepted: songProxyModel.setFilterRegularExpression(searchField.text)
+                                    onAccepted: songProxyModel.setFilterRegularExpression(songSearchField.text)
                                 }
                             }
                             /* visible: selectedLibrary == "songs" */
@@ -313,6 +313,7 @@ Item {
 
                 function newSong() {
                     songProxyModel.songModel.newSong();
+                    songSearchField.clear();
                     songLibraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
                     if (!editMode)
                         editMode = true;
