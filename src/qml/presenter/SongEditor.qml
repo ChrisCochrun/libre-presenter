@@ -11,7 +11,6 @@ Item {
 
     property int songIndex
     property var song 
-    property string songLyrics
 
     GridLayout {
         id: mainLayout
@@ -264,7 +263,7 @@ Item {
         repeat: true
         running: false
         onTriggered: {
-            if (lyricsEditor.text === songLyrics)
+            if (lyricsEditor.text === song.lyrics)
                 return;
             updateLyrics(lyricsEditor.text);
         }
@@ -318,12 +317,34 @@ Item {
 
     }
 
+    function newSong(index) {
+        clearSlides();
+        song = songProxyModel.songModel.getSong(index);
+        console.log(song.lyrics);
+        songIndex = index;
+
+        if (song.backgroundType == "image") {
+            slideEditor.videoBackground = "";
+            slideEditor.imageBackground = song.background;
+        } else {
+            slideEditor.imageBackground = "";
+            slideEditor.videoBackground = song.background;
+            /* slideEditor.loadVideo(); */
+        }
+
+        changeSlideHAlignment("Center");
+        changeSlideVAlignment("Center");
+        changeSlideFont("Noto Sans", true);
+        changeSlideFontSize(50, true)
+        changeSlideText(songIndex);
+        console.log(song.title);
+    }
+
     function changeSong(index) {
         clearSlides();
         console.log(index);
-        const s = songProxyModel.songModel.getSong(index);
-        song = s;
-        songLyrics = s.lyrics;
+        song = songProxyModel.songModel.getSong(index);
+        console.log(song.lyrics);
         songIndex = index;
 
         if (song.backgroundType == "image") {
@@ -340,7 +361,7 @@ Item {
         changeSlideFont(song.font, true);
         changeSlideFontSize(song.fontSize, true)
         changeSlideText(songIndex);
-        console.log(s.title);
+        console.log(song.title);
     }
 
     function updateLyrics(lyrics) {
