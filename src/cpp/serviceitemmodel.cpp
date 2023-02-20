@@ -718,6 +718,8 @@ bool ServiceItemModel::load(QUrl file) {
   qDebug() << "File path is: " << file.toString();
   qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
 
+  if (file.isEmpty() || !file.isValid())
+    return false;
 
   QString fileUrl = file.toString().right(file.toString().size() - 7);
   KTar tar(fileUrl);
