@@ -37,7 +37,7 @@ I THINK THIS IS DONE?!
 **** DONE Multi Select and Delete
 **** TODO need to finish figuring out proper removal of slides
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
-**** TODO Items in library with missing videos or images don't show any helpful UI.
+**** DONE Items in library with missing videos or images don't show any helpful UI.
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
