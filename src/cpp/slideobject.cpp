@@ -146,6 +146,8 @@ void SlideObject::changeSlide(QVariantMap item, int index)
 
   setImageCount(item.value("imageCount").toInt());
   setSlideIndex(item.value("slideIndex").toInt());
+  qDebug() << "THIS IS THE INDEX OF THE SLIDE!";
+  qDebug() << index;
   emit slideChanged(index);
   // m_slideSize = serviceItem.value("slideNumber").toInt();
 

@@ -493,10 +493,12 @@ bool SlideModel::select(int id) {
 bool SlideModel::activate(int id) {
   QModelIndex idx = index(id);
   Slide *item = m_items[idx.row()];
+  qDebug() << item->type();
 
   for (int i = 0; i < m_items.length(); i++) {
     QModelIndex idx = index(i);
     Slide *itm = m_items[idx.row()];
+    qDebug() << i << m_items.length() << item->active() << itm->active();
     if (itm->active()) {
       itm->setActive(false);
       qDebug() << "################";
@@ -539,7 +541,7 @@ int SlideModel::findSlideIdFromServItm(int index) {
       return i;
     }
   }
-  return -1;
+  return 0;
 }
 
 void SlideModel::addItemFromService(const int &index, const ServiceItem &item) {

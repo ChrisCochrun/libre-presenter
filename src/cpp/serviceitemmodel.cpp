@@ -27,16 +27,6 @@
 
 ServiceItemModel::ServiceItemModel(QObject *parent)
     : QAbstractListModel(parent) {
-    addItem(new ServiceItem("10,000 Reasons", "song",
-                            "file:/home/chris/nextcloud/tfc/openlp/CMG - Nature King 21.jpg",
-                            "image", QStringList("Yip Yip"),
-                            "file:/home/chris/nextcloud/tfc/openlp/music/Eden-Phil Wickham [lyrics].mp3"));
-    addItem(new ServiceItem("Marvelous Light", "song",
-                            "file:/home/chris/nextcloud/tfc/openlp/Fire Embers_Loop.mp4",
-                            "video", QStringList("Hallelujah!")));
-    addItem(new ServiceItem("BP Text", "video",
-                            "file:/home/chris/nextcloud/tfc/openlp/videos/test.mp4",
-                            "video", QStringList()));
 }
 
 int ServiceItemModel::rowCount(const QModelIndex &parent) const {
@@ -718,7 +708,8 @@ bool ServiceItemModel::load(QUrl file) {
   qDebug() << "File path is: " << file.toString();
   qDebug() << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
 
-  if (file.isEmpty() || !file.isValid())
+  QFileInfo loadInfo = QFileInfo(file.toLocalFile());
+  if (!loadInfo.exists())
     return false;
 
   QString fileUrl = file.toString().right(file.toString().size() - 7);

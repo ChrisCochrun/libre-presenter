@@ -146,12 +146,12 @@ Controls.Page {
         currentSlide = slideId;
         const slide = SlideModel.getItem(slideId);
         console.log("index grabbed: " + index);
-        console.log(item);
+        console.log(slideId);
+        console.log("Time to start changing");
 
         /* presentation.stopVideo(); */
         /* pWindow.stopVideo(); */
         /* presentation.itemType = item.type; */
-        console.log("Time to start changing");
 
         ServiceItemModel.activate(index);
         SlideObject.changeSlide(slide, slideId);

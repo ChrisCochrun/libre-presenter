@@ -147,10 +147,6 @@ int main(int argc, char *argv[])
                    SIGNAL(itemAdded(const int&, const ServiceItem&)),
                    slideModel.get(),
                    SLOT(addItemFromService(const int&, const ServiceItem&)));
-  QObject::connect(slideobject.get(),
-                   SIGNAL(slideChanged(int)),
-                   slideModel.get(),
-                   SLOT(activate(int)));
   QObject::connect(serviceItemModel.get(),
                    SIGNAL(rowMoved(const int&, const int&, const ServiceItem&)),
                    slideModel.get(),
@@ -163,8 +159,18 @@ int main(int argc, char *argv[])
                    SIGNAL(allRemoved()),
                    slideModel.get(),
                    SLOT(clearAll()));
+  QObject::connect(slideobject.get(),
+                   SIGNAL(slideChanged(int)),
+                   slideModel.get(),
+                   SLOT(activate(int)));
 
-  bool loading = serviceItemModel.get()->loadLastSaved();
+  if (!serviceItemModel.get()->loadLastSaved()) {
+    qDebug() << "Last saved file is missing or there isn't a last saved file.";
+    serviceItemModel.get()->addItem("Black", "image",
+                                    "qrc:/assets/black.jpg",
+                                    "image", QStringList(""),
+                                    "", "", 0, 1);
+  }
 
   // apparently mpv needs this class set
   // let's register mpv as well
