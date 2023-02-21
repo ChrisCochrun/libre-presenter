@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
 import Qt.labs.platform 1.1 as Labs
 import QtQuick.Pdf 5.15
+import QtQml.Models 2.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
@@ -120,15 +121,13 @@ Item {
                         },
                         
                         Kirigami.Action {
-                            displayComponent: Component {
-                                Kirigami.SearchField {
-                                    id: songSearchField
-                                    height: parent.height
-                                    width: parent.width - 40
-                                    onAccepted: songProxyModel.setFilterRegularExpression(songSearchField.text)
-                                }
+                            id: songSearchField
+                            displayComponent: Kirigami.SearchField {
+                                id: searchField
+                                height: parent.height
+                                width: parent.width - 40
+                                onAccepted: songProxyModel.setFilterRegularExpression(searchField.text)
                             }
-                            /* visible: selectedLibrary == "songs" */
                         }
                     ]
 
@@ -147,6 +146,15 @@ Item {
                 Layout.alignment: Qt.AlignTop
                 id: songLibraryList
                 model: songProxyModel
+                ItemSelectionModel {
+                    id: songSelectionModel
+                    model: songProxyModel
+                    onSelectionChanged: {
+                        showPassiveNotification("deslected: " + deselected);
+                        showPassiveNotification("selected: " + selected);
+                        console.log(selected);
+                    }
+                }
                 delegate: songDelegate
                 state: "selected"
 
@@ -184,6 +192,7 @@ Item {
                             id: songListItem
 
                             property bool rightMenu: false
+                            property bool selected: songSelectionModel.isSelected(songProxyModel.idx(index))
 
                             implicitWidth: songLibraryList.width
                             height: selectedLibrary == "songs" ? 50 : 0
@@ -193,20 +202,16 @@ Item {
                             icon: "folder-music-symbolic"
                             iconSize: Kirigami.Units.gridUnit
                             supportsMouseEvents: false
-                            backgroundColor: {
-                                if (parent.ListView.isCurrentItem) {
-                                    Kirigami.Theme.highlightColor;
-                                } else if (songDragHandler.containsMouse){
-                                    Kirigami.Theme.highlightColor;
-                                } else {
-                                     Kirigami.Theme.backgroundColor;
-                                 }
+                            backgroundColor: Kirigami.Theme.backgroundColor;
+                            Binding on backgroundColor {
+                                when: songDragHandler.containsMouse || (songSelectionModel.hasSelection && songSelectionModel.isSelected(songProxyModel.idx(index)))
+                                value: Kirigami.Theme.highlightColor
                             }
-                            textColor: {
-                                if (parent.ListView.isCurrentItem || songDragHandler.containsMouse)
-                                    activeTextColor;
-                                else
-                                    Kirigami.Theme.textColor;
+
+                            textColor: Kirigami.Theme.textColor;
+                            Binding on textColor {
+                                when: songDragHandler.containsMouse || (songSelectionModel.hasSelection && songSelectionModel.isSelected(songProxyModel.idx(index)))
+                                value: Kirigami.Theme.highlightedTextColor
                             }
 
                             Behavior on height {
@@ -268,16 +273,23 @@ Item {
                                 anchors.fill: parent
                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                                 onClicked: {
-                                    if(mouse.button == Qt.RightButton)
+                                    if (mouse.button === Qt.RightButton)
                                         rightClickSongMenu.popup()
-                                    else{
-                                        /* showPassiveNotification(title + id, 3000); */
-                                        songLibraryList.currentIndex = index;
-                                        if (!editMode)
-                                            editMode = true;
-                                        editType = "song";
-                                        editSwitch(id);
+                                    else if ((mouse.button === Qt.LeftButton) &&
+                                             (mouse.modifiers === Qt.ShiftModifier)) {
+                                        selectSongs(index);
+                                    } else {
+                                        songSelectionModel.select(songProxyModel.idx(index),
+                                                                  ItemSelectionModel.ClearAndSelect);
+
                                     }
+                                }
+                                onDoubleClicked: {
+                                    songLibraryList.currentIndex = index;
+                                    if (!editMode)
+                                        editMode = true;
+                                    editType = "song";
+                                    editSwitch(id);
                                 }
 
                             }
@@ -312,8 +324,8 @@ Item {
                 }
 
                 function newSong() {
+                    songProxyModel.setFilterRegularExpression("");
                     songProxyModel.songModel.newSong();
-                    songSearchField.clear();
                     songLibraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
                     if (!editMode)
                         editMode = true;
@@ -422,7 +434,10 @@ Item {
                             icon.name: "document-new"
                             text: "New Video"
                             tooltip: "Add a new video"
-                            onTriggered: videoLibraryList.newVideo()
+                            onTriggered: {
+                                videoProxyModel.setFilterRegularExpression("");
+                                videoLibraryList.newVideo();
+                            }
                             /* visible: selectedLibrary == "videos" */
                         },
                         
@@ -717,7 +732,10 @@ Item {
                             icon.name: "document-new"
                             text: "New Image"
                             tooltip: "Add a new image"
-                            onTriggered: imageLibraryList.newImage()
+                            onTriggered: {
+                                imageProxyModel.setFilterRegularExpression("");
+                                imageLibraryList.newImage();
+                            }
                             /* visible: selectedLibrary == "images" */
                         },
                         
@@ -1011,7 +1029,7 @@ Item {
                             icon.name: "document-new"
                             text: "New Presentation"
                             tooltip: "Add a new presentation"
-                            onTriggered: presentationLibraryList.newPresentation()
+                            onTriggered: presentationLibraryList.newPresentation();
                             /* visible: selectedLibrary == "presentations" */
                         },
                         
@@ -1204,6 +1222,9 @@ Item {
                     active: hovered || pressed
                 }
 
+                function newPresentation() {
+                    presProxyModel.setFilterRegularExpression("");
+                }
             }
 
             Rectangle {
