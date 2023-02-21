@@ -3,6 +3,7 @@
 
 #include <QSqlTableModel>
 #include <QSortFilterProxyModel>
+#include <QItemSelectionModel>
 #include <qobjectdefs.h>
 #include <qqml.h>
 #include <qvariant.h>
@@ -112,20 +113,33 @@ class SongProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
   Q_PROPERTY(SongSqlModel *songModel READ songModel)
+  Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
 
 public:
   explicit SongProxyModel(QObject *parent = nullptr);
   ~SongProxyModel() = default;
 
   SongSqlModel *songModel();
+  Q_INVOKABLE QModelIndex idx(int row);
+  bool selected(int row);
+  bool setSelected(int row, bool select);
   
+  // QVariant data(const QModelIndex &index, int role) const override;
+  // QHash<int, QByteArray> roleNames() const override;
+
 public slots:
   Q_INVOKABLE QVariantMap getSong(const int &row);
   Q_INVOKABLE void deleteSong(const int &row);
+  Q_INVOKABLE void select(int row);
+  Q_INVOKABLE void selectSongs(int row);
+
+signals:
+  void selectedChanged(bool selected);
 
 private:
   SongSqlModel *m_songModel;
+  QItemSelectionModel *m_selectionModel;
+  // bool m_selected;
 };
-
 
 #endif //SONGSQLMODEL_H
