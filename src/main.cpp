@@ -91,9 +91,9 @@ static void connectToDatabase() {
 
 int main(int argc, char *argv[])
 {
-  qDebug() << QSurfaceFormat::defaultFormat();
+  // qDebug() << QSurfaceFormat::defaultFormat();
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
+  QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("video-display")));
   QApplication app(argc, argv);
   KLocalizedString::setApplicationDomain("librepresenter");
   KAboutData aboutData("librepresenter", i18n("Libre Presenter"), "0.1",
@@ -213,15 +213,15 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  QWindow *window = windowFromEngine(&engine);
+  // QWindow *window = windowFromEngine(&engine);
 
-  window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
+  // window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   // KWindowSystem::setMainWindow(&window);
-  KWindowSystem::activateWindow(window);
-  qDebug() << "00000000000000000000000000000000";
-  qDebug() << KWindowSystem::isPlatformWayland();
-  qDebug() << KWindowSystem::windows();
-  qDebug() << "00000000000000000000000000000000";
+  // KWindowSystem::activateWindow(window);
+  // qDebug() << "00000000000000000000000000000000";
+  // qDebug() << KWindowSystem::isPlatformWayland();
+  // qDebug() << KWindowSystem::windows();
+  // qDebug() << "00000000000000000000000000000000";
 
 
   return app.exec();
