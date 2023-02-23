@@ -110,7 +110,7 @@ Item {
 
             Image {
                 id: imagePreview
-                Layout.preferredWidth: 1000
+                Layout.preferredWidth: 600
                 Layout.preferredHeight: Layout.preferredWidth / 16 * 9
                 Layout.alignment: Qt.AlignCenter
                 fillMode: Image.PreserveAspectFit
