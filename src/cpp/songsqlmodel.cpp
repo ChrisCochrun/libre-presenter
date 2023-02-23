@@ -716,8 +716,8 @@ SongProxyModel::SongProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
   m_songModel = new SongSqlModel;
-  m_selectionModel = new QItemSelectionModel;
-  m_selectionModel->setModel(this);
+  // m_selectionModel = new QItemSelectionModel;
+  // m_selectionModel->setModel(this);
   setSourceModel(m_songModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
@@ -728,9 +728,35 @@ SongSqlModel *SongProxyModel::songModel() {
   return m_songModel;
 }
 
+// QVariant SongProxyModel::data(const QModelIndex &index, int role) const {
+//   if (role == Qt::UserRole + 13)
+//     return selected(index.row());
+//   return m_songModel->data(index, role);
+// }
+
+// QHash<int, QByteArray> SongProxyModel::roleNames() const
+// {
+//     QHash<int, QByteArray> names;
+//     names[Qt::UserRole] = "id";
+//     names[Qt::UserRole + 1] = "title";
+//     names[Qt::UserRole + 2] = "lyrics";
+//     names[Qt::UserRole + 3] = "author";
+//     names[Qt::UserRole + 4] = "ccli";
+//     names[Qt::UserRole + 5] = "audio";
+//     names[Qt::UserRole + 6] = "vorder";
+//     names[Qt::UserRole + 7] = "background";
+//     names[Qt::UserRole + 8] = "backgroundType";
+//     names[Qt::UserRole + 9] = "horizontalTextAlignment";
+//     names[Qt::UserRole + 10] = "verticalTextAlignment";
+//     names[Qt::UserRole + 11] = "font";
+//     names[Qt::UserRole + 12] = "fontSize";
+//     names[Qt::UserRole + 13] = "selected";
+//     return names;
+// }
+
 QModelIndex SongProxyModel::idx(int row) {
   QModelIndex idx = index(row, 0);
-  qDebug() << idx;
+  // qDebug() << idx;
   return idx;
 }
 
@@ -745,43 +771,50 @@ void SongProxyModel::deleteSong(const int &row) {
   model->deleteSong(row);
 }
 
-bool SongProxyModel::selected(int row) {
-  QModelIndex idx = index(row, 0);
-  return m_selectionModel->isSelected(idx);
-}
+// bool SongProxyModel::selected(const int &row) {
+//   QModelIndex idx = index(row, 0);
+//   return m_selectionModel->isSelected(idx);
+// }
 
-bool SongProxyModel::setSelected(int row, bool select) {
-  if (selected(row) == select)
-    return false;
-  QModelIndex idx = index(row, 0);
-  if (select)
-    m_selectionModel->select(idx, QItemSelectionModel::SelectCurrent);
-  else
-    m_selectionModel->select(idx, QItemSelectionModel::Deselect);
-  emit selectedChanged(select);
-  return true;
-}
+// bool SongProxyModel::setSelected(const int &row, const bool &select) {
+//   if (selected(row) == select)
+//     return false;
+//   QModelIndex idx = index(row, 0);
+//   if (select)
+//     m_selectionModel->select(idx, QItemSelectionModel::SelectCurrent);
+//   else
+//     m_selectionModel->select(idx, QItemSelectionModel::Deselect);
+//   emit selectedChanged(select);
+//   return true;
+// }
 
-void SongProxyModel::select(int id) {
-  QModelIndex idx = index(id, 0);
-  //check to make sure this item isn't already selected
-  if (m_selectionModel->isSelected(idx))
-    return;
+// void SongProxyModel::select(int id) {
+//   QModelIndex idx = index(id, 0);
+//   //check to make sure this item isn't already selected
+//   if (m_selectionModel->isSelected(idx))
+//     return;
 
-  // deselect all items
-  QModelIndex first = index(0, 0);
-  QModelIndex last = index(rowCount() - 1, 0);
-  QItemSelection all = new QItemSelection(first, last);
-  m_selectionModel->select(all, QItemSelectionModel::Deselect);
+//   // deselect all items
+//   QModelIndex first = index(0, 0);
+//   QModelIndex last = index(rowCount() - 1, 0);
+//   QItemSelection all(first, last);
+//   m_selectionModel->select(all, QItemSelectionModel::Deselect);
 
-  m_selectionModel->select(idx, QItemSelectionModel::SelectCurrent);
-}
+//   m_selectionModel->select(idx, QItemSelectionModel::SelectCurrent);
+//   emit selectedChanged(true);
+// }
 
-void SongProxyModel::selectSongs(int row) {
-  auto model = qobject_cast<QItemSelectionModel *>(m_selectionModel);
-  // deselect all items
-  QModelIndex first = index(0, 0);
-  QModelIndex last = index(rowCount() - 1, 0);
-  QItemSelection all = new QItemSelection(first, last);
-  m_selectionModel->select(all, QItemSelectionModel::Deselect);
-}
+// void SongProxyModel::selectSongs(int row) {
+//   auto model = qobject_cast<QItemSelectionModel *>(m_selectionModel);
+//   // deselect all items
+//   QModelIndex first = index(0, 0);
+//   QModelIndex last = index(rowCount() - 1, 0);
+//   QItemSelection all(first, last);
+//   m_selectionModel->select(all, QItemSelectionModel::Deselect);
+
+//   emit selectedChanged(true);
+// }
+
+// bool SongProxyModel::hasSelection() {
+//   return m_selectionModel->hasSelection();
+// }

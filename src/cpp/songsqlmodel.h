@@ -113,7 +113,7 @@ class SongProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
   Q_PROPERTY(SongSqlModel *songModel READ songModel)
-  Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  // Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY selectedChanged)
 
 public:
   explicit SongProxyModel(QObject *parent = nullptr);
@@ -121,8 +121,7 @@ public:
 
   SongSqlModel *songModel();
   Q_INVOKABLE QModelIndex idx(int row);
-  bool selected(int row);
-  bool setSelected(int row, bool select);
+  // Q_INVOKABLE bool selected(const int &row);
   
   // QVariant data(const QModelIndex &index, int role) const override;
   // QHash<int, QByteArray> roleNames() const override;
@@ -130,15 +129,17 @@ public:
 public slots:
   Q_INVOKABLE QVariantMap getSong(const int &row);
   Q_INVOKABLE void deleteSong(const int &row);
-  Q_INVOKABLE void select(int row);
-  Q_INVOKABLE void selectSongs(int row);
+  // Q_INVOKABLE void select(int row);
+  // Q_INVOKABLE void selectSongs(int row);
+  // Q_INVOKABLE bool setSelected(const int &row, const bool &select);
+  // Q_INVOKABLE bool hasSelection();
 
 signals:
-  void selectedChanged(bool selected);
+  // Q_INVOKABLE void selectedChanged(bool selected);
 
 private:
   SongSqlModel *m_songModel;
-  QItemSelectionModel *m_selectionModel;
+  // QItemSelectionModel *m_selectionModel;
   // bool m_selected;
 };
 
