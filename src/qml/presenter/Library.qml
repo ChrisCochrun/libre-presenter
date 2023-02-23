@@ -7,7 +7,6 @@ import QtQml.Models 2.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
-import mpv 1.0
 
 Item {
     id: root
@@ -152,7 +151,7 @@ Item {
                     onSelectionChanged: {
                         showPassiveNotification("deslected: " + deselected);
                         showPassiveNotification("selected: " + selected);
-                        console.log(selected);
+                        /* console.log(selected); */
                     }
                 }
                 delegate: songDelegate
@@ -277,7 +276,7 @@ Item {
                                         rightClickSongMenu.popup()
                                     else if ((mouse.button === Qt.LeftButton) &&
                                              (mouse.modifiers === Qt.ShiftModifier)) {
-                                        selectSongs(index);
+                                        songLibraryList.selectSongs(index);
                                     } else {
                                         songSelectionModel.select(songProxyModel.idx(index),
                                                                   ItemSelectionModel.ClearAndSelect);
@@ -331,6 +330,26 @@ Item {
                         editMode = true;
                     editType = "song";
                     editSwitch(songLibraryList.currentIndex);
+                }
+
+                function selectSongs(row) {
+                    /* console.log("SELECT SOME SONGS!") */
+                    let currentRow = songSelectionModel.selectedIndexes[0].row;
+                    if (row === currentRow)
+                        return;
+
+                    if (row > currentRow) {
+                        for (var i = currentRow; i <= row; i++) {
+                            let idx = songProxyModel.idx(i);
+                            songSelectionModel.select(idx, ItemSelectionModel.Select);
+                        }
+                    }
+                    else {
+                        for (var i = row; i <= currentRow; i++) {
+                            let idx = songProxyModel.idx(i);
+                            songSelectionModel.select(idx, ItemSelectionModel.Select);
+                        }
+                    }
                 }
             }
 
@@ -1105,7 +1124,10 @@ Item {
                             height: selectedLibrary == "presentations" ? 50 : 0
                             clip: true
                             label: title
-                            icon: "x-office-presentation-symbolic"
+                            icon: Kirigami.Icon {
+                                source: "x-office-presentation-symbolic"
+                                fallback: "x-office-presentation"
+                            } 
                             iconSize: Kirigami.Units.gridUnit
                             subtitle: {
                                 if (fileValidation)
