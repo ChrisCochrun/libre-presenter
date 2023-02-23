@@ -543,7 +543,7 @@ Item {
                      background, backgroundType, text, audio,
                      font, fontSize, itemID) {
         if (type === "song") {
-            const newtext = songsqlmodel.getLyricList(itemID);
+            const newtext = songProxyModel.songModel.getLyricList(itemID);
             console.log("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
             ServiceItemModel.insertItem(index, name,
                                         type, background,
@@ -574,7 +574,7 @@ Item {
         console.log("adding: " + name + " of type " + type);
         if (type === "song") {
             console.log("THIS IS A SONG!!!!!");
-            let lyrics = songsqlmodel.getLyricList(itemID);
+            let lyrics = songProxyModel.songModel.getLyricList(itemID);
             console.log(lyrics);
             ServiceItemModel.addItem(name, type, background,
                                      backgroundType, lyrics,
