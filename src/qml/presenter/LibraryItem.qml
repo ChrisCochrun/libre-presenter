@@ -248,7 +248,7 @@ Item {
                         target: listItem
                         onActiveChanged: {
                             if (dragHandler.drag.active) {
-                                dragItemIndex = id;
+                                dragItemIndex = index;
                                 dragItemType = libraryType;
                                 draggedLibraryItem = self;
                             } else {
@@ -292,7 +292,7 @@ Item {
                     y: clickHandler.mouseY + 10
                     Kirigami.Action {
                         text: "delete"
-                        onTriggered: proxyModel.deleteSong(index)
+                        onTriggered: deleteItemFunction
                     }
                 }
             }
