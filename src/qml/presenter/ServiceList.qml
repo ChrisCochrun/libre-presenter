@@ -545,10 +545,11 @@ Item {
         if (type === "song") {
             const newtext = songProxyModel.songModel.getLyricList(itemID);
             console.log("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
-            ServiceItemModel.insertItem(index, name,
-                                        type, background,
-                                        backgroundType, newtext,
-                                        audio, font, fontSize, newtext.length);
+            const song = SongProxyModel.getSong(itemID);
+            ServiceItemModel.insertItem(index, song.name,
+                                        type, song.background,
+                                        song.backgroundType, newtext,
+                                        song.audio, song.font, song.fontSize, newtext.length);
             /* totalServiceItems++; */
             return;
         }
