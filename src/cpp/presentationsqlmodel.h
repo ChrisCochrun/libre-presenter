@@ -64,6 +64,7 @@ public:
   ~PresentationProxyModel() = default;
 
   PresentationSqlModel *presentationModel();
+  Q_INVOKABLE QModelIndex idx(int row);
   
 public slots:
   Q_INVOKABLE QVariantMap getPresentation(const int &row);

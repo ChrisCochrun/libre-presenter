@@ -254,6 +254,12 @@ PresentationSqlModel *PresentationProxyModel::presentationModel() {
   return m_presentationModel;
 }
 
+QModelIndex PresentationProxyModel::idx(int row) {
+  QModelIndex idx = index(row, 0);
+  // qDebug() << idx;
+  return idx;
+}
+
 QVariantMap PresentationProxyModel::getPresentation(const int &row) {
   return QVariantMap();
 }

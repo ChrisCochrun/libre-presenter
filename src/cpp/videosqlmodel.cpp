@@ -335,6 +335,12 @@ VideoSqlModel *VideoProxyModel::videoModel() {
   return m_videoModel;
 }
 
+QModelIndex VideoProxyModel::idx(int row) {
+  QModelIndex idx = index(row, 0);
+  // qDebug() << idx;
+  return idx;
+}
+
 QVariantMap VideoProxyModel::getVideo(const int &row) {
   auto model = qobject_cast<VideoSqlModel *>(sourceModel());
   QVariantMap video = model->getVideo(mapToSource(index(row, 0)).row());

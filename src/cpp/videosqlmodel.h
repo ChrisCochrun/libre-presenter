@@ -75,7 +75,8 @@ public:
   ~VideoProxyModel() = default;
 
   VideoSqlModel *videoModel();
-  
+  Q_INVOKABLE QModelIndex idx(int row);
+
 public slots:
   Q_INVOKABLE QVariantMap getVideo(const int &row);
   Q_INVOKABLE void deleteVideo(const int &row);

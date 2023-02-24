@@ -219,6 +219,12 @@ ImageSqlModel *ImageProxyModel::imageModel() {
   return m_imageModel;
 }
 
+QModelIndex ImageProxyModel::idx(int row) {
+  QModelIndex idx = index(row, 0);
+  // qDebug() << idx;
+  return idx;
+}
+
 QVariantMap ImageProxyModel::getImage(const int &row) {
   return QVariantMap();
 }

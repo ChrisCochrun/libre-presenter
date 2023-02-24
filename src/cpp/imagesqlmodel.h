@@ -57,6 +57,7 @@ public:
   ~ImageProxyModel() = default;
 
   ImageSqlModel *imageModel();
+  Q_INVOKABLE QModelIndex idx(int row);
   
 public slots:
   Q_INVOKABLE QVariantMap getImage(const int &row);
