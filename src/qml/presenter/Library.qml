@@ -253,15 +253,8 @@ Item {
                                 target: songListItem
                                 onActiveChanged: {
                                     if (songDragHandler.drag.active) {
-                                        dragItemIndex = id;
-                                        dragItemTitle = title;
                                         dragItemType = "song";
-                                        dragItemBackgroundType = backgroundType;
-                                        dragItemBackground = background;
-                                        dragItemAudio = audio;
-                                        dragItemFont = font;
-                                        dragItemFontSize = fontSize;
-                                        draggedLibraryItem = self;
+                                        dragItemIndex = index;
                                     } else {
                                         songListItem.Drag.drop();
                                         dragHighlightLine.visible = false;
@@ -900,11 +893,8 @@ Item {
                                 target: imageListItem
                                 onActiveChanged: {
                                     if (imageDragHandler.drag.active) {
-                                        dragItemTitle = title;
                                         dragItemType = "image";
-                                        dragItemText = "";
-                                        dragItemBackgroundType = "image";
-                                        dragItemBackground = filePath;
+                                        dragItemIndex = index;
                                     } else {
                                         imageListItem.Drag.drop()
                                         dragHighlightLine.visible = false;
