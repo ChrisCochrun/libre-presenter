@@ -249,13 +249,7 @@ Item {
                         onActiveChanged: {
                             if (dragHandler.drag.active) {
                                 dragItemIndex = id;
-                                dragItemTitle = title;
-                                dragItemType = "song";
-                                dragItemBackgroundType = backgroundType;
-                                dragItemBackground = background;
-                                dragItemAudio = audio;
-                                dragItemFont = font;
-                                dragItemFontSize = fontSize;
+                                dragItemType = libraryType;
                                 draggedLibraryItem = self;
                             } else {
                                 listItem.Drag.drop();
