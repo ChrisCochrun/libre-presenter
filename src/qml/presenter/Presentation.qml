@@ -207,6 +207,20 @@ FocusScope {
                     active: hovered || pressed
                 }
 
+                add: Transition {
+                    NumberAnimation {properties: "width, height"; duration: 3000}
+                    NumberAnimation { properties: "opacity"; duration: 3000 }
+                }
+
+                remove: Transition {
+                    NumberAnimation { properties: "width, height"; duration: 3000 }
+                    NumberAnimation { properties: "opacity"; duration: 3000 }
+                }
+
+                displaced: Transition {
+                    NumberAnimation {properties: "x, y"; duration: 100}
+                }
+
             }
 
             Rectangle {
