@@ -203,13 +203,17 @@ Item {
                             supportsMouseEvents: false
                             backgroundColor: Kirigami.Theme.backgroundColor;
                             Binding on backgroundColor {
-                                when: songDragHandler.containsMouse || (songSelectionModel.hasSelection && songSelectionModel.isSelected(songProxyModel.idx(index)))
+                                when: songDragHandler.containsMouse ||
+                                    (songSelectionModel.hasSelection &&
+                                     songSelectionModel.isSelected(songProxyModel.idx(index)))
                                 value: Kirigami.Theme.highlightColor
                             }
 
                             textColor: Kirigami.Theme.textColor;
                             Binding on textColor {
-                                when: songDragHandler.containsMouse || (songSelectionModel.hasSelection && songSelectionModel.isSelected(songProxyModel.idx(index)))
+                                when: songDragHandler.containsMouse ||
+                                    (songSelectionModel.hasSelection &&
+                                     songSelectionModel.isSelected(songProxyModel.idx(index)))
                                 value: Kirigami.Theme.highlightedTextColor
                             }
 
