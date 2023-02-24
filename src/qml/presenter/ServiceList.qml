@@ -582,6 +582,7 @@ Item {
                                      type, image.filePath,
                                      "image", "", "",
                                      "", 0, 0);
+            return;
         }
         case 'video': {
             const video = videoProxyModel.getVideo(itemID);
@@ -590,6 +591,7 @@ Item {
                                      type, video.filePath,
                                      "video", "", "",
                                      "", 0, 0);
+            return;
         }
         case 'song': {
             const lyrics = songProxyModel.getLyricList(itemID);
