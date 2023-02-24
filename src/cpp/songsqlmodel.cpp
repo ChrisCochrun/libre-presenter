@@ -760,6 +760,12 @@ QModelIndex SongProxyModel::idx(int row) {
   return idx;
 }
 
+QStringList SongProxyModel::getLyricList(const int &row) {
+  auto model = qobject_cast<SongSqlModel *>(sourceModel());
+  QStringList lyrics = model->getLyricList(mapToSource(index(row, 0)).row());
+  return lyrics;
+}
+
 QVariantMap SongProxyModel::getSong(const int &row) {
   auto model = qobject_cast<SongSqlModel *>(sourceModel());
   QVariantMap song = model->getSong(mapToSource(index(row, 0)).row());
