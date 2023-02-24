@@ -261,7 +261,9 @@ QModelIndex PresentationProxyModel::idx(int row) {
 }
 
 QVariantMap PresentationProxyModel::getPresentation(const int &row) {
-  return QVariantMap();
+  auto model = qobject_cast<PresentationSqlModel *>(sourceModel());
+  QVariantMap presentation = model->getPresentation(mapToSource(index(row, 0)).row());
+  return presentation;
 }
 
 void PresentationProxyModel::deletePresentation(const int &row) {

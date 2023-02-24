@@ -226,7 +226,9 @@ QModelIndex ImageProxyModel::idx(int row) {
 }
 
 QVariantMap ImageProxyModel::getImage(const int &row) {
-  return QVariantMap();
+  auto model = qobject_cast<ImageSqlModel *>(sourceModel());
+  QVariantMap image = model->getImage(mapToSource(index(row, 0)).row());
+  return image;
 }
 
 void ImageProxyModel::deleteImage(const int &row) {

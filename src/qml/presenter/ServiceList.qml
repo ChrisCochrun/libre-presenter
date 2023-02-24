@@ -61,14 +61,7 @@ Item {
             onDropped: (drag) => {
                 console.log("DROPPED AT END");
                 showPassiveNotification(drag.source.title);
-                appendItem(dragItemTitle,
-                           dragItemType,
-                           dragItemBackground,
-                           dragItemBackgroundType,
-                           dragItemText,
-                           dragItemAudio,
-                           dragItemFont,
-                           dragItemFontSize,
+                appendItem(dragItemType,
                            dragItemIndex);
                 dropHighlightLine.visible = false;
             }
@@ -112,14 +105,7 @@ Item {
                             const hlIndex = serviceItemList.currentIndex;
                             if (drag.keys[0] === "library") {
                                 addItem(index,
-                                        dragItemTitle,
                                         dragItemType,
-                                        dragItemBackground,
-                                        dragItemBackgroundType,
-                                        dragItemText,
-                                        dragItemAudio,
-                                        dragItemFont,
-                                        dragItemFontSize,
                                         dragItemIndex);
                             } else if (drag.keys[0] === "serviceitem") {
                                 /* ServiceItemModel.moveRows(serviceItemList.indexDragged, */
@@ -539,67 +525,97 @@ Item {
         ServiceItemModel.removeItems();
     }
 
-    function addItem(index, name, type,
-                     background, backgroundType, text, audio,
-                     font, fontSize, itemID) {
-        if (type === "song") {
-            const newtext = songProxyModel.songModel.getLyricList(itemID);
-            console.log("adding: " + name + " of type " + type + " with " + newtext.length + " slides");
-            const song = SongProxyModel.getSong(itemID);
-            ServiceItemModel.insertItem(index, song.name,
+    function addItem(index, type, itemID) {
+        switch (type) {
+        case 'image': {
+            const image = imageProxyModel.getImage(itemID);
+            console.log("adding: " + image.title + " of type " + type);
+            ServiceItemModel.insertItem(index, image.title,
+                                        type, image.filePath,
+                                        "image", "", "",
+                                        "", 0, 0);
+            return;
+        }
+        case 'video': {
+            const video = videoProxyModel.getVideo(itemID);
+            console.log("adding: " + video.title + " of type " + type);
+            ServiceItemModel.insertItem(index, video.title,
+                                        type, video.filePath,
+                                        "video", "", "",
+                                        "", 0, 0);
+            return;
+        }
+        case 'song': {
+            const newtext = songProxyModel.getLyricList(itemID);
+            const song = songProxyModel.getSong(itemID);
+            console.log("adding: " + song.title +
+                        " of type " + type +
+                        " with " + newtext.length + " slides");
+            ServiceItemModel.insertItem(index, song.title,
                                         type, song.background,
                                         song.backgroundType, newtext,
                                         song.audio, song.font, song.fontSize, newtext.length);
-            /* totalServiceItems++; */
             return;
         }
-        if (type === "presentation") {
-            console.log("adding: " + name + " of type " + type + " with " + dragItemSlideNumber + " slides");
-            ServiceItemModel.insertItem(index, name,
-                                        type, background,
-                                        backgroundType, "",
-                                        "", "", 0, dragItemSlideNumber);
-            /* totalServiceItems++; */
+        case 'presentation': {
+            const pres = presProxyModel.getPresentation(itemID);
+            console.log("adding: " + pres.title +
+                        " of type " + type +
+                        " with " + pres.pageCount + " slides");
+            ServiceItemModel.insertItem(index, pres.title,
+                                        type, pres.filePath,
+                                        "image", "",
+                                        "", "", 0, pres.pageCount);
             return;
         }
-        console.log("adding: " + name + " of type " + type);
-        ServiceItemModel.insertItem(index, name,
-                                    type, background,
-                                    backgroundType, "", "",
-                                    "", 0, 0);
+        default: return;
+        }
         /* totalServiceItems++; */
     }
 
-    function appendItem(name, type, background, backgroundType,
-                        text, audio, font, fontSize, itemID) {
-        console.log("adding: " + name + " of type " + type);
-        if (type === "song") {
-            console.log("THIS IS A SONG!!!!!");
-            let lyrics = songProxyModel.songModel.getLyricList(itemID);
-            console.log(lyrics);
-            ServiceItemModel.addItem(name, type, background,
-                                     backgroundType, lyrics,
-                                     audio, font, fontSize, lyrics.length);
-            /* totalServiceItems++; */
+    function appendItem(type, itemID) {
+        switch (type) {
+        case 'image': {
+            const image = imageProxyModel.getImage(itemID);
+            console.log("adding: " + image.title + " of type " + type);
+            ServiceItemModel.addItem(image.title,
+                                     type, image.filePath,
+                                     "image", "", "",
+                                     "", 0, 0);
+        }
+        case 'video': {
+            const video = videoProxyModel.getVideo(itemID);
+            console.log("adding: " + video.title + " of type " + type);
+            ServiceItemModel.addItem(video.title,
+                                     type, video.filePath,
+                                     "video", "", "",
+                                     "", 0, 0);
+        }
+        case 'song': {
+            const lyrics = songProxyModel.getLyricList(itemID);
+            const song = songProxyModel.getSong(itemID);
+            console.log("adding: " + song.title +
+                        " of type " + type +
+                        " with " + lyrics.length + " slides");
+            ServiceItemModel.addItem(song.title,
+                                     type, song.background,
+                                     song.backgroundType, lyrics,
+                                     song.audio, song.font, song.fontSize, lyrics.length);
             return;
-        };
-
-        if (type === "presentation") {
-            console.log("THIS IS A PRESENTATION!!!!!");
-            ServiceItemModel.addItem(name, type, background,
-                                     backgroundType, "",
-                                     audio, font, fontSize,
-                                     dragSlideItemNumber);
-            /* totalServiceItems++; */
+        }
+        case 'presentation': {
+            const pres = presProxyModel.getPresentation(itemID);
+            console.log("adding: " + pres.title +
+                        " of type " + type +
+                        " with " + pres.pageCount + " slides");
+            ServiceItemModel.addItem(pres.title,
+                                     type, pres.filePath,
+                                     "image", "",
+                                     "", "", 0, pres.pageCount);
             return;
-        };
-        console.log(background);
-        console.log(backgroundType);
-
-        ServiceItemModel.addItem(name, type, background,
-                                 backgroundType, [""], "",
-                                 "", 0, 0);
-        /* totalServiceItems++; */
+        }
+        default: return;
+        }
     }
 
     function selectItems(index) {
