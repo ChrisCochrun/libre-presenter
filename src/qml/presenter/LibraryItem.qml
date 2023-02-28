@@ -8,7 +8,7 @@ import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
 
-Item {
+ColumnLayout {
     id: root
     property var proxyModel
     property var innerModel
@@ -16,8 +16,35 @@ Item {
     property string headerLabel
     property string itemLabel
     property string itemSubtitle
+    property string itemIcon
     property var newItemFuntion
     property var deleteItemFuntion
+
+    states: [
+        State {
+            name: "deselected"
+            when: (selectedLibrary !== libraryType)
+            PropertyChanges {
+                target: root
+                Layout.preferredHeight: Kirigami.Units.gridUnit * 1.5
+            }
+        },
+        State {
+            name: "selected"
+            when: (selectedLibrary == libraryType)
+            PropertyChanges { target: root }
+        }
+    ]
+
+    transitions: Transition {
+        to: "*"
+        NumberAnimation {
+            target: root
+            properties: "preferredHeight"
+            easing.type: Easing.OutCubic
+            duration: 300
+        }
+    }
 
     Rectangle {
         id: libraryPanel
@@ -34,7 +61,7 @@ Item {
             anchors.leftMargin: 15
             anchors.verticalCenter: parent.verticalCenter
             elide: Text.ElideLeft
-            text: label
+            text: headerLabel
         }
 
         Controls.Label {
@@ -79,6 +106,7 @@ Item {
         z: 2
         Layout.preferredHeight: 40
         Layout.fillWidth: true
+        Layout.alignment: Qt.AlignTop
         /* width: parent.width */
         color: Kirigami.Theme.backgroundColor
         opacity: 1
@@ -134,12 +162,13 @@ Item {
     }
 
     ListView {
-        Layout.preferredHeight: parent.height - 240
+        Layout.fillHeight: true
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignTop
         id: libraryList
         model: proxyModel
-        ItemselectionModel {
+        clip: true
+        ItemSelectionModel {
             id: selectionModel
             model: proxyModel
             onSelectionChanged: {
@@ -182,18 +211,26 @@ Item {
             Item{
                 implicitWidth: ListView.view.width
                 height: selectedLibrary == libraryType ? 50 : 0
-                Kirigami.BasiclistItem {
+                Kirigami.BasicListItem {
                     id: listItem
 
                     property bool rightMenu: false
                     property bool selected: selectionModel.isSelected(proxyModel.idx(index))
+                    property bool fileValidation: fileHelper.validate(filePath)
 
                     implicitWidth: libraryList.width
                     height: selectedLibrary == libraryType ? 50 : 0
                     clip: true
-                    label: itemLabel
-                    subtitle: itemSubtitle
-                    icon: "folder-music-symbolic"
+                    label: title
+                    subtitle: {
+                        if (selectedLibrary == "song")
+                            author
+                        else if (fileValidation)
+                            filePath;
+                        else
+                            "file is missing"
+                    }
+                    icon: itemIcon
                     iconSize: Kirigami.Units.gridUnit
                     supportsMouseEvents: false
                     backgroundColor: Kirigami.Theme.backgroundColor;
@@ -204,7 +241,16 @@ Item {
                         value: Kirigami.Theme.highlightColor
                     }
 
-                    textColor: Kirigami.Theme.textColor;
+                    textColor: {
+                        if (selectedLibrary == "song")
+                            Kirigami.Theme.textColor;
+                        else if (fileValidation) {
+                            Kirigami.Theme.textColor;
+                        }
+                        else
+                            "red"
+                    }
+
                     Binding on textColor {
                         when: dragHandler.containsMouse ||
                             (selectionModel.hasSelection &&

@@ -242,7 +242,8 @@ Item {
                                         }
                                         rightClickMenu.popup(mouse);
                                     }
-                                    else if ((mouse.button === Qt.LeftButton) && (mouse.modifiers === Qt.ShiftModifier)) {
+                                    else if ((mouse.button === Qt.LeftButton) &&
+                                             (mouse.modifiers === Qt.ShiftModifier)) {
                                         selectItems(index);
                                     } else {
                                         serviceItemList.currentIndex = index;
@@ -546,15 +547,17 @@ Item {
             return;
         }
         case 'song': {
-            const newtext = songProxyModel.getLyricList(itemID);
+            const lyrics = songProxyModel.getLyricList(itemID);
             const song = songProxyModel.getSong(itemID);
+            /* showPassiveNotification(song.title); */
             console.log("adding: " + song.title +
                         " of type " + type +
-                        " with " + newtext.length + " slides");
+                        " with " + lyrics.length + " slides");
             ServiceItemModel.insertItem(index, song.title,
                                         type, song.background,
-                                        song.backgroundType, newtext,
-                                        song.audio, song.font, song.fontSize, newtext.length);
+                                        song.backgroundType, lyrics,
+                                        song.audio, song.font, song.fontSize,
+                                        lyrics.length);
             return;
         }
         case 'presentation': {
