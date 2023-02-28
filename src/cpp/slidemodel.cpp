@@ -582,6 +582,10 @@ void SlideModel::addItemFromService(const int &index, const ServiceItem &item) {
 void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {
   qDebug() << "***INSERTING SLIDE FROM SERVICEITEM***";
   int slideId = findSlideIdFromServItm(index);
+  // move all slides to the next serviceItem
+  for (int i = slideId; i < rowCount(); i++) {
+    m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
+  }
   // inserting item
   if (item.type() == "song") {
     for (int i = 0; i < item.text().size(); i++) {
@@ -612,10 +616,6 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
                item.audio(), item.font(), item.fontSize(),
                "center", "center",
                index, 0, 1);
-  }
-  for (int i = slideId + 1; i < rowCount(); i++) {
-    //increment serviceItemIds
-    m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
   }
 
 }
