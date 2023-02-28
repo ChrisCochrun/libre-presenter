@@ -583,6 +583,8 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
   qDebug() << "***INSERTING SLIDE FROM SERVICEITEM***";
   int slideId = findSlideIdFromServItm(index);
   // move all slides to the next serviceItem
+  // this needs to happen first so that the slides are
+  // shifted appropriately
   for (int i = slideId; i < rowCount(); i++) {
     m_items[i]->setServiceItemId(m_items[i]->serviceItemId() + 1);
   }
