@@ -144,7 +144,7 @@ QVariantMap SongSqlModel::getSong(const int &row) {
   }
   int id = ids.indexOf(row,0);
 
-  const QModelIndex idx = this->index(id, 0, parent);
+  const QModelIndex idx = this->index(row, 0, parent);
   qDebug() << "%%%%%%%%%";
   qDebug() << row;
   qDebug() << idx;
@@ -165,7 +165,7 @@ QVariantMap SongSqlModel::getSong(const int &row) {
 QStringList SongSqlModel::getLyricList(const int &row) {
   QSqlQuery query("select id from songs");
   QList<int> ids;
-  qDebug() << row;
+  // qDebug() << row;
   while (query.next()) {
     ids.append(query.value(0).toInt());
     qDebug() << ids;
@@ -175,7 +175,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   qDebug() << "@@@@@@@@@@@@@@";
   qDebug() << id;
   qDebug() << "@@@@@@@@@@@@@@";
-  QSqlRecord recordData = record(id);
+  QSqlRecord recordData = record(row);
   if (recordData.isEmpty()) {
     qDebug() << "this is not a song";
     QStringList empty;
@@ -187,7 +187,7 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   QStringList lyrics;
 
   QStringList vorder = recordData.value("vorder").toString().split(" ");
-  qDebug() << vorder;
+  // qDebug() << vorder;
 
   QStringList keywords = {"Verse 1", "Verse 2", "Verse 3", "Verse 4",
                           "Verse 5", "Verse 6", "Verse 7", "Verse 8",
@@ -207,26 +207,26 @@ QStringList SongSqlModel::getLyricList(const int &row) {
   // This first function pulls out each verse into our verses map
   // foreach (line, rawLyrics) {
   for (int i = 0; i < rawLyrics.length(); ++i) {
-    qDebug() << "##########################";
-    qDebug() << rawLyrics[i];
-    qDebug() << rawLyrics.length();
-    qDebug() << i;
-    qDebug() << "##########################";
+    // qDebug() << "##########################";
+    // qDebug() << rawLyrics[i];
+    // qDebug() << rawLyrics.length();
+    // qDebug() << i;
+    // qDebug() << "##########################";
     if (firstItem) {
       if (keywords.contains(rawLyrics[i])) {
-        qDebug() << "!!!!THIS IS FIRST LINE!!!!!";
+        // qDebug() << "!!!!THIS IS FIRST LINE!!!!!";
         // qDebug() << rawLyrics[i];
         firstItem = false;
         vtitle = rawLyrics[i];
         continue;
       }
     } else if (keywords.contains(rawLyrics[i])) {
-      qDebug() << "!!!!THIS IS A VTITLE!!!!!";
+      // qDebug() << "!!!!THIS IS A VTITLE!!!!!";
       // qDebug() << verse;
       // qDebug() << rawLyrics[i];
       if (verse.contains("\n\n")) {
         verse = verse.trimmed();
-        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        // qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
         QStringList multiverses = verse.split("\n\n");
         foreach (verse, multiverses) {
           verses.insert(vtitle, verse);
@@ -242,12 +242,12 @@ QStringList SongSqlModel::getLyricList(const int &row) {
       vtitle = rawLyrics[i];
       continue;
     } else if (i + 1 == rawLyrics.length()) {
-      qDebug() << "!!!!LAST LINE!!!!!";
+      // qDebug() << "!!!!LAST LINE!!!!!";
 
       verse.append(rawLyrics[i].trimmed() + "\n");
       if (verse.contains("\n\n")) {
         verse = verse.trimmed();
-        qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
+        // qDebug() << "THIS IS A EMPTY SLIDE!" << verse;
         QStringList multiverses = verse.split("\n\n");
         foreach (verse, multiverses) {
           verses.insert(vtitle, verse);
@@ -257,31 +257,31 @@ QStringList SongSqlModel::getLyricList(const int &row) {
       }
 
       verses.insert(vtitle, verse);
-      qDebug() << "&&&&&&&&&&&&";
-      qDebug() << "This is final line";
-      qDebug() << "and has been inserted";
-      qDebug() << verses.values(vtitle);
-      qDebug() << "&&&&&&&&&&&&";
+      // qDebug() << "&&&&&&&&&&&&";
+      // qDebug() << "This is final line";
+      // qDebug() << "and has been inserted";
+      // qDebug() << verses.values(vtitle);
+      // qDebug() << "&&&&&&&&&&&&";
       break;
     }
-    qDebug() << "THIS RAWLYRICS[I]";
-    qDebug() << rawLyrics[i];
-    qDebug() << "THIS VTITLE";
-    qDebug() << vtitle;
+    // qDebug() << "THIS RAWLYRICS[I]";
+    // qDebug() << rawLyrics[i];
+    // qDebug() << "THIS VTITLE";
+    // qDebug() << vtitle;
     verse.append(rawLyrics[i].trimmed() + "\n");
-    qDebug() << verse;
-    qDebug() << "APPENDED VERSE";
+    // qDebug() << verse;
+    // qDebug() << "APPENDED VERSE";
   }
   // qDebug() << verses;
 
   // let's check to see if there is a verse order, if not return the list given
   if (vorder.first().isEmpty()) {
-    qDebug() << "NO VORDER";
+    // qDebug() << "NO VORDER";
     foreach (verse, verses) {
-      qDebug() << verse;
+      // qDebug() << verse;
       lyrics.append(verse);
     }
-    qDebug() << lyrics;
+    // qDebug() << lyrics;
     return lyrics;
   }
 
@@ -735,14 +735,12 @@ QModelIndex SongProxyModel::idx(int row) {
 }
 
 QStringList SongProxyModel::getLyricList(const int &row) {
-  auto model = qobject_cast<SongSqlModel *>(sourceModel());
-  QStringList lyrics = model->getLyricList(mapToSource(index(row, 0)).row());
+  QStringList lyrics = m_songModel->getLyricList(mapToSource(index(row, 0)).row());
   return lyrics;
 }
 
 QVariantMap SongProxyModel::getSong(const int &row) {
-  auto model = qobject_cast<SongSqlModel *>(sourceModel());
-  QVariantMap song = model->getSong(mapToSource(index(row, 0)).row());
+  QVariantMap song = m_songModel->getSong(mapToSource(index(row, 0)).row());
   return song;
 }
 
