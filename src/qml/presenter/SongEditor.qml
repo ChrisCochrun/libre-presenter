@@ -336,7 +336,7 @@ Item {
         changeSlideVAlignment("Center");
         changeSlideFont("Noto Sans", true);
         changeSlideFontSize(50, true)
-        changeSlideText(songIndex);
+        changeSlideText(songProxyModel.modelIndex(index).row);
         console.log(song.title);
     }
 
