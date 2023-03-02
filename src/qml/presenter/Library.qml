@@ -37,16 +37,18 @@ Item {
                 headerLabel: "Songs"
                 itemIcon: "folder-music-symbolic"
                 itemSubtitle: "hi"
-                newItemFuntion: (function() {
+                newItemFunction: (function() {
                     songProxyModel.setFilterRegularExpression("");
                     songProxyModel.songModel.newSong();
-                    songLibraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
+                    libraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
                     if (!editMode)
                         editMode = true;
                     editType = "song";
-                    editSwitch(songLibraryList.currentIndex);
+                    editSwitch(libraryList.currentIndex);
                 })
-                deleteItemFuntion: songProxyModel.deleteSong(index)
+                deleteItemFunction: (function(index) {
+                    songProxyModel.deleteSong(index)
+                })
 
                 Component.onCompleted: selectedLibrary = "song";
             }
@@ -67,10 +69,10 @@ Item {
                     else
                         "file is missing"
                         }
-                newItemFuntion: (function() {
+                newItemFunction: (function() {
                     videoProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFuntion: videoProxyModel.deleteVideo(index)
+                deleteItemFunction: videoProxyModel.deleteVideo(index)
 
             }
 
@@ -90,10 +92,10 @@ Item {
                     else
                         "file is missing"
                         }
-                newItemFuntion: (function() {
+                newItemFunction: (function() {
                     imageProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFuntion: imageProxyModel.deleteImage(index)
+                deleteItemFunction: imageProxyModel.deleteImage(index)
 
             }
 
@@ -113,10 +115,10 @@ Item {
                     else
                         "file is missing"
                         }
-                newItemFuntion: (function() {
+                newItemFunction: (function() {
                     presProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFuntion: presProxyModel.deletePresentation(index)
+                deleteItemFunction: presProxyModel.deletePresentation(index)
 
             }
 

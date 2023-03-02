@@ -17,8 +17,9 @@ ColumnLayout {
     property string itemLabel
     property string itemSubtitle
     property string itemIcon
-    property var newItemFuntion
-    property var deleteItemFuntion
+    property var newItemFunction
+    property var deleteItemFunction
+    property ListView libraryList: libraryList
 
     states: [
         State {
@@ -138,7 +139,7 @@ ColumnLayout {
                     icon.name: "document-new"
                     text: "New " + libraryType
                     tooltip: "Add a new " + libraryType
-                    onTriggered: newItemFuntion
+                    onTriggered: newItemFunction()
                 },
                 
                 Kirigami.Action {
@@ -216,7 +217,12 @@ ColumnLayout {
 
                     property bool rightMenu: false
                     property bool selected: selectionModel.isSelected(proxyModel.idx(index))
-                    property bool fileValidation: fileHelper.validate(filePath)
+                    property bool fileValidation: {
+                        if (filePath)
+                            fileHelper.validate(filePath)
+                        else
+                            false
+                    }
 
                     implicitWidth: libraryList.width
                     height: selectedLibrary == libraryType ? 50 : 0
@@ -318,7 +324,7 @@ ColumnLayout {
                                 libraryList.selectSongs(index);
                             } else {
                                 selectionModel.select(proxyModel.idx(index),
-                                                      ItemselectionModel.ClearAndSelect);
+                                                      ItemSelectionModel.ClearAndSelect);
 
                             }
                         }
@@ -327,7 +333,7 @@ ColumnLayout {
                             if (!editMode)
                                 editMode = true;
                             editType = libraryType;
-                            editSwitch(id);
+                            editSwitch(index);
                         }
 
                     }
@@ -338,7 +344,7 @@ ColumnLayout {
                     y: clickHandler.mouseY + 10
                     Kirigami.Action {
                         text: "delete"
-                        onTriggered: deleteItemFunction
+                        onTriggered: root.deleteItemFunction(index)
                     }
                 }
             }
