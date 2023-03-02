@@ -134,10 +134,10 @@ int main(int argc, char *argv[])
   //Need to instantiate our slide
   QScopedPointer<SlideModel> slideModel(new SlideModel);
   QScopedPointer<File> filemanager(new File);
-  QScopedPointer<QQuickView> preswin(new QQuickView);
+  // QScopedPointer<QQuickView> preswin(new QQuickView);
   QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel);
   QScopedPointer<SlideObject> slideobject(new SlideObject);
-  preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
+  // preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
   QObject::connect(serviceItemModel.get(),
                    SIGNAL(itemInserted(const int&, const ServiceItem&)),
@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideModel", slideModel.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slideobject.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
-  qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", preswin.get());
+  // qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", preswin.get());
 
   connectToDatabase();
 
