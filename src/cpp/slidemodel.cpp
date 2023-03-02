@@ -316,7 +316,7 @@ void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {
   }
   if (item.slideNumber() > 1) {
     qDebug() << "need to remove" << item.slideNumber() << "slides";
-    for (int i = id + item.slideNumber() - 1; i > id - 1; i--) {
+    for (int i = id + item.slideNumber() - 1; i >= id; i--) {
       qDebug() << "Removing multiple slides";
       qDebug() << "Removing slide:" << i;
       beginRemoveRows(QModelIndex(), i, i);
