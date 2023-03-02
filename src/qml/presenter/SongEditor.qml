@@ -321,7 +321,7 @@ Item {
         clearSlides();
         song = songProxyModel.songModel.getSong(index);
         console.log(song.lyrics);
-        songIndex = index;
+        songIndex = song.id;
 
         if (song.backgroundType == "image") {
             slideEditor.videoBackground = "";
@@ -345,7 +345,7 @@ Item {
         console.log(index);
         song = songProxyModel.songModel.getSong(index);
         console.log(song.lyrics);
-        songIndex = index;
+        songIndex = song.id;
 
         if (song.backgroundType == "image") {
             slideEditor.videoBackground = "";
@@ -360,13 +360,13 @@ Item {
         changeSlideVAlignment(song.verticalTextAlignment);
         changeSlideFont(song.font, true);
         changeSlideFontSize(song.fontSize, true)
-        changeSlideText(songIndex);
+        changeSlideText(songProxyModel.modelIndex(index).row);
         console.log(song.title);
     }
 
     function updateLyrics(lyrics) {
         songProxyModel.songModel.updateLyrics(songIndex, lyrics);
-        songLyrics = lyrics;
+        /* songLyrics = lyrics; */
         clearSlides();
         changeSlideText(songIndex);
     }
