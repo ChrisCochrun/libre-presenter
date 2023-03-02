@@ -710,6 +710,13 @@ void SongSqlModel::updateFontSize(const int &row, const int &fontSize) {
   submitAll();
   emit fontSizeChanged();
 }
+
+QModelIndex SongSqlModel::idx(int row) {
+  QModelIndex idx = index(row, 0);
+  // qDebug() << idx;
+  return idx;
+}
+
 // SongProxyModel
 
 SongProxyModel::SongProxyModel(QObject *parent)
@@ -731,6 +738,11 @@ SongSqlModel *SongProxyModel::songModel() {
 QModelIndex SongProxyModel::idx(int row) {
   QModelIndex idx = index(row, 0);
   // qDebug() << idx;
+  return idx;
+}
+
+QModelIndex SongProxyModel::modelIndex(int row) {
+  QModelIndex idx = m_songModel->idx(mapToSource(index(row, 0)).row());
   return idx;
 }
 

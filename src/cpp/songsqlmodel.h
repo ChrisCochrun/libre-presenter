@@ -70,6 +70,7 @@ public:
                                                const QString &horizontalTextAlignment);
   Q_INVOKABLE void updateFont(const int &row, const QString &font);
   Q_INVOKABLE void updateFontSize(const int &row, const int &fontSize);
+  Q_INVOKABLE QModelIndex idx(int row);
 
   Q_INVOKABLE void newSong();
   Q_INVOKABLE void deleteSong(const int &row);
@@ -121,6 +122,7 @@ public:
 
   SongSqlModel *songModel();
   Q_INVOKABLE QModelIndex idx(int row);
+  Q_INVOKABLE QModelIndex modelIndex(int row);
   // Q_INVOKABLE bool selected(const int &row);
   
   // QVariant data(const QModelIndex &index, int role) const override;
