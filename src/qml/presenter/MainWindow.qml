@@ -65,18 +65,18 @@ Controls.Page {
             id: splitMainView
             anchors.fill: parent
             handle: Item{
-                implicitWidth: 6
+                implicitWidth: Kirigami.Units.gridUnit
                 Rectangle {
                     height: parent.height
                     anchors.horizontalCenter: parent.horizontalCenter
-                    width: 1
-                    color: Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
+                    width: parent.width / 4
+                    color: parent.Controls.SplitHandle.hovered ? Kirigami.Theme.hoverColor : "#00000000"
                 }
             }
 
             Presenter.ServiceList {
                 id: leftDock
-                Controls.SplitView.preferredWidth: Kirigami.Units.largeSpacing * 30
+                Controls.SplitView.preferredWidth: Kirigami.Units.largeSpacing * 25
                 Controls.SplitView.maximumWidth: Kirigami.Units.largeSpacing * 50
                 z: 1
             }
@@ -120,7 +120,7 @@ Controls.Page {
 
             Presenter.Library {
                 id: library
-                Controls.SplitView.preferredWidth: libraryOpen ? Kirigami.Units.largeSpacing * 30 : 0
+                Controls.SplitView.preferredWidth: libraryOpen ? Kirigami.Units.largeSpacing * 25 : 0
                 Controls.SplitView.maximumWidth: Kirigami.Units.largeSpacing * 50
                 visible: libraryOpen ? true : false
             }
