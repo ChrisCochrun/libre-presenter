@@ -58,6 +58,15 @@ Kirigami.ApplicationWindow {
         }
     }
 
+    footer: RowLayout {
+        Controls.Label {
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: Kirigami.Units.smallSpacing * 2
+            /* elide: Text.ElideLeft */
+            text: "hello"
+        }
+    }
+
     Loader {
         id: menuLoader
         active: Kirigami.Settings.hasPlatformMenuBar
