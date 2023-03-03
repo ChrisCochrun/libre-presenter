@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Dialogs 1.0
 import QtQuick.Controls 2.15 as Controls
 import Qt.labs.platform 1.1 as Labs
-import QtQuick.Window 2.13
+import QtQuick.Window 2.15
 import QtQuick.Layouts 1.15
 import QtMultimedia 5.15
 /* import QtAudioEngine 1.15 */
