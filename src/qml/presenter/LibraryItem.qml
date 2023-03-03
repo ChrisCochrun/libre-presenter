@@ -357,9 +357,14 @@ ColumnLayout {
                     Kirigami.Action {
                         text: "delete"
                         onTriggered: {
-                            let selection = selectionModel.selectedIndexes;
-                            for (let i = 0; i < selection.length; i++) {
+                            var selection = [];
+                            var length = selectionModel.selectedIndexes.length;
+                            for (let i = 0; i < length; i++) {
+                                selection.push(selectionModel.selectedIndexes[i]);
                                 console.log(selection[i].row);
+                                /* root.deleteItemFunction(selection[i].row); */
+                            }
+                            for (let i = 0; i < length; i++) {
                                 root.deleteItemFunction(selection[i].row);
                             }
                         }
