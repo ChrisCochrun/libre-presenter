@@ -1,5 +1,5 @@
 import QtQuick 2.13
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.15
 import org.kde.kirigami 2.13 as Kirigami
 
 Item {

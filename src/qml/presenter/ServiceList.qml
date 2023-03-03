@@ -2,7 +2,7 @@ import QtQuick 2.13
 /* import QtQuick.Dialogs 1.0 */
 import QtQuick.Controls 2.0 as Controls
 /* import QtQuick.Window 2.13 */
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.15
 import QtQuick.Shapes 1.15
 /* import QtQml.Models 2.12 */
 /* import QtMultimedia 5.15 */
