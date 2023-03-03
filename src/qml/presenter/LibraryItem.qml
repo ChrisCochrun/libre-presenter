@@ -321,11 +321,23 @@ ColumnLayout {
                                 rightClickMenu.popup()
                             else if ((mouse.button === Qt.LeftButton) &&
                                      (mouse.modifiers === Qt.ShiftModifier)) {
-                                libraryList.selectSongs(index);
+                                if (libraryList.currentIndex < index) {
+                                    for (let i = libraryList.currentIndex; i <= index; i++) {
+                                        selectionModel.select(proxyModel.idx(i),
+                                                              ItemSelectionModel.Select);
+                                    }
+                                }
+                                else {
+                                    for (let i = index; i <= libraryList.currentIndex; i++) {
+                                        selectionModel.select(proxyModel.idx(i),
+                                                              ItemSelectionModel.Select);
+                                    }
+                                }
+                                console.log(selectionModel.selectedIndexes);
                             } else {
                                 selectionModel.select(proxyModel.idx(index),
                                                       ItemSelectionModel.ClearAndSelect);
-
+                                libraryList.currentIndex = index;
                             }
                         }
                         onDoubleClicked: {
@@ -344,7 +356,13 @@ ColumnLayout {
                     y: clickHandler.mouseY + 10
                     Kirigami.Action {
                         text: "delete"
-                        onTriggered: root.deleteItemFunction(index)
+                        onTriggered: {
+                            let selection = selectionModel.selectedIndexes;
+                            for (let i = 0; i < selection.length; i++) {
+                                console.log(selection[i].row);
+                                root.deleteItemFunction(selection[i].row);
+                            }
+                        }
                     }
                 }
             }

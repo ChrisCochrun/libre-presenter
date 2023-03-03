@@ -72,7 +72,9 @@ Item {
                 newItemFunction: (function() {
                     videoProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFunction: videoProxyModel.deleteVideo(index)
+                deleteItemFunction: (function(index) {
+                    videoProxyModel.deleteVideo(index)
+                })
 
             }
 
@@ -95,7 +97,9 @@ Item {
                 newItemFunction: (function() {
                     imageProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFunction: imageProxyModel.deleteImage(index)
+                deleteItemFunction: (function(index) {
+                    imageProxyModel.deleteImage(index)
+                })
 
             }
 
@@ -118,7 +122,9 @@ Item {
                 newItemFunction: (function() {
                     presProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFunction: presProxyModel.deletePresentation(index)
+                deleteItemFunction: (function(index) {
+                    presProxyModel.deletePresentation(index)
+                })
 
             }
 
