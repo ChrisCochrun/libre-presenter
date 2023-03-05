@@ -317,8 +317,12 @@ ColumnLayout {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: {
-                            if (mouse.button === Qt.RightButton)
+                            if (mouse.button === Qt.RightButton) {
+                                if(selectionModel.selectedIndexes.length <= 1)
+                                    selectionModel.select(proxyModel.idx(index),
+                                                          ItemSelectionModel.ClearAndSelect);
                                 rightClickMenu.popup()
+                            }
                             else if ((mouse.button === Qt.LeftButton) &&
                                      (mouse.modifiers === Qt.ShiftModifier)) {
                                 if (libraryList.currentIndex < index) {
