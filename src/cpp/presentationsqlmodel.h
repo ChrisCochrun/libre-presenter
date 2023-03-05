@@ -69,6 +69,7 @@ public:
 public slots:
   Q_INVOKABLE QVariantMap getPresentation(const int &row);
   Q_INVOKABLE void deletePresentation(const int &row);
+  Q_INVOKABLE void deletePresentations(const QVector<int> &row);
 
 private:
   PresentationSqlModel *m_presentationModel;

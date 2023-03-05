@@ -80,6 +80,7 @@ public:
 public slots:
   Q_INVOKABLE QVariantMap getVideo(const int &row);
   Q_INVOKABLE void deleteVideo(const int &row);
+  Q_INVOKABLE void deleteVideos(const QVector<int> &row);
 
 private:
   VideoSqlModel *m_videoModel;

@@ -235,3 +235,12 @@ void ImageProxyModel::deleteImage(const int &row) {
   auto model = qobject_cast<ImageSqlModel *>(sourceModel());
   model->deleteImage(row);
 }
+
+void ImageProxyModel::deleteImages(const QVector<int> &rows) {
+  auto model = qobject_cast<ImageSqlModel *>(sourceModel());
+  qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
+  for (int i = rows.size() - 1; i >= 0; i--) {
+    qDebug() << "deleting" << rows.at(i);
+    model->deleteImage(rows.at(i));
+  }
+}

@@ -360,13 +360,9 @@ ColumnLayout {
                             var selection = [];
                             var length = selectionModel.selectedIndexes.length;
                             for (let i = 0; i < length; i++) {
-                                selection.push(selectionModel.selectedIndexes[i]);
-                                console.log(selection[i].row);
-                                /* root.deleteItemFunction(selection[i].row); */
+                                selection.push(selectionModel.selectedIndexes[i].row);
                             }
-                            for (let i = 0; i < length; i++) {
-                                root.deleteItemFunction(selection[i].row);
-                            }
+                            root.deleteItemFunction(selection);
                         }
                     }
                 }

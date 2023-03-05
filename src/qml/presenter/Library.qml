@@ -46,8 +46,8 @@ Item {
                     editType = "song";
                     editSwitch(libraryList.currentIndex);
                 })
-                deleteItemFunction: (function(index) {
-                    songProxyModel.deleteSong(index)
+                deleteItemFunction: (function(rows) {
+                    songProxyModel.deleteSongs(rows)
                 })
 
                 Component.onCompleted: selectedLibrary = "song";
@@ -72,8 +72,8 @@ Item {
                 newItemFunction: (function() {
                     videoProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFunction: (function(index) {
-                    videoProxyModel.deleteVideo(index)
+                deleteItemFunction: (function(rows) {
+                    videoProxyModel.deleteVideos(rows)
                 })
 
             }
@@ -97,8 +97,8 @@ Item {
                 newItemFunction: (function() {
                     imageProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFunction: (function(index) {
-                    imageProxyModel.deleteImage(index)
+                deleteItemFunction: (function(rows) {
+                    imageProxyModel.deleteImages(rows)
                 })
 
             }
@@ -122,8 +122,8 @@ Item {
                 newItemFunction: (function() {
                     presProxyModel.setFilterRegularExpression("");
                 })
-                deleteItemFunction: (function(index) {
-                    presProxyModel.deletePresentation(index)
+                deleteItemFunction: (function(rows) {
+                    presProxyModel.deletePresentations(rows)
                 })
 
             }

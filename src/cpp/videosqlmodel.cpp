@@ -351,3 +351,12 @@ void VideoProxyModel::deleteVideo(const int &row) {
   auto model = qobject_cast<VideoSqlModel *>(sourceModel());
   model->deleteVideo(mapToSource(index(row,0)).row());
 }
+
+void VideoProxyModel::deleteVideos(const QVector<int> &rows) {
+  auto model = qobject_cast<VideoSqlModel *>(sourceModel());
+  qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
+  for (int i = rows.size() - 1; i >= 0; i--) {
+    qDebug() << "deleting" << rows.at(i);
+    model->deleteVideo(rows.at(i));
+  }
+}

@@ -760,3 +760,13 @@ void SongProxyModel::deleteSong(const int &row) {
   auto model = qobject_cast<SongSqlModel *>(sourceModel());
   model->deleteSong(row);
 }
+
+void SongProxyModel::deleteSongs(const QVector<int> &rows) {
+  auto model = qobject_cast<SongSqlModel *>(sourceModel());
+  qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
+  for (int i = rows.size() - 1; i >= 0; i--) {
+    qDebug() << "deleting" << rows.at(i);
+    model->deleteSong(rows.at(i));
+  }
+}
+

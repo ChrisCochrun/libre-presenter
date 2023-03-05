@@ -270,3 +270,12 @@ void PresentationProxyModel::deletePresentation(const int &row) {
   auto model = qobject_cast<PresentationSqlModel *>(sourceModel());
   model->deletePresentation(row);
 }
+
+void PresentationProxyModel::deletePresentations(const QVector<int> &rows) {
+  auto model = qobject_cast<PresentationSqlModel *>(sourceModel());
+  qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
+  for (int i = rows.size() - 1; i >= 0; i--) {
+    qDebug() << "deleting" << rows.at(i);
+    model->deletePresentation(rows.at(i));
+  }
+}

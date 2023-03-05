@@ -131,6 +131,7 @@ public:
 public slots:
   Q_INVOKABLE QVariantMap getSong(const int &row);
   Q_INVOKABLE void deleteSong(const int &row);
+  Q_INVOKABLE void deleteSongs(const QVector<int> &rows);
   Q_INVOKABLE QStringList getLyricList(const int &row);
   // Q_INVOKABLE void select(int row);
   // Q_INVOKABLE void selectSongs(int row);
