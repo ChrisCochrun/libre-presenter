@@ -34,9 +34,9 @@ Others:
 **** TODO Fix inserting items from service bugs
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {]]
 I THINK THIS IS DONE?!
-**** DONE Multi Select and Delete
 **** TODO need to finish figuring out proper removal of slides
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
+**** DONE Multi Select and Delete
 Need to figure out multi delete of libraries. Selection is working but after 1 item is deleted, the model resets and then breaks my selection list...
 
 I think i need deletion functions in all models
@@ -46,6 +46,7 @@ I think i need deletion functions in all models
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
+** TODO A busy indicator while deleting library items :feature:ui:
 ** TODO UI Blocks while saving :bug:
 ** TODO give images an aspect ratio option :feature:
 ** TODO Fix ImageEditor to make more sense for images :ui:
