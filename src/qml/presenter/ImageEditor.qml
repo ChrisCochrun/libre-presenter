@@ -108,6 +108,13 @@ Item {
                 Layout.preferredHeight: 30
             }
 
+            Controls.Label {
+                id: filePathLabel
+                Layout.preferredWidth: 600
+                Layout.alignment: Qt.AlignCenter
+                text: image.filePath
+            }
+
             Image {
                 id: imagePreview
                 Layout.preferredWidth: 600
