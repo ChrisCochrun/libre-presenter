@@ -125,8 +125,9 @@ Item {
     }
 
     function changeImage(image) {
-        root.image = image;
-        console.log(image.filePath.toString());
+        let img = imageProxyModel.getImage(image);
+        root.image = img;
+        console.log(img.filePath.toString());
     }
 
     function updateTitle(text) {
