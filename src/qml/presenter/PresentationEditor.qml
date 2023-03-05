@@ -148,10 +148,12 @@ Item {
     }
 
     function changePresentation(presentation) {
-        root.presentation = presentation;
-        console.log(presentation.filePath.toString());
+        let pres = presProxyModel.getPresentation(presentation);
+        root.presentation = pres;
+        console.log(pres.filePath.toString());
         updatePageCount(presentationPreview.frameCount);
-        console.log("page count " + presentation.pageCount);
+        console.log("page count " + pres.pageCount);
+        presentationPreview.currentFrame = 0;
     }
 
     function updateTitle(text) {
