@@ -225,7 +225,8 @@ Item {
     }
 
     function changeVideo(video) {
-        root.video = video;
+        let vid = videoProxyModel.getVideo(video);
+        root.video = vid;
         mpvLoadingTimer.restart();
     }
 
