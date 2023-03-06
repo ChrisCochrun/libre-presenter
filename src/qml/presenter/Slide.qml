@@ -20,6 +20,7 @@ Item {
     property url imageSource
     property url videoSource
     property url audioSource
+    property bool vidLoop
     property int pdfIndex
     property string chosenFont: "Quicksand"
     property string text
