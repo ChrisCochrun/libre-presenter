@@ -96,34 +96,6 @@ void SlideObject::changeSlide(QVariantMap item, int index)
 
 bool SlideObject::next(QVariantMap nextItem, SlideModel *slideModel)
 {
-  // qDebug() << "Starting to go to next item.";
-  // qDebug() << "SlideObject Index: " << slideIndex() << " SlideObject Size: " << slideSize();
-  // QStringList text = serviceItemId().value("text").toStringList();
-  // if (slideIndex() == slideSize()) {
-  //   // changeSlideObject(nextItem);
-  //   return true;
-  // }
-
-  // qDebug() << type();
-  // // since the string list is 0 indexed m_slideIndex actually
-  // // maps to the next item.
-  // if (type() == "song") {
-  //   int nextTextIndex = slideIndex();
-  //   qDebug() << nextTextIndex;
-  //   qDebug() << text[nextTextIndex];
-  //   setText(text[nextTextIndex]);
-  //   m_slideSize++;
-  //   emit slideIndexChanged(m_slideIndex);
-  // }
-
-  // if (type() == "presentation") {
-  //   qDebug() << "prev slide index: " << slideIndex();
-  //   m_slideIndex++;
-  //   emit slideIndexChanged(m_slideIndex);
-  //   qDebug() << "new slide index: " << slideIndex();
-  // }
-
-  //new implementation
   // QVariantMap serviceItem = serviceItemModel->getItem(nextItem.value("serviceItemId").toInt());
   setText(nextItem.value("text").toString());
   setType(nextItem.value("type").toString());
@@ -145,33 +117,6 @@ bool SlideObject::next(QVariantMap nextItem, SlideModel *slideModel)
 
 bool SlideObject::previous(QVariantMap prevItem, SlideModel *slideModel)
 {
-  // qDebug() << "Starting to go to previous item.";
-  // qDebug() << "SlideObject Index: " << slideIndex() << " SlideObject Size: " << slideSize();
-  // QStringList text = serviceItemId().value("text").toStringList();
-  // if (slideIndex() == 1) {
-  //   // changeSlideObject(prevItem);
-  //   return true;
-  // }
-
-  // // since the string list is 0 indexed m_slideIndex actually
-  // // maps to the next item. So the prev text is minus 2
-  // if (type() == "song") {
-  //   int prevTextIndex = slideIndex() - 2;
-  //   qDebug() << prevTextIndex;
-  //   qDebug() << text[prevTextIndex];
-  //   setText(text[prevTextIndex]);
-  //   m_slideIndex--;
-  //   emit slideIndexChanged(m_slideIndex);
-  // }
-
-  // if (type() == "presentation") {
-  //   qDebug() << "prev slide index: " << slideIndex();
-  //   m_slideIndex--;
-  //   emit slideIndexChanged(m_slideIndex);
-  //   qDebug() << "new slide index: " << slideIndex();
-  // }
-
-  //new implementation
   // QVariantMap serviceItem = serviceItemModel->getItem(prevItem.value("serviceItemId").toInt());
   setText(prevItem.value("text").toString());
   setType(prevItem.value("type").toString());
