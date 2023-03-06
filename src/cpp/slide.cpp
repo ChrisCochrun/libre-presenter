@@ -13,12 +13,12 @@ Slide::Slide(const QString &text, const QString &audio, const QString &imageBack
              const QString &videoBackground, const QString &horizontalTextAlignment,
              const QString &verticalTextAlignment, const QString &font,
              const int &fontSize, const int &imageCount,
-             const QString &type, const int &slideIndex, QObject *parent)
+             const QString &type, const int &slideIndex, const bool &loop, QObject *parent)
   : QObject(parent),m_text(text),m_audio(audio),m_imageBackground(imageBackground),
     m_videoBackground(videoBackground),m_verticalTextAlignment(verticalTextAlignment),
     m_horizontalTextAlignment(horizontalTextAlignment),m_font(font),
     m_fontSize(fontSize),m_imageCount(imageCount),m_type(type),
-    m_slideIndex(slideIndex),m_active(false),m_selected(false)
+    m_slideIndex(slideIndex),m_active(false),m_selected(false),m_loop(loop)
 {
   qDebug() << "Initializing slide with defaults";
 }
@@ -90,6 +90,10 @@ bool Slide::active() const {
 
 bool Slide::selected() const {
   return m_selected;
+}
+
+bool Slide::loop() const {
+  return m_loop;
 }
 
 void Slide::setText(QString text)
@@ -237,4 +241,13 @@ void Slide::setSelected(bool selected)
 
     m_selected = selected;
     emit selectedChanged(m_selected);
+}
+
+void Slide::setLoop(bool loop)
+{
+    if (m_loop == loop)
+        return;
+
+    m_loop = loop;
+    emit loopChanged(m_loop);
 }

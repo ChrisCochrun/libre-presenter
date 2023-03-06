@@ -534,7 +534,7 @@ Item {
             ServiceItemModel.insertItem(index, image.title,
                                         type, image.filePath,
                                         "image", "", "",
-                                        "", 0, 0);
+                                        "", 0, 0, false);
             return;
         }
         case 'video': {
@@ -543,7 +543,7 @@ Item {
             ServiceItemModel.insertItem(index, video.title,
                                         type, video.filePath,
                                         "video", "", "",
-                                        "", 0, 0);
+                                        "", 0, 0, video.loop);
             return;
         }
         case 'song': {
@@ -557,7 +557,7 @@ Item {
                                         type, song.background,
                                         song.backgroundType, lyrics,
                                         song.audio, song.font, song.fontSize,
-                                        lyrics.length);
+                                        lyrics.length, true);
             return;
         }
         case 'presentation': {
@@ -568,7 +568,7 @@ Item {
             ServiceItemModel.insertItem(index, pres.title,
                                         type, pres.filePath,
                                         "image", "",
-                                        "", "", 0, pres.pageCount);
+                                        "", "", 0, pres.pageCount, false);
             return;
         }
         default: return;
@@ -584,7 +584,7 @@ Item {
             ServiceItemModel.addItem(image.title,
                                      type, image.filePath,
                                      "image", "", "",
-                                     "", 0, 0);
+                                     "", 0, 0, false);
             return;
         }
         case 'video': {
@@ -593,7 +593,7 @@ Item {
             ServiceItemModel.addItem(video.title,
                                      type, video.filePath,
                                      "video", "", "",
-                                     "", 0, 0);
+                                     "", 0, 0, video.loop);
             return;
         }
         case 'song': {
@@ -605,7 +605,8 @@ Item {
             ServiceItemModel.addItem(song.title,
                                      type, song.background,
                                      song.backgroundType, lyrics,
-                                     song.audio, song.font, song.fontSize, lyrics.length);
+                                     song.audio, song.font, song.fontSize,
+                                     lyrics.length, true);
             return;
         }
         case 'presentation': {
@@ -616,7 +617,8 @@ Item {
             ServiceItemModel.addItem(pres.title,
                                      type, pres.filePath,
                                      "image", "",
-                                     "", "", 0, pres.pageCount);
+                                     "", "", 0, pres.pageCount,
+                                     false);
             return;
         }
         default: return;

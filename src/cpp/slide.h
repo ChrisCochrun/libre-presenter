@@ -28,6 +28,7 @@ class Slide : public QObject
   Q_PROPERTY(int slideIndex READ slideIndex WRITE setSlideIndex NOTIFY slideIndexChanged)
   Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  Q_PROPERTY(bool loop READ loop WRITE setLoop NOTIFY loopChanged)
   Q_PROPERTY(QString vidThumbnail READ vidThumbnail WRITE setVidThumbnail
              NOTIFY vidThumbnailChanged)
   // QML_ELEMENT
@@ -38,7 +39,7 @@ public:
         const QString &imageBackground, const QString &videoBackground,
         const QString &horizontalTextAlignment, const QString &verticalTextAlignment,
         const QString &font, const int &fontSize, const int &imageCount,
-        const QString &type, const int &slideIndex,
+        const QString &type, const int &slideIndex, const bool &loop,
         QObject * parent = nullptr);
 
   QString text() const;
@@ -55,6 +56,7 @@ public:
   int serviceItemId() const;
   bool active() const;
   bool selected() const;
+  bool loop() const;
   QString vidThumbnail() const;
 
   Q_INVOKABLE void setText(QString text);
@@ -71,6 +73,7 @@ public:
   Q_INVOKABLE void setSlideIndex(int slideIndex);
   Q_INVOKABLE void setActive(bool active);
   Q_INVOKABLE void setSelected(bool selected);
+  Q_INVOKABLE void setLoop(bool loop);
   Q_INVOKABLE void setVidThumbnail(QString vidThumbnail);
 
 signals:
@@ -88,6 +91,7 @@ signals:
   Q_INVOKABLE void slideIndexChanged(int slideIndex);
   Q_INVOKABLE void activeChanged(bool active);
   Q_INVOKABLE void selectedChanged(bool selected);
+  Q_INVOKABLE void loopChanged(bool loop);
   Q_INVOKABLE void vidThumbnailChanged(QString vidThumbnail);
 
 private:
@@ -106,6 +110,7 @@ private:
   int m_slideIndex;
   bool m_active;
   bool m_selected;
+  bool m_loop;
   QString m_vidThumbnail;
 };
 

@@ -68,6 +68,8 @@ QVariant ServiceItemModel::data(const QModelIndex &index, int role) const {
     return item->active();
   case SelectedRole:
     return item->selected();
+  case LoopRole:
+    return item->loop();
   default:
     return QVariant();
   }
@@ -84,7 +86,8 @@ QHash<int, QByteArray> ServiceItemModel::roleNames() const {
                                         {FontSizeRole, "fontSize"},
                                         {SlideNumberRole, "slideNumber"},
                                         {ActiveRole, "active"},
-                                        {SelectedRole, "selected"}};
+                                        {SelectedRole, "selected"},
+                                        {LoopRole, "loop"}};
 
   return mapping;
 }
@@ -159,6 +162,12 @@ bool ServiceItemModel::setData(const QModelIndex &index, const QVariant &value,
   case SelectedRole:
     if (item->selected() != value.toBool()) {
       item->setSelected(value.toBool());
+      somethingChanged = true;
+    }
+    break;
+  case LoopRole:
+    if (item->loop() != value.toBool()) {
+      item->setLoop(value.toBool());
       somethingChanged = true;
     }
     break;
@@ -267,12 +276,12 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType,
                                const QStringList &text, const QString &audio,
                                const QString &font, const int &fontSize,
-                               const int &slideNumber) {
+                               const int &slideNumber, const bool &loop) {
   qDebug() << "*************************";
   qDebug() << "Plain adding item: " << name;
   qDebug() << "*************************";
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-                                      text, audio, font, fontSize, slideNumber);
+                                      text, audio, font, fontSize, slideNumber, loop);
   item->setSelected(false);
   item->setActive(false);
   addItem(item);
@@ -339,12 +348,13 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &type,const QString &background,
                                   const QString &backgroundType,const QStringList &text,
                                   const QString &audio, const QString &font,
-                                  const int &fontSize, const int &slideNumber) {
+                                  const int &fontSize, const int &slideNumber,
+                                  const bool &loop) {
   qDebug() << "*************************";
   qDebug() << "Inserting serviceItem: " << name << " and index is " << index;
   qDebug() << "*************************";
   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-                                      text, audio, font, fontSize, slideNumber);
+                                      text, audio, font, fontSize, slideNumber, loop);
   item->setSelected(false);
   item->setActive(false);
   insertItem(index, item);
@@ -490,6 +500,7 @@ QVariantList ServiceItemModel::getItems() {
     itm["fontSize"] = item->fontSize();
     itm["slideNumber"] = item->slideNumber();
     itm["selected"] = item->selected();
+    itm["loop"] = item->loop();
     itm["active"] = item->active();
     data.append(itm);
   }
@@ -614,6 +625,7 @@ bool ServiceItemModel::save(QUrl file) {
     item.insert("slideNumber", m_items[i]->slideNumber());
     item.insert("text", m_items[i]->text());
     item.insert("type", m_items[i]->type());
+    item.insert("loop", m_items[i]->loop());
 
     qDebug() << "AUDIO IS: " << item.value("audio").toString();
     QFileInfo audioFile = item.value("audio").toString();
@@ -807,11 +819,11 @@ bool ServiceItemModel::load(QUrl file) {
       }
 
       addItem(item.value("name").toString(), item.value("type").toString(),
-                 realBackground,
-                 item.value("backgroundType").toString(),
-                 item.value("text").toStringList(), realAudio,
-                 item.value("font").toString(), item.value("fontSize").toInt(),
-                 item.value("slideNumber").toInt());
+              realBackground,
+              item.value("backgroundType").toString(),
+              item.value("text").toStringList(), realAudio,
+              item.value("font").toString(), item.value("fontSize").toInt(),
+              item.value("slideNumber").toInt(), item.value("loop").toBool());
     }
 
     return true;

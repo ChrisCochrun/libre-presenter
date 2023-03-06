@@ -52,9 +52,9 @@ ServiceItem::ServiceItem(const QString &name, const QString &type, const QString
 ServiceItem::ServiceItem(const QString &name, const QString &type, const QString &background,
                          const QString &backgroundType, const QStringList &text,
                          const QString &audio, const QString &font, const int &fontSize,
-                         const int &slideNumber, QObject *parent)
+                         const int &slideNumber, const bool &loop, QObject *parent)
   : QObject(parent),m_name(name),m_type(type),m_background(background),
-    m_backgroundType(backgroundType),m_text(text),m_audio(audio),m_font(font),m_fontSize(fontSize),m_slideNumber(slideNumber)
+    m_backgroundType(backgroundType),m_text(text),m_audio(audio),m_font(font),m_fontSize(fontSize),m_slideNumber(slideNumber),m_loop(loop)
 {
 
 }
@@ -104,6 +104,10 @@ bool ServiceItem::active() const {
 
 bool ServiceItem::selected() const {
   return m_selected;
+}
+
+bool ServiceItem::loop() const {
+  return m_loop;
 }
 
 void ServiceItem::setName(QString name)
@@ -206,4 +210,13 @@ void ServiceItem::setSelected(bool selected)
 
     m_selected = selected;
     emit selectedChanged(m_selected);
+}
+
+void ServiceItem::setLoop(bool loop)
+{
+    if (m_loop == loop)
+        return;
+
+    m_loop = loop;
+    emit loopChanged(m_loop);
 }

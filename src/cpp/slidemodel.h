@@ -30,6 +30,7 @@ public:
     ImageCountRole,
     ActiveRole,
     SelectedRole,
+    LoopRole,
     VidThumbnailRole
   };
 
@@ -61,7 +62,8 @@ public:
                            const QString &verticalTextAlignment,
                            const int &serviceItemId,
                            const int &slideIndex,
-                           const int &imageCount);
+                           const int &imageCount,
+                           const bool &loop);
   Q_INVOKABLE void insertItem(const int &index, const QString &text,
                               const QString &type, const QString &imageBackground,
                               const QString &videoBackground,
@@ -71,7 +73,8 @@ public:
                               const QString &verticalTextAlignment,
                               const int &serviceItemId,
                               const int &slideIndex,
-                              const int &imageCount);
+                              const int &imageCount,
+                              const bool &loop);
   Q_INVOKABLE void removeItem(int index);
   Q_INVOKABLE void removeItems();
   Q_INVOKABLE bool moveRows(int sourceIndex, int destIndex, int count);

@@ -127,6 +127,7 @@ FocusScope {
                     chosenFont: SlideObject.font
                     text: SlideObject.text
                     pdfIndex: SlideObject.pdfIndex
+                    vidLoop: SlideObject.loop
                     preview: true 
                 }
 
@@ -173,8 +174,8 @@ FocusScope {
                     Controls.Switch {
                         id: loopSwitch
                         text: "Loop"
-                        checked: previewSlide.mpvLoop === "inf" ? true : false
-                        onToggled: mainPage.loopVideo()
+                        checked: SlideObject.loop
+                        onToggled: SlideObject.setLoop(!SlideObject.loop)
                         Keys.onLeftPressed: previousSlideAction()
                         Keys.onRightPressed: nextSlideAction()
                         Keys.onUpPressed: previousSlideAction()

@@ -39,7 +39,7 @@ public:
   Q_INVOKABLE bool next(QVariantMap nextItem, SlideModel *slideModel);
   Q_INVOKABLE bool previous(QVariantMap prevItem, SlideModel *slideModel);
   Q_INVOKABLE bool changeSlideIndex(int index);
-  Q_INVOKABLE void setLoop();
+  Q_INVOKABLE void setLoop(bool loop);
 
 signals:
   Q_INVOKABLE void isPlayingChanged(bool isPlaying);

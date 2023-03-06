@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
     serviceItemModel.get()->addItem("Black", "image",
                                     "qrc:/assets/black.jpg",
                                     "image", QStringList(""),
-                                    "", "", 0, 1);
+                                    "", "", 0, 1, false);
   }
 
   // apparently mpv needs this class set

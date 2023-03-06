@@ -42,6 +42,7 @@ Window {
         textSize: SlideObject.fontSize
         pdfIndex: SlideObject.pdfIndex
         itemType: SlideObject.type
+        vidLoop: SlideObject.loop
     }
 
     Connections {

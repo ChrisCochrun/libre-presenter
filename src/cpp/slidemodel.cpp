@@ -85,6 +85,8 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const {
     return item->active();
   case SelectedRole:
     return item->selected();
+  case LoopRole:
+    return item->loop();
   case VidThumbnailRole:
     return item->vidThumbnail();
   default:
@@ -107,6 +109,7 @@ QHash<int, QByteArray> SlideModel::roleNames() const {
     {SlideIndexRole, "slideIndex"},
     {ActiveRole, "active"},
     {SelectedRole, "selected"},
+    {LoopRole, "loop"},
     {VidThumbnailRole, "vidThumbnail"}
   };
 
@@ -198,6 +201,12 @@ bool SlideModel::setData(const QModelIndex &index, const QVariant &value,
       somethingChanged = true;
     }
     break;
+  case LoopRole:
+    if (item->loop() != value.toBool()) {
+      item->setLoop(value.toBool());
+      somethingChanged = true;
+    }
+    break;
   case VidThumbnailRole:
     if (item->vidThumbnail() != value.toString()) {
       item->setVidThumbnail(value.toString());
@@ -262,11 +271,11 @@ void SlideModel::addItem(const QString &text, const QString &type,
                          const QString &horizontalTextAlignment,
                          const QString &verticalTextAlignment,
                          const int &serviceItemId, const int &slideIndex,
-                         const int &imageCount) {
+                         const int &imageCount, const bool &loop) {
   Slide *item = new Slide(text, audio, imageBackground, videoBackground,
                           horizontalTextAlignment,
                           verticalTextAlignment,
-                          font, fontSize, imageCount, type, slideIndex );
+                          font, fontSize, imageCount, type, slideIndex, loop);
   item->setSelected(false);
   item->setActive(false);
   item->setServiceItemId(serviceItemId);
@@ -283,10 +292,10 @@ void SlideModel::insertItem(const int &index,
                             const int &fontSize, const QString &horizontalTextAlignment,
                             const QString &verticalTextAlignment,
                             const int &serviceItemId, const int &slideIndex,
-                            const int &imageCount) {
+                            const int &imageCount, const bool &loop) {
   Slide *item = new Slide(text, audio, imageBackground, videoBackground,
                           horizontalTextAlignment, verticalTextAlignment, font, fontSize,
-                          imageCount, type, slideIndex);
+                          imageCount, type, slideIndex, loop);
   item->setSelected(false);
   item->setActive(false);
   item->setServiceItemId(serviceItemId);
@@ -461,6 +470,7 @@ QVariantList SlideModel::getItems() {
     itm["serviceItemId"] = item->serviceItemId();
     itm["selected"] = item->selected();
     itm["active"] = item->active();
+    itm["loop"] = item->loop();
     data.append(itm);
   }
   qDebug() << "$$$$$$$$$$$$$$$$$$$$$$$$$$$";
@@ -552,11 +562,11 @@ void SlideModel::addItemFromService(const int &index, const ServiceItem &item) {
       if (item.backgroundType() == "image") {
         addItem(item.text()[i], item.type(), item.background(), "",
                 item.audio(), item.font(), item.fontSize(), "center", "center",
-                index, i, item.text().size());
+                index, i, item.text().size(), item.loop());
       } else {
         addItem(item.text()[i], item.type(), "", item.background(), 
                 item.audio(), item.font(), item.fontSize(), "center", "center",
-                index, i, item.text().size());
+                index, i, item.text().size(), item.loop());
       }
     }
   } else if (item.type() == "presentation") {
@@ -564,18 +574,18 @@ void SlideModel::addItemFromService(const int &index, const ServiceItem &item) {
       addItem("", item.type(), item.background(), "",
               item.audio(), item.font(), item.fontSize(),
               "center", "center",
-              index, i, item.slideNumber());
+              index, i, item.slideNumber(), item.loop());
     }
   } else if (item.type() == "video") {
     addItem("", item.type(), "", item.background(), 
             item.audio(), item.font(), item.fontSize(),
             "center", "center",
-            index, 0, 1);
+            index, 0, 1, item.loop());
   } else {
     addItem("", item.type(), item.background(), "", 
             item.audio(), item.font(), item.fontSize(),
             "center", "center",
-            index, 0, 1);
+            index, 0, 1, item.loop());
   }
 
 }
@@ -595,11 +605,11 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
       if (item.backgroundType() == "image") {
         insertItem(slideId + i, item.type(), item.background(), "", item.text()[i],
                    item.audio(), item.font(), item.fontSize(), "center", "center",
-                   index, i, item.text().size());
+                   index, i, item.text().size(), item.loop());
       } else {
         insertItem(slideId + i, item.type(), "", item.background(), item.text()[i],
                    item.audio(), item.font(), item.fontSize(), "center", "center",
-                   index, i, item.text().size());
+                   index, i, item.text().size(), item.loop());
       }
     }
   } else if (item.type() == "presentation") {
@@ -607,18 +617,18 @@ void SlideModel::insertItemFromService(const int &index, const ServiceItem &item
       insertItem(slideId + i, item.type(), item.background(), "",
                  "", item.audio(), item.font(), item.fontSize(),
                  "center", "center",
-                 index, i, item.slideNumber());
+                 index, i, item.slideNumber(), item.loop());
     }
   } else if (item.type() == "video") {
     insertItem(slideId, item.type(), "", item.background(), "",
                item.audio(), item.font(), item.fontSize(),
                "center", "center",
-               index, 0, 1);
+               index, 0, 1, item.loop());
   } else {
     insertItem(slideId, item.type(), item.background(), "", "",
                item.audio(), item.font(), item.fontSize(),
                "center", "center",
-               index, 0, 1);
+               index, 0, 1, item.loop());
   }
 
 }

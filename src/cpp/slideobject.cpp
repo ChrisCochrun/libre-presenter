@@ -84,6 +84,10 @@ void SlideObject::changeSlide(QVariantMap item, int index)
   if (item.value("fontSize").toInt() != fontSize())
     setFontSize(item.value("fontSize").toInt());
 
+  if (loop() != item.value("loop").toBool()) {
+    setLoop(item.value("loop").toBool());
+    emit loopChanged(loop());
+  }
   setImageCount(item.value("imageCount").toInt());
   setSlideIndex(item.value("slideIndex").toInt());
   qDebug() << "THIS IS THE INDEX OF THE SLIDE!";
@@ -108,6 +112,10 @@ bool SlideObject::next(QVariantMap nextItem, SlideModel *slideModel)
   setFontSize(nextItem.value("fontSize").toInt());
   setImageCount(nextItem.value("imageCount").toInt());
   setSlideIndex(nextItem.value("slideIndex").toInt());
+  if (loop() != nextItem.value("loop").toBool()) {
+    setLoop(nextItem.value("loop").toBool());
+    emit loopChanged(loop());
+  }
   // m_slideSize = serviceItem.value("slideNumber").toInt();
 
 
@@ -129,6 +137,10 @@ bool SlideObject::previous(QVariantMap prevItem, SlideModel *slideModel)
   setFontSize(prevItem.value("fontSize").toInt());
   setImageCount(prevItem.value("imageCount").toInt());
   setSlideIndex(prevItem.value("slideIndex").toInt());
+  if (loop() != prevItem.value("loop").toBool()) {
+    setLoop(prevItem.value("loop").toBool());
+    emit loopChanged(loop());
+  }
   // m_slideSize = serviceItem.value("slideNumber").toInt();
 
   // emit slideSizeChanged(m_slideSize);
@@ -173,9 +185,9 @@ void SlideObject::play()
   emit isPlayingChanged(m_isPlaying);
 }
 
-void SlideObject::setLoop()
+void SlideObject::setLoop(bool loop)
 {
-  m_loop = true;
+  m_loop = loop;
   emit loopChanged(m_loop);
 }
 

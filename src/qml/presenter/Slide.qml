@@ -58,6 +58,8 @@ Item {
                 /* showPassiveNotification(videoSource + " has been loaded"); */
                 if (itemType == "song")
                     mpv.setProperty("loop", "inf");
+                else if (vidLoop)
+                    mpv.setProperty("loop", "inf");
                 else
                     mpv.setProperty("loop", "no");
                 /* showPassiveNotification(mpv.getProperty("loop")); */
