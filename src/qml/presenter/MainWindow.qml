@@ -65,7 +65,7 @@ Controls.Page {
             id: splitMainView
             anchors.fill: parent
             handle: Item{
-                implicitWidth: Kirigami.Units.gridUnit
+                implicitWidth: Kirigami.Units.gridUnit / 2
                 Rectangle {
                     height: parent.height
                     anchors.horizontalCenter: parent.horizontalCenter
