@@ -171,6 +171,7 @@ FocusScope {
                     }
 
                     Controls.Switch {
+                        id: loopSwitch
                         text: "Loop"
                         checked: previewSlide.mpvLoop === "inf" ? true : false
                         onToggled: mainPage.loopVideo()
@@ -294,8 +295,9 @@ FocusScope {
         function onVideoBackgroundChanged() {
             if (SlideObject.videoBackground === "")
                 stopVideo();
-            else
+            else {
                 loadVideo();
+            }
             playVideo();
         }
         function onIsPlayingChanged() {
