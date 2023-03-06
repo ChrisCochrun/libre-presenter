@@ -144,6 +144,20 @@ Item {
                 Layout.fillHeight: true
             }
 
+            Controls.TextArea {
+                id: filePathLabel
+                Layout.alignment: Qt.AlignBottom
+                Layout.fillWidth: true
+                text: presentation.filePath
+                background: Item{}
+                readOnly: true
+                HoverHandler {
+                    id: hoverHandler
+                    enabled: false
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
+                }
+            }
+
         }
     }
 

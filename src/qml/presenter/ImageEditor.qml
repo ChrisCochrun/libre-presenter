@@ -1,4 +1,4 @@
-import QtQuick 2.13
+import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.15
@@ -108,13 +108,6 @@ Item {
                 Layout.preferredHeight: 30
             }
 
-            Controls.Label {
-                id: filePathLabel
-                Layout.preferredWidth: 600
-                Layout.alignment: Qt.AlignCenter
-                text: image.filePath
-            }
-
             Image {
                 id: imagePreview
                 Layout.preferredWidth: 600
@@ -126,6 +119,20 @@ Item {
             Item {
                 id: botEmpty
                 Layout.fillHeight: true
+            }
+
+            Controls.TextArea {
+                id: filePathLabel
+                Layout.alignment: Qt.AlignBottom
+                Layout.fillWidth: true
+                text: image.filePath
+                background: Item{}
+                readOnly: true
+                HoverHandler {
+                    id: hoverHandler
+                    enabled: false
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
+                }
             }
 
         }
