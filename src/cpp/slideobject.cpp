@@ -132,7 +132,7 @@ void SlideObject::changeSlide(QVariantMap item, int index)
   if (item.value("imageBackground").toString() != imageBackground())
     setImageBackground(item.value("imageBackground").toString());
   if (item.value("videoBackground").toString() != videoBackground()) {
-    qDebug() << "Setting VIDEOBACKGROUND to:" << item.value("videoBackgroundl").toString();
+    qDebug() << "Setting VIDEOBACKGROUND to:" << item.value("videoBackground").toString();
     setVideoBackground(item.value("videoBackground").toString());
   }
   if (item.value("verticalTextAlignment").toString() != verticalTextAlignment())
