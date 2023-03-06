@@ -62,66 +62,6 @@ bool SlideObject::loop() const
 
 void SlideObject::changeSlide(QVariantMap item, int index)
 {
-  // setServiceItem(item);
-  // setType(serviceItemId().value("type").toString());
-  // qDebug() << "#$% SLIDE TYPE: " << type() << " %$#";
-
-  // // First let's clear the text and then set
-  // // the size and index of a basic slide
-  // // then we'll build the rest
-  // setText("");
-  // m_slideSize = 1;
-  // m_slideIndex = 1;
-
-  // qDebug() << serviceItemId().value("backgroundType").toString();
-  // if (serviceItemId().value("backgroundType") == "image") {
-  //   setImageBackground(serviceItemId().value("background").toString());
-  //   setVideoBackground("");
-  // } else {
-  //   setVideoBackground(serviceItemId().value("background").toString());
-  //   setImageBackground("");
-  // }
-
-  // setFont(serviceItemId().value("font").toString());
-  // setFontSize(serviceItemId().value("fontSize").toInt());
-  // setAudio("");
-
-  // if (type() == "presentation") {
-  //   qDebug() << "#$#$#$#$ THIS PDF $#$#$#$#";
-  //   int pageCount;
-  //   QString str = imageBackground().remove(0,6);
-  //   qDebug() << str;
-  //   std::string file = str.toStdString();
-  //   // qDebug() << file;
-  //   const char * doc = file.c_str();
-  //   qDebug() << doc;
-  //   try {
-  //     PdfMemDocument pdf = PdfMemDocument(doc);
-  //     pageCount = pdf.GetPageCount();
-  //   } catch ( const PdfError & eCode ) {
-  //     eCode.PrintErrorMsg();
-  //     eCode.GetError();
-  //     return;
-  //   }
-  //   setImageCount(pageCount);
-  //   qDebug() << imageCount();
-  //   m_slideSize = imageCount();
-  // }
-
-  // QStringList text = serviceItemId().value("text").toStringList();
-  // if (type() == "song") {
-  //   qDebug() << "TEXT LENGTH: " << text.length();
-  //   m_slideSize = text.length();
-  //   m_slideIndex = 1;
-  //   setText(text[0]);
-  //   setAudio(serviceItemId().value("audio").toString());
-  // }
-
-  // qDebug() << "MAP: " << serviceItemId().value("text");
-
-
-
-  //New implementation
   // QVariantMap serviceItem = serviceItemModel->getItem(item.value("serviceItemId").toInt());
   if (item.value("text").toString() != text())
     setText(item.value("text").toString());
