@@ -147,8 +147,8 @@ Item {
         }
     }
 
-    function changePresentation(presentation) {
-        let pres = presProxyModel.getPresentation(presentation);
+    function changePresentation(index) {
+        let pres = presProxyModel.getPresentation(index);
         root.presentation = pres;
         console.log(pres.filePath.toString());
         updatePageCount(presentationPreview.frameCount);

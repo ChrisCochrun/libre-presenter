@@ -131,8 +131,8 @@ Item {
         }
     }
 
-    function changeImage(image) {
-        let img = imageProxyModel.getImage(image);
+    function changeImage(index) {
+        let img = imageProxyModel.getImage(index);
         root.image = img;
         console.log(img.filePath.toString());
     }
