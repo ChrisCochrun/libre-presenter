@@ -173,7 +173,7 @@ Item {
                                         mouseHandler.containsMouse || active)
                                         Kirigami.Theme.highlightedTextColor;
                                     else
-                                        Kirigami.Theme.disabledTextColor;
+                                        Kirigami.Theme.textColor;
                                 }
                             }
 
