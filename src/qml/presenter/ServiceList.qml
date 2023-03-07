@@ -307,19 +307,14 @@ Item {
                 property int moveToIndex
                 property int draggedY
 
-                addDisplaced: Transition {
-                    NumberAnimation {properties: "x, y"; duration: 100}
-                }
-                moveDisplaced: Transition {
-                    NumberAnimation { properties: "x, y"; duration: 100 }
-                }
-                remove: Transition {
-                    NumberAnimation { properties: "x, y"; duration: 100 }
-                    NumberAnimation { properties: "opacity"; duration: 100 }
+                add: Transition {
+                    NumberAnimation {properties: "width, height"; duration: 3000}
+                    NumberAnimation { properties: "opacity"; duration: 3000 }
                 }
 
-                removeDisplaced: Transition {
-                    NumberAnimation { properties: "x, y"; duration: 100 }
+                remove: Transition {
+                    NumberAnimation { properties: "width, height"; duration: 3000 }
+                    NumberAnimation { properties: "opacity"; duration: 3000 }
                 }
 
                 displaced: Transition {
