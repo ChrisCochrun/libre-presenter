@@ -60,10 +60,11 @@ Item {
             Layout.fillWidth: true
             onDropped: (drag) => {
                 console.log("DROPPED AT END");
-                showPassiveNotification(drag.source.title);
+                loadingItem.visible = true;
                 appendItem(dragItemType,
                            dragItemIndex);
                 dropHighlightLine.visible = false;
+                loadingItem.visible = false;
             }
 
             keys: ["library"]
@@ -92,14 +93,13 @@ Item {
                         onEntered: (drag) => {
                             if (drag.keys[0] === "library") {
                                 dropHighlightLine.visible = true;
-                                showPassiveNotification("Y is: " + serviceDrop.mapToItem(
-                                    serviceItemList,0,0).y);
                                 dropHighlightLine.y = serviceDrop.mapToItem(
                                     serviceItemList,0,0).y - 2;
                             }
                         }
 
                         onDropped: (drag) => {
+                            loadingItem.visible = true;
                             console.log("DROPPED IN ITEM AREA: " + drag.keys);
                             console.log(dragItemIndex + " " + index);
                             const hlIndex = serviceItemList.currentIndex;
@@ -113,6 +113,7 @@ Item {
                                 /* serviceItemList.currentIndex = moveToIndex; */
                             }
                             dropHighlightLine.visible = false;
+                            loadingItem.visible = false;
                         }
 
                         keys: ["library","serviceitem"]
@@ -431,6 +432,18 @@ Item {
             /*         PathLine { x: -40; y: 200 } */
             /*     } */
             /* } */
+
+            Rectangle {
+                id: loadingItem
+                anchors.fill: parent
+                color: Kirigami.Theme.backgroundColor
+                visible: false
+
+                Controls.BusyIndicator {
+                    anchors.centerIn: parent
+                    running: true
+                }
+            }
         } 
 
         Kirigami.ActionToolBar {
@@ -500,6 +513,13 @@ Item {
                     onTriggered: {
                         showPassiveNotification("clearing all items");
                         ServiceItemModel.clearAll();
+                    }
+                },
+                Kirigami.Action {
+                    text: "Load"
+                    icon.name: "list-remove-all"
+                    onTriggered: {
+                        loadingItem.visible = !loadingItem.visible;
                     }
                 }
             ]
