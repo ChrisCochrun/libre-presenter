@@ -31,11 +31,12 @@ Others:
 - ~Drag and Drop of ServiceList~
   this is fixed, but now I need to move the slides around as you change the serviceItemModel
 - UI Blocking when saving
-**** TODO Fix inserting items from service bugs
+**** DONE Fix inserting items from service bugs
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::insertItemFromService(const int &index, const ServiceItem &item) {]]
 I THINK THIS IS DONE?!
-**** TODO need to finish figuring out proper removal of slides
+**** DONE need to finish figuring out proper removal of slides
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
+**** TODO There is still a bug in inserting items to the service list. The listview starts to stack items ontop of each other.
 **** DONE Multi Select and Delete
 Need to figure out multi delete of libraries. Selection is working but after 1 item is deleted, the model resets and then breaks my selection list...
 
