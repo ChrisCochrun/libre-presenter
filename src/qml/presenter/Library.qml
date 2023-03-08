@@ -288,7 +288,7 @@ Item {
 
             function addVideo(url) {
                 videoProxyModel.videoModel.newVideo(url);
-                selectedLibrary = "videos";
+                selectedLibrary = "video";
                 videoLibraryList.currentIndex = videoProxyModel.videoModel.rowCount();
                 console.log(videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex));
                 const video = videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex);
@@ -300,7 +300,7 @@ Item {
 
             function addImg(url) {
                 imageProxyModel.imageModel.newImage(url);
-                selectedLibrary = "images";
+                selectedLibrary = "image";
                 imageLibraryList.currentIndex = imageProxyModel.imageModel.rowCount();
                 console.log(imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex));
                 const image = imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex);
@@ -318,7 +318,7 @@ Item {
                     console.log("PAGECOUNT: " + pdf.pageCount);
                 }
                 presProxyModel.presentationModel.newPresentation(url, pdf.pageCount);
-                selectedLibrary = "presentations";
+                selectedLibrary = "presentation";
                 presentationLibraryList.currentIndex = presProxyModel.presentationModel.rowCount();
                 console.log(presProxyModel.presentationModel.getPresentation(presentationLibraryList.currentIndex));
                 const presentation = presProxyModel.presentationModel.getImage(presentationLibraryList.currentIndex);
