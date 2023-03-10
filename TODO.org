@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [72%] [32/44]
+* Tasks [75%] [34/45]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -17,7 +17,6 @@ Could start working on moving slide.h and slide.cpp to a slide.rs. Then creating
 Some of the special effects and things that I wanted to do could perhaps hold off. A lot of the things that I want to do to help make this really special could hold off. Blur, Color Adjustments, and Shadows for backgrounds and text and stuff can hold off for now. More of the special propresenter kind of things.
 
 Others:
-- Grid Layout
 - Detail Layout
 - Effects
 - Overall Search
@@ -54,13 +53,6 @@ I think i need deletion functions in all models
 ** TODO Add image slideshow with looping :feature:
 I could add this by adding a bool as a gallery option in the ImageSqlModel. Then add a loop bool as well. Then perhaps I'd ask if this image item contains a gallery and if so, make sure to loop through all of the filePaths as they could be saved as a list instead of a single filepath. Then decide on the last one whether or not to loop back to the beginning based on the loop bool in the image item.
 ** TODO Add image gallery options :feature:
-** TODO Add video repeat pieces :feature:
-This is possible with a toggle in the presenter but it'd be even better to have that built into the video model so that videos remember whether they should repeat. This would make sense in things like countdowns or video slideshows.
-** TODO Make libraries and models aware of being selected.
-This allows us to drag multiple to service list and delete multiple.
-final part to this is allowing for multiple select and multiple move in service list or library
-
-This is mostly done, just need to include the ability to multi select and then figure out multi drag.
 ** WAIT Make toolbar functional for =songeditor= [3/4] [75%]           :core:
 [[file:~/dev/church-presenter/src/qml/presenter/SongEditor.qml::Controls.ToolBar {]]
 
@@ -82,6 +74,13 @@ https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
 This thread helped a lot
 
 
+** DONE Add video repeat pieces                                   :feature:
+This is possible with a toggle in the presenter but it'd be even better to have that built into the video model so that videos remember whether they should repeat. This would make sense in things like countdowns or video slideshows.
+** DONE Make libraries and models aware of being selected.
+This allows us to drag multiple to service list and delete multiple.
+final part to this is allowing for multiple select and multiple move in service list or library
+
+This is mostly done, just need to include the ability to multi select and then figure out multi drag.
 ** DONE Library and ServiceList scrollbar is in the way            :bug:ui:
 ** DONE bug in dragging servicelist items to reorder. Maybe I can fix with me simplified model system :bug:
 I switched back to using Kirigami.dragHandler and properly implemented moveRows in the serviceItemModel
