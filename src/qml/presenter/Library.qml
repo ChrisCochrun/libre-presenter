@@ -14,7 +14,7 @@ Item {
     property string selectedLibrary: "songs"
     property bool overlay: false
     property var videoexts: ["mp4", "webm", "mkv", "avi", "MP4", "WEBM", "MKV"]
-    property var imgexts: ["jpg", "png", "gif", "jpeg", "JPG", "PNG"]
+    property var imgexts: ["jpg", "png", "gif", "jpeg", "JPG", "PNG", "webp", "gif"]
     property var presexts: ["pdf", "PDF", "odp", "pptx", "html"]
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
