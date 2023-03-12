@@ -56,42 +56,42 @@ Item {
                     text: "Select Image"
                     icon.name: "fileopen"
                     hoverEnabled: true
-                    onClicked: backgroundType.open()
+                    onClicked: fileDialog.open()
                 }
 
-                Controls.Popup {
-                    id: backgroundType
-                    x: backgroundButton.x
-                    y: backgroundButton.y + backgroundButton.height + 20
-                    modal: true
-                    focus: true
-                    dim: false
-                    background: Rectangle {
-                        Kirigami.Theme.colorSet: Kirigami.Theme.Tooltip
-                        color: Kirigami.Theme.backgroundColor
-                        radius: 10
-                        border.color: Kirigami.Theme.activeBackgroundColor
-                        border.width: 2
-                    }
-                    closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent
-                    ColumnLayout {
-                        anchors.fill: parent
-                        Controls.ToolButton {
-                            Layout.fillHeight: true
-                            Layout.fillWidth: true
-                            text: "Image"
-                            icon.name: "emblem-images-symbolic"
-                            onClicked: imageFileDialog.open() & backgroundType.close()
-                        }
-                        Controls.ToolButton {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            text: "Image"
-                            icon.name: "folder-pictures-symbolic"
-                            onClicked: imageFileDialog.open() & backgroundType.close()
-                        }
-                    }
-                }
+                /* Controls.Popup { */
+                /*     id: backgroundType */
+                /*     x: backgroundButton.x */
+                /*     y: backgroundButton.y + backgroundButton.height + 20 */
+                /*     modal: true */
+                /*     focus: true */
+                /*     dim: false */
+                /*     background: Rectangle { */
+                /*         Kirigami.Theme.colorSet: Kirigami.Theme.Tooltip */
+                /*         color: Kirigami.Theme.backgroundColor */
+                /*         radius: 10 */
+                /*         border.color: Kirigami.Theme.activeBackgroundColor */
+                /*         border.width: 2 */
+                /*     } */
+                /*     closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent */
+                /*     ColumnLayout { */
+                /*         anchors.fill: parent */
+                /*         Controls.ToolButton { */
+                /*             Layout.fillHeight: true */
+                /*             Layout.fillWidth: true */
+                /*             text: "Image" */
+                /*             icon.name: "emblem-images-symbolic" */
+                /*             onClicked: imageFileDialog.open() & backgroundType.close() */
+                /*         } */
+                /*         Controls.ToolButton { */
+                /*             Layout.fillWidth: true */
+                /*             Layout.fillHeight: true */
+                /*             text: "Image" */
+                /*             icon.name: "folder-pictures-symbolic" */
+                /*             onClicked: imageFileDialog.open() & backgroundType.close() */
+                /*         } */
+                /*     } */
+                /* } */
             }
         }
 
@@ -134,7 +134,21 @@ Item {
                     cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
                 }
             }
+        }
+    }
 
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a background"
+        folder: shortcuts.home
+        selectMultiple: false
+        nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG *.webp *.gif)"]
+        onAccepted: {
+            updateImage(fileDialog.fileUrls[0]);
+            console.log("image background = " + fileDialog.fileUrls[0]);
+        }
+        onRejected: {
+            console.log("Canceled")
         }
     }
 
@@ -146,13 +160,19 @@ Item {
 
     function updateTitle(text) {
         changeTitle(text, false);
-        imagesqlmodel.updateTitle(image.id, text);
-        showPassiveNotification(image.title);
+        imageProxyModel.imageModel.updateTitle(root.image.id, text);
+        showPassiveNotification(root.image.title);
     }
 
     function changeTitle(text, updateBox) {
         if (updateBox)
             imageTitleField.text = text;
         image.title = text;
+    }
+
+    function updateImage(image) {
+        imageProxyModel.imageModel.updateFilePath(root.image.id, image);
+        root.image.filePath = image;
+        console.log(image);
     }
 }
