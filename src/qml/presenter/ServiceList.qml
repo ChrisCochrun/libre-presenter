@@ -534,11 +534,13 @@ Item {
 
     function removeItem(index) {
         ServiceItemModel.removeItem(index);
+        serviceItemList.forceLayout()
         /* totalServiceItems--; */
     }
 
     function removeItems() {
         ServiceItemModel.removeItems();
+        serviceItemList.forceLayout()
     }
 
     function addItem(index, type, itemID) {
@@ -550,6 +552,7 @@ Item {
                                         type, image.filePath,
                                         "image", "", "",
                                         "", 0, 0, false);
+            serviceItemList.forceLayout()
             return;
         }
         case 'video': {
@@ -559,6 +562,7 @@ Item {
                                         type, video.filePath,
                                         "video", "", "",
                                         "", 0, 0, video.loop);
+            serviceItemList.forceLayout()
             return;
         }
         case 'song': {
@@ -573,6 +577,7 @@ Item {
                                         song.backgroundType, lyrics,
                                         song.audio, song.font, song.fontSize,
                                         lyrics.length, true);
+            serviceItemList.forceLayout()
             return;
         }
         case 'presentation': {
@@ -584,10 +589,12 @@ Item {
                                         type, pres.filePath,
                                         "image", "",
                                         "", "", 0, pres.pageCount, false);
+            serviceItemList.forceLayout()
             return;
         }
         default: return;
         }
+        serviceItemList.forceLayout()
         /* totalServiceItems++; */
     }
 
@@ -600,6 +607,7 @@ Item {
                                      type, image.filePath,
                                      "image", "", "",
                                      "", 0, 0, false);
+            serviceItemList.forceLayout()
             return;
         }
         case 'video': {
@@ -609,6 +617,7 @@ Item {
                                      type, video.filePath,
                                      "video", "", "",
                                      "", 0, 0, video.loop);
+            serviceItemList.forceLayout()
             return;
         }
         case 'song': {
@@ -622,6 +631,7 @@ Item {
                                      song.backgroundType, lyrics,
                                      song.audio, song.font, song.fontSize,
                                      lyrics.length, true);
+            serviceItemList.forceLayout()
             return;
         }
         case 'presentation': {
@@ -634,10 +644,12 @@ Item {
                                      "image", "",
                                      "", "", 0, pres.pageCount,
                                      false);
+            serviceItemList.forceLayout()
             return;
         }
         default: return;
         }
+        serviceItemList.forceLayout()
     }
 
     function selectItems(index) {
