@@ -48,8 +48,9 @@ Item {
         id: slidesTitle
         width: previewHighlight.width
         anchors.top: previewHighlight.bottom
-        /* anchors.leftMargin: Kirigami.Units.smallSpacing * 8 */
-        anchors.topMargin: Kirigami.Units.smallSpacing * 3
+        anchors.left: previewHighlight.left
+        anchors.topMargin: Kirigami.Units.smallSpacing
+        anchors.leftMargin: Kirigami.Units.smallSpacing
         elide: Text.ElideRight
         text: ServiceItemModel.getItem(serviceItemId).name
         font.bold: true
@@ -74,7 +75,7 @@ Item {
         function onDataChanged() {
             if (active) {
                 previewSlidesList.currentIndex = index;
-                previewSlidesList.positionViewAtIndex(index, ListView.Contain);
+                previewSlidesList.positionViewAtIndex(index, ListView.Center);
             }
         }
     }

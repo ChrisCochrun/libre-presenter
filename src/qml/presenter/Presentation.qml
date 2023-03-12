@@ -198,6 +198,8 @@ FocusScope {
                 reuseItems: true
                 model: SlideModel
                 delegate: Presenter.PreviewSlideListDelegate {}
+                highlight: highlightBar
+                highlightFollowsCurrentItem: false
 
                 Kirigami.WheelHandler {
                     id: wheelHandler
@@ -225,21 +227,24 @@ FocusScope {
 
             }
 
-            Rectangle {
-                id: activeHighlightBar
-                width: Kirigami.Units.gridUnit * 10
-                height: Kirigami.Units.gridUnit / 4
-                y: previewSlidesList.y + Kirigami.Units.gridUnit * 6.15
-                x: previewSlidesList.currentItem.x + Kirigami.Units.smallSpacing
-                radius: 5
-                color: Kirigami.Theme.negativeTextColor
+            Component {
+                id: highlightBar
+                Rectangle {
+                    id: activeHighlightBar
+                    width: Kirigami.Units.gridUnit * 10
+                    height: Kirigami.Units.gridUnit / 4
+                    y: Kirigami.Units.gridUnit * 7.35
+                    x: previewSlidesList.currentItem.x
+                    radius: 5
+                    color: Kirigami.Theme.negativeTextColor
 
-                Behavior on x { PropertyAnimation {
-                    properties: "x"
-                    easing.type: Easing.InOutElastic;
-                    easing.period: 1.5
-                    duration: 150
-                }}
+                    Behavior on x { PropertyAnimation {
+                        properties: "x"
+                        easing.type: Easing.InOutElastic;
+                        easing.period: 1.5
+                        duration: 150
+                    }}
+                }
             }
         }
 
