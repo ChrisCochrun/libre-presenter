@@ -65,19 +65,19 @@ mod service_thing {
             println!("Are we active?: {}", self.active());
         }
 
-        #[qinvokable]
-        pub fn slap_variant_around(self: Pin<&mut Self>, variant: &QVariant) {
-            println!("wow!");
-            let sname: String;
-            match variant.value() {
-                QVariantValue::QString(string) => {
-                    let nstr = string.to_string();
-                    self.set_name(QString::from(nstr.as_str()));
-                    sname = nstr;
-                    println!("New name is: {}", sname);
-                }
-                _ => println!("Unknown QVariant type"),
-            };
-        }
+        // #[qinvokable]
+        // pub fn slap_variant_around(self: Pin<&mut Self>, variant: &QVariant) {
+        //     println!("wow!");
+        //     let sname: String;
+        //     match variant.value() {
+        //         QVariantValue::QString(string) => {
+        //             let nstr = string.to_string();
+        //             self.set_name(QString::from(nstr.as_str()));
+        //             sname = nstr;
+        //             println!("New name is: {}", sname);
+        //         }
+        //         _ => println!("Unknown QVariant type"),
+        //     };
+        // }
     }
 }

@@ -31,22 +31,22 @@ mod file_helper {
     }
 
     impl qobject::FileHelper {
-        #[qinvokable]
-        pub fn save(self: Pin<&mut Self>, file: QUrl, service_list: QVariant) -> bool {
-            println!("{}", file);
-            match service_list.value() {
-                QVariantValue::QString(..) => println!("string"),
-                QVariantValue::QUrl(..) => println!("url"),
-                QVariantValue::QDate(..) => println!("date"),
-                _ => println!("QVariant is..."),
-            }
-            return true;
-        }
+        // #[qinvokable]
+        // pub fn save(self: Pin<&mut Self>, file: QUrl, service_list: QVariant) -> bool {
+        //     println!("{}", file);
+        //     match service_list.value() {
+        //         QVariantValue::<QString>(..) => println!("string"),
+        //         QVariantValue::<QUrl>(..) => println!("url"),
+        //         QVariantValue::<QDate>(..) => println!("date"),
+        //         _ => println!("QVariant is..."),
+        //     }
+        //     return true;
+        // }
 
         #[qinvokable]
         pub fn load(self: Pin<&mut Self>, file: QUrl) -> Vec<String> {
-            println!("{}", file);
-            return vec!["hi".to_string()];
+            println!("{file}");
+            vec!["hi".to_string()]
         }
 
         #[qinvokable]
@@ -56,12 +56,12 @@ mod file_helper {
             match _file_string {
                 None => {
                     let _exists = Path::new(&file.to_string()).exists();
-                    println!("{} exists? {_exists}", file.to_string());
+                    println!("{file} exists? {_exists}");
                     _exists
                 }
                 Some(file) => {
                     let _exists = Path::new(&file).exists();
-                    println!("{} exists? {_exists}", file);
+                    println!("{file} exists? {_exists}");
                     _exists
                 }
             }
