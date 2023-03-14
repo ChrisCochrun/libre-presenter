@@ -146,6 +146,24 @@ Item {
                 Controls.SplitView.preferredWidth: 500
                 Controls.SplitView.minimumWidth: 500
 
+                Controls.Label {
+                    id: songTitleLabel
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    leftPadding: 10
+                    text: "Title"
+
+                    Rectangle {
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        implicitHeight: Kirigami.Units.smallSpacing / 3
+                        color: Kirigami.Theme.disabledTextColor
+                    }
+                }
+
                 Controls.TextField {
                     id: songTitleField
 
@@ -159,6 +177,25 @@ Item {
                     padding: 10
                     onEditingFinished: updateTitle(text);
                 }
+
+                Controls.Label {
+                    id: songVorderLabel
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    leftPadding: 10
+                    text: "Verse Order <font color=\"Gray\"><i>format: V1 C1 V2 B1</i></font>"
+
+                    Rectangle {
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        implicitHeight: Kirigami.Units.smallSpacing / 3
+                        color: Kirigami.Theme.disabledTextColor
+                    }
+                }
+
                 Controls.TextField {
                     id: songVorderField
 
@@ -171,6 +208,24 @@ Item {
                     text: song.vorder
                     padding: 10
                     onEditingFinished: updateVerseOrder(text);
+                }
+
+                Controls.Label {
+                    id: songLyricsLabel
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    leftPadding: 10
+                    text: "Lyrics"
+
+                    Rectangle {
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        implicitHeight: Kirigami.Units.smallSpacing / 3
+                        color: Kirigami.Theme.disabledTextColor
+                    }
                 }
 
                 Controls.ScrollView {
@@ -198,6 +253,25 @@ Item {
                         onPressed: editorTimer.running = true
                     }
                 }
+
+                Controls.Label {
+                    id: songAuthorLabel
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    leftPadding: 10
+                    text: "Artist"
+
+                    Rectangle {
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        implicitHeight: Kirigami.Units.smallSpacing / 3
+                        color: Kirigami.Theme.disabledTextColor
+                    }
+                }
+
                 Controls.TextField {
                     id: songAuthorField
 
@@ -210,6 +284,24 @@ Item {
                     text: song.author
                     padding: 10
                     onEditingFinished: updateAuthor(text)
+                }
+
+                Controls.Label {
+                    id: songAudioLabel
+                    Layout.preferredWidth: 300
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 20
+                    Layout.rightMargin: 20
+                    leftPadding: 10
+                    text: "Audio File"
+
+                    Rectangle {
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        implicitHeight: Kirigami.Units.smallSpacing / 3
+                        color: Kirigami.Theme.disabledTextColor
+                    }
                 }
 
                 RowLayout {
