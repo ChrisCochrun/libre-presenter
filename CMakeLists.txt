@@ -32,6 +32,16 @@ kde_enable_exceptions()
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets Sql X11Extras QmlImportScanner)
 find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 WindowSystem I18n Archive CoreAddons)
 
+# find_package(PkgConfig REQUIRED)
+# pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
+#     libavdevice
+#     libavfilter
+#     libavformat
+#     libavcodec
+#     libswresample
+#     libswscale
+#     libavutil
+# )
 find_package(FFmpeg)
 set_package_properties(FFmpeg PROPERTIES TYPE REQUIRED)
 
@@ -44,24 +54,24 @@ set_package_properties(YouTubeDl PROPERTIES TYPE RUNTIME)
 find_package(Ytdlp)
 set_package_properties(Ytdlp PROPERTIES TYPE RUNTIME)
 
-FIND_PACKAGE(LibPoDoFo)
-IF(NOT LIBPODOFO_FOUND)
-	MESSAGE("+++PoDoFo not found... building private copy")
-	SET(PODOFO_BUILD_STATIC 1)
-	SET(PODOFO_BUILD_SHARED 0)
-	SET(PODOFO_BUILD_LIB_ONLY 1)
-	ADD_SUBDIRECTORY(externals/required_libpodofo)
-	SET(LIBPODOFO_H ${CMAKE_CURRENT_SOURCE_DIR}/externals/required_libpodofo)
-	SET(LIBPODOFO_CONFIG_H ${CMAKE_CURRENT_BINARY_DIR}/externals/required_libpodofo)
-	SET(LIBPODOFO_LIB podofo_static)
-	MESSAGE("+++Done setting up private PoDoFo copy")
-ENDIF(NOT LIBPODOFO_FOUND)
+# FIND_PACKAGE(LibPoDoFo)
+# IF(NOT LIBPODOFO_FOUND)
+# 	MESSAGE("+++PoDoFo not found... building private copy")
+# 	SET(PODOFO_BUILD_STATIC 1)
+# 	SET(PODOFO_BUILD_SHARED 0)
+# 	SET(PODOFO_BUILD_LIB_ONLY 1)
+# 	ADD_SUBDIRECTORY(externals/required_libpodofo)
+# 	SET(LIBPODOFO_H ${CMAKE_CURRENT_SOURCE_DIR}/externals/required_libpodofo)
+# 	SET(LIBPODOFO_CONFIG_H ${CMAKE_CURRENT_BINARY_DIR}/externals/required_libpodofo)
+# 	SET(LIBPODOFO_LIB podofo_static)
+# 	MESSAGE("+++Done setting up private PoDoFo copy")
+# ENDIF(NOT LIBPODOFO_FOUND)
 
 
-INCLUDE_DIRECTORIES(
-	${LIBPODOFO_H}
-	${LIBPODOFO_CONFIG_H}
-	)
+# INCLUDE_DIRECTORIES(
+# 	${LIBPODOFO_H}
+# 	${LIBPODOFO_CONFIG_H}
+# 	)
 
 
 # find_program(XDG-DESKTOP-MENU_EXECUTABLE xdg-desktop-menu)
@@ -119,7 +129,7 @@ target_link_libraries(${CRATE} INTERFACE
         KF5::Archive
         KF5::CoreAddons
         KF5::WindowSystem
-        podofo
+        # podofo
         mpv
 )
 

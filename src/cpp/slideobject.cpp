@@ -2,10 +2,10 @@
 #include "serviceitemmodel.h"
 #include "slidemodel.h"
 
-#include <podofo/podofo.h>
+// #include <podofo/podofo.h>
 #include <QDebug>
 
-using namespace PoDoFo;
+// using namespace PoDoFo;
 SlideObject::SlideObject(QObject *parent)
   : Slide{parent}
 {
