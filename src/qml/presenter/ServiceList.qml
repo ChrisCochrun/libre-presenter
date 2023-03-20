@@ -250,6 +250,7 @@ Item {
                                         serviceItemList.currentIndex = index;
                                         ServiceItemModel.select(index);
                                     }
+                                    refocusPresentation();
                                 }
 
                                 onDoubleClicked: {

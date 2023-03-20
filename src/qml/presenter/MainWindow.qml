@@ -241,9 +241,9 @@ Controls.Page {
                 imageEditor.visible = false;
                 presentationEditor.visible = false;
                 presentation.visible = true;
-                presentation.focusTimer = true;
                 currentWindow = presentation;
                 editMode = false;
+                refocusPresentation();
             }
         } else {
             videoEditor.visible = false;
@@ -252,10 +252,10 @@ Controls.Page {
             imageEditor.visible = false;
             presentationEditor.visible = false;
             presentation.visible = true;
-            presentation.focusTimer = true;
             currentWindow = presentation;
             editMode = false;
             presenting = true;
+            refocusPresentation();
         }
     }
 
@@ -275,5 +275,10 @@ Controls.Page {
     function changeVidPos(pos) {
         presentation.slide.seek(pos);
         pWindow.slide.seek(pos);
+    }
+
+    function refocusPresentation() {
+        presentation.forceActiveFocus();
+        presentation.focusTimer = true;
     }
 }
