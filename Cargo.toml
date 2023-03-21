@@ -24,7 +24,7 @@ cxx-qt-lib = "0.5.0"
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module
 # and compiles it together with the Rust static library
 [build-dependencies]
-cxx-qt-build = "0.4.1"
+cxx-qt-build = "0.5.0"
 
 [dependencies.confy]
 features = ["yaml_conf"]

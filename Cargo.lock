@@ -120,39 +120,25 @@ version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7d4a3b9907daf013c9397acb5a71ddf3b2e18a0de73f85a660fe61638883392"
 dependencies = [
- "cxx-qt-gen 0.5.0",
+ "cxx-qt-gen",
  "proc-macro2",
  "syn",
 ]
 
 [[package]]
 name = "cxx-qt-build"
-version = "0.4.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57ebd436cecf49c16288288e58f97092e161543360515e6ecce99f2a70e6531a"
+checksum = "251a4c873b24d664eb9873b549aa07ad3162259ab02794996f39291c75e6a81c"
 dependencies = [
  "cc",
  "convert_case",
  "cxx-gen",
- "cxx-qt-gen 0.4.1",
- "cxx-qt-lib-headers 0.4.1",
+ "cxx-qt-gen",
+ "cxx-qt-lib-headers",
  "proc-macro2",
- "qt-build-utils 0.4.1",
+ "qt-build-utils",
  "quote",
-]
-
-[[package]]
-name = "cxx-qt-gen"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3354788c8c719c708c8793d84954e938394d1af7ae26ae2b74950f9823545346"
-dependencies = [
- "clang-format",
- "convert_case",
- "indoc 1.0.7",
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -163,7 +149,7 @@ checksum = "a45da9033b061c35aef2a314b253d578d003f986faccaadb0a8e476d5dfbaa9b"
 dependencies = [
  "clang-format",
  "convert_case",
- "indoc 2.0.1",
+ "indoc",
  "proc-macro2",
  "quote",
  "syn",
@@ -177,15 +163,9 @@ checksum = "7f45481479bf253b1d15bec29a8766e355150cba10c116e0ad4909ac1d539e12"
 dependencies = [
  "cxx",
  "cxx-build",
- "cxx-qt-lib-headers 0.5.0",
- "qt-build-utils 0.5.0",
+ "cxx-qt-lib-headers",
+ "qt-build-utils",
 ]
-
-[[package]]
-name = "cxx-qt-lib-headers"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e74805ac9bd18d2907d158aa2696033c22a209146941bc3142df190d65a31414"
 
 [[package]]
 name = "cxx-qt-lib-headers"
@@ -262,12 +242,6 @@ dependencies = [
  "autocfg",
  "hashbrown",
 ]
-
-[[package]]
-name = "indoc"
-version = "1.0.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "adab1eaa3408fb7f0c777a73e7465fd5656136fc93b670eb6df3c88c2c1344e3"
 
 [[package]]
 name = "indoc"
@@ -363,16 +337,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5ea3d908b0e36316caf9e9e2c4625cdde190a7e6f440d794667ed17a1855e725"
 dependencies = [
  "unicode-ident",
-]
-
-[[package]]
-name = "qt-build-utils"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44058bc241aeb84485cfb90e0f6ba28e12db0ed0f5b6eadb1853cf0ea68e21eb"
-dependencies = [
- "thiserror",
- "versions",
 ]
 
 [[package]]
