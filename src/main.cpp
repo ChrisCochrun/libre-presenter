@@ -213,15 +213,15 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  // QWindow *window = windowFromEngine(&engine);
+  QWindow *window = windowFromEngine(&engine);
 
-  // window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
-  // KWindowSystem::setMainWindow(&window);
+  window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
+  // KWindowSystem::setMainWindow(window);
   // KWindowSystem::activateWindow(window);
-  // qDebug() << "00000000000000000000000000000000";
-  // qDebug() << KWindowSystem::isPlatformWayland();
-  // qDebug() << KWindowSystem::windows();
-  // qDebug() << "00000000000000000000000000000000";
+  qDebug() << "00000000000000000000000000000000";
+  qDebug() << KWindowSystem::isPlatformWayland();
+  qDebug() << KWindowSystem::windows();
+  qDebug() << "00000000000000000000000000000000";
 
 
   return app.exec();
