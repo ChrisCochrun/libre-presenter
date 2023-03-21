@@ -289,11 +289,26 @@ FocusScope {
         id: keyHandler
         /* anchors.fill: parent */
         focus: true
-        Keys.onLeftPressed: previousSlideAction()
-        Keys.onRightPressed: nextSlideAction()
-        Keys.onUpPressed: previousSlideAction()
-        Keys.onDownPressed: nextSlideAction()
-        Keys.onSpacePressed: nextSlideAction()
+        Keys.onPressed: {
+            if (event.key == Qt.Key_J)
+                nextSlideAction();
+            if (event.key == Qt.Key_L)
+                nextSlideAction();
+            if (event.key == Qt.Key_Right)
+                nextSlideAction();
+            if (event.key == Qt.Key_Down)
+                nextSlideAction();
+            if (event.key == Qt.Key_K)
+                previousSlideAction();
+            if (event.key == Qt.Key_H)
+                previousSlideAction();
+            if (event.key == Qt.Key_Up)
+                previousSlideAction();
+            if (event.key == Qt.Key_Left)
+                previousSlideAction();
+            if (event.key == Qt.Key_P)
+                SlideObject.playPause();
+        }
     }
 
     Connections {
