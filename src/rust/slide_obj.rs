@@ -2,8 +2,7 @@
 mod slide_obj {
     // use cxx_qt_lib::QVariantValue;
     // use std::path::Path;
-
-    use std::task::Context;
+    // use std::task::Context;
 
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
@@ -14,19 +13,6 @@ mod slide_obj {
         type QVariant = cxx_qt_lib::QVariant;
     }
 
-    // pub trait Slide {
-    //     fn set_text(text: String) -> bool;
-    //     fn set_type(ty: String) -> bool;
-    //     fn set_audio(audio: String) -> bool;
-    //     fn set_image_background(ib: String) -> bool;
-    //     fn set_video_background(vb: String) -> bool;
-    //     fn set_vtext_align(vta: String) -> bool;
-    //     fn set_htext_align(hta: String) -> bool;
-    //     fn set_font(font: String) -> bool;
-    //     fn set_font_size(font_size: i32) -> bool;
-    //     fn set_looping(lp: bool) -> bool;
-    // }
-
     #[cxx_qt::qsignals(SlideObj)]
     pub enum Signals<'a> {
         PlayingChanged { isPlaying: &'a bool },
@@ -36,7 +22,7 @@ mod slide_obj {
         LoopChanged { looping: &'a bool },
     }
 
-    #[derive(Clone)]
+    #[derive(Clone, Debug)]
     #[cxx_qt::qobject]
     pub struct SlideObj {
         #[qproperty]
@@ -90,20 +76,7 @@ mod slide_obj {
         }
     }
 
-    // impl Slide for SlideObj {
-    //     fn set_text(&self, text: String) -> bool {
-    //         text = QString::from(text);
-    //         true
-    //     }
-    // }
-
     impl qobject::SlideObj {
-        // #[qinvokable]
-        // pub fn load(self: Pin<&mut Self>, file: i32) -> Vec<String> {
-        //     println!("{file}");
-        //     vec!["hi".to_string()]
-        // }
-
         #[qinvokable]
         pub fn change_slide(mut self: Pin<&mut Self>, item: QMap_QString_QVariant, index: i32) {
             let text = item.get(&QString::from("text")).unwrap();
@@ -191,14 +164,38 @@ mod slide_obj {
         }
 
         #[qinvokable]
-        pub fn next(self: Pin<&mut Self>, next_item: QMap_QString_QVariant) -> bool {
-            self.change_slide(next_item, self.as_ref().slide_index() + 1);
+        pub fn next(mut self: Pin<&mut Self>, next_item: QMap_QString_QVariant) -> bool {
+            let new_id = self.as_ref().slide_index() + 1;
+            self.as_mut().change_slide(next_item, new_id);
             true
         }
         #[qinvokable]
-        pub fn previous(self: Pin<&mut Self>, prev_item: QMap_QString_QVariant) -> bool {
-            self.change_slide(prev_item, self.as_ref().slide_index() - 1);
+        pub fn previous(mut self: Pin<&mut Self>, prev_item: QMap_QString_QVariant) -> bool {
+            let new_id = self.as_ref().slide_index() - 1;
+            self.as_mut().change_slide(prev_item, new_id);
             true
+        }
+        #[qinvokable]
+        pub fn play(mut self: Pin<&mut Self>) -> bool {
+            self.as_mut().set_is_playing(true);
+            self.as_mut().emit_playing_changed(&true);
+            true
+        }
+        #[qinvokable]
+        pub fn pause(mut self: Pin<&mut Self>) -> bool {
+            self.as_mut().set_is_playing(false);
+            self.as_mut().emit_playing_changed(&false);
+            false
+        }
+        #[qinvokable]
+        pub fn play_pause(mut self: Pin<&mut Self>) -> bool {
+            let playing = self.as_ref().is_playing().clone();
+            match playing {
+                true => self.as_mut().set_is_playing(false),
+                false => self.as_mut().set_is_playing(true),
+            }
+            self.as_mut().emit_playing_changed(&!playing);
+            !playing
         }
     }
 }
