@@ -3,6 +3,8 @@ mod slide_obj {
     // use cxx_qt_lib::QVariantValue;
     // use std::path::Path;
 
+    use std::task::Context;
+
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
         type QString = cxx_qt_lib::QString;
@@ -188,7 +190,15 @@ mod slide_obj {
             };
         }
 
-        // #[qinvokable]
-        // pub fn next(self: Pin<&mut Self>, next_item: QVariant, slide_model: slide_model) {}
+        #[qinvokable]
+        pub fn next(self: Pin<&mut Self>, next_item: QMap_QString_QVariant) -> bool {
+            self.change_slide(next_item, self.as_ref().slide_index() + 1);
+            true
+        }
+        #[qinvokable]
+        pub fn previous(self: Pin<&mut Self>, prev_item: QMap_QString_QVariant) -> bool {
+            self.change_slide(prev_item, self.as_ref().slide_index() - 1);
+            true
+        }
     }
 }
