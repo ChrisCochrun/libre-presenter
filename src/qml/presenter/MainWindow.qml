@@ -188,6 +188,7 @@ Controls.Page {
 
         ServiceItemModel.activate(currentServiceItem);
         slideHelper.chngSlide(item, index, SlideObject);
+        SlideModel.activate(index);
         presentation.textIndex = 0;
         console.log("Slide changed to: " + index);
     }
