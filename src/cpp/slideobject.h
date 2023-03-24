@@ -8,6 +8,7 @@
 #include <qqml.h>
 #include <QObject>
 #include <qobject.h>
+#include "cxx-qt-gen/slide_obj.cxxqt.h"
 
 class SlideObject : public Slide
 {
@@ -33,6 +34,7 @@ public:
   bool loop() const;
 
   Q_INVOKABLE void changeSlide(QVariantMap item, int index);
+  Q_INVOKABLE void chngSlide(QVariantMap item, int index, SlideObj *slideObj);
   Q_INVOKABLE void play();
   Q_INVOKABLE void pause();
   Q_INVOKABLE void playPause();

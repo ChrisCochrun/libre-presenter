@@ -60,6 +60,12 @@ bool SlideObject::loop() const
   return m_loop;
 }
 
+void SlideObject::chngSlide(QVariantMap item, int index, SlideObj *slideObj) {
+  qDebug() << "Here is the pointer to the slideObj" << slideObj;
+  qDebug() << "Here is the item" << item;
+  slideObj->changeSlide(item, index);
+}
+
 void SlideObject::changeSlide(QVariantMap item, int index)
 {
   // QVariantMap serviceItem = serviceItemModel->getItem(item.value("serviceItemId").toInt());

@@ -174,8 +174,8 @@ FocusScope {
                     Controls.Switch {
                         id: loopSwitch
                         text: "Loop"
-                        checked: SlideObject.loop
-                        onToggled: SlideObject.setLoop(!SlideObject.loop)
+                        checked: SlideObject.looping
+                        onToggled: SlideObject.setLooping(!SlideObject.looping)
                         Keys.onLeftPressed: previousSlideAction()
                         Keys.onRightPressed: nextSlideAction()
                         Keys.onUpPressed: previousSlideAction()

@@ -82,6 +82,7 @@ mod slide_obj {
             let text = item.get(&QString::from("text")).unwrap();
             if let Some(txt) = text.value::<QString>() {
                 if &txt != self.as_ref().text() {
+                    println!("{}", &txt);
                     self.as_mut().set_text(txt);
                 };
             }
@@ -91,20 +92,29 @@ mod slide_obj {
                     self.as_mut().set_audio(audio);
                 }
             }
-            let ty = item.get(&QString::from("ty")).unwrap();
-            if let Some(ty) = ty.value::<QString>() {
-                if &ty != self.as_ref().ty() {
-                    self.as_mut().set_ty(ty);
+            let ty = item.get(&QString::from("type"));
+            if let Some(ty) = ty {
+                if let Some(ty) = ty.value::<QString>() {
+                    if &ty != self.as_ref().ty() {
+                        self.as_mut().set_ty(ty);
+                    }
+                } else {
+                    println!("Type wasn't a sting");
                 }
+            } else {
+                println!("Type was incorrect");
             }
-            let image_background = item.get(&QString::from("image_background")).unwrap();
+
+            let image_background = item
+                .get(&QString::from("imageBackground"))
+                .unwrap_or(QVariant::from(&QString::from("")));
             if let Some(image_background) = image_background.value::<QString>() {
                 if &image_background != self.as_ref().image_background() {
                     self.as_mut().set_image_background(image_background);
                 }
             }
             let video_background = item
-                .get(&QString::from("video_background"))
+                .get(&QString::from("videoBackground"))
                 .unwrap_or(QVariant::from(&QString::from("")));
             if let Some(video_background) = video_background.value::<QString>() {
                 if &video_background != self.as_ref().video_background() {
@@ -119,25 +129,33 @@ mod slide_obj {
                     self.as_mut().set_font(font);
                 }
             }
-            let vtext_alignment = item.get(&QString::from("vtext_alignment")).unwrap();
+            let vtext_alignment = item
+                .get(&QString::from("vtext_alignment"))
+                .unwrap_or(QVariant::from(&QString::from("center")));
             if let Some(vtext_alignment) = vtext_alignment.value::<QString>() {
                 if &vtext_alignment != self.as_ref().vtext_alignment() {
                     self.as_mut().set_vtext_alignment(vtext_alignment);
                 }
             }
-            let htext_alignment = item.get(&QString::from("htext_alignment")).unwrap();
+            let htext_alignment = item
+                .get(&QString::from("htext_alignment"))
+                .unwrap_or(QVariant::from(&QString::from("center")));
             if let Some(htext_alignment) = htext_alignment.value::<QString>() {
                 if &htext_alignment != self.as_ref().htext_alignment() {
                     self.as_mut().set_htext_alignment(htext_alignment);
                 }
             }
-            let font_size = item.get(&QString::from("font_size")).unwrap();
+            let font_size = item
+                .get(&QString::from("font_size"))
+                .unwrap_or(QVariant::from(&50));
             if let Some(font_size) = font_size.value::<i32>() {
                 if &font_size != self.as_ref().font_size() {
                     self.as_mut().set_font_size(font_size);
                 }
             }
-            let looping = item.get(&QString::from("looping")).unwrap();
+            let looping = item
+                .get(&QString::from("looping"))
+                .unwrap_or(QVariant::from(&false));
             if let Some(looping) = looping.value::<bool>() {
                 if &looping != self.as_ref().looping() {
                     self.as_mut().set_looping(looping);
@@ -145,17 +163,23 @@ mod slide_obj {
                     self.as_mut().emit(Signals::LoopChanged { looping: &lp });
                 }
             }
-            let slide_size = item.get(&QString::from("slide_size")).unwrap();
+            let slide_size = item
+                .get(&QString::from("slide_size"))
+                .unwrap_or(QVariant::from(&1));
             if let Some(slide_size) = slide_size.value::<i32>() {
                 if &slide_size != self.as_ref().slide_size() {
                     self.as_mut().set_slide_size(slide_size);
                 }
             }
-            let icount = item.get(&QString::from("imageCount")).unwrap();
+            let icount = item
+                .get(&QString::from("imageCount"))
+                .unwrap_or(QVariant::from(&1));
             if let Some(int) = icount.value::<i32>() {
                 self.as_mut().set_image_count(int);
             }
-            let slindex = item.get(&QString::from("slide_index")).unwrap();
+            let slindex = item
+                .get(&QString::from("slide_index"))
+                .unwrap_or(QVariant::from(&0));
             if let Some(int) = slindex.value::<i32>() {
                 self.as_mut().set_slide_index(int);
                 let si = int;

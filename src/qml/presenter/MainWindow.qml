@@ -138,6 +138,7 @@ Controls.Page {
     VideoProxyModel { id: videoProxyModel }
     ServiceThing { id: serviceThing } 
     FileHelper { id: fileHelper } 
+    SlideHelper { id: slideHelper }
 
     function changeServiceItem(index) {
         const item = ServiceItemModel.getItem(index);
@@ -154,7 +155,11 @@ Controls.Page {
         /* presentation.itemType = item.type; */
 
         ServiceItemModel.activate(index);
-        SlideObject.changeSlide(slide, slideId);
+        console.log("%%%%%%%%%");
+        console.log(slide);
+        slideHelper.chngSlide(slide, slideId, SlideObject);
+        console.log("%%%%%%%%%");
+        /* SlideObject.changeSlide(slide, slideId); */
         
         /* if (item.backgroundType === "video") */
         /* { */
@@ -182,7 +187,7 @@ Controls.Page {
         console.log("Time to start changing");
 
         ServiceItemModel.activate(currentServiceItem);
-        SlideObject.changeSlide(item, index);
+        slideHelper.chngSlide(item, index, SlideObject);
         presentation.textIndex = 0;
         console.log("Slide changed to: " + index);
     }

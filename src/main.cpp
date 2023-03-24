@@ -189,6 +189,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<FileHelper>("org.presenter", 1, 0, "FileHelper");
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
+  qmlRegisterType<SlideObject>("org.presenter", 1, 0, "SlideHelper");
   qmlRegisterSingletonInstance("org.presenter", 1, 0,
                                "ServiceItemModel", serviceItemModel.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideModel", slideModel.get());
