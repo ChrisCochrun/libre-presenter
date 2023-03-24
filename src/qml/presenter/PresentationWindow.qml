@@ -41,7 +41,7 @@ Window {
         chosenFont: SlideObject.font
         textSize: SlideObject.fontSize
         pdfIndex: SlideObject.pdfIndex
-        itemType: SlideObject.type
+        itemType: SlideObject.ty
         vidLoop: SlideObject.loop
     }
 

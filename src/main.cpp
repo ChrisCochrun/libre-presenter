@@ -50,6 +50,7 @@
 // #include "cxx-qt-gen/my_object.cxxqt.h"
 #include "cxx-qt-gen/service_thing.cxxqt.h"
 #include "cxx-qt-gen/file_helper.cxxqt.h"
+#include "cxx-qt-gen/slide_obj.cxxqt.h"
 
 static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
 {
@@ -136,7 +137,7 @@ int main(int argc, char *argv[])
   QScopedPointer<File> filemanager(new File);
   // QScopedPointer<QQuickView> preswin(new QQuickView);
   QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel);
-  QScopedPointer<SlideObject> slideobject(new SlideObject);
+  QScopedPointer<SlideObj> slideobject(new SlideObj);
   // preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
   QObject::connect(serviceItemModel.get(),

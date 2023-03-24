@@ -16,7 +16,7 @@ FocusScope {
 
     property var text
     property int textIndex: 0
-    property string itemType: SlideObject.type
+    property string itemType: SlideObject.ty
     property url imagebackground: SlideObject.imageBackground
     property url vidbackground: SlideObject.videoBackground
 
@@ -120,14 +120,14 @@ FocusScope {
                     implicitHeight: width / 16 * 9
                     anchors.centerIn: parent
                     textSize: SlideObject.fontSize
-                    itemType: SlideObject.type
+                    itemType: SlideObject.ty
                     imageSource: SlideObject.imageBackground
                     videoSource: SlideObject.videoBackground
                     audioSource: SlideObject.audio
                     chosenFont: SlideObject.font
                     text: SlideObject.text
                     pdfIndex: SlideObject.pdfIndex
-                    vidLoop: SlideObject.loop
+                    vidLoop: SlideObject.looping
                     preview: true 
                 }
 
