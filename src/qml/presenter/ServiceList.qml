@@ -327,6 +327,7 @@ Item {
 
                 delegate: Kirigami.DelegateRecycler {
                     width: serviceItemList.width
+                    height: Kirigami.Units.gridUnit * 2
                     sourceComponent: delegate
                 }
                 Kirigami.WheelHandler {
