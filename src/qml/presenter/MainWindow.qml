@@ -157,7 +157,8 @@ Controls.Page {
         ServiceItemModel.activate(index);
         console.log("%%%%%%%%%");
         console.log(slide);
-        slideHelper.chngSlide(slide, slideId, SlideObject);
+        /* SlideObject.changeSlide(slide, slideId); */
+        slideHelper.chngSlide(item, index, SlideObject);
         console.log("%%%%%%%%%");
         /* SlideObject.changeSlide(slide, slideId); */
         
@@ -187,6 +188,7 @@ Controls.Page {
         console.log("Time to start changing");
 
         ServiceItemModel.activate(currentServiceItem);
+        /* SlideObject.changeSlide(slide, slideId); */
         slideHelper.chngSlide(item, index, SlideObject);
         SlideModel.activate(index);
         presentation.textIndex = 0;

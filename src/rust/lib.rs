@@ -18,3 +18,4 @@ mod file_helper;
 mod service_thing;
 mod settings;
 mod slide_obj;
+mod slide_model;

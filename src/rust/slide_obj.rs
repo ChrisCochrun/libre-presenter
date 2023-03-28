@@ -102,18 +102,16 @@ mod slide_obj {
             } else {
                 println!("audio: empty");
             }
-            let ty = item.get(&QString::from("type"));
-            if let Some(ty) = ty {
-                if let Some(ty) = ty.value::<QString>() {
-                    if &ty != self.as_ref().ty() {
-                        println!("type: {ty}");
-                        self.as_mut().set_ty(ty);
-                    }
-                } else {
-                    println!("Type wasn't a sting");
+            let ty = item
+                .get(&QString::from("type"))
+                .unwrap_or(QVariant::from(&QString::from("")));
+            if let Some(ty) = ty.value::<QString>() {
+                if &ty != self.as_ref().ty() {
+                    println!("type: {ty}");
+                    self.as_mut().set_ty(ty);
                 }
             } else {
-                println!("Type was incorrect");
+                println!("type: empty");
             }
 
             let image_background = item
@@ -121,22 +119,22 @@ mod slide_obj {
                 .unwrap_or(QVariant::from(&QString::from("")));
             if let Some(image_background) = image_background.value::<QString>() {
                 if &image_background != self.as_ref().image_background() {
-                    println!("image bg: {image_background}");
+                    println!("image-bg: {image_background}");
                     self.as_mut().set_image_background(image_background);
                 }
             } else {
-                println!("image bg: empty");
+                println!("image-bg: empty");
             }
             let video_background = item
                 .get(&QString::from("videoBackground"))
                 .unwrap_or(QVariant::from(&QString::from("")));
             if let Some(video_background) = video_background.value::<QString>() {
                 if &video_background != self.as_ref().video_background() {
-                    println!("video bg: {video_background}");
+                    println!("video-bg: {video_background}");
                     self.as_mut().set_video_background(video_background);
                 }
             } else {
-                println!("video bg: empty");
+                println!("video-bg: empty");
             }
             let font = item
                 .get(&QString::from("font"))
@@ -154,33 +152,33 @@ mod slide_obj {
                 .unwrap_or(QVariant::from(&QString::from("center")));
             if let Some(vtext_alignment) = vtext_alignment.value::<QString>() {
                 if &vtext_alignment != self.as_ref().vtext_alignment() {
-                    println!("vertical text align: {vtext_alignment}");
+                    println!("vertical-text-align: {vtext_alignment}");
                     self.as_mut().set_vtext_alignment(vtext_alignment);
                 }
             } else {
-                println!("vertical text align: empty");
+                println!("vertical-text-align: empty");
             }
             let htext_alignment = item
                 .get(&QString::from("horizontalTextAlignment"))
                 .unwrap_or(QVariant::from(&QString::from("center")));
             if let Some(htext_alignment) = htext_alignment.value::<QString>() {
                 if &htext_alignment != self.as_ref().htext_alignment() {
-                    println!("horizontal text align: {htext_alignment}");
+                    println!("horizontal-text-align: {htext_alignment}");
                     self.as_mut().set_htext_alignment(htext_alignment);
                 }
             } else {
-                println!("horizontal text align: empty");
+                println!("horizontal-text-align: empty");
             }
             let font_size = item
                 .get(&QString::from("fontSize"))
                 .unwrap_or(QVariant::from(&50));
             if let Some(font_size) = font_size.value::<i32>() {
                 if &font_size != self.as_ref().font_size() {
-                    println!("font size: {font_size}");
+                    println!("font-size: {font_size}");
                     self.as_mut().set_font_size(font_size);
                 }
             } else {
-                println!("font size: empty");
+                println!("font-size: empty");
             }
             let looping = item
                 .get(&QString::from("looping"))
@@ -200,7 +198,7 @@ mod slide_obj {
                 .unwrap_or(QVariant::from(&1));
             if let Some(slide_size) = slide_size.value::<i32>() {
                 if &slide_size != self.as_ref().slide_size() {
-                    println!("slide size: {slide_size}");
+                    println!("slide-size: {slide_size}");
                     self.as_mut().set_slide_size(slide_size);
                 }
             }

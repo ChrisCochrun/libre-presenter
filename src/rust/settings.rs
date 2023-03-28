@@ -2,7 +2,7 @@
 mod settings {
 
     use configparser::ini::Ini;
-    // use std::error::Error;
+    use dirs;
 
     unsafe extern "C++" {
         include!("cxx-qt-lib/qstring.h");
@@ -16,6 +16,8 @@ mod settings {
         screen: QString,
         #[qproperty]
         sound_effect: QString,
+        #[qproperty]
+        last_save_file: QString,
     }
 
     impl Default for Settings {
@@ -23,6 +25,7 @@ mod settings {
             Self {
                 screen: QString::from(""),
                 sound_effect: QString::from(""),
+                last_save_file: QString::from(""),
             }
         }
     }
@@ -34,6 +37,31 @@ mod settings {
             let _map = config.load("~/.config/librepresenter/Libre Presenter.conf");
 
             println!("{}", self.sound_effect());
+        }
+
+        #[qinvokable]
+        pub fn setup(self: Pin<&mut Self>) {
+            let mut config = Ini::new();
+            let home = dirs::config_dir();
+            println!("{:?}", home);
+            if let Some(mut conf) = home {
+                conf.push("librepresenter");
+                conf.push("Libre Presenter.conf");
+                let _map = config.load(conf);
+
+                println!("{:?}", config);
+                println!("{:?}", _map);
+                let sf = config.get("General", "lastSaveFile");
+                println!("{:?}", sf);
+                if let Some(s) = sf {
+                    self.set_last_save_file(QString::from(&s));
+                    println!("{s}");
+                } else {
+                    println!("error loading last save file");
+                }
+            } else {
+                println!("Couldn't find home directory");
+            }
         }
     }
 }

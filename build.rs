@@ -6,5 +6,6 @@ fn main() {
         .file("src/rust/settings.rs")
         .file("src/rust/file_helper.rs")
         .file("src/rust/slide_obj.rs")
+        .file("src/rust/slide_model.rs")
         .build();
 }

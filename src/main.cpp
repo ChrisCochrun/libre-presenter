@@ -51,6 +51,7 @@
 #include "cxx-qt-gen/service_thing.cxxqt.h"
 #include "cxx-qt-gen/file_helper.cxxqt.h"
 #include "cxx-qt-gen/slide_obj.cxxqt.h"
+#include "cxx-qt-gen/settings.cxxqt.h"
 
 static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
 {
@@ -111,7 +112,7 @@ int main(int argc, char *argv[])
   QCoreApplication::setOrganizationName(QStringLiteral("librepresenter"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("tfcconnection.org"));
   QCoreApplication::setApplicationName(QStringLiteral("Libre Presenter"));
-  qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
+  // qSetMessagePattern("[%{type} %{time h:m:s ap}: %{function} in %{file}]: %{message}\n");
 
 #ifdef Q_OS_WINDOWS
   QIcon::setFallbackThemeName("breeze");
@@ -128,8 +129,8 @@ int main(int argc, char *argv[])
   qDebug() << QApplication::platformName();
 
   // integrate with commandline argument handling
-  QCommandLineParser parser;
-  aboutData.setupCommandLine(&parser);
+  // QCommandLineParser parser;
+  // aboutData.setupCommandLine(&parser);
   // setup of app specific commandline args
 
   //Need to instantiate our slide
@@ -138,6 +139,9 @@ int main(int argc, char *argv[])
   // QScopedPointer<QQuickView> preswin(new QQuickView);
   QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel);
   QScopedPointer<SlideObj> slideobject(new SlideObj);
+
+  Settings *settings = new Settings;
+  settings->setup();
   // preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
   QObject::connect(serviceItemModel.get(),
@@ -220,10 +224,10 @@ int main(int argc, char *argv[])
   window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   // KWindowSystem::setMainWindow(window);
   // KWindowSystem::activateWindow(window);
-  qDebug() << "00000000000000000000000000000000";
-  qDebug() << KWindowSystem::isPlatformWayland();
-  qDebug() << KWindowSystem::windows();
-  qDebug() << "00000000000000000000000000000000";
+  // qDebug() << "00000000000000000000000000000000";
+  // qDebug() << KWindowSystem::isPlatformWayland();
+  // qDebug() << KWindowSystem::windows();
+  // qDebug() << "00000000000000000000000000000000";
 
 
   return app.exec();
