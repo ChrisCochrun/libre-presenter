@@ -24,6 +24,7 @@
 #include <QStandardPaths>
 #include <QImage>
 
+#include "cxx-qt-gen/slide_model.cxxqt.h"
 
 ServiceItemModel::ServiceItemModel(QObject *parent)
     : QAbstractListModel(parent) {
@@ -285,7 +286,28 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   item->setSelected(false);
   item->setActive(false);
   addItem(item);
+
+  QVariantMap itm;
+  const QModelIndex idx = this->index(rowCount() - 1);
+  qDebug() << idx;
+  qDebug() << rowCount();
+  if( idx.isValid() ) {
+    const QHash<int,QByteArray> rn = roleNames();
+    // qDebug() << rn;
+    QHashIterator<int,QByteArray> it(rn);
+    while (it.hasNext()) {
+      it.next();
+      qDebug() << "trains";
+      qDebug() << it.key() << ":" << it.value() << ":" << idx.data(it.key());
+      itm[it.value()] = idx.data(it.key());
+    }
+  } else
+    qDebug() << "idx isn't valid";
+  qDebug() << "*&";
+  qDebug() << itm;
+  qDebug() << "*&";
   emit itemAdded(rowCount() - 1, *item);
+  emit itemAddedRust(rowCount() - 1, itm);
   qDebug() << "EMITTED ITEM ADDED" << rowCount();
   qDebug() << "#################################";
   qDebug() << name << type << font << fontSize << slideNumber;

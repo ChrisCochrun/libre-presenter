@@ -51,6 +51,7 @@
 #include "cxx-qt-gen/service_thing.cxxqt.h"
 #include "cxx-qt-gen/file_helper.cxxqt.h"
 #include "cxx-qt-gen/slide_obj.cxxqt.h"
+#include "cxx-qt-gen/slide_model.cxxqt.h"
 #include "cxx-qt-gen/settings.cxxqt.h"
 
 static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
@@ -135,6 +136,7 @@ int main(int argc, char *argv[])
 
   //Need to instantiate our slide
   QScopedPointer<SlideModel> slideModel(new SlideModel);
+  QScopedPointer<SlideyMod> slideMod(new SlideyMod);
   QScopedPointer<File> filemanager(new File);
   // QScopedPointer<QQuickView> preswin(new QQuickView);
   QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel);
@@ -152,6 +154,10 @@ int main(int argc, char *argv[])
                    SIGNAL(itemAdded(const int&, const ServiceItem&)),
                    slideModel.get(),
                    SLOT(addItemFromService(const int&, const ServiceItem&)));
+  QObject::connect(serviceItemModel.get(),
+                   &ServiceItemModel::itemAddedRust,
+                   slideMod.get(),
+                   &SlideyMod::addItemFromService);
   QObject::connect(serviceItemModel.get(),
                    SIGNAL(rowMoved(const int&, const int&, const ServiceItem&)),
                    slideModel.get(),
@@ -197,6 +203,7 @@ int main(int argc, char *argv[])
   qmlRegisterSingletonInstance("org.presenter", 1, 0,
                                "ServiceItemModel", serviceItemModel.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideModel", slideModel.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideMod", slideMod.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slideobject.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
   // qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", preswin.get());

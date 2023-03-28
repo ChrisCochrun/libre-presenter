@@ -4,6 +4,8 @@ mod slide_model {
         include!(< QAbstractListModel >);
         include!("cxx-qt-lib/qhash.h");
         type QHash_i32_QByteArray = cxx_qt_lib::QHash<cxx_qt_lib::QHashPair_i32_QByteArray>;
+        include!("cxx-qt-lib/qmap.h");
+        type QMap_QString_QVariant = cxx_qt_lib::QMap<cxx_qt_lib::QMapPair_QString_QVariant>;
         include!("cxx-qt-lib/qvariant.h");
         type QVariant = cxx_qt_lib::QVariant;
         include!("cxx-qt-lib/qstring.h");
@@ -13,12 +15,12 @@ mod slide_model {
         include!("cxx-qt-lib/qvector.h");
         type QVector_i32 = cxx_qt_lib::QVector<i32>;
         // include!("cxx-qt-lib/qvector.h");
-        // type QVector_Slide = cxx_qt_lib::QVector<Slide>;
+        // type QVector_Slidey = cxx_qt_lib::QVector<Slidey>;
     }
 
     #[cxx_qt::qobject]
     #[derive(Default, Clone, Debug)]
-    pub struct Slide {
+    pub struct Slidey {
         text: QString,
         ty: QString,
         audio: QString,
@@ -37,18 +39,37 @@ mod slide_model {
         video_thumbnail: QString,
     }
 
+    // pub enum Roles {
+    //     TypeRole = 0,
+    //     TextRole,
+    //     AudioRole,
+    //     ImageBackgroundRole,
+    //     VideoBackgroundRole,
+    //     HorizontalTextAlignmentRole,
+    //     VerticalTextAlignmentRole,
+    //     FontRole,
+    //     FontSizeRole,
+    //     ServiceItemIdRole,
+    //     SlideyIndexRole,
+    //     ImageCountRole,
+    //     ActiveRole,
+    //     SelectedRole,
+    //     LoopRole,
+    //     VidThumbnailRole,
+    // }
+
     #[cxx_qt::qobject(
         base = "QAbstractListModel",
         // qml_uri = "com.kdab.cxx_qt.demo",
         // qml_version = "1.0"
     )]
     #[derive(Default, Debug)]
-    pub struct SlideModel {
+    pub struct SlideyMod {
         id: i32,
-        slides: Vec<Slide>,
+        slides: Vec<Slidey>,
     }
 
-    #[cxx_qt::qsignals(SlideModel)]
+    #[cxx_qt::qsignals(SlideyMod)]
     pub enum Signals<'a> {
         #[inherit]
         DataChanged {
@@ -58,7 +79,7 @@ mod slide_model {
         },
     }
 
-    impl qobject::SlideModel {
+    impl qobject::SlideyMod {
         // #[qinvokable]
         // pub fn add(self: Pin<&mut Self>) {
         //     self.add_cpp_context();
@@ -139,7 +160,7 @@ mod slide_model {
             image_count: i32,
             looping: bool,
         ) {
-            let slide = Slide {
+            let slide = Slidey {
                 ty,
                 text,
                 image_background,
@@ -161,7 +182,7 @@ mod slide_model {
             self.as_mut().add_slide(&slide);
         }
 
-        fn add_slide(mut self: Pin<&mut Self>, slide: &Slide) {
+        fn add_slide(mut self: Pin<&mut Self>, slide: &Slidey) {
             let index = self.as_ref().slides().len() as i32;
             let slide = slide.clone();
             unsafe {
@@ -190,7 +211,7 @@ mod slide_model {
             image_count: i32,
             looping: bool,
         ) {
-            let slide = Slide {
+            let slide = Slidey {
                 ty,
                 text,
                 image_background,
@@ -212,7 +233,7 @@ mod slide_model {
             self.as_mut().insert_slide(&slide, index);
         }
 
-        fn insert_slide(mut self: Pin<&mut Self>, slide: &Slide, id: i32) {
+        fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
             let slide = slide.clone();
             unsafe {
                 self.as_mut()
@@ -221,38 +242,154 @@ mod slide_model {
                 self.as_mut().end_remove_rows();
             }
         }
+
+        #[qinvokable]
+        pub fn add_item_from_service(
+            mut self: Pin<&mut Self>,
+            _index: i32,
+            service_item: &QMap_QString_QVariant,
+        ) {
+            let ty = service_item
+                .get(&QString::from("type"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value::<QString>();
+
+            let ig = service_item
+                .get(&QString::from("imageBackground"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value::<QString>()
+                .unwrap_or_default();
+
+            let mut slide = Slidey::default();
+
+            let ty = match ty {
+                Some(ty) if ty == QString::from("image") => {
+                    slide.ty = ty;
+                    slide.image_background = ig;
+                    slide.video_background = QString::from("")
+                }
+                Some(ty) if ty == QString::from("song") => println!("it' image"),
+                Some(ty) if ty == QString::from("video") => println!("it' image"),
+                Some(ty) if ty == QString::from("presentation") => println!("it' image"),
+                _ => println!("It's somethign else!"),
+            };
+
+            let mut slide = Slidey {
+                ty: service_item
+                    .get(&QString::from("type"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                text: service_item
+                    .get(&QString::from("text"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                image_background: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                video_background: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                audio: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                font: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                font_size: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&50))
+                    .value()
+                    .unwrap_or(50),
+                htext_alignment: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                vtext_alignment: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .value()
+                    .unwrap_or(QString::from("")),
+                service_item_id: service_item
+                    .get(&QString::from("imageBackground"))
+                    .unwrap_or(QVariant::from(&0))
+                    .value()
+                    .unwrap_or(0),
+                slide_id: service_item
+                    .get(&QString::from("slide"))
+                    .unwrap_or(QVariant::from(&0))
+                    .value()
+                    .unwrap_or(0),
+                image_count: service_item
+                    .get(&QString::from("imageCount"))
+                    .unwrap_or(QVariant::from(&1))
+                    .value()
+                    .unwrap_or(1),
+                looping: service_item
+                    .get(&QString::from("loop"))
+                    .unwrap_or(QVariant::from(&false))
+                    .value()
+                    .unwrap_or(false),
+                active: service_item
+                    .get(&QString::from("active"))
+                    .unwrap_or(QVariant::from(&false))
+                    .value()
+                    .unwrap_or(false),
+                selected: service_item
+                    .get(&QString::from("selected"))
+                    .unwrap_or(QVariant::from(&false))
+                    .value()
+                    .unwrap_or(false),
+                video_thumbnail: QString::from(""),
+            };
+
+            println!("{:?}", slide);
+
+            // self.as_mut().add_slide(&slide);
+            println!("Item added in rust model!");
+        }
     }
 
     // Create Rust bindings for C++ functions of the base class (QAbstractItemModel)
     #[cxx_qt::inherit]
     extern "C++" {
         unsafe fn begin_insert_rows(
-            self: Pin<&mut qobject::SlideModel>,
+            self: Pin<&mut qobject::SlideyMod>,
             parent: &QModelIndex,
             first: i32,
             last: i32,
         );
-        unsafe fn end_insert_rows(self: Pin<&mut qobject::SlideModel>);
+        unsafe fn end_insert_rows(self: Pin<&mut qobject::SlideyMod>);
 
         unsafe fn begin_remove_rows(
-            self: Pin<&mut qobject::SlideModel>,
+            self: Pin<&mut qobject::SlideyMod>,
             parent: &QModelIndex,
             first: i32,
             last: i32,
         );
-        unsafe fn end_remove_rows(self: Pin<&mut qobject::SlideModel>);
+        unsafe fn end_remove_rows(self: Pin<&mut qobject::SlideyMod>);
 
-        unsafe fn begin_reset_model(self: Pin<&mut qobject::SlideModel>);
-        unsafe fn end_reset_model(self: Pin<&mut qobject::SlideModel>);
+        unsafe fn begin_reset_model(self: Pin<&mut qobject::SlideyMod>);
+        unsafe fn end_reset_model(self: Pin<&mut qobject::SlideyMod>);
     }
 
     #[cxx_qt::inherit]
     unsafe extern "C++" {
         #[cxx_name = "canFetchMore"]
-        fn base_can_fetch_more(self: &qobject::SlideModel, parent: &QModelIndex) -> bool;
+        fn base_can_fetch_more(self: &qobject::SlideyMod, parent: &QModelIndex) -> bool;
 
         fn index(
-            self: &qobject::SlideModel,
+            self: &qobject::SlideyMod,
             row: i32,
             column: i32,
             parent: &QModelIndex,
@@ -260,7 +397,7 @@ mod slide_model {
     }
 
     // QAbstractListModel implementation
-    impl qobject::SlideModel {
+    impl qobject::SlideyMod {
         #[qinvokable(cxx_override)]
         fn data(&self, index: &QModelIndex, role: i32) -> QVariant {
             if let Some(slide) = self.rust().slides.get(index.row() as usize) {
