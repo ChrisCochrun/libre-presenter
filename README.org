@@ -15,6 +15,9 @@ This is an attempt at building a church presentation application in Qt/QML. QML 
 ** MPV
 You will need MPV installed in order to use this. All videos run through it. This, however, enables us to make videos work very well and with a lot of control and since it uses ffmpeg underneath, nearly any codec regardless of underlying system. This prevents the need for the user to install other codecs to work with Windows or MacOS. It also means a much easier control system and the potential to stream web content as well without downloading first.
 
+** Rust and CXX-QT
+CXX-QT is a bridge framework for Rust and Qt. It works by piggybacking off of CXX and is a phenomenal tool to make a Qt app using Rust. More and more, I've been porting things over to Rust in the project using this bridge.
+
 * Build and Run
 First get the source code
 
