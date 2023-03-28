@@ -24,6 +24,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             POSITIONAL_ARGS+=("$1") # save positional arg
+            build_debug
             shift # past argument
             ;;
     esac
