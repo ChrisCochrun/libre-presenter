@@ -250,7 +250,7 @@ mod slide_model {
         #[qinvokable]
         pub fn add_item_from_service(
             mut self: Pin<&mut Self>,
-            _index: i32,
+            index: i32,
             service_item: &QMap_QString_QVariant,
         ) {
             println!("add rust slide");
@@ -297,42 +297,38 @@ mod slide_model {
                     .value()
                     .unwrap_or(QString::from("")),
                 video_background: service_item
-                    .get(&QString::from("imageBackground"))
+                    .get(&QString::from("videoBackground"))
                     .unwrap_or(QVariant::from(&QString::from("")))
                     .value()
                     .unwrap_or(QString::from("")),
                 audio: service_item
-                    .get(&QString::from("imageBackground"))
+                    .get(&QString::from("audio"))
                     .unwrap_or(QVariant::from(&QString::from("")))
                     .value()
                     .unwrap_or(QString::from("")),
                 font: service_item
-                    .get(&QString::from("imageBackground"))
+                    .get(&QString::from("font"))
                     .unwrap_or(QVariant::from(&QString::from("")))
                     .value()
                     .unwrap_or(QString::from("")),
                 font_size: service_item
-                    .get(&QString::from("imageBackground"))
+                    .get(&QString::from("fontSize"))
                     .unwrap_or(QVariant::from(&50))
                     .value()
                     .unwrap_or(50),
                 htext_alignment: service_item
-                    .get(&QString::from("imageBackground"))
+                    .get(&QString::from("vtextAlignment"))
                     .unwrap_or(QVariant::from(&QString::from("center")))
                     .value()
                     .unwrap_or(QString::from("center")),
                 vtext_alignment: service_item
-                    .get(&QString::from("imageBackground"))
+                    .get(&QString::from("vtextAlignment"))
                     .unwrap_or(QVariant::from(&QString::from("center")))
                     .value()
                     .unwrap_or(QString::from("center")),
-                service_item_id: service_item
-                    .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&0))
-                    .value()
-                    .unwrap_or(0),
+                service_item_id: index,
                 slide_id: service_item
-                    .get(&QString::from("slide"))
+                    .get(&QString::from("slideNumber"))
                     .unwrap_or(QVariant::from(&0))
                     .value()
                     .unwrap_or(0),
