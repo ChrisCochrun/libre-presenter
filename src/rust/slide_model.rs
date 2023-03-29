@@ -14,6 +14,10 @@ mod slide_model {
         type QModelIndex = cxx_qt_lib::QModelIndex;
         include!("cxx-qt-lib/qvector.h");
         type QVector_i32 = cxx_qt_lib::QVector<i32>;
+        include!("cxx-qt-lib/qstringlist.h");
+        type QStringList = cxx_qt_lib::QStringList;
+        include!("cxx-qt-lib/qlist.h");
+        type QList_QString = cxx_qt_lib::QList<QString>;
         // include!("cxx-qt-lib/qvector.h");
         // type QVector_Slidey = cxx_qt_lib::QVector<Slidey>;
     }
@@ -254,25 +258,26 @@ mod slide_model {
                 .unwrap_or(QVariant::from(&QString::from("")))
                 .value::<QString>();
 
-            let ig = service_item
-                .get(&QString::from("imageBackground"))
+            let background = service_item
+                .get(&QString::from("background"))
                 .unwrap_or(QVariant::from(&QString::from("")))
                 .value::<QString>()
                 .unwrap_or_default();
 
-            let mut slide = Slidey::default();
+            let background_type = service_item
+                .get(&QString::from("backgroundType"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value::<QString>()
+                .unwrap_or_default();
 
-            let ty = match ty {
-                Some(ty) if ty == QString::from("image") => {
-                    slide.ty = ty;
-                    slide.image_background = ig;
-                    slide.video_background = QString::from("")
-                }
-                Some(ty) if ty == QString::from("song") => println!("it' image"),
-                Some(ty) if ty == QString::from("video") => println!("it' image"),
-                Some(ty) if ty == QString::from("presentation") => println!("it' image"),
-                _ => println!("It's somethign else!"),
-            };
+            let textlist = service_item
+                .get(&QString::from("backgroundType"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value::<QStringList>()
+                .unwrap_or_default();
+
+            let text_vec = Vec::<QString>::from(&QList_QString::from(&textlist));
+            // let vec_slize: &[usize] = &text_vec;
 
             let mut slide = Slidey {
                 ty: service_item
@@ -312,14 +317,14 @@ mod slide_model {
                     .unwrap_or(50),
                 htext_alignment: service_item
                     .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .unwrap_or(QVariant::from(&QString::from("center")))
                     .value()
-                    .unwrap_or(QString::from("")),
+                    .unwrap_or(QString::from("center")),
                 vtext_alignment: service_item
                     .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
+                    .unwrap_or(QVariant::from(&QString::from("center")))
                     .value()
-                    .unwrap_or(QString::from("")),
+                    .unwrap_or(QString::from("center")),
                 service_item_id: service_item
                     .get(&QString::from("imageBackground"))
                     .unwrap_or(QVariant::from(&0))
@@ -353,9 +358,53 @@ mod slide_model {
                 video_thumbnail: QString::from(""),
             };
 
-            println!("{:?}", slide);
+            match ty {
+                Some(ty) if ty == QString::from("image") => {
+                    slide.ty = ty;
+                    slide.image_background = background;
+                    slide.video_background = QString::from("");
+                    slide.slide_id = 0;
+                    self.as_mut().add_slide(&slide);
+                    println!("{:?}", slide);
+                }
+                Some(ty) if ty == QString::from("song") => {
+                    for i in 0..text_vec.len() {
+                        slide.ty = ty.clone();
+                        slide.text = text_vec[i].clone();
+                        slide.image_count = text_vec.len() as i32;
+                        slide.slide_id = i as i32;
+                        if background_type == QString::from("image") {
+                            slide.image_background = background.clone();
+                            slide.video_background = QString::from("");
+                        } else {
+                            slide.video_background = background.clone();
+                            slide.image_background = QString::from("");
+                        }
+                        self.as_mut().add_slide(&slide);
+                        println!("{:?}", slide);
+                    }
+                }
+                Some(ty) if ty == QString::from("video") => {
+                    slide.ty = ty;
+                    slide.image_background = QString::from("");
+                    slide.video_background = background;
+                    slide.slide_id = 0;
+                    self.as_mut().add_slide(&slide);
+                    println!("{:?}", slide);
+                }
+                Some(ty) if ty == QString::from("presentation") => {
+                    for i in 0..slide.image_count {
+                        slide.ty = ty.clone();
+                        slide.image_background = background.clone();
+                        slide.video_background = QString::from("");
+                        slide.slide_id = i;
+                        self.as_mut().add_slide(&slide);
+                        println!("{:?}", slide);
+                    }
+                }
+                _ => println!("It's somethign else!"),
+            };
 
-            // self.as_mut().add_slide(&slide);
             println!("Item added in rust model!");
         }
     }
@@ -403,7 +452,7 @@ mod slide_model {
             if let Some(slide) = self.rust().slides.get(index.row() as usize) {
                 return match role {
                     0 => QVariant::from(&slide.ty),
-                    1 => QVariant::from(&slide.text),
+                    1 => QVariant::from(&QStringList::from(&slide.text)),
                     2 => QVariant::from(&slide.audio),
                     3 => QVariant::from(&slide.image_background),
                     4 => QVariant::from(&slide.video_background),
