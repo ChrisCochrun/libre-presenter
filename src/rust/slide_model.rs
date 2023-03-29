@@ -34,7 +34,7 @@ mod slide_model {
         vtext_alignment: QString,
         font: QString,
         font_size: i32,
-        image_count: i32,
+        slide_count: i32,
         slide_id: i32,
         service_item_id: i32,
         active: bool,
@@ -55,7 +55,7 @@ mod slide_model {
     //     FontSizeRole,
     //     ServiceItemIdRole,
     //     SlideyIndexRole,
-    //     ImageCountRole,
+    //     SlidecountRole,
     //     ActiveRole,
     //     SelectedRole,
     //     LoopRole,
@@ -161,7 +161,7 @@ mod slide_model {
             vtext_alignment: QString,
             service_item_id: i32,
             slide_id: i32,
-            image_count: i32,
+            slide_count: i32,
             looping: bool,
         ) {
             let slide = Slidey {
@@ -176,7 +176,7 @@ mod slide_model {
                 vtext_alignment,
                 service_item_id,
                 slide_id,
-                image_count,
+                slide_count,
                 looping,
                 active: false,
                 selected: false,
@@ -193,7 +193,7 @@ mod slide_model {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), index, index);
                 self.as_mut().slides_mut().push(slide);
-                self.as_mut().end_remove_rows();
+                self.as_mut().end_insert_rows();
             }
         }
 
@@ -212,7 +212,7 @@ mod slide_model {
             vtext_alignment: QString,
             service_item_id: i32,
             slide_id: i32,
-            image_count: i32,
+            slide_count: i32,
             looping: bool,
         ) {
             let slide = Slidey {
@@ -227,7 +227,7 @@ mod slide_model {
                 vtext_alignment,
                 service_item_id,
                 slide_id,
-                image_count,
+                slide_count,
                 looping,
                 active: false,
                 selected: false,
@@ -253,6 +253,7 @@ mod slide_model {
             _index: i32,
             service_item: &QMap_QString_QVariant,
         ) {
+            println!("add rust slide");
             let ty = service_item
                 .get(&QString::from("type"))
                 .unwrap_or(QVariant::from(&QString::from("")))
@@ -271,7 +272,7 @@ mod slide_model {
                 .unwrap_or_default();
 
             let textlist = service_item
-                .get(&QString::from("backgroundType"))
+                .get(&QString::from("text"))
                 .unwrap_or(QVariant::from(&QString::from("")))
                 .value::<QStringList>()
                 .unwrap_or_default();
@@ -335,7 +336,7 @@ mod slide_model {
                     .unwrap_or(QVariant::from(&0))
                     .value()
                     .unwrap_or(0),
-                image_count: service_item
+                slide_count: service_item
                     .get(&QString::from("imageCount"))
                     .unwrap_or(QVariant::from(&1))
                     .value()
@@ -369,9 +370,11 @@ mod slide_model {
                 }
                 Some(ty) if ty == QString::from("song") => {
                     for i in 0..text_vec.len() {
+                        println!("add song of {:?} length", text_vec.len());
                         slide.ty = ty.clone();
+                        // println!("{:?}", text_vec[i].clone());
                         slide.text = text_vec[i].clone();
-                        slide.image_count = text_vec.len() as i32;
+                        slide.slide_count = text_vec.len() as i32;
                         slide.slide_id = i as i32;
                         if background_type == QString::from("image") {
                             slide.image_background = background.clone();
@@ -393,7 +396,7 @@ mod slide_model {
                     println!("{:?}", slide);
                 }
                 Some(ty) if ty == QString::from("presentation") => {
-                    for i in 0..slide.image_count {
+                    for i in 0..slide.slide_count {
                         slide.ty = ty.clone();
                         slide.image_background = background.clone();
                         slide.video_background = QString::from("");
@@ -452,7 +455,7 @@ mod slide_model {
             if let Some(slide) = self.rust().slides.get(index.row() as usize) {
                 return match role {
                     0 => QVariant::from(&slide.ty),
-                    1 => QVariant::from(&QStringList::from(&slide.text)),
+                    1 => QVariant::from(&slide.text),
                     2 => QVariant::from(&slide.audio),
                     3 => QVariant::from(&slide.image_background),
                     4 => QVariant::from(&slide.video_background),
@@ -462,7 +465,7 @@ mod slide_model {
                     8 => QVariant::from(&slide.font_size),
                     9 => QVariant::from(&slide.service_item_id),
                     10 => QVariant::from(&slide.slide_id),
-                    11 => QVariant::from(&slide.image_count),
+                    11 => QVariant::from(&slide.slide_count),
                     12 => QVariant::from(&slide.active),
                     13 => QVariant::from(&slide.selected),
                     14 => QVariant::from(&slide.looping),
