@@ -431,6 +431,9 @@ mod slide_model {
 
         #[qinvokable]
         pub fn activate(mut self: Pin<&mut Self>, index: i32) -> bool {
+            for i in self.as_ref().rust().slides.iter() {
+                println!("idk");
+            }
             if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
                 slide.active = true;
                 true
