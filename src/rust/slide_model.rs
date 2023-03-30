@@ -106,6 +106,16 @@ mod slide_model {
         // }
 
         #[qinvokable]
+        pub fn video_thumbnail(
+            mut self: Pin<&mut Self>,
+            video: QString,
+            service_item_id: i32,
+            index: i32,
+        ) -> QString {
+            QString::default()
+        }
+
+        #[qinvokable]
         pub fn clear(mut self: Pin<&mut Self>) {
             unsafe {
                 self.as_mut().begin_reset_model();
@@ -396,46 +406,56 @@ mod slide_model {
             if !idx.is_valid() {
                 return qvariantmap;
             }
+            let rn = self.as_ref().role_names();
+            let rn_iter = rn.iter();
             if let Some(slide) = self.rust().slides.get(index as usize) {
-                qvariantmap.insert(QString::from("text"), QVariant::from(&slide.text));
-                qvariantmap.insert(QString::from("type"), QVariant::from(&slide.ty));
-                qvariantmap.insert(QString::from("audio"), QVariant::from(&slide.audio));
-                qvariantmap.insert(
-                    QString::from("imageBackground"),
-                    QVariant::from(&slide.image_background),
-                );
-                qvariantmap.insert(
-                    QString::from("videoBackground"),
-                    QVariant::from(&slide.video_background),
-                );
-                qvariantmap.insert(QString::from("font"), QVariant::from(&slide.font));
-                qvariantmap.insert(QString::from("fontSize"), QVariant::from(&slide.font_size));
-                qvariantmap.insert(
-                    QString::from("horizontalTextAlignment"),
-                    QVariant::from(&slide.htext_alignment),
-                );
-                qvariantmap.insert(
-                    QString::from("verticalTextAlignment"),
-                    QVariant::from(&slide.vtext_alignment),
-                );
-                qvariantmap.insert(
-                    QString::from("serviceItemId"),
-                    QVariant::from(&slide.service_item_id),
-                );
-                qvariantmap.insert(QString::from("loop"), QVariant::from(&slide.looping));
-                qvariantmap.insert(QString::from("active"), QVariant::from(&slide.active));
-                qvariantmap.insert(QString::from("selected"), QVariant::from(&slide.selected));
+                for i in rn_iter {
+                    qvariantmap.insert(
+                        QString::from(&i.1.to_string()),
+                        self.as_ref().data(&idx, *i.0),
+                    );
+                }
+                // qvariantmap.insert(QString::from("text"), QVariant::from(&slide.text));
+                // qvariantmap.insert(QString::from("type"), QVariant::from(&slide.ty));
+                // qvariantmap.insert(QString::from("audio"), QVariant::from(&slide.audio));
+                // qvariantmap.insert(
+                //     QString::from("imageBackground"),
+                //     QVariant::from(&slide.image_background),
+                // );
+                // qvariantmap.insert(
+                //     QString::from("videoBackground"),
+                //     QVariant::from(&slide.video_background),
+                // );
+                // qvariantmap.insert(QString::from("font"), QVariant::from(&slide.font));
+                // qvariantmap.insert(QString::from("fontSize"), QVariant::from(&slide.font_size));
+                // qvariantmap.insert(
+                //     QString::from("horizontalTextAlignment"),
+                //     QVariant::from(&slide.htext_alignment),
+                // );
+                // qvariantmap.insert(
+                //     QString::from("verticalTextAlignment"),
+                //     QVariant::from(&slide.vtext_alignment),
+                // );
+                // qvariantmap.insert(
+                //     QString::from("serviceItemId"),
+                //     QVariant::from(&slide.service_item_id),
+                // );
+                // qvariantmap.insert(QString::from("loop"), QVariant::from(&slide.looping));
+                // qvariantmap.insert(QString::from("active"), QVariant::from(&slide.active));
+                // qvariantmap.insert(QString::from("selected"), QVariant::from(&slide.selected));
             };
             qvariantmap
         }
 
         #[qinvokable]
         pub fn activate(mut self: Pin<&mut Self>, index: i32) -> bool {
-            for i in self.as_ref().rust().slides.iter() {
-                println!("idk");
+            for i in self.as_mut().slides_mut().iter_mut() {
+                println!("slide is deactivating {:?}", i);
+                i.active = false;
             }
             if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
                 slide.active = true;
+                println!("slide is activating {:?}", slide);
                 true
             } else {
                 false

@@ -266,7 +266,7 @@ FocusScope {
                 cacheBuffer: 800
                 reuseItems: true
                 clip: true
-                model: SlideModel
+                model: SlideMod
                 delegate: Presenter.PreviewSlideListDelegate { showVidBG: false }
 
                 Kirigami.WheelHandler {
