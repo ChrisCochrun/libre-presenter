@@ -24,6 +24,7 @@
 
 #include <iostream>
 
+
 const QDir writeDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
 SlideModel::SlideModel(QObject *parent)
@@ -449,6 +450,12 @@ QVariantMap SlideModel::getItem(int index) const {
     qDebug() << it.key() << ":" << it.value();
     data[it.value()] = idx.data(it.key());
   }
+  return data;
+}
+
+QVariantMap SlideModel::getItemRust(int index, SlideyMod *slidemodel) const {
+  QVariantMap data = slidemodel->getItem(index);
+  qDebug() << data;
   return data;
 }
 

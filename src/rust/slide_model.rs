@@ -43,25 +43,6 @@ mod slide_model {
         video_thumbnail: QString,
     }
 
-    // pub enum Roles {
-    //     TypeRole = 0,
-    //     TextRole,
-    //     AudioRole,
-    //     ImageBackgroundRole,
-    //     VideoBackgroundRole,
-    //     HorizontalTextAlignmentRole,
-    //     VerticalTextAlignmentRole,
-    //     FontRole,
-    //     FontSizeRole,
-    //     ServiceItemIdRole,
-    //     SlideyIndexRole,
-    //     SlidecountRole,
-    //     ActiveRole,
-    //     SelectedRole,
-    //     LoopRole,
-    //     VidThumbnailRole,
-    // }
-
     #[cxx_qt::qobject(
         base = "QAbstractListModel",
         // qml_uri = "com.kdab.cxx_qt.demo",
@@ -405,6 +386,57 @@ mod slide_model {
             };
 
             println!("Item added in rust model!");
+        }
+
+        #[qinvokable]
+        pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
+            println!("{index}");
+            let mut qvariantmap = QMap_QString_QVariant::default();
+            let idx = self.index(index, 0, &QModelIndex::default());
+            if !idx.is_valid() {
+                return qvariantmap;
+            }
+            if let Some(slide) = self.rust().slides.get(index as usize) {
+                qvariantmap.insert(QString::from("text"), QVariant::from(&slide.text));
+                qvariantmap.insert(QString::from("type"), QVariant::from(&slide.ty));
+                qvariantmap.insert(QString::from("audio"), QVariant::from(&slide.audio));
+                qvariantmap.insert(
+                    QString::from("imageBackground"),
+                    QVariant::from(&slide.image_background),
+                );
+                qvariantmap.insert(
+                    QString::from("videoBackground"),
+                    QVariant::from(&slide.video_background),
+                );
+                qvariantmap.insert(QString::from("font"), QVariant::from(&slide.font));
+                qvariantmap.insert(QString::from("fontSize"), QVariant::from(&slide.font_size));
+                qvariantmap.insert(
+                    QString::from("horizontalTextAlignment"),
+                    QVariant::from(&slide.htext_alignment),
+                );
+                qvariantmap.insert(
+                    QString::from("verticalTextAlignment"),
+                    QVariant::from(&slide.vtext_alignment),
+                );
+                qvariantmap.insert(
+                    QString::from("serviceItemId"),
+                    QVariant::from(&slide.service_item_id),
+                );
+                qvariantmap.insert(QString::from("loop"), QVariant::from(&slide.looping));
+                qvariantmap.insert(QString::from("active"), QVariant::from(&slide.active));
+                qvariantmap.insert(QString::from("selected"), QVariant::from(&slide.selected));
+            };
+            qvariantmap
+        }
+
+        #[qinvokable]
+        pub fn activate(mut self: Pin<&mut Self>, index: i32) -> bool {
+            if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
+                slide.active = true;
+                true
+            } else {
+                false
+            }
         }
     }
 
