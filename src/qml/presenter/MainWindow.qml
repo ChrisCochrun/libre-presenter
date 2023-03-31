@@ -15,7 +15,7 @@ Controls.Page {
     property int currentServiceItem
     property int currentSlide
     property int totalServiceItems: ServiceItemModel.rowCount()
-    property int totalSlides: SlideModel.rowCount()
+    property int totalSlides: SlideMod.rowCount()
     property url imageBackground: presentation.imageBackground
     property url videoBackground: presentation.vidBackground
     property string currentText: presentation.text
@@ -158,7 +158,7 @@ Controls.Page {
         console.log("%%%%%%%%%");
         console.log(slide);
         /* SlideObject.changeSlide(slide, slideId); */
-        slideHelper.chngSlide(item, index, SlideObject);
+        slideHelper.chngSlide(slide, slideId, SlideObject);
         console.log("%%%%%%%%%");
         /* SlideObject.changeSlide(slide, slideId); */
         
@@ -190,7 +190,7 @@ Controls.Page {
         ServiceItemModel.activate(currentServiceItem);
         /* SlideObject.changeSlide(slide, slideId); */
         slideHelper.chngSlide(item, index, SlideObject);
-        SlideMod.activate(index);
+        /* SlideMod.activate(index); */
         presentation.textIndex = 0;
         console.log("Slide changed to: " + index);
     }
