@@ -18,6 +18,8 @@ mod slide_model {
         type QStringList = cxx_qt_lib::QStringList;
         include!("cxx-qt-lib/qlist.h");
         type QList_QString = cxx_qt_lib::QList<QString>;
+        #[cxx_name = "Slidey"]
+        type CxxSlidey = super::qobject::Slidey;
         // include!("cxx-qt-lib/qvector.h");
         // type QVector_Slidey = cxx_qt_lib::QVector<Slidey>;
     }
@@ -25,21 +27,37 @@ mod slide_model {
     #[cxx_qt::qobject]
     #[derive(Default, Clone, Debug)]
     pub struct Slidey {
+        #[qproperty]
         text: QString,
+        #[qproperty]
         ty: QString,
+        #[qproperty]
         audio: QString,
+        #[qproperty]
         image_background: QString,
+        #[qproperty]
         video_background: QString,
+        #[qproperty]
         htext_alignment: QString,
+        #[qproperty]
         vtext_alignment: QString,
+        #[qproperty]
         font: QString,
+        #[qproperty]
         font_size: i32,
+        #[qproperty]
         slide_count: i32,
+        #[qproperty]
         slide_id: i32,
+        #[qproperty]
         service_item_id: i32,
+        #[qproperty]
         active: bool,
+        #[qproperty]
         selected: bool,
+        #[qproperty]
         looping: bool,
+        #[qproperty]
         video_thumbnail: QString,
     }
 
@@ -51,7 +69,7 @@ mod slide_model {
     #[derive(Default, Debug)]
     pub struct SlideyMod {
         id: i32,
-        slides: Vec<Slidey>,
+        slides: Vec<*mut CxxSlidey>,
     }
 
     #[cxx_qt::qsignals(SlideyMod)]
@@ -112,6 +130,8 @@ mod slide_model {
             service_item_id: i32,
             index: i32,
         ) -> QString {
+            let video = video.to_string();
+
             QString::default()
         }
 
@@ -228,8 +248,8 @@ mod slide_model {
             self.as_mut().insert_slide(&slide, index);
         }
 
-        fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
-            let slide = slide.clone();
+        fn insert_slide(mut self: Pin<&mut Self>, slide: &CxxSlidey, id: i32) {
+            let slide: *mut CxxSlidey = std::ptr::addr_of_mut(slide);
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
@@ -449,13 +469,25 @@ mod slide_model {
 
         #[qinvokable]
         pub fn activate(mut self: Pin<&mut Self>, index: i32) -> bool {
+            let rc = self.as_ref().row_count(&QModelIndex::default());
+            let tl = &self.as_ref().index(0, 0, &QModelIndex::default());
+            let br = &self.as_ref().index(rc, rc, &QModelIndex::default());
+            let roles = &QVector_i32::from(vec![12]);
             for i in self.as_mut().slides_mut().iter_mut() {
-                println!("slide is deactivating {:?}", i);
-                i.active = false;
+                // println!("slide is deactivating {:?}", i);
+                // i.active = false;
+                i.set_active(false);
+                // self.as_mut().emit(Signals::DataChanged);
             }
             if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
-                slide.active = true;
-                println!("slide is activating {:?}", slide);
+                // slide.active = true;
+                slide.set_active(true);
+                // self.as_mut().emit(Signals::DataChanged {
+                //     top_left: tl,
+                //     bottom_right: br,
+                //     roles,
+                // });
+                println!("slide is activating {:?}", index);
                 true
             } else {
                 false
@@ -558,7 +590,9 @@ mod slide_model {
 
         #[qinvokable(cxx_override)]
         pub fn row_count(&self, _parent: &QModelIndex) -> i32 {
-            self.rust().slides.len() as i32
+            let cnt = self.rust().slides.len() as i32;
+            // println!("row count is {cnt}");
+            cnt
         }
     }
 }
