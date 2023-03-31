@@ -213,9 +213,8 @@ mod slide_obj {
                 .unwrap_or(QVariant::from(&0));
             if let Some(int) = slindex.value::<i32>() {
                 self.as_mut().set_slide_index(int);
-                let si = int;
-                self.as_mut().emit(Signals::SlideChanged { slide: &si });
             };
+            self.as_mut().emit(Signals::SlideChanged { slide: &index });
             println!("## Slide End ##");
         }
 
