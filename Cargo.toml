@@ -22,7 +22,7 @@ cxx-qt = "0.5.0"
 cxx-qt-lib = "0.5.0"
 # home = "0.5.4"
 dirs = "5.0.0"
-ffmpeg-the-third = "1.2.2"
+# ffmpeg-the-third = "1.2.2"
 
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module
 # and compiles it together with the Rust static library
