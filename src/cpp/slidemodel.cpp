@@ -516,12 +516,12 @@ bool SlideModel::activate(int id) {
   for (int i = 0; i < m_items.length(); i++) {
     QModelIndex idx = index(i);
     Slide *itm = m_items[idx.row()];
-    qDebug() << i << m_items.length() << item->active() << itm->active();
+    // qDebug() << i << m_items.length() << item->active() << itm->active();
     if (itm->active()) {
       itm->setActive(false);
-      qDebug() << "################";
-      qDebug() << "deactivated" << itm->slideIndex();
-      qDebug() << "################";
+      // qDebug() << "################";
+      // qDebug() << "deactivated" << itm->slideIndex();
+      // qDebug() << "################";
       emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
     }
   }
@@ -539,9 +539,9 @@ bool SlideModel::deactivate(int id) {
   Slide *item = m_items[idx.row()];
 
   item->setActive(false);
-  qDebug() << "################";
-  qDebug() << "deactivated" << item->slideIndex();
-  qDebug() << "################";
+  // qDebug() << "################";
+  // qDebug() << "deactivated" << item->slideIndex();
+  // qDebug() << "################";
   emit dataChanged(idx, idx, QVector<int>() << ActiveRole);
   return true;
 }

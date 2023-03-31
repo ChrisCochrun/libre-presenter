@@ -61,8 +61,8 @@ bool SlideObject::loop() const
 }
 
 void SlideObject::chngSlide(QVariantMap item, int index, SlideObj *slideObj) {
-  qDebug() << "Here is the pointer to the slideObj" << slideObj;
-  qDebug() << "Here is the item" << item;
+  // qDebug() << "Here is the pointer to the slideObj" << slideObj;
+  // qDebug() << "Here is the item" << item;
   slideObj->changeSlide(item, index);
 }
 
