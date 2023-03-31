@@ -169,10 +169,10 @@ int main(int argc, char *argv[])
   QObject::connect(serviceItemModel.get(),
                    SIGNAL(allRemoved()),
                    slideModel.get(),
-                   SLOT(clearAll()));
+                   SLOT(clear()));
   QObject::connect(slideobject.get(),
                    SIGNAL(slideChanged(int)),
-                   slideModel.get(),
+                   slideMod.get(),
                    SLOT(activate(int)));
 
   if (!serviceItemModel.get()->loadLastSaved()) {
