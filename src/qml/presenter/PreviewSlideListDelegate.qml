@@ -74,9 +74,11 @@ Item {
         target: SlideMod
         function onDataChanged() {
             if (active) {
+                previewHighlight.color = Kirigami.Theme.highlightColor;
                 previewSlidesList.currentIndex = index;
                 previewSlidesList.positionViewAtIndex(index, ListView.Center);
-            }
+            } else
+                previewHighlight.color = Kirigami.Theme.backgroundColor;
         }
     }
 }
