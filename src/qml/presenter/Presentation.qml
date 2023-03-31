@@ -365,6 +365,7 @@ FocusScope {
     function nextSlideAction() {
         keyHandler.forceActiveFocus();
         console.log(currentServiceItem);
+        console.log(totalSlides);
         const nextSlideIdx = currentSlide + 1;
         if (nextSlideIdx > totalSlides || nextSlideIdx < 0)
             return;

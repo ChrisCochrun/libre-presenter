@@ -15,7 +15,7 @@ Controls.Page {
     property int currentServiceItem
     property int currentSlide
     property int totalServiceItems: ServiceItemModel.rowCount()
-    property int totalSlides: SlideMod.rowCount()
+    property int totalSlides: SlideMod.count()
     property url imageBackground: presentation.imageBackground
     property url videoBackground: presentation.vidBackground
     property string currentText: presentation.text

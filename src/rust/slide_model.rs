@@ -25,7 +25,7 @@ mod slide_model {
     }
 
     #[cxx_qt::qobject]
-    #[derive(Default, Clone, Debug)]
+    #[derive(Clone, Debug)]
     pub struct Slidey {
         #[qproperty]
         text: QString,
@@ -61,6 +61,29 @@ mod slide_model {
         video_thumbnail: QString,
     }
 
+    impl Default for Slidey {
+        fn default() -> Self {
+            Self {
+                text: QString::default(),
+                ty: QString::default(),
+                audio: QString::default(),
+                image_background: QString::default(),
+                video_background: QString::default(),
+                htext_alignment: QString::default(),
+                vtext_alignment: QString::default(),
+                font: QString::default(),
+                font_size: 50,
+                slide_count: 1,
+                slide_id: 0,
+                service_item_id: 0,
+                active: false,
+                selected: false,
+                looping: false,
+                video_thumbnail: QString::default(),
+            }
+        }
+    }
+
     #[cxx_qt::qobject(
         base = "QAbstractListModel",
         // qml_uri = "com.kdab.cxx_qt.demo",
@@ -69,7 +92,7 @@ mod slide_model {
     #[derive(Default, Debug)]
     pub struct SlideyMod {
         id: i32,
-        slides: Vec<*mut CxxSlidey>,
+        slides: Vec<Slidey>,
     }
 
     #[cxx_qt::qsignals(SlideyMod)]
@@ -175,6 +198,19 @@ mod slide_model {
             slide_count: i32,
             looping: bool,
         ) {
+            // slide.set_text(text);
+            // slide.set_ty(ty);
+            // slide.set_audio(audio);
+            // slide.set_image_background(image_background);
+            // slide.set_video_background(video_background);
+            // slide.set_font(font);
+            // slide.set_font_size(font_size);
+            // slide.set_htext_alignment(htext_alignment);
+            // slide.set_vtext_alignment(vtext_alignment);
+            // slide.set_service_item_id(service_item_id);
+            // slide.set_slide_id(slide_id);
+            // slide.set_slide_count(slide_count);
+            // slide.set_looping(looping);
             let slide = Slidey {
                 ty,
                 text,
@@ -199,6 +235,7 @@ mod slide_model {
 
         fn add_slide(mut self: Pin<&mut Self>, slide: &Slidey) {
             let index = self.as_ref().slides().len() as i32;
+            println!("{:?}", slide);
             let slide = slide.clone();
             unsafe {
                 self.as_mut()
@@ -245,11 +282,10 @@ mod slide_model {
                 video_thumbnail: QString::from(""),
             };
 
-            self.as_mut().insert_slide(&slide, index);
+            self.as_mut().insert_slide(slide, index);
         }
 
-        fn insert_slide(mut self: Pin<&mut Self>, slide: &CxxSlidey, id: i32) {
-            let slide: *mut CxxSlidey = std::ptr::addr_of_mut(slide);
+        fn insert_slide(mut self: Pin<&mut Self>, slide: Slidey, id: i32) {
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
@@ -373,7 +409,6 @@ mod slide_model {
                     slide.video_background = QString::from("");
                     slide.slide_id = 0;
                     self.as_mut().add_slide(&slide);
-                    println!("{:?}", slide);
                 }
                 Some(ty) if ty == QString::from("song") => {
                     for i in 0..text_vec.len() {
@@ -391,7 +426,6 @@ mod slide_model {
                             slide.image_background = QString::from("");
                         }
                         self.as_mut().add_slide(&slide);
-                        println!("{:?}", slide);
                     }
                 }
                 Some(ty) if ty == QString::from("video") => {
@@ -400,7 +434,6 @@ mod slide_model {
                     slide.video_background = background;
                     slide.slide_id = 0;
                     self.as_mut().add_slide(&slide);
-                    println!("{:?}", slide);
                 }
                 Some(ty) if ty == QString::from("presentation") => {
                     for i in 0..slide.slide_count {
@@ -409,7 +442,6 @@ mod slide_model {
                         slide.video_background = QString::from("");
                         slide.slide_id = i;
                         self.as_mut().add_slide(&slide);
-                        println!("{:?}", slide);
                     }
                 }
                 _ => println!("It's somethign else!"),
@@ -473,20 +505,18 @@ mod slide_model {
             let tl = &self.as_ref().index(0, 0, &QModelIndex::default());
             let br = &self.as_ref().index(rc, rc, &QModelIndex::default());
             let roles = &QVector_i32::from(vec![12]);
-            for i in self.as_mut().slides_mut().iter_mut() {
+            for slide in self.as_mut().slides_mut().iter_mut() {
                 // println!("slide is deactivating {:?}", i);
-                // i.active = false;
-                i.set_active(false);
-                // self.as_mut().emit(Signals::DataChanged);
+                slide.active = false;
             }
             if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
-                // slide.active = true;
-                slide.set_active(true);
-                // self.as_mut().emit(Signals::DataChanged {
-                //     top_left: tl,
-                //     bottom_right: br,
-                //     roles,
-                // });
+                slide.active = true;
+                // slide.set_active(true);
+                self.as_mut().emit(Signals::DataChanged {
+                    top_left: tl,
+                    bottom_right: br,
+                    roles,
+                });
                 println!("slide is activating {:?}", index);
                 true
             } else {
@@ -535,7 +565,7 @@ mod slide_model {
     impl qobject::SlideyMod {
         #[qinvokable(cxx_override)]
         fn data(&self, index: &QModelIndex, role: i32) -> QVariant {
-            if let Some(slide) = self.rust().slides.get(index.row() as usize) {
+            if let Some(slide) = self.slides().get(index.row() as usize) {
                 return match role {
                     0 => QVariant::from(&slide.ty),
                     1 => QVariant::from(&slide.text),
@@ -593,6 +623,11 @@ mod slide_model {
             let cnt = self.rust().slides.len() as i32;
             // println!("row count is {cnt}");
             cnt
+        }
+
+        #[qinvokable]
+        pub fn count(&self) -> i32 {
+            self.rust().slides.len() as i32
         }
     }
 }

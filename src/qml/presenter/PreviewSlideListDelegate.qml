@@ -71,7 +71,7 @@ Item {
 
 
     Connections {
-        target: SlideModel
+        target: SlideMod
         function onDataChanged() {
             if (active) {
                 previewSlidesList.currentIndex = index;
