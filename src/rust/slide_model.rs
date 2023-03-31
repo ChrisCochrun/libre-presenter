@@ -106,6 +106,24 @@ mod slide_model {
         ActiveChanged,
     }
 
+    enum Role {
+        ActiveRole,
+        SelectedRole,
+        LoopingRole,
+        TextRole,
+    }
+
+    // impl Role {
+    //     pub fn get_role(&self) -> i32 {
+    //         match self {
+    //             Role::ActiveRole => 12,
+    //             Role::SelectedRole => 13,
+    //             Role::LoopingRole => 14,
+    //             Role::TextRole => 1,
+    //         }
+    //     }
+    // }
+
     impl qobject::SlideyMod {
         // #[qinvokable]
         // pub fn add(self: Pin<&mut Self>) {
@@ -662,7 +680,7 @@ mod slide_model {
             let tl = &self.as_ref().index(0, 0, &QModelIndex::default());
             let br = &self.as_ref().index(rc, 0, &QModelIndex::default());
             let mut vector_roles = QVector_i32::default();
-            vector_roles.append(12);
+            vector_roles.append(self.get_role(Role::ActiveRole));
             for slide in self.as_mut().slides_mut().iter_mut() {
                 // println!("slide is deactivating {:?}", i);
                 slide.active = false;
@@ -680,6 +698,16 @@ mod slide_model {
                 true
             } else {
                 false
+            }
+        }
+
+        fn get_role(&self, role: Role) -> i32 {
+            match role {
+                Role::ActiveRole => 12,
+                Role::SelectedRole => 13,
+                Role::LoopingRole => 14,
+                Role::TextRole => 1,
+                _ => 0,
             }
         }
     }
