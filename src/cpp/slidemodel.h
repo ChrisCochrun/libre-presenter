@@ -86,6 +86,7 @@ public:
   Q_INVOKABLE QVariantList getItems();
   Q_INVOKABLE int findSlideIdFromServItm(int index);
   Q_INVOKABLE QString thumbnailVideo(QString video, int serviceItemId, int index);
+  Q_INVOKABLE QString thumbnailVideoRust(QString video, int serviceItemId, int index, SlideyMod *slideModel);
   QImage frameToImage(const QString &video, int width);
 
 

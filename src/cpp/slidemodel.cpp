@@ -700,6 +700,51 @@ void SlideModel::moveRowFromService(const int &fromIndex,
   }
 }
 
+QString SlideModel::thumbnailVideoRust(QString video, int serviceItemId, int index, SlideyMod *slideModel) {
+
+  QDir dir = writeDir.absolutePath() + "/librepresenter/thumbnails";
+  QDir absDir = writeDir.absolutePath() + "/librepresenter";
+  if (!dir.exists()) {
+    qDebug() << dir.path() << "does not exist";
+    absDir.mkdir("thumbnails");
+  }
+  
+  QFileInfo vid(video);
+  QString id;
+  id.setNum(serviceItemId);
+  QString vidName(vid.fileName() + "-" + id);
+  qDebug() << vidName;
+  QString thumbnail = dir.path() + "/" + vidName + ".webp";
+  QFileInfo thumbnailInfo(dir.path() + "/" + vidName + ".jpg");
+  qDebug() << thumbnailInfo.filePath() << "FOR" << index;
+  if (thumbnailInfo.exists()) {
+    slideModel->addVideoThumbnail("file://" + thumbnailInfo.absoluteFilePath(), serviceItemId, index);
+    return thumbnailInfo.filePath();
+  }
+
+
+  QImage image;
+  QString filename = video.right(video.size() - 7);
+  image = frameToImage(filename, 576);
+  if (image.isNull()) {
+        qDebug() << QStringLiteral("Failed to create thumbnail for file: %1").arg(video);
+        return "failed";
+  }
+
+  qDebug() << "dir location " << writeDir.absolutePath();
+  if (!writeDir.mkpath(".")) {
+    qFatal("Failed to create writable location at %s", qPrintable(writeDir.absolutePath()));
+  }
+
+  if (!image.save(thumbnailInfo.filePath())) {
+    qDebug() << QStringLiteral("Failed to save thumbnail for file: %1").arg(video);
+  }
+
+  slideModel->addVideoThumbnail("file://" + thumbnailInfo.absoluteFilePath(), serviceItemId, index);
+
+  return thumbnailInfo.filePath();
+}
+
 QString SlideModel::thumbnailVideo(QString video, int serviceItemId, int index) {
 
   QDir dir = writeDir.absolutePath() + "/librepresenter/thumbnails";

@@ -12,7 +12,7 @@ Item {
     property bool showVidBG
     Component.onCompleted: {
         if (model.videoBackground != "")
-            SlideModel.thumbnailVideo(model.videoBackground, model.serviceItemId, index);
+            SlideModel.thumbnailVideoRust(model.videoBackground, model.serviceItemId, index, SlideMod);
     }
 
     Rectangle {
