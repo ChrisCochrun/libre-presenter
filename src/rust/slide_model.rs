@@ -217,19 +217,6 @@ mod slide_model {
             slide_count: i32,
             looping: bool,
         ) {
-            // slide.set_text(text);
-            // slide.set_ty(ty);
-            // slide.set_audio(audio);
-            // slide.set_image_background(image_background);
-            // slide.set_video_background(video_background);
-            // slide.set_font(font);
-            // slide.set_font_size(font_size);
-            // slide.set_htext_alignment(htext_alignment);
-            // slide.set_vtext_alignment(vtext_alignment);
-            // slide.set_service_item_id(service_item_id);
-            // slide.set_slide_id(slide_id);
-            // slide.set_slide_count(slide_count);
-            // slide.set_looping(looping);
             let slide = Slidey {
                 ty,
                 text,
