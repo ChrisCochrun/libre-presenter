@@ -72,7 +72,7 @@ Item {
 
     Connections {
         target: SlideMod
-        function onDataChanged() {
+        function onActiveChanged() {
             if (active) {
                 previewSlidesList.currentIndex = index;
                 previewSlidesList.positionViewAtIndex(index, ListView.Center);
