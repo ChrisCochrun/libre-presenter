@@ -682,13 +682,8 @@ mod slide_model {
             }
             if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
                 slide.active = true;
-                // slide.set_active(true);
-                self.as_mut().emit(Signals::DataChanged {
-                    top_left: tl,
-                    bottom_right: br,
-                    roles: &vector_roles,
-                });
-                self.as_mut().emit(Signals::ActiveChanged);
+                self.as_mut().emit_data_changed(tl, br, &vector_roles);
+                // self.as_mut().emit_active_changed(); // This function doesn't work
                 println!("slide is activating {:?}", index);
                 true
             } else {
