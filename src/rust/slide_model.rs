@@ -310,7 +310,7 @@ mod slide_model {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
                 self.as_mut().slides_mut().insert(id as usize, slide);
-                self.as_mut().end_remove_rows();
+                self.as_mut().end_insert_rows();
             }
         }
 
@@ -444,7 +444,7 @@ mod slide_model {
                             slide.video_background = background.clone();
                             slide.image_background = QString::from("");
                         }
-                        self.as_mut().insert_slide(&slide, index);
+                        self.as_mut().insert_slide(&slide, index + i as i32);
                     }
                 }
                 Some(ty) if ty == QString::from("video") => {
@@ -460,7 +460,7 @@ mod slide_model {
                         slide.image_background = background.clone();
                         slide.video_background = QString::from("");
                         slide.slide_id = i;
-                        self.as_mut().insert_slide(&slide, index);
+                        self.as_mut().insert_slide(&slide, index + i as i32);
                     }
                 }
                 _ => println!("It's somethign else!"),
@@ -475,7 +475,7 @@ mod slide_model {
             index: i32,
             service_item: &QMap_QString_QVariant,
         ) {
-            println!("add rust slide");
+            println!("add rust slide {:?}", index);
             let ty = service_item
                 .get(&QString::from("type"))
                 .unwrap_or(QVariant::from(&QString::from("")))

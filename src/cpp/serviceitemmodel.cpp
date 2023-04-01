@@ -188,23 +188,6 @@ Qt::ItemFlags ServiceItemModel::flags(const QModelIndex &index) const {
   return Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
-// int ServiceItemModel::index(int row, int column, const QModelIndex &parent) {
-//       if (!hasIndex(row, column, parent))
-//         return QModelIndex();
-
-//     ServiceItem *parentItem;
-
-//     if (!parent.isValid())
-//         parentItem = rootItem;
-//     else
-//         parentItem = static_cast<ServiceItem*>(parent.internalPointer());
-
-//     ServiceItem *childItem = parentItem->child(row);
-//     if (childItem)
-//         return createIndex(row, column, childItem);
-//     return QModelIndex();
-// }
-
 void ServiceItemModel::addItem(ServiceItem *item) {
   const int index = m_items.size();
   qDebug() << index;
@@ -222,56 +205,6 @@ void ServiceItemModel::insertItem(const int &index, ServiceItem *item) {
   endInsertRows();
   qDebug() << "Success";
 }
-
-// void ServiceItemModel::addItem(const QString &name, const QString &type) {
-//   ServiceItem *item = new ServiceItem(name, type);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   addItem(item);
-// }
-
-// void ServiceItemModel::addItem(const QString &name, const QString &type,
-//                                const QString &background, const QString &backgroundType) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   addItem(item);
-// }
-
-// void ServiceItemModel::addItem(const QString &name, const QString &type,
-//                                const QString &background, const QString &backgroundType,
-//                                const QStringList &text) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   addItem(item);
-//   qDebug() << name << type << background;
-// }
-
-// void ServiceItemModel::addItem(const QString &name, const QString &type,
-//                                const QString &background, const QString &backgroundType,
-//                                const QStringList &text, const QString &audio) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-//                                       text, audio);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   addItem(item);
-//   qDebug() << name << type << background;
-// }
-
-// void ServiceItemModel::addItem(const QString &name, const QString &type,
-//                                const QString &background, const QString &backgroundType,
-//                                const QStringList &text, const QString &audio,
-//                                const QString &font, const int &fontSize) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-//                                       text, audio, font, fontSize);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   addItem(item);
-//   qDebug() << "#################################";
-//   qDebug() << name << type << font << fontSize;
-//   qDebug() << "#################################";
-// }
 
 void ServiceItemModel::addItem(const QString &name, const QString &type,
                                const QString &background, const QString &backgroundType,
@@ -314,58 +247,6 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   qDebug() << "#################################";
 }
 
-// void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type) {
-//   ServiceItem *item = new ServiceItem(name, type);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   insertItem(index, item);
-//   qDebug() << name << type;
-// }
-
-// void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
-//                                const QString &background, const QString &backgroundType) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   insertItem(index, item);
-//   qDebug() << name << type << background;
-// }
-
-// void ServiceItemModel::insertItem(const int &index, const QString &name, const QString &type,
-//                                const QString &background, const QString &backgroundType,
-//                                const QStringList &text) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType, text);
-//   insertItem(index, item);
-//   qDebug() << name << type << background << text;
-// }
-
-// void ServiceItemModel::insertItem(const int &index, const QString &name,
-//                                   const QString &type,const QString &background,
-//                                   const QString &backgroundType,const QStringList &text,
-//                                   const QString &audio) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-//                                       text, audio);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   insertItem(index, item);
-//   qDebug() << name << type << background << text;
-// }
-
-// void ServiceItemModel::insertItem(const int &index, const QString &name,
-//                                   const QString &type,const QString &background,
-//                                   const QString &backgroundType,const QStringList &text,
-//                                   const QString &audio, const QString &font, const int &fontSize) {
-//   ServiceItem *item = new ServiceItem(name, type, background, backgroundType,
-//                                       text, audio, font, fontSize);
-//   item->setSelected(false);
-//   item->setActive(false);
-//   insertItem(index, item);
-//   qDebug() << "#################################";
-//   qDebug() << "missing slidenumber and slidemodel";
-//   qDebug() << name << type << font << fontSize;
-//   qDebug() << "#################################";
-// }
-
 void ServiceItemModel::insertItem(const int &index, const QString &name,
                                   const QString &type,const QString &background,
                                   const QString &backgroundType,const QStringList &text,
@@ -380,7 +261,26 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
   item->setSelected(false);
   item->setActive(false);
   insertItem(index, item);
+
+  QVariantMap itm;
+  const QModelIndex idx = this->index(index);
+  qDebug() << idx;
+  if( idx.isValid() ) {
+    const QHash<int,QByteArray> rn = roleNames();
+    // qDebug() << rn;
+    QHashIterator<int,QByteArray> it(rn);
+    while (it.hasNext()) {
+      it.next();
+      qDebug() << "trains";
+      qDebug() << it.key() << ":" << it.value() << ":" << idx.data(it.key());
+      itm[it.value()] = idx.data(it.key());
+    }
+  } else
+    qDebug() << "idx isn't valid";
+
   emit itemInserted(index, *item);
+  emit itemInsertedRust(index, itm);
+
   qDebug() << "EMITTED ITEM INSERTED";
   qDebug() << "#################################";
   qDebug() << "INSERTING SERVICE ITEM!";
