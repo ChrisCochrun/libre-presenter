@@ -665,10 +665,10 @@ mod slide_model {
 
         fn get_role(&self, role: Role) -> i32 {
             match role {
+                Role::TextRole => 1,
                 Role::ActiveRole => 12,
                 Role::SelectedRole => 13,
                 Role::LoopingRole => 14,
-                Role::TextRole => 1,
                 Role::VideoThumbnailRole => 15,
                 _ => 0,
             }
