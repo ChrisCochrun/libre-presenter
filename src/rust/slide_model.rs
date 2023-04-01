@@ -111,18 +111,8 @@ mod slide_model {
         SelectedRole,
         LoopingRole,
         TextRole,
+        VideoThumbnailRole,
     }
-
-    // impl Role {
-    //     pub fn get_role(&self) -> i32 {
-    //         match self {
-    //             Role::ActiveRole => 12,
-    //             Role::SelectedRole => 13,
-    //             Role::LoopingRole => 14,
-    //             Role::TextRole => 1,
-    //         }
-    //     }
-    // }
 
     impl qobject::SlideyMod {
         // #[qinvokable]
@@ -175,6 +165,24 @@ mod slide_model {
             let video = video.to_string();
 
             QString::default()
+        }
+
+        #[qinvokable]
+        pub fn add_video_thumbnail(
+            mut self: Pin<&mut Self>,
+            video: QString,
+            service_item_id: i32,
+            index: i32,
+        ) {
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.get_role(Role::VideoThumbnailRole));
+            if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
+                slide.video_thumbnail = video;
+            }
+            self.as_mut()
+                .emit_data_changed(model_index, model_index, &vector_roles);
+            println!("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
 
         #[qinvokable]
@@ -694,6 +702,7 @@ mod slide_model {
                 Role::SelectedRole => 13,
                 Role::LoopingRole => 14,
                 Role::TextRole => 1,
+                Role::VideoThumbnailRole => 15,
                 _ => 0,
             }
         }

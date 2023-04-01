@@ -36,10 +36,10 @@ Item {
             implicitHeight: parent.height - Kirigami.Units.smallSpacing * 2
             textSize: model.fontSize
             itemType: model.type
-            imageSource: model.videoBackground != "" ? model.vidThumbnail : model.imageBackground
+            imageSource: model.videoBackground != "" ? model.videoThumbnail : model.imageBackground
             chosenFont: model.font
             text: model.text
-            pdfIndex: slideIndex
+            pdfIndex: model.slideId
 
         }
     }
