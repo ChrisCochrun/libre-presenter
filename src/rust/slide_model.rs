@@ -637,34 +637,6 @@ mod slide_model {
                         self.as_ref().data(&idx, *i.0),
                     );
                 }
-                // qvariantmap.insert(QString::from("text"), QVariant::from(&slide.text));
-                // qvariantmap.insert(QString::from("type"), QVariant::from(&slide.ty));
-                // qvariantmap.insert(QString::from("audio"), QVariant::from(&slide.audio));
-                // qvariantmap.insert(
-                //     QString::from("imageBackground"),
-                //     QVariant::from(&slide.image_background),
-                // );
-                // qvariantmap.insert(
-                //     QString::from("videoBackground"),
-                //     QVariant::from(&slide.video_background),
-                // );
-                // qvariantmap.insert(QString::from("font"), QVariant::from(&slide.font));
-                // qvariantmap.insert(QString::from("fontSize"), QVariant::from(&slide.font_size));
-                // qvariantmap.insert(
-                //     QString::from("horizontalTextAlignment"),
-                //     QVariant::from(&slide.htext_alignment),
-                // );
-                // qvariantmap.insert(
-                //     QString::from("verticalTextAlignment"),
-                //     QVariant::from(&slide.vtext_alignment),
-                // );
-                // qvariantmap.insert(
-                //     QString::from("serviceItemId"),
-                //     QVariant::from(&slide.service_item_id),
-                // );
-                // qvariantmap.insert(QString::from("loop"), QVariant::from(&slide.looping));
-                // qvariantmap.insert(QString::from("active"), QVariant::from(&slide.active));
-                // qvariantmap.insert(QString::from("selected"), QVariant::from(&slide.selected));
             };
             qvariantmap
         }
