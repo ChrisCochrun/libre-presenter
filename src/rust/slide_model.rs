@@ -18,8 +18,8 @@ mod slide_model {
         type QStringList = cxx_qt_lib::QStringList;
         include!("cxx-qt-lib/qlist.h");
         type QList_QString = cxx_qt_lib::QList<QString>;
-        #[cxx_name = "Slidey"]
-        type CxxSlidey = super::qobject::Slidey;
+        // #[cxx_name = "Slidey"]
+        // type CxxSlidey = super::qobject::Slidey;
         // include!("cxx-qt-lib/qvector.h");
         // type QVector_Slidey = cxx_qt_lib::QVector<Slidey>;
     }
