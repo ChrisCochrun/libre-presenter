@@ -18,17 +18,17 @@ configparser = "3.0.2"
 serde = "1.0.152"
 serde_derive = "1.0.152"
 cxx = "1.0.83"
-cxx-qt = "0.5.0"
-cxx-qt-lib = "0.5.0"
+cxx-qt = "0.5.1"
+cxx-qt-lib = "0.5.1"
 # home = "0.5.4"
 dirs = "5.0.0"
-ffmpeg-next = "6.0.0"
+# ffmpeg-next = "6.0.0"
 
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module
 # and compiles it together with the Rust static library
 [build-dependencies]
-cxx-qt-build = "0.5.0"
+cxx-qt-build = "0.5.1"
 
-[dependencies.confy]
-features = ["yaml_conf"]
-default-features = false
+# [dependencies.confy]
+# features = ["yaml_conf"]
+# default-features = false
