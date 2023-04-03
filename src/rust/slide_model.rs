@@ -48,7 +48,7 @@ mod slide_model {
         #[qproperty]
         slide_count: i32,
         #[qproperty]
-        slide_id: i32,
+        slide_index: i32,
         #[qproperty]
         service_item_id: i32,
         #[qproperty]
@@ -74,7 +74,7 @@ mod slide_model {
                 font: QString::default(),
                 font_size: 50,
                 slide_count: 1,
-                slide_id: 0,
+                slide_index: 0,
                 service_item_id: 0,
                 active: false,
                 selected: false,
@@ -221,7 +221,7 @@ mod slide_model {
             htext_alignment: QString,
             vtext_alignment: QString,
             service_item_id: i32,
-            slide_id: i32,
+            slide_index: i32,
             slide_count: i32,
             looping: bool,
         ) {
@@ -236,7 +236,7 @@ mod slide_model {
                 htext_alignment,
                 vtext_alignment,
                 service_item_id,
-                slide_id,
+                slide_index,
                 slide_count,
                 looping,
                 active: false,
@@ -273,7 +273,7 @@ mod slide_model {
             htext_alignment: QString,
             vtext_alignment: QString,
             service_item_id: i32,
-            slide_id: i32,
+            slide_index: i32,
             slide_count: i32,
             looping: bool,
         ) {
@@ -288,7 +288,7 @@ mod slide_model {
                 htext_alignment,
                 vtext_alignment,
                 service_item_id,
-                slide_id,
+                slide_index,
                 slide_count,
                 looping,
                 active: false,
@@ -388,13 +388,13 @@ mod slide_model {
                     .value()
                     .unwrap_or(QString::from("center")),
                 service_item_id: index,
-                slide_id: service_item
+                slide_index: service_item
                     .get(&QString::from("slideNumber"))
                     .unwrap_or(QVariant::from(&0))
                     .value()
                     .unwrap_or(0),
                 slide_count: service_item
-                    .get(&QString::from("imageCount"))
+                    .get(&QString::from("slideNumber"))
                     .unwrap_or(QVariant::from(&1))
                     .value()
                     .unwrap_or(1),
@@ -421,7 +421,7 @@ mod slide_model {
                     slide.ty = ty;
                     slide.image_background = background;
                     slide.video_background = QString::from("");
-                    slide.slide_id = 0;
+                    slide.slide_index = 0;
                     self.as_mut().insert_slide(&slide, index);
                 }
                 Some(ty) if ty == QString::from("song") => {
@@ -431,7 +431,7 @@ mod slide_model {
                         // println!("{:?}", text_vec[i].clone());
                         slide.text = text_vec[i].clone();
                         slide.slide_count = text_vec.len() as i32;
-                        slide.slide_id = i as i32;
+                        slide.slide_index = i as i32;
                         if background_type == QString::from("image") {
                             slide.image_background = background.clone();
                             slide.video_background = QString::from("");
@@ -446,7 +446,7 @@ mod slide_model {
                     slide.ty = ty;
                     slide.image_background = QString::from("");
                     slide.video_background = background;
-                    slide.slide_id = 0;
+                    slide.slide_index = 0;
                     self.as_mut().insert_slide(&slide, index);
                 }
                 Some(ty) if ty == QString::from("presentation") => {
@@ -454,7 +454,7 @@ mod slide_model {
                         slide.ty = ty.clone();
                         slide.image_background = background.clone();
                         slide.video_background = QString::from("");
-                        slide.slide_id = i;
+                        slide.slide_index = i;
                         self.as_mut().insert_slide(&slide, index + i as i32);
                     }
                 }
@@ -544,7 +544,7 @@ mod slide_model {
                     .value()
                     .unwrap_or(QString::from("center")),
                 service_item_id: index,
-                slide_id: service_item
+                slide_index: service_item
                     .get(&QString::from("slideNumber"))
                     .unwrap_or(QVariant::from(&0))
                     .value()
@@ -577,7 +577,7 @@ mod slide_model {
                     slide.ty = ty;
                     slide.image_background = background;
                     slide.video_background = QString::from("");
-                    slide.slide_id = 0;
+                    slide.slide_index = 0;
                     self.as_mut().add_slide(&slide);
                 }
                 Some(ty) if ty == QString::from("song") => {
@@ -587,7 +587,7 @@ mod slide_model {
                         // println!("{:?}", text_vec[i].clone());
                         slide.text = text_vec[i].clone();
                         slide.slide_count = text_vec.len() as i32;
-                        slide.slide_id = i as i32;
+                        slide.slide_index = i as i32;
                         if background_type == QString::from("image") {
                             slide.image_background = background.clone();
                             slide.video_background = QString::from("");
@@ -602,7 +602,7 @@ mod slide_model {
                     slide.ty = ty;
                     slide.image_background = QString::from("");
                     slide.video_background = background;
-                    slide.slide_id = 0;
+                    slide.slide_index = 0;
                     self.as_mut().add_slide(&slide);
                 }
                 Some(ty) if ty == QString::from("presentation") => {
@@ -610,7 +610,7 @@ mod slide_model {
                         slide.ty = ty.clone();
                         slide.image_background = background.clone();
                         slide.video_background = QString::from("");
-                        slide.slide_id = i;
+                        slide.slide_index = i;
                         self.as_mut().add_slide(&slide);
                     }
                 }
@@ -729,7 +729,7 @@ mod slide_model {
                     7 => QVariant::from(&slide.font),
                     8 => QVariant::from(&slide.font_size),
                     9 => QVariant::from(&slide.service_item_id),
-                    10 => QVariant::from(&slide.slide_id),
+                    10 => QVariant::from(&slide.slide_index),
                     11 => QVariant::from(&slide.slide_count),
                     12 => QVariant::from(&slide.active),
                     13 => QVariant::from(&slide.selected),
@@ -761,7 +761,7 @@ mod slide_model {
             roles.insert(7, cxx_qt_lib::QByteArray::from("font"));
             roles.insert(8, cxx_qt_lib::QByteArray::from("fontSize"));
             roles.insert(9, cxx_qt_lib::QByteArray::from("serviceItemId"));
-            roles.insert(10, cxx_qt_lib::QByteArray::from("slideId"));
+            roles.insert(10, cxx_qt_lib::QByteArray::from("slideIndex"));
             roles.insert(11, cxx_qt_lib::QByteArray::from("imageCount"));
             roles.insert(12, cxx_qt_lib::QByteArray::from("active"));
             roles.insert(13, cxx_qt_lib::QByteArray::from("selected"));

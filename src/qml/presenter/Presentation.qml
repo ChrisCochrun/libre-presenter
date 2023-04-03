@@ -126,7 +126,7 @@ FocusScope {
                     audioSource: SlideObject.audio
                     chosenFont: SlideObject.font
                     text: SlideObject.text
-                    pdfIndex: SlideObject.pdfIndex
+                    pdfIndex: SlideObject.slideIndex
                     vidLoop: SlideObject.looping
                     preview: true 
                 }

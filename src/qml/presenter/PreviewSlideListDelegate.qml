@@ -39,7 +39,7 @@ Item {
             imageSource: model.videoBackground != "" ? model.videoThumbnail : model.imageBackground
             chosenFont: model.font
             text: model.text
-            pdfIndex: model.slideId
+            pdfIndex: model.slideIndex
 
         }
     }

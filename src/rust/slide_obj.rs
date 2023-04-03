@@ -212,6 +212,7 @@ mod slide_obj {
                 .get(&QString::from("slideIndex"))
                 .unwrap_or(QVariant::from(&0));
             if let Some(int) = slindex.value::<i32>() {
+                println!("New slide index = {}", int);
                 self.as_mut().set_slide_index(int);
             };
             self.as_mut().emit(Signals::SlideChanged { slide: &index });
