@@ -1,13 +1,12 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
 mkShell rec {
-  name = "presenter-env";
+  name = "presenter";
 
   nativeBuildInputs = [
     gcc
     gnumake
     gdb
-    clang
     qtcreator
     cmake
     extra-cmake-modules
@@ -19,6 +18,8 @@ mkShell rec {
 
   buildInputs = [
     clang-tools
+    clang
+    libclang
     # clang-format
     qt5.qtbase
     qt5.qttools
@@ -39,7 +40,7 @@ mkShell rec {
 
     podofo
     mpv
-    ffmpeg_5-full
+    ffmpeg_6-full
     # yt-dlp
 
     # Rust tools
@@ -52,6 +53,7 @@ mkShell rec {
   ];
   
   RUST_BACKTRACE = 1;
+  LIBCLANG_PATH="${llvmPackages.libclang.lib}/lib";
   # QT_SCALE_FACTOR = 1;
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
