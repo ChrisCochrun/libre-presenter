@@ -114,6 +114,9 @@ mod slide_model {
         VideoThumbnailRole,
     }
 
+    // use crate::video_thumbnail;
+    // use image::{ImageBuffer, Rgba};
+    use std::path::PathBuf;
     impl qobject::SlideyMod {
         // #[qinvokable]
         // pub fn add(self: Pin<&mut Self>) {
@@ -163,6 +166,14 @@ mod slide_model {
             index: i32,
         ) -> QString {
             let video = video.to_string();
+            let mut path = PathBuf::from(video);
+            println!("{:?}", path);
+            // let mut image_iter = video_thumbnail::ImageIter::new(path)?;
+            // image_iter.seek(2.0);
+
+            // if let Some(image) = image_iter.next() {
+            //     image.save("image.jpg");
+            // }
 
             QString::default()
         }
