@@ -129,67 +129,6 @@ mod image_model {
             }
         }
 
-        // #[qinvokable]
-        // pub fn insert_item_from_service(
-        //     mut self: Pin<&mut Self>,
-        //     index: i32,
-        //     service_item: &QMap_QString_QVariant,
-        // ) {
-        //     let ty = service_item
-        //         .get(&QString::from("type"))
-        //         .unwrap_or(QVariant::from(&QString::from("")))
-        //         .value::<QString>();
-
-        //     let background = service_item
-        //         .get(&QString::from("background"))
-        //         .unwrap_or(QVariant::from(&QString::from("")))
-        //         .value::<QString>()
-        //         .unwrap_or_default();
-
-        //     let background_type = service_item
-        //         .get(&QString::from("backgroundType"))
-        //         .unwrap_or(QVariant::from(&QString::from("")))
-        //         .value::<QString>()
-        //         .unwrap_or_default();
-
-        //     let mut image = Image::default();
-
-        //     self.as_mut().insert_image(&image, index);
-
-        //     println!("Item added in rust model!");
-        // }
-
-        // #[qinvokable]
-        // pub fn add_item_from_service(
-        //     mut self: Pin<&mut Self>,
-        //     index: i32,
-        //     service_item: &QMap_QString_QVariant,
-        // ) {
-        //     println!("add rust image {:?}", index);
-        //     let ty = service_item
-        //         .get(&QString::from("type"))
-        //         .unwrap_or(QVariant::from(&QString::from("")))
-        //         .value::<QString>();
-
-        //     let background = service_item
-        //         .get(&QString::from("background"))
-        //         .unwrap_or(QVariant::from(&QString::from("")))
-        //         .value::<QString>()
-        //         .unwrap_or_default();
-
-        //     let background_type = service_item
-        //         .get(&QString::from("backgroundType"))
-        //         .unwrap_or(QVariant::from(&QString::from("")))
-        //         .value::<QString>()
-        //         .unwrap_or_default();
-
-        //     let mut image = Image::default();
-
-        //     self.as_mut().add_image(&image);
-
-        //     println!("Item added in rust model!");
-        // }
-
         #[qinvokable]
         pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
             println!("{index}");
