@@ -15,12 +15,12 @@
 
 // mod my_object;
 mod file_helper;
+pub mod image_model;
+pub mod models;
+pub mod schema;
 mod service_thing;
 mod settings;
-mod slide_obj;
 mod slide_model;
-mod image_model;
-mod models;
-mod schema;
+mod slide_obj;
 // mod entities;
 // mod video_thumbnail;

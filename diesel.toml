@@ -3,6 +3,7 @@
 
 [print_schema]
 file = "src/rust/schema.rs"
+generate_missing_sql_type_definitions = false
 
 [migrations_directory]
 dir = "src/rust/migrations"

@@ -4,7 +4,8 @@ diesel::table! {
     images (id) {
         id -> Integer,
         title -> Text,
-        filePath -> Text,
+        #[sql_name = "filePath"]
+        path -> Text,
     }
 }
 
@@ -47,9 +48,4 @@ diesel::table! {
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(
-    images,
-    presentations,
-    songs,
-    videos,
-);
+diesel::allow_tables_to_appear_in_same_query!(images, presentations, songs, videos,);

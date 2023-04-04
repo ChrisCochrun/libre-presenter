@@ -83,6 +83,7 @@ mod image_model {
             println!("SHOWING IMAGES");
             for image in results {
                 println!("{}", image.title);
+                println!("{}", image.id);
                 println!("--------------\n");
                 println!("{}", image.path);
             }
