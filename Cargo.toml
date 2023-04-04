@@ -22,7 +22,7 @@ cxx-qt = "0.5.1"
 cxx-qt-lib = "0.5.1"
 # home = "0.5.4"
 dirs = "5.0.0"
-sea-orm = { version = "0.11.2", features = ["sqlx-sqlite", "sqlx", "runtime-async-std-rustls"] }
+diesel = { version = "2.0.3", features = ["sqlite"] }
 # ffmpeg-next = "6.0.0"
 
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module

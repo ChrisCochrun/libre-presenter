@@ -20,17 +20,17 @@ mod image_model {
         type QList_QString = cxx_qt_lib::QList<QString>;
     }
 
-    #[cxx_qt::qobject(base = "QAbstractListModel")]
-    #[derive(Default, Debug)]
-    pub struct ImageModel {
-        images: Vec<Image>,
-    }
-
     #[derive(Default, Clone, Debug)]
     pub struct Image {
         id: i32,
         title: QString,
         path: QString,
+    }
+
+    #[cxx_qt::qobject(base = "QAbstractListModel")]
+    #[derive(Default, Debug)]
+    pub struct ImageModel {
+        images: Vec<self::Image>,
     }
 
     #[cxx_qt::qsignals(ImageModel)]
@@ -49,9 +49,14 @@ mod image_model {
         TitleRole,
     }
 
-    use crate::entities::{images, prelude::Images};
-    use sea_orm::{ConnectionTrait, Database, DbBackend, DbErr, Statement, ActiveValue};
+    // use crate::entities::{images, prelude::Images};
+    // use sea_orm::{ConnectionTrait, Database, DbBackend, DbErr, Statement, ActiveValue};
+    use crate::models::*;
+    use diesel::prelude::*;
+    use diesel::sqlite::SqliteConnection;
     use std::path::PathBuf;
+
+    use crate::image_model::image_model::Image;
     impl qobject::ImageModel {
         #[qinvokable]
         pub fn clear(mut self: Pin<&mut Self>) {
@@ -59,6 +64,27 @@ mod image_model {
                 self.as_mut().begin_reset_model();
                 self.as_mut().images_mut().clear();
                 self.as_mut().end_reset_model();
+            }
+        }
+
+        #[qinvokable]
+        pub fn test_database(&self) {
+            use crate::schema::images::dsl::*;
+            const DATABASE_URL: &str = "sqlite:///home/chris/.local/share/librepresenter/Libre Presenter/library-db.sqlite3";
+            const DB_NAME: &str = "library_db";
+
+            let db = &mut SqliteConnection::establish(DATABASE_URL)
+                .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL));
+
+            let results = images
+                .load::<crate::models::Image>(db)
+                .expect("Error loading images");
+
+            println!("SHOWING IMAGES");
+            for image in results {
+                println!("{}", image.title);
+                println!("--------------\n");
+                println!("{}", image.path);
             }
         }
 
@@ -77,26 +103,28 @@ mod image_model {
         }
 
         #[qinvokable]
-        pub async fn add_item(mut self: Pin<&mut Self>, id: i32, title: QString, path: QString) -> Result<(), DBErr> {
+        pub fn add_item(mut self: Pin<&mut Self>, id: i32, title: QString, path: QString) {
             const DATABASE_URL: &str = "sqlite://library-db.sqlite3";
             const DB_NAME: &str = "library_db";
 
-            let db = Database::connect(DATABASE_URL).await?;
-            let image = Image { id, title, path };
-            let model = images::ActiveModel {
-                id: ActiveValue::set(id),
-                title: ActiveValue::set(title.to_string()),
-                path: ActiveValue::set(path.to_string()),
-                ..Default::default()
-            };
-            let res = Images::insert(model).exec(db).await?;
+            let db = SqliteConnection::establish(DATABASE_URL)
+                .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL));
+
+            let image = self::Image { id, title, path };
+            // let model = images::ActiveModel {
+            //     id: ActiveValue::set(id),
+            //     title: ActiveValue::set(title.to_string()),
+            //     path: ActiveValue::set(path.to_string()),
+            //     ..Default::default()
+            // };
+            // let res = Images::insert(model).exec(db).await?;
 
             self.as_mut().add_image(image);
 
-            Ok(())
+            // Ok(())
         }
 
-        fn add_image(mut self: Pin<&mut Self>, image: Image) {
+        fn add_image(mut self: Pin<&mut Self>, image: self::Image) {
             let index = self.as_ref().images().len() as i32;
             println!("{:?}", image);
             unsafe {
@@ -120,7 +148,7 @@ mod image_model {
             self.as_mut().insert_image(image, index);
         }
 
-        fn insert_image(mut self: Pin<&mut Self>, image: Image, id: i32) {
+        fn insert_image(mut self: Pin<&mut Self>, image: self::Image, id: i32) {
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
