@@ -28,14 +28,14 @@ mkShell rec {
     qt5.qtmultimedia
     qt5.qtwayland
     libsForQt5.kirigami2
-    libsForQt5.breeze-icons
-    libsForQt5.breeze-qt5
+    # libsForQt5.breeze-icons
+    # libsForQt5.breeze-qt5
     libsForQt5.qqc2-desktop-style
     libsForQt5.karchive
     # libsForQt5.kirigami-addons
-    libsForQt5.ki18n
-    libsForQt5.kcoreaddons
-    libsForQt5.kguiaddons
+    # libsForQt5.ki18n
+    # libsForQt5.kcoreaddons
+    # libsForQt5.kguiaddons
     # libsForQt5.kconfig
 
     podofo

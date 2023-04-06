@@ -7,7 +7,7 @@
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <KAboutData>
-#include <KWindowSystem>
+// #include <KWindowSystem>
 #include <iostream>
 #include <QQmlEngine>
 #include <QtSql>
