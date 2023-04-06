@@ -40,11 +40,14 @@ diesel::table! {
     videos (id) {
         id -> Integer,
         title -> Text,
-        filePath -> Text,
-        startTime -> Nullable<Float>,
-        endTime -> Nullable<Float>,
+        #[sql_name = "filePath"]
+        path -> Text,
+        #[sql_name = "filePath"]
+        start_time -> Nullable<Float>,
+        #[sql_name = "filePath"]
+        end_time -> Nullable<Float>,
         #[sql_name = "loop"]
-        loop_ -> Bool,
+        looping -> Bool,
     }
 }
 
