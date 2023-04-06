@@ -52,10 +52,6 @@ Controls.Page {
     Component.onCompleted: {
         changeServiceItem(0);
         presentation.forceActiveFocus();
-        imageProxyModel.setSourceModel(ImageModel);
-        console.log("^^^^^");
-        console.log(imageProxyModel.model);
-        console.log("^^^^^");
         /* const loaded = ServiceItemModel.loadLastSaved(); */
         /* if (!loaded) */
         /*     showPassiveNotification("Failed loading last file"); */

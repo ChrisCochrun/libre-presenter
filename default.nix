@@ -27,11 +27,8 @@
   mpv,
   ffmpeg_5-full,
   # Rust tools
-  clippy,
   rustc,
   cargo,
-  rustfmt,
-  rust-analyzer,
   corrosion
 }:
 
@@ -75,10 +72,6 @@ stdenv.mkDerivation rec {
     mpv
     ffmpeg_5-full
     # libsForQt5.kconfig
-    # Rust tools
-    clippy
-    rustfmt
-    rust-analyzer
   ];
 
   RUST_BACKTRACE = 1;
