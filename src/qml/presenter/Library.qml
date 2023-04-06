@@ -90,7 +90,7 @@ Item {
                 itemIcon: "folder-pictures-symbolic"
                 itemSubtitle: {
                     if (fileValidation)
-                        model.filePath;
+                        model.path;
                     else
                         "file is missing"
                         }
@@ -299,11 +299,11 @@ Item {
             }
 
             function addImg(url) {
-                imageProxyModel.imageModel.newImage(url);
+                imageProxyModel.imageModel.newItem(url);
                 selectedLibrary = "image";
-                imageLibraryList.currentIndex = imageProxyModel.imageModel.rowCount();
-                console.log(imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex));
-                const image = imageProxyModel.imageModel.getImage(imageLibraryList.currentIndex);
+                imageLibrary.libraryList.currentIndex = imageProxyModel.imageModel.count();
+                console.log(imageProxyModel.getImage(imageLibrary.libraryList.currentIndex));
+                const image = imageProxyModel.getImage(imageLibrary.libraryList.currentIndex);
                 showPassiveNotification("newest image: " + image.title);
                 if (!editMode)
                     editMode = true;

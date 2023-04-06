@@ -1,5 +1,12 @@
 #[cxx_qt::bridge]
 mod image_model {
+    use crate::image_model::image_model::Image;
+    use crate::models::*;
+    use crate::schema::images::dsl::*;
+    use diesel::sqlite::SqliteConnection;
+    use diesel::{delete, insert_into, prelude::*};
+    use std::path::{Path, PathBuf};
+
     unsafe extern "C++" {
         include!(< QAbstractListModel >);
         include!("cxx-qt-lib/qhash.h");
@@ -10,6 +17,8 @@ mod image_model {
         type QVariant = cxx_qt_lib::QVariant;
         include!("cxx-qt-lib/qstring.h");
         type QString = cxx_qt_lib::QString;
+        include!("cxx-qt-lib/qurl.h");
+        type QUrl = cxx_qt_lib::QUrl;
         include!("cxx-qt-lib/qmodelindex.h");
         type QModelIndex = cxx_qt_lib::QModelIndex;
         include!("cxx-qt-lib/qvector.h");
@@ -30,6 +39,7 @@ mod image_model {
     #[cxx_qt::qobject(base = "QAbstractListModel")]
     #[derive(Default, Debug)]
     pub struct ImageModel {
+        highest_id: i32,
         images: Vec<self::Image>,
     }
 
@@ -51,12 +61,6 @@ mod image_model {
 
     // use crate::entities::{images, prelude::Images};
     // use sea_orm::{ConnectionTrait, Database, DbBackend, DbErr, Statement, ActiveValue};
-    use crate::models::*;
-    use diesel::prelude::*;
-    use diesel::sqlite::SqliteConnection;
-    use std::path::PathBuf;
-
-    use crate::image_model::image_model::Image;
     impl qobject::ImageModel {
         #[qinvokable]
         pub fn clear(mut self: Pin<&mut Self>) {
@@ -68,61 +72,128 @@ mod image_model {
         }
 
         #[qinvokable]
-        pub fn test_database(&self) {
-            use crate::schema::images::dsl::*;
-            const DATABASE_URL: &str = "sqlite:///home/chris/.local/share/librepresenter/Libre Presenter/library-db.sqlite3";
-            const DB_NAME: &str = "library_db";
-
-            let db = &mut SqliteConnection::establish(DATABASE_URL)
-                .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL));
-
+        pub fn test_database(mut self: Pin<&mut Self>) {
+            let db = &mut self.as_mut().get_db();
             let results = images
                 .load::<crate::models::Image>(db)
                 .expect("Error loading images");
+            self.as_mut().set_highest_id(0);
 
             println!("SHOWING IMAGES");
+            println!("--------------");
             for image in results {
                 println!("{}", image.title);
                 println!("{}", image.id);
-                println!("--------------\n");
                 println!("{}", image.path);
+                println!("--------------");
+                if self.as_mut().highest_id() < &image.id {
+                    self.as_mut().set_highest_id(image.id);
+                }
+
+                let img = self::Image {
+                    id: image.id,
+                    title: QString::from(&image.title),
+                    path: QString::from(&image.path),
+                };
+
+                self.as_mut().add_image(img);
             }
+            println!("--------------------------------------");
+            println!("{:?}", self.as_mut().images());
+            println!("--------------------------------------");
         }
 
         #[qinvokable]
-        pub fn remove_item(mut self: Pin<&mut Self>, index: i32) {
+        pub fn remove_item(mut self: Pin<&mut Self>, index: i32) -> bool {
             if index < 0 || (index as usize) >= self.images().len() {
-                return;
+                return false;
             }
+            let db = &mut self.as_mut().get_db();
 
-            unsafe {
-                self.as_mut()
-                    .begin_remove_rows(&QModelIndex::default(), index, index);
-                self.as_mut().images_mut().remove(index as usize);
-                self.as_mut().end_remove_rows();
+            let image_id = self.images().get(index as usize).unwrap().id;
+
+            let result = delete(images.filter(id.eq(image_id))).execute(db);
+
+            match result {
+                Ok(_i) => {
+                    unsafe {
+                        self.as_mut()
+                            .begin_remove_rows(&QModelIndex::default(), index, index);
+                        self.as_mut().images_mut().remove(index as usize);
+                        self.as_mut().end_remove_rows();
+                    }
+                    println!("removed-item-at-index: {:?}", image_id);
+                    println!("new-Vec: {:?}", self.as_mut().images());
+                    true
+                }
+                Err(_e) => {
+                    println!("Cannot connect to database");
+                    false
+                }
+            }
+        }
+
+        fn get_db(self: Pin<&mut Self>) -> SqliteConnection {
+            const DATABASE_URL: &str = "sqlite:///home/chris/.local/share/librepresenter/Libre Presenter/library-db.sqlite3";
+
+            SqliteConnection::establish(DATABASE_URL)
+                .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL))
+            // self.rust().db = db;
+        }
+
+        #[qinvokable]
+        pub fn new_item(mut self: Pin<&mut Self>, url: QUrl) {
+            println!("LETS INSERT THIS SUCKER!");
+            let file_path = PathBuf::from(url.path().to_string());
+            let name = file_path.file_stem().unwrap().to_str().unwrap();
+            let image_id = self.rust().highest_id + 1;
+            let image_title = QString::from(name);
+            let image_path = url.to_qstring();
+
+            if self.as_mut().add_item(image_id, image_title, image_path) {
+                println!("filename: {:?}", name);
+                self.as_mut().set_highest_id(image_id);
+            } else {
+                println!("Error in inserting item");
             }
         }
 
         #[qinvokable]
-        pub fn add_item(mut self: Pin<&mut Self>, id: i32, title: QString, path: QString) {
-            const DATABASE_URL: &str = "sqlite://library-db.sqlite3";
-            const DB_NAME: &str = "library_db";
+        pub fn add_item(
+            mut self: Pin<&mut Self>,
+            image_id: i32,
+            image_title: QString,
+            image_path: QString,
+        ) -> bool {
+            let db = &mut self.as_mut().get_db();
+            // println!("{:?}", db);
+            let image = self::Image {
+                id: image_id,
+                title: image_title.clone(),
+                path: image_path.clone(),
+            };
+            println!("{:?}", image);
 
-            let db = SqliteConnection::establish(DATABASE_URL)
-                .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL));
+            let result = insert_into(images)
+                .values((
+                    id.eq(&image_id),
+                    title.eq(&image_title.to_string()),
+                    path.eq(&image_path.to_string()),
+                ))
+                .execute(db);
+            println!("{:?}", result);
 
-            let image = self::Image { id, title, path };
-            // let model = images::ActiveModel {
-            //     id: ActiveValue::set(id),
-            //     title: ActiveValue::set(title.to_string()),
-            //     path: ActiveValue::set(path.to_string()),
-            //     ..Default::default()
-            // };
-            // let res = Images::insert(model).exec(db).await?;
-
-            self.as_mut().add_image(image);
-
-            // Ok(())
+            match result {
+                Ok(_i) => {
+                    self.as_mut().add_image(image);
+                    println!("{:?}", self.as_mut().images());
+                    true
+                }
+                Err(_e) => {
+                    println!("Cannot connect to database");
+                    false
+                }
+            }
         }
 
         fn add_image(mut self: Pin<&mut Self>, image: self::Image) {
@@ -136,27 +207,41 @@ mod image_model {
             }
         }
 
-        #[qinvokable]
-        pub fn insert_item(
-            mut self: Pin<&mut Self>,
-            id: i32,
-            title: QString,
-            path: QString,
-            index: i32,
-        ) {
-            let image = Image { id, title, path };
+        // #[qinvokable]
+        // pub fn insert_item(
+        //     mut self: Pin<&mut Self>,
+        //     image_id: i32,
+        //     image_title: QString,
+        //     image_path: QString,
+        //     index: i32,
+        // ) {
+        //     let image = Image {
+        //         id: image_id,
+        //         title: image_title,
+        //         path: image_path,
+        //     };
+        //     let db = self.db();
 
-            self.as_mut().insert_image(image, index);
-        }
+        //     let i = image_id;
+        //     let t = image_title.to_string();
+        //     let p = image_path.to_string();
 
-        fn insert_image(mut self: Pin<&mut Self>, image: self::Image, id: i32) {
-            unsafe {
-                self.as_mut()
-                    .begin_insert_rows(&QModelIndex::default(), id, id);
-                self.as_mut().images_mut().insert(id as usize, image);
-                self.as_mut().end_insert_rows();
-            }
-        }
+        //     use crate::schema::images::dsl::*;
+        //     let result = insert_into(images)
+        //         .values((id.eq(&i), title.eq(&t), path.eq(&p)))
+        //         .execute(db);
+
+        //     self.as_mut().insert_image(image, index);
+        // }
+
+        // fn insert_image(mut self: Pin<&mut Self>, image: self::Image, id: i32) {
+        //     unsafe {
+        //         self.as_mut()
+        //             .begin_insert_rows(&QModelIndex::default(), id, id);
+        //         self.as_mut().images_mut().insert(id as usize, image);
+        //         self.as_mut().end_insert_rows();
+        //     }
+        // }
 
         #[qinvokable]
         pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
@@ -252,7 +337,7 @@ mod image_model {
             let mut roles = QHash_i32_QByteArray::default();
             roles.insert(0, cxx_qt_lib::QByteArray::from("id"));
             roles.insert(1, cxx_qt_lib::QByteArray::from("title"));
-            roles.insert(2, cxx_qt_lib::QByteArray::from("path"));
+            roles.insert(2, cxx_qt_lib::QByteArray::from("filePath"));
             roles
         }
 

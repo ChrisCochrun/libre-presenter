@@ -23,6 +23,7 @@ cxx-qt-lib = "0.5.1"
 # home = "0.5.4"
 dirs = "5.0.0"
 diesel = { version = "2.0.3", features = ["sqlite"] }
+libsqlite3-sys = { version = ">=0.17.2, <0.26.0", features = ["bundled"] }
 # ffmpeg-next = "6.0.0"
 
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module

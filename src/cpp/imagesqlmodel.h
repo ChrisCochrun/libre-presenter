@@ -8,6 +8,7 @@
 #include <qqml.h>
 #include <qurl.h>
 #include <qvariant.h>
+#include "cxx-qt-gen/image_model.cxxqt.h"
 
 class ImageSqlModel : public QSqlTableModel
 {
@@ -50,13 +51,13 @@ private:
 class ImageProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
-  Q_PROPERTY(ImageSqlModel *imageModel READ imageModel)
+  Q_PROPERTY(ImageModel *imageModel READ imageModel)
 
 public:
   explicit ImageProxyModel(QObject *parent = nullptr);
   ~ImageProxyModel() = default;
 
-  ImageSqlModel *imageModel();
+  ImageModel *imageModel();
   Q_INVOKABLE QModelIndex idx(int row);
   
 public slots:
@@ -65,7 +66,7 @@ public slots:
   Q_INVOKABLE void deleteImages(const QVector<int> &rows);
 
 private:
-  ImageSqlModel *m_imageModel;
+  ImageModel *m_imageModel;
 };
 
 

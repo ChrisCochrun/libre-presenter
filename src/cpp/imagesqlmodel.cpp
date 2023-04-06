@@ -208,14 +208,15 @@ QVariantMap ImageSqlModel::getImage(const int &row) {
 ImageProxyModel::ImageProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  m_imageModel = new ImageSqlModel;
+  m_imageModel = new ImageModel;
+  m_imageModel->testDatabase();
   setSourceModel(m_imageModel);
   setDynamicSortFilter(true);
-  setFilterRole(Qt::UserRole + 1);
+  setFilterRole(1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
-ImageSqlModel *ImageProxyModel::imageModel() {
+ImageModel *ImageProxyModel::imageModel() {
   return m_imageModel;
 }
 
@@ -226,21 +227,21 @@ QModelIndex ImageProxyModel::idx(int row) {
 }
 
 QVariantMap ImageProxyModel::getImage(const int &row) {
-  auto model = qobject_cast<ImageSqlModel *>(sourceModel());
-  QVariantMap image = model->getImage(mapToSource(index(row, 0)).row());
+  auto model = qobject_cast<ImageModel *>(sourceModel());
+  QVariantMap image = model->getItem(mapToSource(index(row, 0)).row());
   return image;
 }
 
 void ImageProxyModel::deleteImage(const int &row) {
-  auto model = qobject_cast<ImageSqlModel *>(sourceModel());
-  model->deleteImage(row);
+  auto model = qobject_cast<ImageModel *>(sourceModel());
+  model->removeItem(row);
 }
 
 void ImageProxyModel::deleteImages(const QVector<int> &rows) {
-  auto model = qobject_cast<ImageSqlModel *>(sourceModel());
+  auto model = qobject_cast<ImageModel *>(sourceModel());
   qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
   for (int i = rows.size() - 1; i >= 0; i--) {
     qDebug() << "deleting" << rows.at(i);
-    model->deleteImage(rows.at(i));
+    model->removeItem(rows.at(i));
   }
 }

@@ -142,8 +142,6 @@ int main(int argc, char *argv[])
   // QScopedPointer<QQuickView> preswin(new QQuickView);
   QScopedPointer<ServiceItemModel> serviceItemModel(new ServiceItemModel);
   QScopedPointer<SlideObj> slideobject(new SlideObj);
-  QScopedPointer<ImageModel> imageModel(new ImageModel);
-  imageModel.get()->testDatabase();
 
   Settings *settings = new Settings;
   settings->setup();
