@@ -72,8 +72,6 @@ stdenv.mkDerivation rec {
     karchive
     ki18n
     kcoreaddons
-    kwindowsystem
-    podofo
     mpv
     ffmpeg_5-full
     # libsForQt5.kconfig
