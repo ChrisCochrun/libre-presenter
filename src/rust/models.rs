@@ -16,3 +16,11 @@ pub struct Video {
     pub end_time: Option<f32>,
     pub looping: bool,
 }
+
+#[derive(Queryable)]
+pub struct Presentation {
+    pub id: i32,
+    pub title: String,
+    pub path: String,
+    pub page_count: Option<i32>,
+}

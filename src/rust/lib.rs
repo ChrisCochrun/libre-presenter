@@ -17,6 +17,7 @@
 mod file_helper;
 pub mod image_model;
 pub mod models;
+pub mod presentation_model;
 pub mod schema;
 mod service_thing;
 mod settings;

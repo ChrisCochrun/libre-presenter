@@ -13,8 +13,10 @@ diesel::table! {
     presentations (id) {
         id -> Integer,
         title -> Text,
-        filePath -> Text,
-        pageCount -> Nullable<Integer>,
+        #[sql_name = "filePath"]
+        path -> Text,
+        #[sql_name = "pageCount"]
+        page_count -> Nullable<Integer>,
     }
 }
 
