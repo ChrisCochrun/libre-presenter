@@ -215,10 +215,10 @@ mod image_model {
             if !idx.is_valid() {
                 return qvariantmap;
             }
-            let rn = self.as_ref().role_names();
-            let rn_iter = rn.iter();
+            let role_names = self.as_ref().role_names();
+            let role_names_iter = role_names.iter();
             if let Some(image) = self.rust().images.get(index as usize) {
-                for i in rn_iter {
+                for i in role_names_iter {
                     qvariantmap.insert(
                         QString::from(&i.1.to_string()),
                         self.as_ref().data(&idx, *i.0),
