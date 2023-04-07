@@ -207,42 +207,6 @@ mod image_model {
             }
         }
 
-        // #[qinvokable]
-        // pub fn insert_item(
-        //     mut self: Pin<&mut Self>,
-        //     image_id: i32,
-        //     image_title: QString,
-        //     image_path: QString,
-        //     index: i32,
-        // ) {
-        //     let image = Image {
-        //         id: image_id,
-        //         title: image_title,
-        //         path: image_path,
-        //     };
-        //     let db = self.db();
-
-        //     let i = image_id;
-        //     let t = image_title.to_string();
-        //     let p = image_path.to_string();
-
-        //     use crate::schema::images::dsl::*;
-        //     let result = insert_into(images)
-        //         .values((id.eq(&i), title.eq(&t), path.eq(&p)))
-        //         .execute(db);
-
-        //     self.as_mut().insert_image(image, index);
-        // }
-
-        // fn insert_image(mut self: Pin<&mut Self>, image: self::Image, id: i32) {
-        //     unsafe {
-        //         self.as_mut()
-        //             .begin_insert_rows(&QModelIndex::default(), id, id);
-        //         self.as_mut().images_mut().insert(id as usize, image);
-        //         self.as_mut().end_insert_rows();
-        //     }
-        // }
-
         #[qinvokable]
         pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
             println!("{index}");
