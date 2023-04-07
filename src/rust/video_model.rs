@@ -210,42 +210,6 @@ mod video_model {
             }
         }
 
-        // #[qinvokable]
-        // pub fn insert_item(
-        //     mut self: Pin<&mut Self>,
-        //     video_id: i32,
-        //     video_title: QString,
-        //     video_path: QString,
-        //     index: i32,
-        // ) {
-        //     let video = Video {
-        //         id: video_id,
-        //         title: video_title,
-        //         path: video_path,
-        //     };
-        //     let db = self.db();
-
-        //     let i = video_id;
-        //     let t = video_title.to_string();
-        //     let p = video_path.to_string();
-
-        //     use crate::schema::videos::dsl::*;
-        //     let result = insert_into(videos)
-        //         .values((id.eq(&i), title.eq(&t), path.eq(&p)))
-        //         .execute(db);
-
-        //     self.as_mut().insert_video(video, index);
-        // }
-
-        // fn insert_video(mut self: Pin<&mut Self>, video: self::Video, id: i32) {
-        //     unsafe {
-        //         self.as_mut()
-        //             .begin_insert_rows(&QModelIndex::default(), id, id);
-        //         self.as_mut().videos_mut().insert(id as usize, video);
-        //         self.as_mut().end_insert_rows();
-        //     }
-        // }
-
         #[qinvokable]
         pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
             println!("{index}");
