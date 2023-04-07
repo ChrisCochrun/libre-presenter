@@ -34,6 +34,9 @@ mod video_model {
         id: i32,
         title: QString,
         path: QString,
+        start_time: f32,
+        end_time: f32,
+        looping: bool,
     }
 
     #[cxx_qt::qobject(base = "QAbstractListModel")]
@@ -97,6 +100,9 @@ mod video_model {
                     id: video.id,
                     title: QString::from(&video.title),
                     path: QString::from(&video.path),
+                    start_time: 0.0,
+                    end_time: 0.0,
+                    looping: false,
                 };
 
                 self.as_mut().add_video(img);
@@ -174,6 +180,9 @@ mod video_model {
                 id: video_id,
                 title: video_title.clone(),
                 path: video_path.clone(),
+                start_time: 0.0,
+                end_time: 0.0,
+                looping: false,
             };
             println!("{:?}", video);
 
@@ -289,6 +298,9 @@ mod video_model {
                     0 => QVariant::from(&video.id),
                     1 => QVariant::from(&video.title),
                     2 => QVariant::from(&video.path),
+                    3 => QVariant::from(&video.start_time),
+                    4 => QVariant::from(&video.end_time),
+                    5 => QVariant::from(&video.looping),
                     _ => QVariant::default(),
                 };
             }
@@ -308,6 +320,9 @@ mod video_model {
             roles.insert(0, cxx_qt_lib::QByteArray::from("id"));
             roles.insert(1, cxx_qt_lib::QByteArray::from("title"));
             roles.insert(2, cxx_qt_lib::QByteArray::from("filePath"));
+            roles.insert(3, cxx_qt_lib::QByteArray::from("startTime"));
+            roles.insert(4, cxx_qt_lib::QByteArray::from("endTime"));
+            roles.insert(5, cxx_qt_lib::QByteArray::from("loop"));
             roles
         }
 
