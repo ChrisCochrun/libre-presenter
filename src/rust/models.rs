@@ -12,7 +12,7 @@ pub struct Video {
     pub id: i32,
     pub title: String,
     pub path: String,
-    pub start_time: f32,
-    pub end_time: f32,
+    pub start_time: Option<f32>,
+    pub end_time: Option<f32>,
     pub looping: bool,
 }

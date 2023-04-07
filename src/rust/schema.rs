@@ -42,9 +42,9 @@ diesel::table! {
         title -> Text,
         #[sql_name = "filePath"]
         path -> Text,
-        #[sql_name = "filePath"]
+        #[sql_name = "startTime"]
         start_time -> Nullable<Float>,
-        #[sql_name = "filePath"]
+        #[sql_name = "endTime"]
         end_time -> Nullable<Float>,
         #[sql_name = "loop"]
         looping -> Bool,

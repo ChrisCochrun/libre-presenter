@@ -8,5 +8,6 @@ fn main() {
         .file("src/rust/slide_obj.rs")
         .file("src/rust/slide_model.rs")
         .file("src/rust/image_model.rs")
+        .file("src/rust/video_model.rs")
         .build();
 }

@@ -22,5 +22,6 @@ mod service_thing;
 mod settings;
 mod slide_model;
 mod slide_obj;
+pub mod video_model;
 // mod entities;
 // mod video_thumbnail;
