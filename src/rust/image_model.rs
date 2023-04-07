@@ -4,7 +4,7 @@ mod image_model {
     use crate::models::*;
     use crate::schema::images::dsl::*;
     use diesel::sqlite::SqliteConnection;
-    use diesel::{delete, insert_into, prelude::*};
+    use diesel::{delete, insert_into, prelude::*, update};
     use std::path::{Path, PathBuf};
 
     unsafe extern "C++" {
@@ -204,6 +204,28 @@ mod image_model {
                     .begin_insert_rows(&QModelIndex::default(), index, index);
                 self.as_mut().images_mut().push(image);
                 self.as_mut().end_insert_rows();
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_title(mut self: Pin<&mut Self>, index: i32, updated_title: QString) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::TitleRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(images.filter(id.eq(index)))
+                .set(title.eq(updated_title.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let image = self.as_mut().images_mut().get_mut(index as usize).unwrap();
+                    image.title = updated_title;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
             }
         }
 
