@@ -20,15 +20,57 @@
             rustVersion = "1.61.0";
             packageFun = import ./Cargo.nix;
           };
+          # The workspace defines a development shell with all of the dependencies
+          # and environment settings necessary for a regular `cargo build`.
+          # Passes through all arguments to pkgs.mkShell for adding supplemental
+          # dependencies.
+          workspaceShell = rustPkgs.workspaceShell {
+            packages = with pkgs; [
+              gcc
+              gnumake
+              gdb
+              qtcreator
+              cmake
+              extra-cmake-modules
+              pkg-config
+              libsForQt5.wrapQtAppsHook
+              makeWrapper
+
+              clang-tools
+              clang
+              libclang
+              qt5.qtbase
+              qt5.qttools
+              qt5.qtquickcontrols2
+              qt5.qtx11extras
+              qt5.qtmultimedia
+              qt5.qtwayland
+              libsForQt5.kirigami2
+              libsForQt5.qqc2-desktop-style
+              libsForQt5.karchive
+              mpv
+              ffmpeg_6-full
+              # Rust tools
+              clippy
+              rustc
+              cargo
+              rustfmt
+              rust-analyzer
+              corrosion
+            ];
+            # shellHook = ''
+            #   export PS1="\033[0;31m☠dev-shell☠ $ \033[0m"
+            # '';
+          };
 
         in rec
         {
-          packages = {
-            crate = (rustPkgs.workspace.libre-presenter {  }).bin;
-            default = packages.crate;
-          };
-          devShell = import ./shell.nix { inherit pkgs; };
-          defaultPackage = pkgs.libsForQt5.callPackage ./default.nix { inherit rustPkgs; };
+          # packages = {
+          #   crate = (rustPkgs.workspace.libre-presenter {  }).bin;
+          #   default = packages.crate;
+          # };
+          devShell = workspaceShell;
+          defaultPackage = pkgs.libsForQt5.callPackage ./default.nix { };
         }
       );
 }

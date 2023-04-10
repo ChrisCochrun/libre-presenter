@@ -27,6 +27,8 @@
   mpv,
   ffmpeg_5-full,
   # Rust tools
+  rustPlatform,
+  # setuptools-rust,
   rustc,
   cargo,
   corrosion
@@ -41,7 +43,8 @@ stdenv.mkDerivation rec {
 
   src = ./.;
 
-  nativeBuildInputs = [
+  nativeBuildInputs = with rustPlatform; [
+    cargoSetupHook
     gcc
     gnumake
     clang
@@ -50,15 +53,15 @@ stdenv.mkDerivation rec {
     extra-cmake-modules
     pkg-config
     wrapQtAppsHook
-    rustc
-    cargo
-    corrosion
     makeWrapper
     # gccStdenv
     # stdenv
   ];
 
   buildInputs = [
+    rustc
+    cargo
+    corrosion
     qtbase
     qttools
     qtquickcontrols2
@@ -70,11 +73,15 @@ stdenv.mkDerivation rec {
     ki18n
     kcoreaddons
     mpv
-    ffmpeg_6-full
+    ffmpeg_5-full
     # libsForQt5.kconfig
   ];
 
-  RUST_BACKTRACE = 1;
+  cargoDeps = rustPlatform.importCargoLock {
+    lockFile = ./Cargo.lock;
+  };
+
+  RUST_BACKTRACE = "Full";
   # preConfigure = ''
   # "${cargo-download}
   # '';
