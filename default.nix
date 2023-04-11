@@ -25,7 +25,7 @@
   # kwindowsystem,
   podofo,
   mpv,
-  ffmpeg_5-full,
+  ffmpeg_6-full,
   # Rust tools
   rustPlatform,
   # setuptools-rust,
@@ -73,7 +73,7 @@ stdenv.mkDerivation rec {
     ki18n
     kcoreaddons
     mpv
-    ffmpeg_5-full
+    ffmpeg_6-full
     # libsForQt5.kconfig
   ];
 
