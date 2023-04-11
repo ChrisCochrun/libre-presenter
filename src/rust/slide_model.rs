@@ -169,7 +169,7 @@ mod slide_model {
         pub fn remove_item_from_service(
             mut self: Pin<&mut Self>,
             index: i32,
-            service_item: &QMap_QString_QVariant,
+            _service_item: &QMap_QString_QVariant,
         ) {
             println!("Rusty-Removal-Time: {:?}", index);
             let slides = self.slides().clone();
@@ -207,45 +207,6 @@ mod slide_model {
             println!("removed-row: {:?}", index);
         }
 
-        #[qinvokable]
-        pub fn add_item(
-            mut self: Pin<&mut Self>,
-            text: QString,
-            ty: QString,
-            image_background: QString,
-            video_background: QString,
-            audio: QString,
-            font: QString,
-            font_size: i32,
-            htext_alignment: QString,
-            vtext_alignment: QString,
-            service_item_id: i32,
-            slide_index: i32,
-            slide_count: i32,
-            looping: bool,
-        ) {
-            let slide = Slidey {
-                ty,
-                text,
-                image_background,
-                video_background,
-                audio,
-                font,
-                font_size,
-                htext_alignment,
-                vtext_alignment,
-                service_item_id,
-                slide_index,
-                slide_count,
-                looping,
-                active: false,
-                selected: false,
-                video_thumbnail: QString::from(""),
-            };
-
-            self.as_mut().add_slide(&slide);
-        }
-
         fn add_slide(mut self: Pin<&mut Self>, slide: &Slidey) {
             let index = self.as_ref().slides().len() as i32;
             println!("{:?}", slide);
@@ -256,46 +217,6 @@ mod slide_model {
                 self.as_mut().slides_mut().push(slide);
                 self.as_mut().end_insert_rows();
             }
-        }
-
-        #[qinvokable]
-        pub fn insert_item(
-            mut self: Pin<&mut Self>,
-            index: i32,
-            text: QString,
-            ty: QString,
-            image_background: QString,
-            video_background: QString,
-            audio: QString,
-            font: QString,
-            font_size: i32,
-            htext_alignment: QString,
-            vtext_alignment: QString,
-            service_item_id: i32,
-            slide_index: i32,
-            slide_count: i32,
-            looping: bool,
-        ) {
-            let slide = Slidey {
-                ty,
-                text,
-                image_background,
-                video_background,
-                audio,
-                font,
-                font_size,
-                htext_alignment,
-                vtext_alignment,
-                service_item_id,
-                slide_index,
-                slide_count,
-                looping,
-                active: false,
-                selected: false,
-                video_thumbnail: QString::from(""),
-            };
-
-            self.as_mut().insert_slide(&slide, index);
         }
 
         fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
