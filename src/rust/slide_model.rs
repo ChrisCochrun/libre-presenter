@@ -171,12 +171,23 @@ mod slide_model {
             index: i32,
             service_item: &QMap_QString_QVariant,
         ) {
-            let slides = self.rust().slides.clone();
+            println!("Rusty-Removal-Time: {:?}", index);
+            let slides = self.slides().clone();
             let slides_iter = slides.iter();
-            for slide in slides_iter {
+            for (i, slide) in slides_iter.enumerate().rev() {
                 if slide.service_item_id == index {
-                    self.as_mut().remove_item(slide.slide_index);
-                    println!("Removing: {:?}", slide.slide_index);
+                    self.as_mut().remove_item(i as i32);
+                    println!("Removing-slide: {:?}", i);
+                } else if slide.service_item_id > index {
+                    if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                        println!("changing-serviceid-of: {:?}", i);
+                        println!(
+                            "changing-serviceid-fromandto: {:?}-{:?}",
+                            slide.service_item_id,
+                            slide.service_item_id - 1
+                        );
+                        slide.service_item_id -= 1;
+                    }
                 }
             }
         }
@@ -193,6 +204,7 @@ mod slide_model {
                 self.as_mut().slides_mut().remove(index as usize);
                 self.as_mut().end_remove_rows();
             }
+            println!("removed-row: {:?}", index);
         }
 
         #[qinvokable]
@@ -287,7 +299,8 @@ mod slide_model {
         }
 
         fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
-            let slide = slide.clone();
+            let mut slide = slide.clone();
+            slide.slide_index = id;
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
