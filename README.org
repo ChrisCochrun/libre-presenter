@@ -54,4 +54,4 @@ direnv allow
 Then just as before build and run it the way you would.
 
 * Contact Me
-If, for whatever reason, you need to contact me and get something ironed out, please do so at [[mailto:chris@tfcconnection.org][chris@cochrun.xyz]]
+If, for whatever reason, you need to contact me and get something ironed out, please do so at [[mailto:chris@cochrun.xyz][chris@cochrun.xyz]]
