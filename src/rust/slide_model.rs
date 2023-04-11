@@ -171,7 +171,14 @@ mod slide_model {
             index: i32,
             service_item: &QMap_QString_QVariant,
         ) {
-            println!("Removing: {:?}", index);
+            let slides = self.rust().slides.clone();
+            let slides_iter = slides.iter();
+            for slide in slides_iter {
+                if slide.service_item_id == index {
+                    self.as_mut().remove_item(slide.slide_index);
+                    println!("Removing: {:?}", slide.slide_index);
+                }
+            }
         }
 
         #[qinvokable]
