@@ -303,7 +303,9 @@ void ServiceItemModel::removeItems() {
       beginRemoveRows(QModelIndex(), i, i);
       m_items.removeAt(i);
       endRemoveRows();
+      QVariantMap map = getItem(i);
       emit rowRemoved(i, *item);
+      emit rowRemovedRust(i, map);
       qDebug() << "emitted removal of item:" << item->name();
     }
   }

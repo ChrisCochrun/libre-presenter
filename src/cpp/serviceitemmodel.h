@@ -119,7 +119,9 @@ signals:
   void itemInserted(const int &, const ServiceItem &);
   void itemInsertedRust(const int &, const QVariantMap &);
   void rowMoved(const int &, const int &, const ServiceItem &);
+  void rowMovedRust(const int &, const int &, const QVariantMap &);
   void rowRemoved(const int &, const ServiceItem &);
+  void rowRemovedRust(const int &, const QVariantMap &);
   void allRemoved();
 
 private:

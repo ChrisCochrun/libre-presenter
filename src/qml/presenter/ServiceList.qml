@@ -506,7 +506,7 @@ Item {
                     icon.name: "delete"
                     onTriggered: {
                         showPassiveNotification("remove");
-                        removeItem(serviceItemList.currentIndex);
+                        removeItems();
                     }
                 },
                 Kirigami.Action {
@@ -515,11 +515,12 @@ Item {
                     onTriggered: {
                         showPassiveNotification("clearing all items");
                         ServiceItemModel.clearAll();
+                        serviceItemList.forceLayout()
                     }
                 },
                 Kirigami.Action {
                     text: "Load"
-                    icon.name: "list-remove-all"
+                    icon.name: "fileopen"
                     onTriggered: {
                         loadingItem.visible = !loadingItem.visible;
                     }
