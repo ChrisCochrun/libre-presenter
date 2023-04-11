@@ -35,12 +35,14 @@ Others:
 I THINK THIS IS DONE?!
 **** DONE need to finish figuring out proper removal of slides
 [[file:~/dev/church-presenter/src/cpp/slidemodel.cpp::void SlideModel::removeServiceItem(const int &index, const ServiceItem &item) {]]
-**** TODO There is still a bug in inserting items to the service list. The listview starts to stack items ontop of each other.
+**** DONE There is still a bug in inserting items to the service list. The listview starts to stack items ontop of each other.
 **** DONE Multi Select and Delete
 Need to figure out multi delete of libraries. Selection is working but after 1 item is deleted, the model resets and then breaks my selection list...
 
 I think i need deletion functions in all models
 **** DONE Items in library with missing videos or images don't show any helpful UI.
+**** TODO Now there are bugs related to switch the slideModel in C++ to slide_model in Rust.
+I'll need to make sure I'm removing the right slide after a serviceItem is removed and then move them as well.
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
