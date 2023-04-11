@@ -118,46 +118,6 @@ mod slide_model {
     // use image::{ImageBuffer, Rgba};
     use std::path::PathBuf;
     impl qobject::SlideyMod {
-        // #[qinvokable]
-        // pub fn add(self: Pin<&mut Self>) {
-        //     self.add_cpp_context();
-        // }
-
-        // #[qinvokable]
-        // pub fn add_on_thread(self: Pin<&mut Self>, mut counter: i32) {
-        //     let qt_thread = self.qt_thread();
-
-        //     std::thread::spawn(move || {
-        //         while counter > 0 {
-        //             counter -= 1;
-        //             std::thread::sleep(std::time::Duration::from_millis(250));
-
-        //             // Use our add helper to add a row on the Qt event loop
-        //             // as seen in the threading demo channels could be used to pass info
-        //             qt_thread
-        //                 .queue(|custom_base_class| {
-        //                     custom_base_class.add_cpp_context();
-        //                 })
-        //                 .unwrap();
-        //         }
-        //     });
-        // }
-
-        // fn add_cpp_context(mut self: Pin<&mut Self>) {
-        //     let count = self.vector().len();
-        //     unsafe {
-        //         self.as_mut().begin_insert_rows(
-        //             &QModelIndex::default(),
-        //             count as i32,
-        //             count as i32,
-        //         );
-        //         let id = *self.id();
-        //         self.as_mut().set_id(id + 1);
-        //         self.as_mut().vector_mut().push((id, (id as f64) / 3.0));
-        //         self.as_mut().end_insert_rows();
-        //     }
-        // }
-
         #[qinvokable]
         pub fn video_thumbnail(
             mut self: Pin<&mut Self>,
