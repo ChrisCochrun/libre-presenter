@@ -299,7 +299,7 @@ Item {
             }
 
             function addImg(url) {
-                imageProxyModel.imageModel.newItem(url);
+                imageProxyModel.newItem(url);
                 selectedLibrary = "image";
                 imageLibrary.libraryList.currentIndex = imageProxyModel.imageModel.count();
                 console.log(imageProxyModel.getImage(imageLibrary.libraryList.currentIndex));

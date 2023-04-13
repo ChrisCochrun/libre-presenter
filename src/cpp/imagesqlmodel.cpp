@@ -226,6 +226,11 @@ QModelIndex ImageProxyModel::idx(int row) {
   return idx;
 }
 
+void ImageProxyModel::newItem(const QUrl &url) {
+  auto model = qobject_cast<ImageModel *>(sourceModel());
+  model->newItem(url);
+}
+
 QVariantMap ImageProxyModel::getImage(const int &row) {
   auto model = qobject_cast<ImageModel *>(sourceModel());
   QVariantMap image = model->getItem(mapToSource(index(row, 0)).row());

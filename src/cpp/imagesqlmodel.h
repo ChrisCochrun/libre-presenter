@@ -62,6 +62,7 @@ public:
   
 public slots:
   Q_INVOKABLE QVariantMap getImage(const int &row);
+  Q_INVOKABLE void newItem(const QUrl &url);
   Q_INVOKABLE void deleteImage(const int &row);
   Q_INVOKABLE void deleteImages(const QVector<int> &rows);
 
