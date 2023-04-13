@@ -222,6 +222,7 @@ mod slide_model {
         fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
             let mut slide = slide.clone();
             slide.slide_index = id;
+
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
@@ -547,6 +548,157 @@ mod slide_model {
             };
 
             println!("Item added in rust model!");
+        }
+
+        #[qinvokable]
+        pub fn move_item_from_service(
+            mut self: Pin<&mut Self>,
+            source_index: i32,
+            destination_index: i32,
+            _service_item: &QMap_QString_QVariant,
+        ) {
+            if source_index == destination_index {
+                return;
+            }
+
+            let slides = self.slides().clone();
+            let slides_iter = slides.iter();
+
+            let mut first_slide = 0;
+            let mut dest_slide = 0;
+            let mut count = 0;
+
+            for (i, slide) in slides_iter.clone().enumerate() {
+                if slide.service_item_id == source_index {
+                    first_slide = i as i32;
+                    count = slide.slide_count;
+                    println!("RUST_COUNT: {:?}", count);
+                    return;
+                }
+            }
+
+            for (i, slide) in slides_iter.enumerate() {
+                if slide.service_item_id == destination_index {
+                    dest_slide = i as i32;
+                    return;
+                }
+            }
+
+            unsafe {
+                self.as_mut().begin_reset_model();
+            }
+
+            self.as_mut().move_items(first_slide, dest_slide, count);
+            if let Some(slide) = self.as_mut().slides_mut().get_mut(dest_slide as usize) {
+                slide.service_item_id = destination_index;
+            }
+
+            let slides = self.slides().clone();
+            let slides_iter = slides.iter();
+            let move_down = source_index < destination_index;
+
+            if move_down {
+                for (i, slide) in slides_iter
+                    .enumerate()
+                    .filter(|x| x.0 < dest_slide as usize)
+                {
+                    if slide.service_item_id <= destination_index
+                        && slide.service_item_id > source_index
+                    {
+                        if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                            println!(
+                                "rust-switching-service: {:?} to {:?}",
+                                slide.service_item_id,
+                                slide.service_item_id - 1
+                            );
+                            slide.service_item_id -= 1;
+                        }
+                        println!("rust-did:");
+                    }
+                    println!("rust-not-service_item_id: {:?}", slide.service_item_id);
+                }
+            } else {
+                for (i, slide) in slides_iter
+                    .enumerate()
+                    .filter(|x| x.0 >= (dest_slide as usize + count as usize))
+                {
+                    if slide.service_item_id >= destination_index
+                        && slide.service_item_id < source_index
+                    {
+                        if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                            println!(
+                                "rust-switching-service: {:?} to {:?}",
+                                slide.service_item_id,
+                                slide.service_item_id + 1
+                            );
+                            slide.service_item_id += 1;
+                        }
+                        println!("rust-did:");
+                    }
+                    println!("rust-not-service_item_id: {:?}", slide.service_item_id);
+                }
+            }
+
+            unsafe {
+                self.as_mut().end_reset_model();
+            }
+
+            // for (i, slide) in slides_iter
+            //     .enumerate()
+            //     .filter(|x| x.0 < dest_slide as usize)
+            // {
+            //     if move_down {
+            //         if slide.service_item_id <= destination_index
+            //             && slide.service_item_id > source_index
+            //         {
+            //             if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+            //                 println!(
+            //                     "rust-switching-service: {:?} to {:?}",
+            //                     slide.service_item_id,
+            //                     slide.service_item_id - 1
+            //                 );
+            //                 slide.service_item_id -= 1;
+            //             }
+            //             println!("rust-did:");
+            //         }
+            //         println!("rust-not-service_item_id: {:?}", slide.service_item_id);
+            //     } else {
+            //         if slide.service_item_id > destination_index
+            //             && slide.service_item_id < source_index
+            //         {
+            //             if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+            //                 println!(
+            //                     "rust-switching-service: {:?} to {:?}",
+            //                     slide.service_item_id,
+            //                     slide.service_item_id + 1
+            //                 );
+            //                 slide.service_item_id += 1;
+            //             }
+            //             println!("rust-did:");
+            //         }
+            //         println!("rust-not-service_item_id: {:?}", slide.service_item_id);
+            //     }
+            // }
+
+            println!("rust-move: {first_slide} to {dest_slide} with {count} slides");
+        }
+
+        fn move_items(mut self: Pin<&mut Self>, source_index: i32, dest_index: i32, count: i32) {
+            let end_slide = source_index + count;
+            unsafe {
+                self.as_mut().begin_reset_model();
+                let drained: Vec<Slidey> = self
+                    .as_mut()
+                    .slides_mut()
+                    .drain(source_index as usize..end_slide as usize)
+                    .collect();
+                for (i, slide) in drained.iter().enumerate() {
+                    self.as_mut()
+                        .slides_mut()
+                        .insert(dest_index as usize + i, slide.clone());
+                }
+                self.as_mut().end_reset_model();
+            }
         }
 
         #[qinvokable]

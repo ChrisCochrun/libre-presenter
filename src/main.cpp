@@ -164,9 +164,9 @@ int main(int argc, char *argv[])
                    slideMod.get(),
                    &SlideyMod::insertItemFromService);
   QObject::connect(serviceItemModel.get(),
-                   SIGNAL(rowMoved(const int&, const int&, const ServiceItem&)),
-                   slideModel.get(),
-                   SLOT(moveRowFromService(const int&, const int&, const ServiceItem&)));
+                   &ServiceItemModel::rowMovedRust,
+                   slideMod.get(),
+                   &SlideyMod::moveItemFromService);
   QObject::connect(serviceItemModel.get(),
                    &ServiceItemModel::rowRemovedRust,
                    slideMod.get(),

@@ -342,6 +342,8 @@ bool ServiceItemModel::moveRows(int sourceIndex, int destIndex, int count) {
   QModelIndex idx = index(destIndex);
   ServiceItem *item = m_items[idx.row()];
   emit rowMoved(sourceIndex, destIndex, *item);
+  QVariantMap map = getItem(destIndex);
+  emit rowMovedRust(sourceIndex, destIndex, map);
 
   return true;
 }
