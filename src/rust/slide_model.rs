@@ -572,14 +572,14 @@ mod slide_model {
                     first_slide = i as i32;
                     count = slide.slide_count;
                     println!("RUST_COUNT: {:?}", count);
-                    return;
+                    break;
                 }
             }
 
             for (i, slide) in slides_iter.enumerate() {
                 if slide.service_item_id == destination_index {
                     dest_slide = i as i32;
-                    return;
+                    break;
                 }
             }
 
