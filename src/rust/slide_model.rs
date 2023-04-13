@@ -600,10 +600,8 @@ mod slide_model {
                 for (i, slide) in slides_iter
                     .enumerate()
                     .filter(|x| x.0 < dest_slide as usize)
-                    .filter(|x| {
-                        x.1.service_item_id <= destination_index
-                            && x.1.service_item_id > source_index
-                    })
+                    .filter(|x| x.1.service_item_id <= destination_index)
+                    .filter(|x| x.1.service_item_id > source_index)
                 {
                     if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
                         println!(
@@ -619,21 +617,18 @@ mod slide_model {
                 for (i, slide) in slides_iter
                     .enumerate()
                     .filter(|x| x.0 >= (dest_slide as usize + count as usize))
+                    .filter(|x| x.1.service_item_id >= destination_index)
+                    .filter(|x| x.1.service_item_id < source_index)
                 {
-                    if slide.service_item_id >= destination_index
-                        && slide.service_item_id < source_index
-                    {
-                        if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
-                            println!(
-                                "rust-switching-service: {:?} to {:?}",
-                                slide.service_item_id,
-                                slide.service_item_id + 1
-                            );
-                            slide.service_item_id += 1;
-                        }
-                        println!("rust-did:");
+                    if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                        println!(
+                            "rust-switching-service: {:?} to {:?}",
+                            slide.service_item_id,
+                            slide.service_item_id + 1
+                        );
+                        slide.service_item_id += 1;
                     }
-                    println!("rust-not-service_item_id: {:?}", slide.service_item_id);
+                    println!("rust-did:");
                 }
             }
 
