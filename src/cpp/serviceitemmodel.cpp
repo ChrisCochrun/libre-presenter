@@ -404,7 +404,7 @@ QVariantMap ServiceItemModel::getItem(int index) const {
   QHashIterator<int,QByteArray> it(rn);
   while (it.hasNext()) {
     it.next();
-    qDebug() << it.key() << ":" << it.value();
+    // qDebug() << it.key() << ":" << it.value();
     data[it.value()] = idx.data(it.key());
   }
   return data;
