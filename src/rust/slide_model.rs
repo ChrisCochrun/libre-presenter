@@ -511,11 +511,10 @@ mod slide_model {
                     self.as_mut().add_slide(&slide);
                 }
                 Some(ty) if ty == QString::from("song") => {
-                    for i in 0..text_vec.len() {
-                        println!("add song of {:?} length", text_vec.len());
+                    for (i, text) in text_vec.iter().enumerate() {
                         slide.ty = ty.clone();
                         // println!("{:?}", text_vec[i].clone());
-                        slide.text = text_vec[i].clone();
+                        slide.text = text.clone();
                         slide.slide_count = text_vec.len() as i32;
                         slide.slide_index = i as i32;
                         if background_type == QString::from("image") {
