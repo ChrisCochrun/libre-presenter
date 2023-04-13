@@ -560,6 +560,7 @@ mod slide_model {
                 return;
             }
 
+            let move_down = source_index < destination_index;
             let slides = self.slides().clone();
             let slides_iter = slides.iter();
 
@@ -567,34 +568,65 @@ mod slide_model {
             let mut dest_slide = 0;
             let mut count = 0;
 
-            for (i, slide) in slides_iter.clone().enumerate() {
-                if slide.service_item_id == source_index {
-                    first_slide = i as i32;
-                    count = slide.slide_count;
-                    println!("RUST_COUNT: {:?}", count);
-                    break;
+            if move_down {
+                for (i, slide) in slides_iter.clone().enumerate() {
+                    if slide.service_item_id == source_index {
+                        first_slide = i as i32;
+                        count = slide.slide_count;
+                        println!("RUST_COUNT: {:?}", count);
+                        break;
+                    }
                 }
-            }
 
-            for (i, slide) in slides_iter.enumerate() {
-                if slide.service_item_id == destination_index {
-                    dest_slide = i as i32;
-                    break;
+                for (i, slide) in slides_iter.enumerate().rev() {
+                    if slide.service_item_id == destination_index {
+                        dest_slide = i as i32;
+                        break;
+                    }
+                }
+            } else {
+                for (i, slide) in slides_iter.clone().enumerate() {
+                    if slide.service_item_id == source_index {
+                        first_slide = i as i32;
+                        count = slide.slide_count;
+                        println!("RUST_COUNT: {:?}", count);
+                        break;
+                    }
+                }
+
+                for (i, slide) in slides_iter.enumerate() {
+                    if slide.service_item_id == destination_index {
+                        dest_slide = i as i32;
+                        break;
+                    }
                 }
             }
 
             unsafe {
                 self.as_mut().begin_reset_model();
             }
-
-            self.as_mut().move_items(first_slide, dest_slide, count);
-            if let Some(slide) = self.as_mut().slides_mut().get_mut(dest_slide as usize) {
-                slide.service_item_id = destination_index;
-            }
-
             let slides = self.slides().clone();
             let slides_iter = slides.iter();
-            let move_down = source_index < destination_index;
+
+            self.as_mut().move_items(first_slide, dest_slide, count);
+
+            if count > 1 {
+                for (i, slide) in slides_iter
+                    .clone()
+                    .enumerate()
+                    .filter(|x| x.0 >= dest_slide as usize)
+                    .filter(|x| x.0 < (dest_slide + count) as usize)
+                {
+                    if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                        slide.service_item_id = destination_index;
+                    }
+                    println!("this one right here officer.");
+                }
+            } else {
+                if let Some(slide) = self.as_mut().slides_mut().get_mut(dest_slide as usize) {
+                    slide.service_item_id = destination_index;
+                }
+            }
 
             if move_down {
                 for (i, slide) in slides_iter
