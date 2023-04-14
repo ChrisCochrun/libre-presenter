@@ -576,20 +576,36 @@ mod slide_model {
                 }
             }
 
-            for (i, slide) in slides_iter.enumerate() {
-                if slide.service_item_id == destination_index {
-                    if count > 1 {
-                        dest_slide = i as i32 - count
-                    } else {
+            if move_down {
+                for (i, slide) in slides_iter.enumerate().rev() {
+                    if slide.service_item_id == destination_index {
+                        // if count > 1 {
+                        //     dest_slide = i as i32 - count
+                        // } else {
                         dest_slide = i as i32;
+                        println!("RUST_dest_slide: {:?}", dest_slide);
+                        // }
+                        break;
                     }
-                    break;
+                }
+            } else {
+                for (i, slide) in slides_iter.enumerate() {
+                    if slide.service_item_id == destination_index {
+                        // if count > 1 {
+                        //     dest_slide = i as i32 - count
+                        // } else {
+                        dest_slide = i as i32;
+                        println!("RUST_dest_slide: {:?}", dest_slide);
+                        // }
+                        break;
+                    }
                 }
             }
 
             println!("RUST_COUNT: {:?}", count);
             println!("RUST_first_slide: {:?}", first_slide);
             println!("RUST_dest_slide: {:?}", dest_slide);
+            println!("RUST_len: {:?}", self.rust().slides.len());
 
             let slides = self.slides().clone();
             let slides_iter = slides.iter();
@@ -597,16 +613,8 @@ mod slide_model {
             unsafe {
                 self.as_mut().begin_reset_model();
             }
-            if move_down && count > 1 {
-                self.as_mut().move_items(
-                    first_slide as usize,
-                    dest_slide as usize - count as usize + 1,
-                    count as usize,
-                );
-            } else {
-                self.as_mut()
-                    .move_items(first_slide as usize, dest_slide as usize, count as usize);
-            }
+            self.as_mut()
+                .move_items(first_slide as usize, dest_slide as usize, count as usize);
 
             if count > 1 {
                 for (i, slide) in slides_iter
@@ -684,21 +692,24 @@ mod slide_model {
         ) {
             let end_slide = source_index + count;
             println!("rust-end-slide: {:?}", end_slide);
+            println!("rust-dest-slide: {:?}", dest_index);
             unsafe {
                 self.as_mut().begin_reset_model();
                 if source_index < dest_index {
-                    let move_amount = dest_index - source_index;
-                    self.as_mut().slides_mut()[source_index..dest_index].rotate_right(move_amount);
+                    let slice_end = dest_index - end_slide;
+                    // println!("rust-move_amount: {:?}", move_amount);
+                    self.as_mut().slides_mut()[source_index..=dest_index].rotate_right(count);
                 } else {
                     let move_amount = source_index - dest_index;
-                    self.as_mut().slides_mut()[source_index..dest_index].rotate_left(move_amount);
+                    println!("rust-move_amount: {:?}", move_amount);
+                    self.as_mut().slides_mut()[dest_index..=source_index].rotate_left(count);
                 }
                 // let drained: Vec<Slidey> = self
                 //     .as_mut()
                 //     .slides_mut()
                 //     .drain(source_index..end_slide)
                 //     .collect();
-                // println!("rust-drained: {:?}", drained);
+                // println!("rust-drained: {:?}", drained.len());
                 // for (i, slide) in drained.iter().enumerate() {
                 //     self.as_mut()
                 //         .slides_mut()
