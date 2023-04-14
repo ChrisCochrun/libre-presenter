@@ -43,6 +43,10 @@ I think i need deletion functions in all models
 **** DONE Items in library with missing videos or images don't show any helpful UI.
 **** TODO Now there are bugs related to switch the slideModel in C++ to slide_model in Rust.
 I'll need to make sure I'm removing the right slide after a serviceItem is removed and then move them as well.
+**** TODO slide_model.rs doesn't move slides right yet
+[[file:~/dev/church-presenter/src/rust/slide_model.rs::for (i, slide) in slides_iter.clone().enumerate() {]]
+
+Either their index in the vector is wrong or their service_item_id is wrong. So my next approach will be to move slides individually rather than all at once?
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
