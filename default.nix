@@ -35,7 +35,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  name = "Libre Presenter";
+  name = "libre-presenter";
   pname = "libre-presenter";
   version = "0.0.1";
 
