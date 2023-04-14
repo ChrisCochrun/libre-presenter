@@ -568,47 +568,41 @@ mod slide_model {
             let mut dest_slide = 0;
             let mut count = 0;
 
-            if move_down {
-                for (i, slide) in slides_iter.clone().enumerate() {
-                    if slide.service_item_id == source_index {
-                        first_slide = i as i32;
-                        count = slide.slide_count;
-                        println!("RUST_COUNT: {:?}", count);
-                        break;
-                    }
-                }
-
-                for (i, slide) in slides_iter.enumerate().rev() {
-                    if slide.service_item_id == destination_index {
-                        dest_slide = i as i32;
-                        break;
-                    }
-                }
-            } else {
-                for (i, slide) in slides_iter.clone().enumerate() {
-                    if slide.service_item_id == source_index {
-                        first_slide = i as i32;
-                        count = slide.slide_count;
-                        println!("RUST_COUNT: {:?}", count);
-                        break;
-                    }
-                }
-
-                for (i, slide) in slides_iter.enumerate() {
-                    if slide.service_item_id == destination_index {
-                        dest_slide = i as i32;
-                        break;
-                    }
+            for (i, slide) in slides_iter.clone().enumerate() {
+                if slide.service_item_id == source_index {
+                    first_slide = i as i32;
+                    count = slide.slide_count;
+                    break;
                 }
             }
+
+            for (i, slide) in slides_iter.enumerate() {
+                if slide.service_item_id == destination_index {
+                    if count > 1 {
+                        dest_slide = i as i32 - count
+                    } else {
+                        dest_slide = i as i32;
+                    }
+                    break;
+                }
+            }
+
+            println!("RUST_COUNT: {:?}", count);
+            println!("RUST_first_slide: {:?}", first_slide);
+            println!("RUST_dest_slide: {:?}", dest_slide);
+
+            let slides = self.slides().clone();
+            let slides_iter = slides.iter();
 
             unsafe {
                 self.as_mut().begin_reset_model();
             }
-            let slides = self.slides().clone();
-            let slides_iter = slides.iter();
-
-            self.as_mut().move_items(first_slide, dest_slide, count);
+            if move_down && count > 1 {
+                self.as_mut()
+                    .move_items(first_slide, dest_slide - count + 1, count);
+            } else {
+                self.as_mut().move_items(first_slide, dest_slide, count);
+            }
 
             if count > 1 {
                 for (i, slide) in slides_iter
@@ -618,12 +612,19 @@ mod slide_model {
                     .filter(|x| x.0 < (dest_slide + count) as usize)
                 {
                     if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                        println!(
+                            "rust: these ones right here officer. from {:?} to {:?}",
+                            slide.service_item_id, destination_index
+                        );
                         slide.service_item_id = destination_index;
                     }
-                    // println!("this one right here officer.");
                 }
             } else {
                 if let Some(slide) = self.as_mut().slides_mut().get_mut(dest_slide as usize) {
+                    println!(
+                        "rust: this one right here officer. {:?} from {:?} to {:?}",
+                        slide.slide_index, slide.service_item_id, destination_index
+                    );
                     slide.service_item_id = destination_index;
                 }
             }
@@ -631,9 +632,9 @@ mod slide_model {
             if move_down {
                 for (i, slide) in slides_iter
                     .enumerate()
-                    .filter(|x| x.0 < dest_slide as usize)
+                    .filter(|x| x.0 <= (dest_slide as usize - count as usize))
                     .filter(|x| x.1.service_item_id <= destination_index)
-                    .filter(|x| x.1.service_item_id > source_index)
+                    .filter(|x| x.1.service_item_id >= source_index)
                 {
                     if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
                         println!(
@@ -654,7 +655,7 @@ mod slide_model {
                 {
                     if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
                         println!(
-                            "rust-switching-service: {:?} to {:?}",
+                            "rust-switching-service-of: {:?} to {:?}",
                             slide.service_item_id,
                             slide.service_item_id + 1
                         );
@@ -668,48 +669,12 @@ mod slide_model {
                 self.as_mut().end_reset_model();
             }
 
-            // for (i, slide) in slides_iter
-            //     .enumerate()
-            //     .filter(|x| x.0 < dest_slide as usize)
-            // {
-            //     if move_down {
-            //         if slide.service_item_id <= destination_index
-            //             && slide.service_item_id > source_index
-            //         {
-            //             if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
-            //                 println!(
-            //                     "rust-switching-service: {:?} to {:?}",
-            //                     slide.service_item_id,
-            //                     slide.service_item_id - 1
-            //                 );
-            //                 slide.service_item_id -= 1;
-            //             }
-            //             println!("rust-did:");
-            //         }
-            //         println!("rust-not-service_item_id: {:?}", slide.service_item_id);
-            //     } else {
-            //         if slide.service_item_id > destination_index
-            //             && slide.service_item_id < source_index
-            //         {
-            //             if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
-            //                 println!(
-            //                     "rust-switching-service: {:?} to {:?}",
-            //                     slide.service_item_id,
-            //                     slide.service_item_id + 1
-            //                 );
-            //                 slide.service_item_id += 1;
-            //             }
-            //             println!("rust-did:");
-            //         }
-            //         println!("rust-not-service_item_id: {:?}", slide.service_item_id);
-            //     }
-            // }
-
             println!("rust-move: {first_slide} to {dest_slide} with {count} slides");
         }
 
         fn move_items(mut self: Pin<&mut Self>, source_index: i32, dest_index: i32, count: i32) {
             let end_slide = source_index + count;
+            println!("rust-end-slide: {:?}", end_slide);
             unsafe {
                 self.as_mut().begin_reset_model();
                 let drained: Vec<Slidey> = self
@@ -717,6 +682,7 @@ mod slide_model {
                     .slides_mut()
                     .drain(source_index as usize..end_slide as usize)
                     .collect();
+                println!("rust-drained: {:?}", drained);
                 for (i, slide) in drained.iter().enumerate() {
                     self.as_mut()
                         .slides_mut()
