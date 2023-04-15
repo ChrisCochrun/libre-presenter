@@ -567,6 +567,7 @@ mod slide_model {
             let mut first_slide = 0;
             let mut dest_slide = 0;
             let mut count = 0;
+            let mut dest_count = 0;
 
             for (i, slide) in slides_iter.clone().enumerate() {
                 if slide.service_item_id == source_index {
@@ -583,7 +584,11 @@ mod slide_model {
                         //     dest_slide = i as i32 - count
                         // } else {
                         dest_slide = i as i32;
-                        println!("RUST_dest_slide: {:?}", dest_slide);
+                        dest_count = slide.slide_count;
+                        println!(
+                            "RUST_dest_slide: {:?} with {:?} slides",
+                            dest_slide, dest_count
+                        );
                         // }
                         break;
                     }
@@ -617,18 +622,35 @@ mod slide_model {
                 .move_items(first_slide as usize, dest_slide as usize, count as usize);
 
             if count > 1 {
-                for (i, slide) in slides_iter
-                    .clone()
-                    .enumerate()
-                    .filter(|x| x.0 >= dest_slide as usize)
-                    .filter(|x| x.0 < (dest_slide + count) as usize)
-                {
-                    if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
-                        println!(
-                            "rust: these ones right here officer. from {:?} to {:?}",
-                            slide.service_item_id, destination_index
-                        );
-                        slide.service_item_id = destination_index;
+                if move_down {
+                    for (i, slide) in slides_iter
+                        .clone()
+                        .enumerate()
+                        .filter(|x| x.0 >= (first_slide + dest_count) as usize)
+                        .filter(|x| x.0 < (first_slide + dest_count + count) as usize)
+                    {
+                        if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                            println!(
+                                "rust: these ones right here officer. from {:?} to {:?}",
+                                slide.service_item_id, destination_index
+                            );
+                            slide.service_item_id = destination_index;
+                        }
+                    }
+                } else {
+                    for (i, slide) in slides_iter
+                        .clone()
+                        .enumerate()
+                        .filter(|x| x.0 >= dest_slide as usize)
+                        .filter(|x| x.0 < (dest_slide + count) as usize)
+                    {
+                        if let Some(slide) = self.as_mut().slides_mut().get_mut(i) {
+                            println!(
+                                "rust: these ones right here officer. from {:?} to {:?}",
+                                slide.service_item_id, destination_index
+                            );
+                            slide.service_item_id = destination_index;
+                        }
                     }
                 }
             } else {
@@ -644,7 +666,7 @@ mod slide_model {
             if move_down {
                 for (i, slide) in slides_iter
                     .enumerate()
-                    .filter(|x| x.0 <= (dest_slide as usize - count as usize))
+                    .filter(|x| x.0 < (first_slide + dest_count) as usize)
                     .filter(|x| x.1.service_item_id <= destination_index)
                     .filter(|x| x.1.service_item_id >= source_index)
                 {
