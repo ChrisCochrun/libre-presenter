@@ -53,7 +53,7 @@
 #include "cxx-qt-gen/slide_obj.cxxqt.h"
 #include "cxx-qt-gen/slide_model.cxxqt.h"
 #include "cxx-qt-gen/settings.cxxqt.h"
-#include "cxx-qt-gen/image_model.cxxqt.h"
+// #include "cxx-qt-gen/image_model.cxxqt.h"
 
 static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
 {
