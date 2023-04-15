@@ -158,8 +158,7 @@ mod image_model {
             }
         }
 
-        #[qinvokable]
-        pub fn add_item(
+        fn add_item(
             mut self: Pin<&mut Self>,
             image_id: i32,
             image_title: QString,
@@ -221,6 +220,32 @@ mod image_model {
                 Ok(_i) => {
                     let image = self.as_mut().images_mut().get_mut(index as usize).unwrap();
                     image.title = updated_title;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_file_path(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_file_path: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::PathRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(images.filter(id.eq(index)))
+                .set(path.eq(updated_file_path.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let image = self.as_mut().images_mut().get_mut(index as usize).unwrap();
+                    image.path = updated_file_path;
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     true

@@ -191,6 +191,9 @@ mod video_model {
                     id.eq(&video_id),
                     title.eq(&video_title.to_string()),
                     path.eq(&video_path.to_string()),
+                    start_time.eq(&video.start_time),
+                    end_time.eq(&video.end_time),
+                    looping.eq(&video.looping),
                 ))
                 .execute(db);
             println!("{:?}", result);
@@ -202,7 +205,9 @@ mod video_model {
                     true
                 }
                 Err(_e) => {
-                    println!("Cannot connect to database");
+                    println!(
+                        "Cannot connect to database or there was an error in inserting the video"
+                    );
                     false
                 }
             }
