@@ -690,31 +690,20 @@ mod slide_model {
             dest_index: usize,
             count: usize,
         ) {
-            let end_slide = source_index + count;
+            let end_slide = source_index + count - 1;
             println!("rust-end-slide: {:?}", end_slide);
             println!("rust-dest-slide: {:?}", dest_index);
             unsafe {
                 self.as_mut().begin_reset_model();
                 if source_index < dest_index {
-                    let slice_end = dest_index - end_slide;
+                    let move_amount = dest_index - source_index - count + 1;
                     // println!("rust-move_amount: {:?}", move_amount);
-                    self.as_mut().slides_mut()[source_index..=dest_index].rotate_right(count);
+                    self.as_mut().slides_mut()[source_index..=dest_index].rotate_right(move_amount);
                 } else {
-                    let move_amount = source_index - dest_index;
+                    let move_amount = end_slide - dest_index - count + 1;
                     println!("rust-move_amount: {:?}", move_amount);
-                    self.as_mut().slides_mut()[dest_index..=source_index].rotate_left(count);
+                    self.as_mut().slides_mut()[dest_index..=end_slide].rotate_left(move_amount);
                 }
-                // let drained: Vec<Slidey> = self
-                //     .as_mut()
-                //     .slides_mut()
-                //     .drain(source_index..end_slide)
-                //     .collect();
-                // println!("rust-drained: {:?}", drained.len());
-                // for (i, slide) in drained.iter().enumerate() {
-                //     self.as_mut()
-                //         .slides_mut()
-                //         .insert(dest_index + i, slide.clone());
-                // }
                 self.as_mut().end_reset_model();
             }
         }
