@@ -16,6 +16,10 @@ Could start working on moving slide.h and slide.cpp to a slide.rs. Then creating
 *** TODO What is out
 Some of the special effects and things that I wanted to do could perhaps hold off. A lot of the things that I want to do to help make this really special could hold off. Blur, Color Adjustments, and Shadows for backgrounds and text and stuff can hold off for now. More of the special propresenter kind of things.
 
+I had some scope creep. While working on a handful of things I started to transition things over to using Rust instead of C++ with CXX-QT. In the end, I believe this to be a MUCH better move since so much of C++ is dangerous in a lot of ways and I am not confident in my abilities as a developer to make sure I'm not creating memory bugs.
+
+In some ways, this made things harder, Rust does things differently and doesn't have quite as many niceties as QT's built in stuff, but in the end, I do think it'll mean good things. Also, having this built this way may pave the way for others to build QT apps in Rust.
+
 Others:
 - Detail Layout
 - Effects
@@ -23,10 +27,12 @@ Others:
 *** TODO What is In
 I need to make the UI fit so much better. A lot of making the UI work is going to start being top priority. So for starters.
 
+Since moving to Rust, I'm going to include that all of the models except maybe the serviceitemmodel should be finished in Rust in order for this to be ready to release.
+
 Others:
 - Multi Drag? Maybe...
 - Adding the ability to use Librepresenter in other wayland compositors - Need to address the QWindow problem.
-*** TODO Major Bugs
+*** DONE Major Bugs
 - ~Drag and Drop of ServiceList~
   this is fixed, but now I need to move the slides around as you change the serviceItemModel
 - UI Blocking when saving
@@ -41,9 +47,9 @@ Need to figure out multi delete of libraries. Selection is working but after 1 i
 
 I think i need deletion functions in all models
 **** DONE Items in library with missing videos or images don't show any helpful UI.
-**** TODO Now there are bugs related to switch the slideModel in C++ to slide_model in Rust.
+**** DONE Now there are bugs related to switch the slideModel in C++ to slide_model in Rust.
 I'll need to make sure I'm removing the right slide after a serviceItem is removed and then move them as well.
-**** TODO slide_model.rs doesn't move slides right yet
+**** DONE slide_model.rs doesn't move slides right yet
 [[file:~/dev/church-presenter/src/rust/slide_model.rs::for (i, slide) in slides_iter.clone().enumerate() {]]
 
 Either their index in the vector is wrong or their service_item_id is wrong. So my next approach will be to move slides individually rather than all at once?
