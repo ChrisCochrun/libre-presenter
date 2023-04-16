@@ -28,13 +28,18 @@ diesel::table! {
         author -> Nullable<Text>,
         ccli -> Nullable<Text>,
         audio -> Nullable<Text>,
-        vorder -> Nullable<Text>,
+        #[sql_name = "vorder"]
+        verse_order -> Nullable<Text>,
         background -> Nullable<Text>,
-        backgroundType -> Nullable<Text>,
-        horizontalTextAlignment -> Nullable<Binary>,
-        verticalTextAlignment -> Nullable<Binary>,
+        #[sql_name = "backgroundType"]
+        background_type -> Nullable<Text>,
+        #[sql_name = "horizontalTextAlignment"]
+        horizontal_text_alignment -> Nullable<Binary>,
+        #[sql_name = "verticalTextAlignment"]
+        vertical_text_alignment -> Nullable<Binary>,
         font -> Nullable<Text>,
-        fontSize -> Nullable<Integer>,
+        #[sql_name = "fontSize"]
+        font_size -> Nullable<Integer>,
     }
 }
 
