@@ -8,6 +8,8 @@
 #include <qqml.h>
 #include <qurl.h>
 #include <qvariant.h>
+#include "cxx-qt-gen/presentation_model.cxxqt.h"
+
 
 class PresentationSqlModel : public QSqlTableModel
 {
@@ -57,13 +59,13 @@ private:
 class PresentationProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
-  Q_PROPERTY(PresentationSqlModel *presentationModel READ presentationModel)
+  Q_PROPERTY(PresentationModel *presentationModel READ presentationModel)
 
 public:
   explicit PresentationProxyModel(QObject *parent = nullptr);
   ~PresentationProxyModel() = default;
 
-  PresentationSqlModel *presentationModel();
+  PresentationModel *presentationModel();
   Q_INVOKABLE QModelIndex idx(int row);
   
 public slots:
@@ -72,7 +74,7 @@ public slots:
   Q_INVOKABLE void deletePresentations(const QVector<int> &row);
 
 private:
-  PresentationSqlModel *m_presentationModel;
+  PresentationModel *m_presentationModel;
 };
 
 #endif //PRESENTATIONSQLMODEL_H

@@ -70,7 +70,7 @@ ColumnLayout {
             anchors {left: libraryLabel.right
                      verticalCenter: libraryLabel.verticalCenter
                      leftMargin: 15}
-            text: innerModel.rowCount()
+            text: libraryType == "song" ? innerModel.rowCount() : innerModel.count()
             color: Kirigami.Theme.disabledTextColor
         }
 

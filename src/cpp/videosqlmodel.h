@@ -8,6 +8,7 @@
 #include <qqml.h>
 #include <qurl.h>
 #include <qvariant.h>
+#include "cxx-qt-gen/video_model.cxxqt.h"
 
 class VideoSqlModel : public QSqlTableModel
 {
@@ -68,13 +69,13 @@ private:
 class VideoProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
-  Q_PROPERTY(VideoSqlModel *videoModel READ videoModel)
+  Q_PROPERTY(VideoModel *videoModel READ videoModel)
 
 public:
   explicit VideoProxyModel(QObject *parent = nullptr);
   ~VideoProxyModel() = default;
 
-  VideoSqlModel *videoModel();
+  VideoModel *videoModel();
   Q_INVOKABLE QModelIndex idx(int row);
 
 public slots:
@@ -83,7 +84,7 @@ public slots:
   Q_INVOKABLE void deleteVideos(const QVector<int> &row);
 
 private:
-  VideoSqlModel *m_videoModel;
+  VideoModel *m_videoModel;
 };
 
 #endif //VIDEOSQLMODEL_H

@@ -4,7 +4,7 @@ mod video_model {
     use crate::schema::videos::dsl::*;
     use crate::video_model::video_model::Video;
     use diesel::sqlite::SqliteConnection;
-    use diesel::{delete, insert_into, prelude::*};
+    use diesel::{delete, insert_into, prelude::*, update};
     use std::path::{Path, PathBuf};
 
     unsafe extern "C++" {
@@ -65,8 +65,6 @@ mod video_model {
         LoopingRole,
     }
 
-    // use crate::entities::{videos, prelude::Videos};
-    // use sea_orm::{ConnectionTrait, Database, DbBackend, DbErr, Statement, ActiveValue};
     impl qobject::VideoModel {
         #[qinvokable]
         pub fn clear(mut self: Pin<&mut Self>) {
@@ -254,6 +252,50 @@ mod video_model {
                 Role::EndTimeRole => 4,
                 Role::LoopingRole => 5,
                 _ => 0,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_loop(mut self: Pin<&mut Self>, index: i32, loop_value: bool) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::LoopingRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(videos.filter(id.eq(index)))
+                .set(looping.eq(loop_value))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let video = self.as_mut().videos_mut().get_mut(index as usize).unwrap();
+                    video.looping = loop_value;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_title(mut self: Pin<&mut Self>, index: i32, updated_title: QString) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::TitleRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(videos.filter(id.eq(index)))
+                .set(title.eq(updated_title.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let video = self.as_mut().videos_mut().get_mut(index as usize).unwrap();
+                    video.title = updated_title;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
             }
         }
     }

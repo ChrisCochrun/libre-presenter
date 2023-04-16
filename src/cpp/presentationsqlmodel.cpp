@@ -243,14 +243,15 @@ QVariantMap PresentationSqlModel::getPresentation(const int &row) {
 PresentationProxyModel::PresentationProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  m_presentationModel = new PresentationSqlModel;
+  m_presentationModel = new PresentationModel;
+  m_presentationModel->testDatabase();
   setSourceModel(m_presentationModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
-PresentationSqlModel *PresentationProxyModel::presentationModel() {
+PresentationModel *PresentationProxyModel::presentationModel() {
   return m_presentationModel;
 }
 
@@ -261,21 +262,21 @@ QModelIndex PresentationProxyModel::idx(int row) {
 }
 
 QVariantMap PresentationProxyModel::getPresentation(const int &row) {
-  auto model = qobject_cast<PresentationSqlModel *>(sourceModel());
-  QVariantMap presentation = model->getPresentation(mapToSource(index(row, 0)).row());
+  auto model = qobject_cast<PresentationModel *>(sourceModel());
+  QVariantMap presentation = model->getItem(mapToSource(index(row, 0)).row());
   return presentation;
 }
 
 void PresentationProxyModel::deletePresentation(const int &row) {
-  auto model = qobject_cast<PresentationSqlModel *>(sourceModel());
-  model->deletePresentation(row);
+  auto model = qobject_cast<PresentationModel *>(sourceModel());
+  model->removeItem(row);
 }
 
 void PresentationProxyModel::deletePresentations(const QVector<int> &rows) {
-  auto model = qobject_cast<PresentationSqlModel *>(sourceModel());
+  auto model = qobject_cast<PresentationModel *>(sourceModel());
   qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
   for (int i = rows.size() - 1; i >= 0; i--) {
     qDebug() << "deleting" << rows.at(i);
-    model->deletePresentation(rows.at(i));
+    model->removeItem(rows.at(i));
   }
 }

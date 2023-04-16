@@ -65,7 +65,7 @@ Item {
                 itemIcon: "folder-videos-symbolic"
                 itemSubtitle: {
                     if (fileValidation)
-                        model.filePath;
+                        model.path;
                     else
                         "file is missing"
                         }

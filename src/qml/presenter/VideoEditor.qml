@@ -266,7 +266,7 @@ Item {
     function updateLoop(value) {
         /* changeStartTime(value, false); */
         videosqlmodel.updateLoop(video.id, value);
-        video.loop = value;
+        /* video.loop = value; */
         showPassiveNotification("Loop changed to: " + video.loop);
     }
 

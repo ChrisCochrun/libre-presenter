@@ -324,14 +324,15 @@ QVariantMap VideoSqlModel::getVideo(const int &row) {
 VideoProxyModel::VideoProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  m_videoModel = new VideoSqlModel();
+  m_videoModel = new VideoModel();
+  m_videoModel->testDatabase();
   setSourceModel(m_videoModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
   setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
-VideoSqlModel *VideoProxyModel::videoModel() {
+VideoModel *VideoProxyModel::videoModel() {
   return m_videoModel;
 }
 
@@ -342,21 +343,21 @@ QModelIndex VideoProxyModel::idx(int row) {
 }
 
 QVariantMap VideoProxyModel::getVideo(const int &row) {
-  auto model = qobject_cast<VideoSqlModel *>(sourceModel());
-  QVariantMap video = model->getVideo(mapToSource(index(row, 0)).row());
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  QVariantMap video = model->getItem(mapToSource(index(row, 0)).row());
   return video;
 }
 
 void VideoProxyModel::deleteVideo(const int &row) {
-  auto model = qobject_cast<VideoSqlModel *>(sourceModel());
-  model->deleteVideo(mapToSource(index(row,0)).row());
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  model->removeItem(mapToSource(index(row,0)).row());
 }
 
 void VideoProxyModel::deleteVideos(const QVector<int> &rows) {
-  auto model = qobject_cast<VideoSqlModel *>(sourceModel());
+  auto model = qobject_cast<VideoModel *>(sourceModel());
   qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
   for (int i = rows.size() - 1; i >= 0; i--) {
     qDebug() << "deleting" << rows.at(i);
-    model->deleteVideo(rows.at(i));
+    model->removeItem(rows.at(i));
   }
 }
