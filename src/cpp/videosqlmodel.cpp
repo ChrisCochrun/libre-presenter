@@ -325,7 +325,7 @@ VideoProxyModel::VideoProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
   m_videoModel = new VideoModel();
-  m_videoModel->testDatabase();
+  m_videoModel->setup();
   setSourceModel(m_videoModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);
