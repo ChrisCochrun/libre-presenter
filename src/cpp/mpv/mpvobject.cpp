@@ -268,7 +268,7 @@ void MpvObject::doUpdate()
 
 void MpvObject::command(const QVariant& params)
 {
-  qDebug() << params;
+  // qDebug() << params;
   mpv::qt::command(mpv, params);
 }
 

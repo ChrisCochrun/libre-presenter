@@ -27,6 +27,9 @@ Item {
             RowLayout {
                 anchors.fill: parent 
 
+                Controls.Label {
+                    text: "Title:"
+                }
                 Controls.TextField {
                     implicitWidth: 300
                     hoverEnabled: true
@@ -36,11 +39,14 @@ Item {
                     onEditingFinished: updateTitle(text);
                 }
 
+                Controls.Label {
+                    text: "Looping:"
+                    Layout.leftMargin: 20
+                }
                 Controls.CheckBox {
                     id: loopCheckBox
                     Layout.preferredWidth: 300
                     Layout.fillWidth: true
-                    Layout.leftMargin: 20
                     Layout.rightMargin: 20
 
                     text: "Repeat"
@@ -60,111 +66,76 @@ Item {
                     onClicked: {}
                 }
                 Controls.ToolButton {
-                    id: backgroundButton
-                    text: "Background"
+                    id: fileButton
+                    text: "File"
                     icon.name: "fileopen"
                     hoverEnabled: true
-                    onClicked: backgroundType.open()
-                }
-
-                Controls.Popup {
-                    id: backgroundType
-                    x: backgroundButton.x
-                    y: backgroundButton.y + backgroundButton.height + 20
-                    modal: true
-                    focus: true
-                    dim: false
-                    background: Rectangle {
-                        Kirigami.Theme.colorSet: Kirigami.Theme.Tooltip
-                        color: Kirigami.Theme.backgroundColor
-                        radius: 10
-                        border.color: Kirigami.Theme.activeBackgroundColor
-                        border.width: 2
-                    }
-                    closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent
-                    ColumnLayout {
-                        anchors.fill: parent
-                        Controls.ToolButton {
-                            Layout.fillHeight: true
-                            Layout.fillWidth: true
-                            text: "Video"
-                            icon.name: "emblem-videos-symbolic"
-                            onClicked: videoFileDialog.open() & backgroundType.close()
-                        }
-                        Controls.ToolButton {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            text: "Image"
-                            icon.name: "folder-pictures-symbolic"
-                            onClicked: imageFileDialog.open() & backgroundType.close()
-                        }
-                    }
+                    onClicked: fileType.open()
                 }
             }
         }
 
         Item {
-            id: topEmpty
-            Layout.preferredHeight: 50
-            Layout.fillWidth: true
             Layout.columnSpan: 2
-        }
-
-        MpvObject {
-            id: videoPreview
-	    objectName: "mpv"
-            Layout.columnSpan: 2
-            Layout.preferredWidth: 600
+            Layout.preferredWidth: root.width - 50
             Layout.preferredHeight: Layout.preferredWidth / 16 * 9
             Layout.alignment: Qt.AlignCenter
-            useHwdec: true
-            enableAudio: audioOn
-            Component.onCompleted: mpvLoadingTimer.start()
-            onPositionChanged: videoSlider.value = position
-            onFileLoaded: {
-                showPassiveNotification(video.title + " has been loaded");
-                videoPreview.pause();
+            Layout.topMargin: 10
+
+            MpvObject {
+                id: videoPreview
+                width: parent.width
+                height: parent.height
+	        objectName: "mpv"
+                useHwdec: true
+                enableAudio: audioOn
+                Component.onCompleted: mpvLoadingTimer.start()
+                onPositionChanged: videoSlider.value = position
+                onFileLoaded: {
+                    /* showPassiveNotification(video.title + " has been loaded"); */
+                    videoPreview.pause();
+                }
             }
-        }
-        Rectangle {
-            id: videoBg
-            color: Kirigami.Theme.alternateBackgroundColor
 
-            Layout.columnSpan: 2
-            Layout.preferredWidth: videoPreview.Layout.preferredWidth
-            Layout.preferredHeight: videoTitleField.height
-            Layout.alignment: Qt.AlignHCenter
+            Rectangle {
+                id: videoBg
+                color: Kirigami.Theme.alternateBackgroundColor
 
-            RowLayout {
-                anchors.fill: parent
-                spacing: 2
-                Kirigami.Icon {
-                    source: videoPreview.isPlaying ? "media-pause" : "media-play"
-                    Layout.preferredWidth: 25
-                    Layout.preferredHeight: 25
-                    MouseArea {
-                        anchors.fill: parent
-                        onPressed: videoPreview.playPause()
-                        cursorShape: Qt.PointingHandCursor
+                anchors.top: videoPreview.bottom
+                width: parent.width
+                height: videoTitleField.height
+
+                RowLayout {
+                    anchors.fill: parent
+                    spacing: 2
+                    Kirigami.Icon {
+                        source: videoPreview.isPlaying ? "media-pause" : "media-play"
+                        Layout.preferredWidth: 25
+                        Layout.preferredHeight: 25
+                        MouseArea {
+                            anchors.fill: parent
+                            onPressed: videoPreview.playPause()
+                            cursorShape: Qt.PointingHandCursor
+                        }
+                    }
+                    Controls.Slider {
+                        id: videoSlider
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 25
+                        from: 0
+                        to: videoPreview.duration
+                        /* value: videoPreview.postion */
+                        live: true
+                        onMoved: videoPreview.seek(value);
+                    }
+
+                    Controls.Label {
+                        id: videoTime
+                        text: new Date(videoPreview.position * 1000).toISOString().slice(11, 19);
                     }
                 }
-                Controls.Slider {
-                    id: videoSlider
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 25
-                    from: 0
-                    to: videoPreview.duration
-                    /* value: videoPreview.postion */
-                    live: true
-                    onMoved: videoPreview.seek(value);
-                }
+
             }
-
-        }
-
-        Item {
-            Layout.columnSpan: 2
-            Layout.preferredHeight: 60
         }
 
         Controls.RangeSlider {
@@ -174,14 +145,17 @@ Item {
             Layout.preferredWidth: videoPreview.Layout.preferredWidth
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-            Layout.leftMargin: width / 3
-            Layout.rightMargin: width / 3
+            Layout.leftMargin: 25
+            Layout.rightMargin: 25
+            Layout.topMargin: 50
 
             to: videoPreview.duration
             from: 0
+            stepSize: 0.5
+            snapMode: Controls.RangeSlider.SnapAlways
 
-            first.value: 0
-            second.value: to
+            first.value: video.startTime
+            second.value: video.endTime
 
             first.onMoved: updateStartTime(first.value)
             second.onMoved: updateEndTime(second.value)
@@ -200,6 +174,11 @@ Item {
             text: "End Time: " + videoLengthSlider.second.value
         }
 
+        Controls.ToolButton {
+            text: "FIX"
+            onClicked: videoLengthSlider.setValues(video.startTime, video.endTime)
+        }
+
         Item {
             id: botEmpty
             Layout.fillHeight: true
@@ -210,7 +189,7 @@ Item {
             Layout.alignment: Qt.AlignBottom
             Layout.fillWidth: true
             Layout.columnSpan: 2
-            text: video.filePath
+            text: "File path: " + video.filePath
             background: Item{}
             readOnly: true
             HoverHandler {
@@ -227,6 +206,7 @@ Item {
         interval: 100
         onTriggered: {
             videoPreview.loadFile(video.filePath.toString());
+            videoLengthSlider.setValues(video.startTime, video.endTime);
             /* showPassiveNotification(video[0]); */
         }
     }
@@ -234,7 +214,10 @@ Item {
     function changeVideo(index) {
         let vid = videoProxyModel.getVideo(index);
         root.video = vid;
+        console.log(video.startTime);
+        console.log(video.endTime);
         mpvLoadingTimer.restart();
+        videoLengthSlider.setValues(vid.startTime, vid.endTime);
     }
 
     function stop() {
@@ -244,30 +227,31 @@ Item {
     }
 
     function updateEndTime(value) {
-        /* changeStartTime(value, false); */
+        videoPreview.seek(value);
         videoProxyModel.updateEndTime(video.id, value);
         video.endTime = value;
-        showPassiveNotification(video.endTime);
+        /* showPassiveNotification(video.endTime); */
     }
 
     function updateStartTime(value) {
         /* changeStartTime(value, false); */
+        videoPreview.seek(value);
         videoProxyModel.updateStartTime(video.id, value);
         video.startTime = value;
-        showPassiveNotification(video.startTime);
+        /* showPassiveNotification(value); */
     }
 
     function updateTitle(text) {
         changeTitle(text, false);
         videoProxyModel.updateTitle(video.id, text);
-        showPassiveNotification(video.title);
+        /* showPassiveNotification(video.title); */
     }
 
     function updateLoop(value) {
         /* changeStartTime(value, false); */
         let bool = videoProxyModel.updateLoop(video.id, value);
         video.loop = value;
-        showPassiveNotification("Loop changed to: " + video.loop);
+        /* showPassiveNotification("Loop changed to: " + video.loop); */
     }
 
     function changeTitle(text, updateBox) {

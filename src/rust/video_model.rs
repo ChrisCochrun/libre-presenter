@@ -301,8 +301,14 @@ mod video_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let video = self.as_mut().videos_mut().get_mut(index as usize).unwrap();
-                    video.end_time = updated_end_time.clone();
+                    for video in self
+                        .as_mut()
+                        .videos_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        video.end_time = updated_end_time.clone();
+                    }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     println!("rust-end-time: {:?}", updated_end_time);
@@ -328,8 +334,14 @@ mod video_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let video = self.as_mut().videos_mut().get_mut(index as usize).unwrap();
-                    video.start_time = updated_start_time.clone();
+                    for video in self
+                        .as_mut()
+                        .videos_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        video.start_time = updated_start_time.clone();
+                    }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     println!("rust-start-time: {:?}", updated_start_time);
@@ -351,8 +363,14 @@ mod video_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let video = self.as_mut().videos_mut().get_mut(index as usize).unwrap();
-                    video.title = updated_title.clone();
+                    for video in self
+                        .as_mut()
+                        .videos_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        video.title = updated_title.clone();
+                    }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     println!("rust-title: {:?}", updated_title);
