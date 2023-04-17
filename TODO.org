@@ -53,6 +53,16 @@ I'll need to make sure I'm removing the right slide after a serviceItem is remov
 [[file:~/dev/church-presenter/src/rust/slide_model.rs::for (i, slide) in slides_iter.clone().enumerate() {]]
 
 Either their index in the vector is wrong or their service_item_id is wrong. So my next approach will be to move slides individually rather than all at once?
+**** TODO Updating properties in models.
+All of the models need to be editable from the outside so that the editor pages a can appropriately change the properties of each item. I'll go in this order.
+- Video
+- Image
+- Presentations
+- Songs
+
+Songs will be the hardest so I'll save them for last. They are not even using the rust models yet anyway. The key that I figured out is that instead of relying on the proxy model to map to the appropriate id inside the rust model. I'll store an id in the sqlite database and use that as a way to find each item. I'll need to keep tinkering with the best way to do that as right now I looped through all the items and that may get inefficient as models grow.
+
+Another big blocker in this process is to make sure that all properties are accessed appropriately on the QML side. I need to update a lot of QML code yet.
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
