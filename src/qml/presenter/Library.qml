@@ -36,7 +36,7 @@ Item {
                 libraryType: "song"
                 headerLabel: "Songs"
                 itemIcon: "folder-music-symbolic"
-                itemSubtitle: "hi"
+                itemSubtitle: model.author
                 newItemFunction: (function() {
                     songProxyModel.setFilterRegularExpression("");
                     songProxyModel.songModel.newSong();
@@ -63,12 +63,7 @@ Item {
                 libraryType: "video"
                 headerLabel: "Videos"
                 itemIcon: "folder-videos-symbolic"
-                itemSubtitle: {
-                    if (fileValidation)
-                        model.path;
-                    else
-                        "file is missing"
-                        }
+                itemSubtitle: model.path
                 newItemFunction: (function() {
                     videoProxyModel.setFilterRegularExpression("");
                 })
@@ -88,12 +83,7 @@ Item {
                 libraryType: "image"
                 headerLabel: "Images"
                 itemIcon: "folder-pictures-symbolic"
-                itemSubtitle: {
-                    if (fileValidation)
-                        model.path;
-                    else
-                        "file is missing"
-                        }
+                itemSubtitle: model.path
                 newItemFunction: (function() {
                     imageProxyModel.setFilterRegularExpression("");
                 })
@@ -113,12 +103,7 @@ Item {
                 libraryType: "presentation"
                 headerLabel: "Presentations"
                 itemIcon: "x-office-presentation-symbolic"
-                itemSubtitle: {
-                    if (fileValidation)
-                        model.filePath;
-                    else
-                        "file is missing"
-                        }
+                itemSubtitle: model.path
                 newItemFunction: (function() {
                     presProxyModel.setFilterRegularExpression("");
                 })

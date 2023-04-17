@@ -245,28 +245,28 @@ Item {
 
     function updateEndTime(value) {
         /* changeStartTime(value, false); */
-        videosqlmodel.updateEndTime(video.id, value);
+        videoProxyModel.updateEndTime(video.id, value);
         video.endTime = value;
         showPassiveNotification(video.endTime);
     }
 
     function updateStartTime(value) {
         /* changeStartTime(value, false); */
-        videosqlmodel.updateStartTime(video.id, value);
+        videoProxyModel.updateStartTime(video.id, value);
         video.startTime = value;
         showPassiveNotification(video.startTime);
     }
 
     function updateTitle(text) {
         changeTitle(text, false);
-        videosqlmodel.updateTitle(video.id, text);
+        videoProxyModel.updateTitle(video.id, text);
         showPassiveNotification(video.title);
     }
 
     function updateLoop(value) {
         /* changeStartTime(value, false); */
-        videosqlmodel.updateLoop(video.id, value);
-        /* video.loop = value; */
+        let bool = videoProxyModel.updateLoop(video.id, value);
+        video.loop = value;
         showPassiveNotification("Loop changed to: " + video.loop);
     }
 

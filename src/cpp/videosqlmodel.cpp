@@ -361,3 +361,34 @@ void VideoProxyModel::deleteVideos(const QVector<int> &rows) {
     model->removeItem(rows.at(i));
   }
 }
+
+bool VideoProxyModel::updateLoop(int row, bool value) {
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  qDebug() << "THIS:" << row;
+  bool ret = model->updateLoop(row, value);
+  return ret;
+}
+
+bool VideoProxyModel::updateStartTime(int row, float value) {
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  bool ret = model->updateStartTime(row, value);
+  return ret;
+}
+
+bool VideoProxyModel::updateEndTime(int row, float value) {
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  bool ret = model->updateEndTime(row, value);
+  return ret;
+}
+
+bool VideoProxyModel::updateTitle(int row, QString value) {
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  bool ret = model->updateTitle(row, value);
+  return ret;
+}
+
+bool VideoProxyModel::updatePath(int row, QString value) {
+  auto model = qobject_cast<VideoModel *>(sourceModel());
+  bool ret = model->updatePath(row, value);
+  return ret;
+}

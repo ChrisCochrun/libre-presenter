@@ -82,6 +82,11 @@ public slots:
   Q_INVOKABLE QVariantMap getVideo(const int &row);
   Q_INVOKABLE void deleteVideo(const int &row);
   Q_INVOKABLE void deleteVideos(const QVector<int> &row);
+  Q_INVOKABLE bool updateLoop(int row, bool value);
+  Q_INVOKABLE bool updateTitle(int row, QString value);
+  Q_INVOKABLE bool updatePath(int row, QString value);
+  Q_INVOKABLE bool updateStartTime(int row, float value);
+  Q_INVOKABLE bool updateEndTime(int row, float value);
 
 private:
   VideoModel *m_videoModel;
