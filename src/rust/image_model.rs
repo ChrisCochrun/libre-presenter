@@ -72,7 +72,7 @@ mod image_model {
         }
 
         #[qinvokable]
-        pub fn test_database(mut self: Pin<&mut Self>) {
+        pub fn setup(mut self: Pin<&mut Self>) {
             let db = &mut self.as_mut().get_db();
             let results = images
                 .load::<crate::models::Image>(db)

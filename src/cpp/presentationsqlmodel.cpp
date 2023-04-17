@@ -244,7 +244,7 @@ PresentationProxyModel::PresentationProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
   m_presentationModel = new PresentationModel;
-  m_presentationModel->testDatabase();
+  m_presentationModel->setup();
   setSourceModel(m_presentationModel);
   setDynamicSortFilter(true);
   setFilterRole(Qt::UserRole + 1);

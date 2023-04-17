@@ -209,7 +209,7 @@ ImageProxyModel::ImageProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
   m_imageModel = new ImageModel;
-  m_imageModel->testDatabase();
+  m_imageModel->setup();
   setSourceModel(m_imageModel);
   setDynamicSortFilter(true);
   setFilterRole(1);
