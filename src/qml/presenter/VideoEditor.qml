@@ -151,7 +151,7 @@ Item {
 
             to: videoPreview.duration
             from: 0
-            stepSize: 0.5
+            stepSize: 0.1
             snapMode: Controls.RangeSlider.SnapAlways
 
             first.value: video.startTime

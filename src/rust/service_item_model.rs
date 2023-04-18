@@ -1,5 +1,5 @@
 #[cxx_qt::bridge]
-mod slide_model {
+mod service_item_model {
     unsafe extern "C++" {
         include!(< QAbstractListModel >);
         include!("cxx-qt-lib/qhash.h");
@@ -51,6 +51,10 @@ mod slide_model {
         selected: bool,
         #[qproperty]
         looping: bool,
+        #[qproperty]
+        video_start_time: f32,
+        #[qproperty]
+        video_end_time: f32,
     }
 
     impl Default for ServiceItem {
@@ -68,6 +72,8 @@ mod slide_model {
                 active: false,
                 selected: false,
                 looping: false,
+                video_start_time: 0.0,
+                video_end_time: 0.0,
             }
         }
     }
@@ -80,7 +86,7 @@ mod slide_model {
     #[derive(Default, Debug)]
     pub struct ServiceItemModel {
         id: i32,
-        slides: Vec<ServiceItem>,
+        service_items: Vec<ServiceItem>,
     }
 
     #[cxx_qt::qsignals(ServiceItemModel)]
@@ -110,7 +116,7 @@ mod slide_model {
         pub fn clear(mut self: Pin<&mut Self>) {
             unsafe {
                 self.as_mut().begin_reset_model();
-                self.as_mut().slides_mut().clear();
+                self.as_mut().service_items_mut().clear();
                 self.as_mut().end_reset_model();
             }
         }
@@ -126,14 +132,14 @@ mod slide_model {
 
         #[qinvokable]
         pub fn remove_item(mut self: Pin<&mut Self>, index: i32) {
-            if index < 0 || (index as usize) >= self.slides().len() {
+            if index < 0 || (index as usize) >= self.service_items().len() {
                 return;
             }
 
             unsafe {
                 self.as_mut()
                     .begin_remove_rows(&QModelIndex::default(), index, index);
-                self.as_mut().slides_mut().remove(index as usize);
+                self.as_mut().service_items_mut().remove(index as usize);
                 self.as_mut().end_remove_rows();
             }
         }
@@ -151,11 +157,10 @@ mod slide_model {
             htext_alignment: QString,
             vtext_alignment: QString,
             service_item_id: i32,
-            slide_index: i32,
             slide_count: i32,
             looping: bool,
         ) {
-            let slide = ServiceItem {
+            let service_item = ServiceItem {
                 ty,
                 text,
                 image_background,
@@ -166,7 +171,6 @@ mod slide_model {
                 htext_alignment,
                 vtext_alignment,
                 service_item_id,
-                slide_index,
                 slide_count,
                 looping,
                 active: false,
@@ -174,17 +178,17 @@ mod slide_model {
                 video_thumbnail: QString::from(""),
             };
 
-            self.as_mut().add_slide(&slide);
+            self.as_mut().add_service_item(&service_item);
         }
 
-        fn add_slide(mut self: Pin<&mut Self>, slide: &ServiceItem) {
-            let index = self.as_ref().slides().len() as i32;
-            println!("{:?}", slide);
-            let slide = slide.clone();
+        fn add_service_item(mut self: Pin<&mut Self>, service_item: &ServiceItem) {
+            let index = self.as_ref().service_items().len() as i32;
+            println!("{:?}", service_item);
+            let service_item = service_item.clone();
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), index, index);
-                self.as_mut().slides_mut().push(slide);
+                self.as_mut().service_items_mut().push(service_item);
                 self.as_mut().end_insert_rows();
             }
         }
@@ -203,11 +207,10 @@ mod slide_model {
             htext_alignment: QString,
             vtext_alignment: QString,
             service_item_id: i32,
-            slide_index: i32,
             slide_count: i32,
             looping: bool,
         ) {
-            let slide = ServiceItem {
+            let service_item = ServiceItem {
                 ty,
                 text,
                 image_background,
@@ -218,7 +221,6 @@ mod slide_model {
                 htext_alignment,
                 vtext_alignment,
                 service_item_id,
-                slide_index,
                 slide_count,
                 looping,
                 active: false,
@@ -226,336 +228,19 @@ mod slide_model {
                 video_thumbnail: QString::from(""),
             };
 
-            self.as_mut().insert_slide(&slide, index);
+            self.as_mut().insert_service_item(&service_item, index);
         }
 
-        fn insert_slide(mut self: Pin<&mut Self>, slide: &ServiceItem, id: i32) {
-            let slide = slide.clone();
+        fn insert_service_item(mut self: Pin<&mut Self>, service_item: &ServiceItem, id: i32) {
+            let service_item = service_item.clone();
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), id, id);
-                self.as_mut().slides_mut().insert(id as usize, slide);
+                self.as_mut()
+                    .service_items_mut()
+                    .insert(id as usize, service_item);
                 self.as_mut().end_insert_rows();
             }
-        }
-
-        #[qinvokable]
-        pub fn insert_item_from_service(
-            mut self: Pin<&mut Self>,
-            index: i32,
-            service_item: &QMap_QString_QVariant,
-        ) {
-            let ty = service_item
-                .get(&QString::from("type"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QString>();
-
-            let background = service_item
-                .get(&QString::from("background"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QString>()
-                .unwrap_or_default();
-
-            let background_type = service_item
-                .get(&QString::from("backgroundType"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QString>()
-                .unwrap_or_default();
-
-            let textlist = service_item
-                .get(&QString::from("text"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QStringList>()
-                .unwrap_or_default();
-
-            let text_vec = Vec::<QString>::from(&QList_QString::from(&textlist));
-            // let vec_slize: &[usize] = &text_vec;
-
-            let mut slide = ServiceItem {
-                ty: service_item
-                    .get(&QString::from("type"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                text: service_item
-                    .get(&QString::from("text"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                image_background: service_item
-                    .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                video_background: service_item
-                    .get(&QString::from("videoBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                audio: service_item
-                    .get(&QString::from("audio"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font: service_item
-                    .get(&QString::from("font"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font_size: service_item
-                    .get(&QString::from("fontSize"))
-                    .unwrap_or(QVariant::from(&50))
-                    .value()
-                    .unwrap_or(50),
-                htext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                vtext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                service_item_id: index,
-                slide_index: service_item
-                    .get(&QString::from("slideNumber"))
-                    .unwrap_or(QVariant::from(&0))
-                    .value()
-                    .unwrap_or(0),
-                slide_count: service_item
-                    .get(&QString::from("slideNumber"))
-                    .unwrap_or(QVariant::from(&1))
-                    .value()
-                    .unwrap_or(1),
-                looping: service_item
-                    .get(&QString::from("loop"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                active: service_item
-                    .get(&QString::from("active"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                selected: service_item
-                    .get(&QString::from("selected"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                video_thumbnail: QString::from(""),
-            };
-
-            // We need to move all the current slides service_item_id's up by one.
-            let slides_len = self.as_mut().slides_mut().len() as i32;
-            for slide in index..slides_len {
-                if let Some(slide) = self.as_mut().slides_mut().get_mut(slide as usize) {
-                    slide.service_item_id += 1;
-                }
-            }
-
-            match ty {
-                Some(ty) if ty == QString::from("image") => {
-                    slide.ty = ty;
-                    slide.image_background = background;
-                    slide.video_background = QString::from("");
-                    slide.slide_index = 0;
-                    self.as_mut().insert_slide(&slide, index);
-                }
-                Some(ty) if ty == QString::from("song") => {
-                    for i in 0..text_vec.len() {
-                        println!("add song of {:?} length", text_vec.len());
-                        slide.ty = ty.clone();
-                        // println!("{:?}", text_vec[i].clone());
-                        slide.text = text_vec[i].clone();
-                        slide.slide_count = text_vec.len() as i32;
-                        slide.slide_index = i as i32;
-                        if background_type == QString::from("image") {
-                            slide.image_background = background.clone();
-                            slide.video_background = QString::from("");
-                        } else {
-                            slide.video_background = background.clone();
-                            slide.image_background = QString::from("");
-                        }
-                        self.as_mut().insert_slide(&slide, index + i as i32);
-                    }
-                }
-                Some(ty) if ty == QString::from("video") => {
-                    slide.ty = ty;
-                    slide.image_background = QString::from("");
-                    slide.video_background = background;
-                    slide.slide_index = 0;
-                    self.as_mut().insert_slide(&slide, index);
-                }
-                Some(ty) if ty == QString::from("presentation") => {
-                    for i in 0..slide.slide_count {
-                        slide.ty = ty.clone();
-                        slide.image_background = background.clone();
-                        slide.video_background = QString::from("");
-                        slide.slide_index = i;
-                        self.as_mut().insert_slide(&slide, index + i as i32);
-                    }
-                }
-                _ => println!("It's somethign else!"),
-            };
-
-            println!("Item added in rust model!");
-        }
-
-        #[qinvokable]
-        pub fn add_item_from_service(
-            mut self: Pin<&mut Self>,
-            index: i32,
-            service_item: &QMap_QString_QVariant,
-        ) {
-            println!("add rust slide {:?}", index);
-            let ty = service_item
-                .get(&QString::from("type"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QString>();
-
-            let background = service_item
-                .get(&QString::from("background"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QString>()
-                .unwrap_or_default();
-
-            let background_type = service_item
-                .get(&QString::from("backgroundType"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QString>()
-                .unwrap_or_default();
-
-            let textlist = service_item
-                .get(&QString::from("text"))
-                .unwrap_or(QVariant::from(&QString::from("")))
-                .value::<QStringList>()
-                .unwrap_or_default();
-
-            let text_vec = Vec::<QString>::from(&QList_QString::from(&textlist));
-            // let vec_slize: &[usize] = &text_vec;
-
-            let mut slide = ServiceItem {
-                ty: service_item
-                    .get(&QString::from("type"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                text: service_item
-                    .get(&QString::from("text"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                image_background: service_item
-                    .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                video_background: service_item
-                    .get(&QString::from("videoBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                audio: service_item
-                    .get(&QString::from("audio"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font: service_item
-                    .get(&QString::from("font"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font_size: service_item
-                    .get(&QString::from("fontSize"))
-                    .unwrap_or(QVariant::from(&50))
-                    .value()
-                    .unwrap_or(50),
-                htext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                vtext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                service_item_id: index,
-                slide_index: service_item
-                    .get(&QString::from("slideNumber"))
-                    .unwrap_or(QVariant::from(&0))
-                    .value()
-                    .unwrap_or(0),
-                slide_count: service_item
-                    .get(&QString::from("imageCount"))
-                    .unwrap_or(QVariant::from(&1))
-                    .value()
-                    .unwrap_or(1),
-                looping: service_item
-                    .get(&QString::from("loop"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                active: service_item
-                    .get(&QString::from("active"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                selected: service_item
-                    .get(&QString::from("selected"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                video_thumbnail: QString::from(""),
-            };
-
-            match ty {
-                Some(ty) if ty == QString::from("image") => {
-                    slide.ty = ty;
-                    slide.image_background = background;
-                    slide.video_background = QString::from("");
-                    slide.slide_index = 0;
-                    self.as_mut().add_slide(&slide);
-                }
-                Some(ty) if ty == QString::from("song") => {
-                    for i in 0..text_vec.len() {
-                        println!("add song of {:?} length", text_vec.len());
-                        slide.ty = ty.clone();
-                        // println!("{:?}", text_vec[i].clone());
-                        slide.text = text_vec[i].clone();
-                        slide.slide_count = text_vec.len() as i32;
-                        slide.slide_index = i as i32;
-                        if background_type == QString::from("image") {
-                            slide.image_background = background.clone();
-                            slide.video_background = QString::from("");
-                        } else {
-                            slide.video_background = background.clone();
-                            slide.image_background = QString::from("");
-                        }
-                        self.as_mut().add_slide(&slide);
-                    }
-                }
-                Some(ty) if ty == QString::from("video") => {
-                    slide.ty = ty;
-                    slide.image_background = QString::from("");
-                    slide.video_background = background;
-                    slide.slide_index = 0;
-                    self.as_mut().add_slide(&slide);
-                }
-                Some(ty) if ty == QString::from("presentation") => {
-                    for i in 0..slide.slide_count {
-                        slide.ty = ty.clone();
-                        slide.image_background = background.clone();
-                        slide.video_background = QString::from("");
-                        slide.slide_index = i;
-                        self.as_mut().add_slide(&slide);
-                    }
-                }
-                _ => println!("It's somethign else!"),
-            };
-
-            println!("Item added in rust model!");
         }
 
         #[qinvokable]
@@ -568,7 +253,7 @@ mod slide_model {
             }
             let rn = self.as_ref().role_names();
             let rn_iter = rn.iter();
-            if let Some(slide) = self.rust().slides.get(index as usize) {
+            if let Some(service_item) = self.rust().service_items.get(index as usize) {
                 for i in rn_iter {
                     qvariantmap.insert(
                         QString::from(&i.1.to_string()),
@@ -586,19 +271,25 @@ mod slide_model {
             let br = &self.as_ref().index(rc, 0, &QModelIndex::default());
             let mut vector_roles = QVector_i32::default();
             vector_roles.append(self.get_role(Role::ActiveRole));
-            for slide in self.as_mut().slides_mut().iter_mut() {
-                // println!("slide is deactivating {:?}", i);
-                slide.active = false;
+            for service_item in self.as_mut().service_items_mut().iter_mut() {
+                // println!("service_item is deactivating {:?}", i);
+                service_item.active = false;
             }
-            if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
-                println!("slide is activating {:?}", index);
-                println!("slide-title: {:?}", slide.service_item_id);
-                println!("slide-image-background: {:?}", slide.image_background);
-                println!("slide-video-background: {:?}", slide.video_background);
-                slide.active = true;
+            if let Some(service_item) = self.as_mut().service_items_mut().get_mut(index as usize) {
+                println!("service_item is activating {:?}", index);
+                println!("service_item-title: {:?}", service_item.service_item_id);
+                println!(
+                    "service_item-image-background: {:?}",
+                    service_item.image_background
+                );
+                println!(
+                    "service_item-video-background: {:?}",
+                    service_item.video_background
+                );
+                service_item.active = true;
                 self.as_mut().emit_data_changed(tl, br, &vector_roles);
                 // We use this signal generated by our signals enum to tell QML that
-                // the active slide has changed which is used to reposition views.
+                // the active service_item has changed which is used to reposition views.
                 self.as_mut().emit_active_changed();
                 true
             } else {
@@ -658,24 +349,24 @@ mod slide_model {
     impl qobject::ServiceItemModel {
         #[qinvokable(cxx_override)]
         fn data(&self, index: &QModelIndex, role: i32) -> QVariant {
-            if let Some(slide) = self.slides().get(index.row() as usize) {
+            if let Some(service_item) = self.service_items().get(index.row() as usize) {
                 return match role {
-                    0 => QVariant::from(&slide.ty),
-                    1 => QVariant::from(&slide.text),
-                    2 => QVariant::from(&slide.audio),
-                    3 => QVariant::from(&slide.image_background),
-                    4 => QVariant::from(&slide.video_background),
-                    5 => QVariant::from(&slide.htext_alignment),
-                    6 => QVariant::from(&slide.vtext_alignment),
-                    7 => QVariant::from(&slide.font),
-                    8 => QVariant::from(&slide.font_size),
-                    9 => QVariant::from(&slide.service_item_id),
-                    10 => QVariant::from(&slide.slide_index),
-                    11 => QVariant::from(&slide.slide_count),
-                    12 => QVariant::from(&slide.active),
-                    13 => QVariant::from(&slide.selected),
-                    14 => QVariant::from(&slide.looping),
-                    15 => QVariant::from(&slide.video_thumbnail),
+                    0 => QVariant::from(&service_item.ty),
+                    1 => QVariant::from(&service_item.text),
+                    2 => QVariant::from(&service_item.audio),
+                    3 => QVariant::from(&service_item.image_background),
+                    4 => QVariant::from(&service_item.video_background),
+                    5 => QVariant::from(&service_item.htext_alignment),
+                    6 => QVariant::from(&service_item.vtext_alignment),
+                    7 => QVariant::from(&service_item.font),
+                    8 => QVariant::from(&service_item.font_size),
+                    9 => QVariant::from(&service_item.service_item_id),
+                    10 => QVariant::from(&service_item.slide_index),
+                    11 => QVariant::from(&service_item.slide_count),
+                    12 => QVariant::from(&service_item.active),
+                    13 => QVariant::from(&service_item.selected),
+                    14 => QVariant::from(&service_item.looping),
+                    15 => QVariant::from(&service_item.video_thumbnail),
                     _ => QVariant::default(),
                 };
             }
@@ -702,7 +393,7 @@ mod slide_model {
             roles.insert(7, cxx_qt_lib::QByteArray::from("font"));
             roles.insert(8, cxx_qt_lib::QByteArray::from("fontSize"));
             roles.insert(9, cxx_qt_lib::QByteArray::from("serviceItemId"));
-            roles.insert(10, cxx_qt_lib::QByteArray::from("slideIndex"));
+            roles.insert(10, cxx_qt_lib::QByteArray::from("service_itemIndex"));
             roles.insert(11, cxx_qt_lib::QByteArray::from("imageCount"));
             roles.insert(12, cxx_qt_lib::QByteArray::from("active"));
             roles.insert(13, cxx_qt_lib::QByteArray::from("selected"));
@@ -713,14 +404,14 @@ mod slide_model {
 
         #[qinvokable(cxx_override)]
         pub fn row_count(&self, _parent: &QModelIndex) -> i32 {
-            let cnt = self.rust().slides.len() as i32;
+            let cnt = self.rust().service_items.len() as i32;
             // println!("row count is {cnt}");
             cnt
         }
 
         #[qinvokable]
         pub fn count(&self) -> i32 {
-            self.rust().slides.len() as i32
+            self.rust().service_items.len() as i32
         }
     }
 }
