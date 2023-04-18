@@ -36,7 +36,8 @@ Item {
                 libraryType: "song"
                 headerLabel: "Songs"
                 itemIcon: "folder-music-symbolic"
-                itemSubtitle: model.author
+                /* itemSubtitle: model.author */
+                count: innerModel.rowCount()
                 newItemFunction: (function() {
                     songProxyModel.setFilterRegularExpression("");
                     songProxyModel.songModel.newSong();
@@ -63,7 +64,8 @@ Item {
                 libraryType: "video"
                 headerLabel: "Videos"
                 itemIcon: "folder-videos-symbolic"
-                itemSubtitle: model.path
+                /* itemSubtitle: model.path */
+                count: innerModel.count()
                 newItemFunction: (function() {
                     videoProxyModel.setFilterRegularExpression("");
                 })
@@ -83,7 +85,8 @@ Item {
                 libraryType: "image"
                 headerLabel: "Images"
                 itemIcon: "folder-pictures-symbolic"
-                itemSubtitle: model.path
+                /* itemSubtitle: model.path */
+                count: imageProxyModel.imageModel.count()
                 newItemFunction: (function() {
                     imageProxyModel.setFilterRegularExpression("");
                 })
@@ -103,7 +106,8 @@ Item {
                 libraryType: "presentation"
                 headerLabel: "Presentations"
                 itemIcon: "x-office-presentation-symbolic"
-                itemSubtitle: model.path
+                /* itemSubtitle: model.path */
+                count: innerModel.count()
                 newItemFunction: (function() {
                     presProxyModel.setFilterRegularExpression("");
                 })

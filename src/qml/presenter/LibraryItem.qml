@@ -17,6 +17,7 @@ ColumnLayout {
     property string itemLabel
     property string itemSubtitle
     property string itemIcon
+    property string count
     property var newItemFunction
     property var deleteItemFunction
     property ListView libraryList: libraryList
@@ -66,11 +67,11 @@ ColumnLayout {
         }
 
         Controls.Label {
-            id: count
+            id: countLabel
             anchors {left: libraryLabel.right
                      verticalCenter: libraryLabel.verticalCenter
                      leftMargin: 15}
-            text: libraryType == "song" ? innerModel.rowCount() : innerModel.count(innerModel)
+            text: count
             color: Kirigami.Theme.disabledTextColor
         }
 
@@ -229,7 +230,7 @@ ColumnLayout {
                     clip: true
                     label: title
                     subtitle: {
-                        if (selectedLibrary == "song")
+                        if (libraryType == "song")
                             author
                         else if (fileValidation)
                             filePath;
