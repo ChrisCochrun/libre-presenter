@@ -59,6 +59,10 @@ mod slide_model {
         looping: bool,
         #[qproperty]
         video_thumbnail: QString,
+        #[qproperty]
+        video_start_time: f32,
+        #[qproperty]
+        video_end_time: f32,
     }
 
     impl Default for Slidey {
@@ -80,6 +84,8 @@ mod slide_model {
                 selected: false,
                 looping: false,
                 video_thumbnail: QString::default(),
+                video_start_time: 0.0,
+                video_end_time: 0.0,
             }
         }
     }
@@ -112,6 +118,8 @@ mod slide_model {
         LoopingRole,
         TextRole,
         VideoThumbnailRole,
+        VideoStartTimeRole,
+        VideoEndTimeRole,
     }
 
     // use crate::video_thumbnail;
@@ -263,80 +271,80 @@ mod slide_model {
             let text_vec = Vec::<QString>::from(&QList_QString::from(&textlist));
             // let vec_slize: &[usize] = &text_vec;
 
-            let mut slide = Slidey {
-                ty: service_item
-                    .get(&QString::from("type"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                text: service_item
-                    .get(&QString::from("text"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                image_background: service_item
-                    .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                video_background: service_item
-                    .get(&QString::from("videoBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                audio: service_item
-                    .get(&QString::from("audio"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font: service_item
-                    .get(&QString::from("font"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font_size: service_item
-                    .get(&QString::from("fontSize"))
-                    .unwrap_or(QVariant::from(&50))
-                    .value()
-                    .unwrap_or(50),
-                htext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                vtext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                service_item_id: index,
-                slide_index: service_item
-                    .get(&QString::from("slideNumber"))
-                    .unwrap_or(QVariant::from(&0))
-                    .value()
-                    .unwrap_or(0),
-                slide_count: service_item
-                    .get(&QString::from("slideNumber"))
-                    .unwrap_or(QVariant::from(&1))
-                    .value()
-                    .unwrap_or(1),
-                looping: service_item
-                    .get(&QString::from("loop"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                active: service_item
-                    .get(&QString::from("active"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                selected: service_item
-                    .get(&QString::from("selected"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                video_thumbnail: QString::from(""),
-            };
+            let mut slide = Slidey::default();
+
+            slide.ty = service_item
+                .get(&QString::from("type"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.text = service_item
+                .get(&QString::from("text"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.image_background = service_item
+                .get(&QString::from("imageBackground"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.video_background = service_item
+                .get(&QString::from("videoBackground"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.audio = service_item
+                .get(&QString::from("audio"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.font = service_item
+                .get(&QString::from("font"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.font_size = service_item
+                .get(&QString::from("fontSize"))
+                .unwrap_or(QVariant::from(&50))
+                .value()
+                .unwrap_or(50);
+            slide.htext_alignment = service_item
+                .get(&QString::from("vtextAlignment"))
+                .unwrap_or(QVariant::from(&QString::from("center")))
+                .value()
+                .unwrap_or(QString::from("center"));
+            slide.vtext_alignment = service_item
+                .get(&QString::from("vtextAlignment"))
+                .unwrap_or(QVariant::from(&QString::from("center")))
+                .value()
+                .unwrap_or(QString::from("center"));
+            slide.service_item_id = index;
+            slide.slide_index = service_item
+                .get(&QString::from("slideNumber"))
+                .unwrap_or(QVariant::from(&0))
+                .value()
+                .unwrap_or(0);
+            slide.slide_count = service_item
+                .get(&QString::from("slideNumber"))
+                .unwrap_or(QVariant::from(&1))
+                .value()
+                .unwrap_or(1);
+            slide.looping = service_item
+                .get(&QString::from("loop"))
+                .unwrap_or(QVariant::from(&false))
+                .value()
+                .unwrap_or(false);
+            slide.active = service_item
+                .get(&QString::from("active"))
+                .unwrap_or(QVariant::from(&false))
+                .value()
+                .unwrap_or(false);
+            slide.selected = service_item
+                .get(&QString::from("selected"))
+                .unwrap_or(QVariant::from(&false))
+                .value()
+                .unwrap_or(false);
+            slide.video_thumbnail = QString::from("");
 
             // We need to move all the current slides service_item_id's up by one.
             let slides_len = self.as_mut().slides_mut().len() as i32;
@@ -427,80 +435,80 @@ mod slide_model {
             let text_vec = Vec::<QString>::from(&QList_QString::from(&textlist));
             // let vec_slize: &[usize] = &text_vec;
 
-            let mut slide = Slidey {
-                ty: service_item
-                    .get(&QString::from("type"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                text: service_item
-                    .get(&QString::from("text"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                image_background: service_item
-                    .get(&QString::from("imageBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                video_background: service_item
-                    .get(&QString::from("videoBackground"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                audio: service_item
-                    .get(&QString::from("audio"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font: service_item
-                    .get(&QString::from("font"))
-                    .unwrap_or(QVariant::from(&QString::from("")))
-                    .value()
-                    .unwrap_or(QString::from("")),
-                font_size: service_item
-                    .get(&QString::from("fontSize"))
-                    .unwrap_or(QVariant::from(&50))
-                    .value()
-                    .unwrap_or(50),
-                htext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                vtext_alignment: service_item
-                    .get(&QString::from("vtextAlignment"))
-                    .unwrap_or(QVariant::from(&QString::from("center")))
-                    .value()
-                    .unwrap_or(QString::from("center")),
-                service_item_id: index,
-                slide_index: service_item
-                    .get(&QString::from("slideNumber"))
-                    .unwrap_or(QVariant::from(&0))
-                    .value()
-                    .unwrap_or(0),
-                slide_count: service_item
-                    .get(&QString::from("imageCount"))
-                    .unwrap_or(QVariant::from(&1))
-                    .value()
-                    .unwrap_or(1),
-                looping: service_item
-                    .get(&QString::from("loop"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                active: service_item
-                    .get(&QString::from("active"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                selected: service_item
-                    .get(&QString::from("selected"))
-                    .unwrap_or(QVariant::from(&false))
-                    .value()
-                    .unwrap_or(false),
-                video_thumbnail: QString::from(""),
-            };
+            let mut slide = Slidey::default();
+
+            slide.ty = service_item
+                .get(&QString::from("type"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.text = service_item
+                .get(&QString::from("text"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.image_background = service_item
+                .get(&QString::from("imageBackground"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.video_background = service_item
+                .get(&QString::from("videoBackground"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.audio = service_item
+                .get(&QString::from("audio"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.font = service_item
+                .get(&QString::from("font"))
+                .unwrap_or(QVariant::from(&QString::from("")))
+                .value()
+                .unwrap_or(QString::from(""));
+            slide.font_size = service_item
+                .get(&QString::from("fontSize"))
+                .unwrap_or(QVariant::from(&50))
+                .value()
+                .unwrap_or(50);
+            slide.htext_alignment = service_item
+                .get(&QString::from("vtextAlignment"))
+                .unwrap_or(QVariant::from(&QString::from("center")))
+                .value()
+                .unwrap_or(QString::from("center"));
+            slide.vtext_alignment = service_item
+                .get(&QString::from("vtextAlignment"))
+                .unwrap_or(QVariant::from(&QString::from("center")))
+                .value()
+                .unwrap_or(QString::from("center"));
+            slide.service_item_id = index;
+            slide.slide_index = service_item
+                .get(&QString::from("slideNumber"))
+                .unwrap_or(QVariant::from(&0))
+                .value()
+                .unwrap_or(0);
+            slide.slide_count = service_item
+                .get(&QString::from("imageCount"))
+                .unwrap_or(QVariant::from(&1))
+                .value()
+                .unwrap_or(1);
+            slide.looping = service_item
+                .get(&QString::from("loop"))
+                .unwrap_or(QVariant::from(&false))
+                .value()
+                .unwrap_or(false);
+            slide.active = service_item
+                .get(&QString::from("active"))
+                .unwrap_or(QVariant::from(&false))
+                .value()
+                .unwrap_or(false);
+            slide.selected = service_item
+                .get(&QString::from("selected"))
+                .unwrap_or(QVariant::from(&false))
+                .value()
+                .unwrap_or(false);
+            slide.video_thumbnail = QString::from("");
 
             match ty {
                 Some(ty) if ty == QString::from("image") => {
@@ -785,6 +793,8 @@ mod slide_model {
                 Role::SelectedRole => 13,
                 Role::LoopingRole => 14,
                 Role::VideoThumbnailRole => 15,
+                Role::VideoStartTimeRole => 16,
+                Role::VideoEndTimeRole => 17,
                 _ => 0,
             }
         }
@@ -880,6 +890,8 @@ mod slide_model {
             roles.insert(13, cxx_qt_lib::QByteArray::from("selected"));
             roles.insert(14, cxx_qt_lib::QByteArray::from("looping"));
             roles.insert(15, cxx_qt_lib::QByteArray::from("videoThumbnail"));
+            roles.insert(16, cxx_qt_lib::QByteArray::from("videoStartTime"));
+            roles.insert(17, cxx_qt_lib::QByteArray::from("videoEndTime"));
             roles
         }
 

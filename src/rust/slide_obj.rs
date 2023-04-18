@@ -53,6 +53,10 @@ mod slide_obj {
         font: QString,
         #[qproperty]
         font_size: i32,
+        #[qproperty]
+        video_start_time: f32,
+        #[qproperty]
+        video_end_time: f32,
     }
 
     impl Default for SlideObj {
@@ -72,6 +76,8 @@ mod slide_obj {
                 font: QString::from(""),
                 font_size: 50,
                 image_count: 0,
+                video_start_time: 0.0,
+                video_end_time: 0.0,
             }
         }
     }
