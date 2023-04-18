@@ -533,6 +533,11 @@ Item {
     Component.onCompleted: {
         /* totalServiceItems = serviceItemList.count; */
         console.log("THE TOTAL SERVICE ITEMS: " + totalServiceItems);
+        activeServiceItem = serviceItemList.model.getItem(serviceItemList.currentIndex).name;
+        // TODO
+        // After getting the rust service_item_model setup let's add some properties that we can
+        // use to find the active serviceItem and other things that will need
+        // to see some global state of the model.
     }
 
     function removeItem(index) {

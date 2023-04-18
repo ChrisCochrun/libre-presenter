@@ -17,8 +17,8 @@ Kirigami.ApplicationWindow {
     property bool presenting: false
 
     property var presentationScreen
-
     property var screens
+    property string activeServiceItem
 
     property bool editMode: false
 
@@ -60,6 +60,12 @@ Kirigami.ApplicationWindow {
     }
 
     footer: RowLayout {
+        Controls.Label {
+            id: presentingLabel
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: Kirigami.Units.smallSpacing * 2
+            text: activeServiceItem
+        }
         Controls.TextArea {
             id: filePathLabel
             Layout.alignment: Qt.AlignLeft
@@ -73,6 +79,9 @@ Kirigami.ApplicationWindow {
                 cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
             }
         }
+        Item {
+            Layout.fillWidth: true
+        }
         RowLayout {
             id: rightFooterItems
             spacing: 10
@@ -81,13 +90,11 @@ Kirigami.ApplicationWindow {
             Controls.Label {
                 Layout.alignment: Qt.AlignRight
                 Layout.rightMargin: Kirigami.Units.smallSpacing * 2
-                /* elide: Text.ElideLeft */
                 text: "Total Service Items: " + ServiceItemModel.rowCount()
             }
             Controls.Label {
                 Layout.alignment: Qt.AlignRight
                 Layout.rightMargin: Kirigami.Units.smallSpacing * 2
-                /* elide: Text.ElideLeft */
                 text: "Total Slides: " + SlideModel.rowCount()
             }
         }
