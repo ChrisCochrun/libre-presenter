@@ -174,6 +174,15 @@ Item {
                     second.onMoved: updateEndTime(second.value)
 
                 }
+                Presenter.RangedSlider {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.leftMargin: 25
+                    Layout.rightMargin: 25
+
+                    onFirstReleased: showPassiveNotification("first")
+                    onSecondReleased: showPassiveNotification("Second")
+                }
 
                 RowLayout {
                     Layout.preferredWidth: parent.width
