@@ -252,6 +252,7 @@ Controls.Page {
                 currentWindow = presentation;
                 editMode = false;
                 refocusPresentation();
+                footerLeftString = presenting ? "Presenting..." : "Presentation Preview"
             }
         } else {
             videoEditor.visible = false;
@@ -262,8 +263,8 @@ Controls.Page {
             presentation.visible = true;
             currentWindow = presentation;
             editMode = false;
-            presenting = true;
             refocusPresentation();
+            footerLeftString = presenting ? "Presenting..." : "Presentation Preview"
         }
     }
 
