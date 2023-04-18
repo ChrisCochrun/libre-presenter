@@ -12,6 +12,7 @@ Item {
     property string type: "video"
     property var video
     property bool audioOn: true
+    property bool editingRange: false
 
     GridLayout {
         id: mainLayout
@@ -39,10 +40,6 @@ Item {
                     onEditingFinished: updateTitle(text);
                 }
 
-                Controls.Label {
-                    text: "Looping:"
-                    Layout.leftMargin: 20
-                }
                 Controls.CheckBox {
                     id: loopCheckBox
                     Layout.preferredWidth: 300
@@ -59,6 +56,12 @@ Item {
 
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
+                Controls.ToolButton {
+                    text: "Edit Range"
+                    icon.name: "image-auto-adjust"
+                    hoverEnabled: true
+                    onClicked: editingRange = !editingRange
+                }
                 Controls.ToolButton {
                     text: "Effects"
                     icon.name: "image-auto-adjust"
@@ -138,45 +141,63 @@ Item {
             }
         }
 
-        Controls.RangeSlider {
-            id: videoLengthSlider
-
+        Rectangle {
+            id: videoRangeBox
             Layout.columnSpan: 2
-            Layout.preferredWidth: videoPreview.Layout.preferredWidth
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             Layout.leftMargin: 25
             Layout.rightMargin: 25
-            Layout.topMargin: 50
+            Layout.topMargin: 40
+            visible: editingRange
 
-            to: videoPreview.duration
-            from: 0
-            stepSize: 0.1
-            snapMode: Controls.RangeSlider.SnapAlways
+            ColumnLayout {
+                anchors.fill: parent
 
-            first.value: video.startTime
-            second.value: video.endTime
+                Controls.RangeSlider {
+                    id: videoLengthSlider
 
-            first.onMoved: updateStartTime(first.value)
-            second.onMoved: updateEndTime(second.value)
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.leftMargin: 25
+                    Layout.rightMargin: 25
 
-        }
+                    to: videoPreview.duration
+                    from: 0
+                    stepSize: 0.1
+                    snapMode: Controls.RangeSlider.SnapAlways
 
-        Controls.Label {
-            Layout.alignment: Qt.AlignLeft
-            Layout.leftMargin: videoLengthSlider.Layout.leftMargin
-            text: "Start Time: " + videoLengthSlider.first.value
-        }
+                    first.value: video.startTime
+                    second.value: video.endTime
 
-        Controls.Label {
-            Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: videoLengthSlider.Layout.rightMargin
-            text: "End Time: " + videoLengthSlider.second.value
-        }
+                    first.onMoved: updateStartTime(first.value)
+                    second.onMoved: updateEndTime(second.value)
 
-        Controls.ToolButton {
-            text: "FIX"
-            onClicked: videoLengthSlider.setValues(video.startTime, video.endTime)
+                }
+
+                RowLayout {
+                    Layout.preferredWidth: parent.width
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: 25
+                    Layout.rightMargin: 25
+
+                    Controls.Label {
+                        Layout.alignment: Qt.AlignLeft
+                        text: "Start Time: " + new Date(videoLengthSlider.first.value * 1000).toISOString().slice(11, 19);
+                    }
+
+                    Controls.Label {
+                        Layout.alignment: Qt.AlignRight
+                        text: "End Time: " + new Date(videoLengthSlider.second.value * 1000).toISOString().slice(11, 19);
+                    }
+
+                }
+                Controls.ToolButton {
+                    text: "FIX"
+                    onClicked: videoLengthSlider.setValues(video.startTime, video.endTime)
+                }
+
+            }
         }
 
         Item {
@@ -218,6 +239,7 @@ Item {
         console.log(video.endTime);
         mpvLoadingTimer.restart();
         videoLengthSlider.setValues(vid.startTime, vid.endTime);
+        footerLeftString = "File path: " + video.filePath
     }
 
     function stop() {
@@ -250,7 +272,8 @@ Item {
     function updateLoop(value) {
         /* changeStartTime(value, false); */
         let bool = videoProxyModel.updateLoop(video.id, value);
-        video.loop = value;
+        if (bool)
+            video.loop = value;
         /* showPassiveNotification("Loop changed to: " + video.loop); */
     }
 

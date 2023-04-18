@@ -23,6 +23,7 @@ Kirigami.ApplicationWindow {
     property bool editMode: false
 
     property string soundEffect
+    property string footerLeftString
 
     signal edit()
 
@@ -59,11 +60,36 @@ Kirigami.ApplicationWindow {
     }
 
     footer: RowLayout {
-        Controls.Label {
+        Controls.TextArea {
+            id: filePathLabel
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: Kirigami.Units.smallSpacing * 2
+            text: footerLeftString
+            background: Item{}
+            readOnly: true
+            HoverHandler {
+                id: hoverHandler
+                enabled: false
+                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
+            }
+        }
+        RowLayout {
+            id: rightFooterItems
+            spacing: 10
             Layout.alignment: Qt.AlignRight
             Layout.rightMargin: Kirigami.Units.smallSpacing * 2
-            /* elide: Text.ElideLeft */
-            text: "hello"
+            Controls.Label {
+                Layout.alignment: Qt.AlignRight
+                Layout.rightMargin: Kirigami.Units.smallSpacing * 2
+                /* elide: Text.ElideLeft */
+                text: "Total Service Items: " + ServiceItemModel.rowCount()
+            }
+            Controls.Label {
+                Layout.alignment: Qt.AlignRight
+                Layout.rightMargin: Kirigami.Units.smallSpacing * 2
+                /* elide: Text.ElideLeft */
+                text: "Total Slides: " + SlideModel.rowCount()
+            }
         }
     }
 
