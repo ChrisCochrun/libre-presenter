@@ -108,7 +108,7 @@ Item {
         title: "Please choose a background"
         folder: shortcuts.home
         selectMultiple: false
-        nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG *.webp *.gif)"]
+        nameFilters: ["Image files (*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG *.webp *.gif)", "All files (*)"]
         onAccepted: {
             updateImage(fileDialog.fileUrls[0]);
             console.log("image background = " + fileDialog.fileUrls[0]);
