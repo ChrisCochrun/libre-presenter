@@ -58,40 +58,6 @@ Item {
                     hoverEnabled: true
                     onClicked: fileDialog.open()
                 }
-
-                /* Controls.Popup { */
-                /*     id: backgroundType */
-                /*     x: backgroundButton.x */
-                /*     y: backgroundButton.y + backgroundButton.height + 20 */
-                /*     modal: true */
-                /*     focus: true */
-                /*     dim: false */
-                /*     background: Rectangle { */
-                /*         Kirigami.Theme.colorSet: Kirigami.Theme.Tooltip */
-                /*         color: Kirigami.Theme.backgroundColor */
-                /*         radius: 10 */
-                /*         border.color: Kirigami.Theme.activeBackgroundColor */
-                /*         border.width: 2 */
-                /*     } */
-                /*     closePolicy: Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnPressOutsideParent */
-                /*     ColumnLayout { */
-                /*         anchors.fill: parent */
-                /*         Controls.ToolButton { */
-                /*             Layout.fillHeight: true */
-                /*             Layout.fillWidth: true */
-                /*             text: "Image" */
-                /*             icon.name: "emblem-images-symbolic" */
-                /*             onClicked: imageFileDialog.open() & backgroundType.close() */
-                /*         } */
-                /*         Controls.ToolButton { */
-                /*             Layout.fillWidth: true */
-                /*             Layout.fillHeight: true */
-                /*             text: "Image" */
-                /*             icon.name: "folder-pictures-symbolic" */
-                /*             onClicked: imageFileDialog.open() & backgroundType.close() */
-                /*         } */
-                /*     } */
-                /* } */
             }
         }
 
