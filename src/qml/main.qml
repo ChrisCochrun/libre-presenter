@@ -23,7 +23,8 @@ Kirigami.ApplicationWindow {
     property bool editMode: false
 
     property string soundEffect
-    property string footerLeftString
+    property string footerSecondText
+    property string footerFirstText
 
     signal edit()
 
@@ -60,28 +61,51 @@ Kirigami.ApplicationWindow {
     }
 
     footer: RowLayout {
+        height: Kirigami.Units.gridUnit * 1.3
         Controls.Label {
             id: presentingLabel
             Layout.alignment: Qt.AlignLeft
             Layout.leftMargin: Kirigami.Units.smallSpacing * 2
             text: activeServiceItem
         }
-        Controls.TextArea {
-            id: filePathLabel
-            Layout.alignment: Qt.AlignLeft
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            /* height: Kirigami.Units.gridUnit */
             Layout.leftMargin: Kirigami.Units.smallSpacing * 2
-            text: footerLeftString
-            background: Item{}
-            readOnly: true
-            HoverHandler {
-                id: hoverHandler
-                enabled: false
-                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
+            Layout.rightMargin: Kirigami.Units.smallSpacing * 2
+            Layout.topMargin: 0
+
+            Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
+            color: Kirigami.Theme.alternateBackgroundColor
+
+            Controls.Label {
+                id: footerPrefixLabel
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: Kirigami.Units.smallSpacing * 2
+                text: footerFirstText
+            }
+            Controls.TextField {
+                id: footerFilePathLabel
+                anchors.verticalCenter: footerPrefixLabel.verticalCenter
+                anchors.left: footerPrefixLabel.right
+                anchors.right: parent.right
+                anchors.rightMargin: Kirigami.Units.smallSpacing * 2
+                leftInset: 0
+                text: footerSecondText
+                background: Item{}
+                readOnly: true
+                HoverHandler {
+                    id: hoverHandler
+                    enabled: false
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
+                }
             }
         }
-        Item {
-            Layout.fillWidth: true
-        }
+        /* Item { */
+        /*     Layout.fillWidth: true */
+        /* } */
         RowLayout {
             id: rightFooterItems
             spacing: 10

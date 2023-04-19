@@ -252,7 +252,7 @@ Controls.Page {
                 currentWindow = presentation;
                 editMode = false;
                 refocusPresentation();
-                footerLeftString = presenting ? "Presenting..." : "Presentation Preview"
+                /* footerLeftString = presenting ? "Presenting..." : "Presentation Preview" */
             }
         } else {
             videoEditor.visible = false;
@@ -264,7 +264,7 @@ Controls.Page {
             currentWindow = presentation;
             editMode = false;
             refocusPresentation();
-            footerLeftString = presenting ? "Presenting..." : "Presentation Preview"
+            /* footerLeftString = presenting ? "Presenting..." : "Presentation Preview" */
         }
     }
 
