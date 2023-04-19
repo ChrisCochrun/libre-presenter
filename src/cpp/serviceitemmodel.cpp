@@ -239,7 +239,7 @@ void ServiceItemModel::addItem(const QString &name, const QString &type,
   qDebug() << "*&";
   qDebug() << itm;
   qDebug() << "*&";
-  emit itemAdded(rowCount() - 1, *item);
+  // emit itemAdded(rowCount() - 1, *item);
   emit itemAddedRust(rowCount() - 1, itm);
   qDebug() << "EMITTED ITEM ADDED" << rowCount();
   qDebug() << "#################################";
@@ -278,7 +278,7 @@ void ServiceItemModel::insertItem(const int &index, const QString &name,
   } else
     qDebug() << "idx isn't valid";
 
-  emit itemInserted(index, *item);
+  // emit itemInserted(index, *item);
   emit itemInsertedRust(index, itm);
 
   qDebug() << "EMITTED ITEM INSERTED";

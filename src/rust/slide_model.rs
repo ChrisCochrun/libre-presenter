@@ -346,12 +346,19 @@ mod slide_model {
                 .unwrap_or(false);
             slide.video_thumbnail = QString::from("");
 
-            // We need to move all the current slides service_item_id's up by one.
-            let slides_len = self.as_mut().slides_mut().len() as i32;
-            for slide in index..slides_len {
-                if let Some(slide) = self.as_mut().slides_mut().get_mut(slide as usize) {
-                    slide.service_item_id += 1;
+            let slides_iter = self.as_mut().slides_mut().iter_mut();
+            let mut slide_index = 0;
+            for (i, slide) in slides_iter.enumerate().rev() {
+                if slide.service_item_id == index {
+                    slide_index = i as i32;
+                    break;
                 }
+            }
+
+            // We need to move all the current slides service_item_id's up by one.
+            let slides_iter = self.as_mut().slides_mut().iter_mut();
+            for slide in slides_iter.filter(|x| x.service_item_id >= index) {
+                slide.service_item_id += 1;
             }
 
             match ty {
@@ -360,15 +367,19 @@ mod slide_model {
                     slide.image_background = background;
                     slide.video_background = QString::from("");
                     slide.slide_index = 0;
-                    self.as_mut().insert_slide(&slide, index);
+                    self.as_mut().insert_slide(&slide, slide_index);
                 }
                 Some(ty) if ty == QString::from("song") => {
-                    for i in 0..text_vec.len() {
-                        println!("add song of {:?} length", text_vec.len());
+                    let count = text_vec.len();
+                    for (i, text) in text_vec.iter().enumerate() {
+                        println!(
+                            "rust: add song of {:?} length at index {:?}",
+                            &count, &slide_index
+                        );
                         slide.ty = ty.clone();
                         // println!("{:?}", text_vec[i].clone());
-                        slide.text = text_vec[i].clone();
-                        slide.slide_count = text_vec.len() as i32;
+                        slide.text = text.clone();
+                        slide.slide_count = count as i32;
                         slide.slide_index = i as i32;
                         if background_type == QString::from("image") {
                             slide.image_background = background.clone();
@@ -377,7 +388,7 @@ mod slide_model {
                             slide.video_background = background.clone();
                             slide.image_background = QString::from("");
                         }
-                        self.as_mut().insert_slide(&slide, index + i as i32);
+                        self.as_mut().insert_slide(&slide, slide_index + i as i32);
                     }
                 }
                 Some(ty) if ty == QString::from("video") => {
@@ -385,7 +396,7 @@ mod slide_model {
                     slide.image_background = QString::from("");
                     slide.video_background = background;
                     slide.slide_index = 0;
-                    self.as_mut().insert_slide(&slide, index);
+                    self.as_mut().insert_slide(&slide, slide_index);
                 }
                 Some(ty) if ty == QString::from("presentation") => {
                     for i in 0..slide.slide_count {
@@ -393,7 +404,7 @@ mod slide_model {
                         slide.image_background = background.clone();
                         slide.video_background = QString::from("");
                         slide.slide_index = i;
-                        self.as_mut().insert_slide(&slide, index + i as i32);
+                        self.as_mut().insert_slide(&slide, slide_index + i as i32);
                     }
                 }
                 _ => println!("It's somethign else!"),
