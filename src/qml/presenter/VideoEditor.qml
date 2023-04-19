@@ -80,10 +80,12 @@ Item {
 
         Item {
             Layout.columnSpan: 2
-            Layout.preferredWidth: root.width - 50
-            Layout.preferredHeight: Layout.preferredWidth / 16 * 9
+            Layout.fillWidth: true
+            Layout.preferredHeight: width / 16 * 9
             Layout.alignment: Qt.AlignCenter
             Layout.topMargin: 10
+            Layout.leftMargin: Kirigami.Units.largeSpacing
+            Layout.rightMargin: Kirigami.Units.largeSpacing
 
             MpvObject {
                 id: videoPreview
@@ -100,44 +102,36 @@ Item {
                 }
             }
 
-            Rectangle {
-                id: videoBg
-                color: Kirigami.Theme.alternateBackgroundColor
-
+            RowLayout {
                 anchors.top: videoPreview.bottom
-                width: parent.width
+                width: videoPreview.width
                 height: videoTitleField.height
-
-                RowLayout {
-                    anchors.fill: parent
-                    spacing: 2
-                    Kirigami.Icon {
-                        source: videoPreview.isPlaying ? "media-pause" : "media-play"
-                        Layout.preferredWidth: 25
-                        Layout.preferredHeight: 25
-                        MouseArea {
-                            anchors.fill: parent
-                            onPressed: videoPreview.playPause()
-                            cursorShape: Qt.PointingHandCursor
-                        }
-                    }
-                    Controls.Slider {
-                        id: videoSlider
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 25
-                        from: 0
-                        to: videoPreview.duration
-                        /* value: videoPreview.postion */
-                        live: true
-                        onMoved: videoPreview.seek(value);
-                    }
-
-                    Controls.Label {
-                        id: videoTime
-                        text: new Date(videoPreview.position * 1000).toISOString().slice(11, 19);
+                spacing: 2
+                Kirigami.Icon {
+                    source: videoPreview.isPlaying ? "media-pause" : "media-play"
+                    Layout.preferredWidth: 25
+                    Layout.preferredHeight: 25
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressed: videoPreview.playPause()
+                        cursorShape: Qt.PointingHandCursor
                     }
                 }
+                Controls.Slider {
+                    id: videoSlider
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 25
+                    from: 0
+                    to: videoPreview.duration
+                    /* value: videoPreview.postion */
+                    live: true
+                    onMoved: videoPreview.seek(value);
+                }
 
+                Controls.Label {
+                    id: videoTime
+                    text: new Date(videoPreview.position * 1000).toISOString().slice(11, 19);
+                }
             }
         }
 
@@ -145,67 +139,79 @@ Item {
             id: videoRangeBox
             Layout.columnSpan: 2
             Layout.fillWidth: true
+            Layout.fillHeight: true
             Layout.alignment: Qt.AlignHCenter
-            Layout.leftMargin: 25
-            Layout.rightMargin: 25
-            Layout.topMargin: 40
-            visible: editingRange
+            Layout.leftMargin: Kirigami.Units.largeSpacing
+            Layout.rightMargin: Kirigami.Units.largeSpacing
+            Layout.topMargin: Kirigami.Units.largeSpacing * 3
+            Layout.bottomMargin: Kirigami.Units.largeSpacing * 3
+            /* visible: editingRange */
+
+            Kirigami.Theme.colorSet: Kirigami.Theme.Complementary
+
+            color: Kirigami.Theme.backgroundColor
+            border.width: 1
+            border.color: Kirigami.Theme.disabledTextColor
+            radius: 6
 
             ColumnLayout {
-                anchors.fill: parent
-
-                Controls.RangeSlider {
-                    id: videoLengthSlider
-
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.leftMargin: 25
-                    Layout.rightMargin: 25
-
-                    to: videoPreview.duration
-                    from: 0
-                    stepSize: 0.1
-                    snapMode: Controls.RangeSlider.SnapAlways
-
-                    first.value: video.startTime
-                    second.value: video.endTime
-
-                    first.onMoved: updateStartTime(first.value)
-                    second.onMoved: updateEndTime(second.value)
-
+                anchors {
+                    fill: parent
+                    topMargin: 5
+                    bottomMargin: 5
+                    leftMargin: 5
+                    rightMargin: 5
                 }
+
+                Controls.Label {
+                    text: "Adjust start and end times:"
+                    Rectangle {
+                        anchors.top: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        implicitHeight: Kirigami.Units.smallSpacing / 3
+                        color: Kirigami.Theme.disabledTextColor
+                    }
+                }
+
                 Presenter.RangedSlider {
+                    id: videoLengthSlider
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
-                    Layout.leftMargin: 25
-                    Layout.rightMargin: 25
+                    Layout.topMargin: Kirigami.Units.smallSpacing * 3
+                    /* Layout.leftMargin: 25 */
+                    /* Layout.rightMargin: 25 */
 
-                    onFirstReleased: showPassiveNotification("first")
-                    onSecondReleased: showPassiveNotification("Second")
+                    from: 0
+                    to: videoPreview.duration
+
+                    firstInitialValue: video.startTime
+                    secondInitialValue: video.endTime
+
+                    onFirstMoved: videoPreview.seek(firstVisualPosition)
+                    onSecondMoved: videoPreview.seek(secondVisualPosition)
+
+                    onFirstReleased: updateStartTime(firstValue)
+                    onSecondReleased: updateEndTime(secondValue)
                 }
 
                 RowLayout {
                     Layout.preferredWidth: parent.width
                     Layout.alignment: Qt.AlignLeft
-                    Layout.leftMargin: 25
-                    Layout.rightMargin: 25
 
-                    Controls.Label {
+                    Controls.TextField {
                         Layout.alignment: Qt.AlignLeft
-                        text: "Start Time: " + new Date(videoLengthSlider.first.value * 1000).toISOString().slice(11, 19);
+                        text: "Start Time: " + new Date(videoLengthSlider.firstVisualPosition * 1000).toISOString().slice(11, 19);
+                        horizontalAlignment: TextInput.AlignHCenter
                     }
 
-                    Controls.Label {
+                    Controls.TextField {
                         Layout.alignment: Qt.AlignRight
-                        text: "End Time: " + new Date(videoLengthSlider.second.value * 1000).toISOString().slice(11, 19);
+                        text: "End Time: " + new Date(videoLengthSlider.secondVisualPosition * 1000).toISOString().slice(11, 19);
+                        horizontalAlignment: TextInput.AlignHCenter
                     }
 
                 }
-                Controls.ToolButton {
-                    text: "FIX"
-                    onClicked: videoLengthSlider.setValues(video.startTime, video.endTime)
-                }
-
             }
         }
 
@@ -236,8 +242,6 @@ Item {
         interval: 100
         onTriggered: {
             videoPreview.loadFile(video.filePath.toString());
-            videoLengthSlider.setValues(video.startTime, video.endTime);
-            /* showPassiveNotification(video[0]); */
         }
     }
 
@@ -247,7 +251,6 @@ Item {
         console.log(video.startTime);
         console.log(video.endTime);
         mpvLoadingTimer.restart();
-        videoLengthSlider.setValues(vid.startTime, vid.endTime);
         footerLeftString = "File path: " + video.filePath
     }
 
@@ -258,18 +261,13 @@ Item {
     }
 
     function updateEndTime(value) {
-        videoPreview.seek(value);
-        videoProxyModel.updateEndTime(video.id, value);
+        videoProxyModel.updateEndTime(video.id, Math.min(value, videoPreview.duration));
         video.endTime = value;
-        /* showPassiveNotification(video.endTime); */
     }
 
     function updateStartTime(value) {
-        /* changeStartTime(value, false); */
-        videoPreview.seek(value);
-        videoProxyModel.updateStartTime(video.id, value);
+        videoProxyModel.updateStartTime(video.id, Math.max(value, 0));
         video.startTime = value;
-        /* showPassiveNotification(value); */
     }
 
     function updateTitle(text) {

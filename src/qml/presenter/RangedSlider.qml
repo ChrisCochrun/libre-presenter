@@ -14,13 +14,18 @@ Rectangle {
 
     property real firstValue
     property real secondValue
+    property real firstInitialValue
+    property real secondInitialValue
     property real firstVisualPosition
     property real secondVisualPosition
 
     signal firstReleased()
     signal secondReleased()
+    signal firstMoved()
+    signal secondMoved()
 
     Kirigami.Theme.colorSet: Kirigami.Theme.Button
+    Kirigami.Theme.inherit: false
 
     color: Kirigami.Theme.backgroundColor
     border.width: 0
@@ -28,31 +33,32 @@ Rectangle {
 
     height: 6
 
+
+    Rectangle {
+        id: range
+        color: Kirigami.Theme.hoverColor
+        height: root.height
+        radius: width / 2
+        border.width: 0
+        anchors.right: second.right
+        anchors.left: first.left
+    }
+
     Rectangle {
         id: first
-        x: firstVisualPosition
+        x: firstInitialValue / (to - from) * (root.width - width)
         y: -6
         implicitWidth: 18
         implicitHeight: 18
-        color: firstMouse.containsMouse ? Kirigami.Theme.hoverColor : Kirigami.Theme.alternateBackgroundColor
-        border.width: firstMouse.containsMouse ? 2 : 1
-        border.color: firstMouse.containsMouse ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
+        color: firstMouse.containsMouse || firstMouse.drag.active ? Kirigami.Theme.hoverColor : Kirigami.Theme.alternateBackgroundColor
+        border.width: firstMouse.containsMouse || firstMouse.drag.active ? 2 : 1
+        border.color: firstMouse.containsMouse || firstMouse.drag.active ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
         radius: width / 2
 
         Drag.active: firstMouse.drag.active
         Drag.hotSpot.x: width / 2
         Drag.hotSpot.y: height / 2
 
-        /* states: State { */
-        /*     name: "dragged" */
-        /*     when: first.Drag.active */
-        /*     PropertyChanges { */
-        /*         target: first */
-        /*         x: x */
-        /*         width: width */
-        /*         height: height */
-        /*     } */
-        /* } */
         MouseArea {
             id: firstMouse
             anchors.fill: parent
@@ -60,41 +66,38 @@ Rectangle {
             drag {
                 target: first
                 axis: Drag.XAxis
-                maximumX: root.right
-                minimumX: root.left
+                maximumX: Math.min((root.width - first.width / 2), second.x)
+                minimumX: 0 + first.width / 2
             }
             onReleased: {
-                firstValue = mouseX;
+                firstValue = (to - from) / (root.width - first.width) * (first.x - first.width / 2) + from;
+                firstVisualPosition = firstValue;
                 firstReleased();
+            }
+            onPositionChanged: {
+                if (drag.active) {
+                    firstVisualPosition = (to - from) / (root.width - first.width) * (first.x - first.width / 2) + from;
+                    firstMoved()
+                }
             }
         }
     }
 
     Rectangle {
         id: second
-        x: secondVisualPosition
+        x: secondInitialValue / (to - from) * (root.width - width)
         y: -6
         implicitWidth: 18
         implicitHeight: 18
-        color: secondMouse.containsMouse ? Kirigami.Theme.hoverColor : Kirigami.Theme.alternateBackgroundColor
-        border.width: secondMouse.containsMouse ? 2 : 1
-        border.color: secondMouse.containsMouse ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
+        color: secondMouse.containsMouse || secondMouse.drag.active ? Kirigami.Theme.hoverColor : Kirigami.Theme.alternateBackgroundColor
+        border.width: secondMouse.containsMouse || secondMouse.drag.active ? 2 : 1
+        border.color: secondMouse.containsMouse || secondMouse.drag.active ? Kirigami.Theme.hoverColor : Kirigami.Theme.backgroundColor
         radius: width / 2
 
         Drag.active: secondMouse.drag.active
         Drag.hotSpot.x: width / 2
         Drag.hotSpot.y: height / 2
 
-        /* states: State { */
-        /*     name: "dragged" */
-        /*     when: second.Drag.active */
-        /*     PropertyChanges { */
-        /*         target: second */
-        /*         x: x */
-        /*         width: width */
-        /*         height: height */
-        /*     } */
-        /* } */
         MouseArea {
             id: secondMouse
             anchors.fill: parent
@@ -102,19 +105,25 @@ Rectangle {
             drag {
                 target: second
                 axis: Drag.XAxis
-                maximumX: root.width
-                minimumX: 0
+                maximumX: root.width - second.width / 2
+                minimumX: Math.max((0 + second.width / 2), first.x)
             }
             onReleased: {
-                secondValue = second.x;
+                secondValue = (to - from) / (root.width - second.width) * (second.x - second.width / 2) + from;
+                secondVisualPosition = secondValue;
                 secondReleased();
+            }
+            onPositionChanged: {
+                if (drag.active) {
+                    secondVisualPosition = (to - from) / (root.width - second.width) * (second.x - second.width / 2) + from;
+                    secondMoved()
+                }
             }
         }
     }
 
-    Rectangle {
-        id: range
-        color: Kirigami.Theme.hoverColor
-        radius: width / 2
-    }
+    /* function setValues(first, second) { */
+    /*     first.x = first */
+    /*     second.x = second */
+    /* } */
 }
