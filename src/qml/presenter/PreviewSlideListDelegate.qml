@@ -8,7 +8,7 @@ import org.presenter 1.0
 Item {
     id: root
     implicitHeight: Kirigami.Units.gridUnit * 6.5
-    implicitWidth: Kirigami.Units.gridUnit * 10
+    implicitWidth: Kirigami.Units.gridUnit * 9
     property bool showVidBG
     Component.onCompleted: {
         if (model.videoBackground != "")
@@ -50,11 +50,10 @@ Item {
         anchors.top: previewHighlight.bottom
         anchors.left: previewHighlight.left
         anchors.topMargin: Kirigami.Units.smallSpacing
-        anchors.leftMargin: Kirigami.Units.smallSpacing
+        anchors.rightMargin: Kirigami.Units.smallSpacing * 2
         elide: Text.ElideRight
         text: ServiceItemModel.getItem(serviceItemId).name
         font.bold: true
-        /* font.family: "Quicksand Bold" */
     }
 
     MouseArea {
