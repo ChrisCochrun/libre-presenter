@@ -193,6 +193,7 @@ Controls.Page {
         /* SlideMod.activate(index); */
         presentation.textIndex = 0;
         console.log("Slide changed to: " + index);
+        activeServiceItem = ServiceItemModel.getItem(currentServiceItem).name;
     }
 
     function loopVideo() {
