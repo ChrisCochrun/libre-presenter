@@ -16,8 +16,8 @@ Rectangle {
     property real secondValue
     property real firstInitialValue
     property real secondInitialValue
-    property real firstVisualPosition
-    property real secondVisualPosition
+    property real firstVisualPosition: firstInitialValue
+    property real secondVisualPosition: secondInitialValue
 
     signal firstReleased()
     signal secondReleased()
