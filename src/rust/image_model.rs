@@ -39,6 +39,8 @@ mod image_model {
     #[cxx_qt::qobject(base = "QAbstractListModel")]
     #[derive(Default, Debug)]
     pub struct ImageModel {
+        #[qproperty]
+        count_rows: i32,
         highest_id: i32,
         images: Vec<self::Image>,
     }
@@ -355,13 +357,16 @@ mod image_model {
         #[qinvokable(cxx_override)]
         pub fn row_count(&self, _parent: &QModelIndex) -> i32 {
             let cnt = self.rust().images.len() as i32;
+            // self.as_mut().set_count(cnt);
             // println!("row count is {cnt}");
             cnt
         }
 
         #[qinvokable]
-        pub fn count(&self) -> i32 {
-            self.rust().images.len() as i32
+        pub fn count(mut self: Pin<&mut Self>) -> i32 {
+            let cnt = self.rust().images.len() as i32;
+            self.as_mut().set_count_rows(cnt);
+            cnt
         }
     }
 }
