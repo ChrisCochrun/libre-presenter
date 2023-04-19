@@ -42,10 +42,11 @@ Item {
 
                 Controls.CheckBox {
                     id: loopCheckBox
-                    Layout.preferredWidth: 300
-                    Layout.fillWidth: true
+                    /* Layout.preferredWidth: 300 */
+                    /* Layout.fillWidth: true */
                     Layout.rightMargin: 20
 
+                    icon.name: "media-repeat-all"
                     text: "Repeat"
                     padding: 10
                     checked: video.loop
@@ -56,18 +57,12 @@ Item {
 
                 Item { Layout.fillWidth: true }
                 Controls.ToolSeparator {}
-                Controls.ToolButton {
-                    text: "Edit Range"
-                    icon.name: "image-auto-adjust"
-                    hoverEnabled: true
-                    onClicked: editingRange = !editingRange
-                }
-                Controls.ToolButton {
-                    text: "Effects"
-                    icon.name: "image-auto-adjust"
-                    hoverEnabled: true
-                    onClicked: {}
-                }
+                /* Controls.ToolButton { */
+                /*     text: "Effects" */
+                /*     icon.name: "image-auto-adjust" */
+                /*     hoverEnabled: true */
+                /*     onClicked: {} */
+                /* } */
                 Controls.ToolButton {
                     id: fileButton
                     text: "File"
@@ -199,16 +194,28 @@ Item {
                     Layout.preferredWidth: parent.width
                     Layout.alignment: Qt.AlignLeft
 
-                    Controls.TextField {
+                    RowLayout {
                         Layout.alignment: Qt.AlignLeft
-                        text: "Start Time: " + new Date(videoLengthSlider.firstVisualPosition * 1000).toISOString().slice(11, 19);
-                        horizontalAlignment: TextInput.AlignHCenter
+                        Controls.Label {
+                            text: "Start Time:"
+                        }
+                        Controls.TextField {
+                            Layout.preferredWidth: Kirigami.Units.gridUnit * 6
+                            text: new Date(videoLengthSlider.firstVisualPosition * 1000).toISOString().slice(11, 19);
+                            horizontalAlignment: TextInput.AlignHCenter
+                        }
                     }
 
-                    Controls.TextField {
+                    RowLayout {
                         Layout.alignment: Qt.AlignRight
-                        text: "End Time: " + new Date(videoLengthSlider.secondVisualPosition * 1000).toISOString().slice(11, 19);
-                        horizontalAlignment: TextInput.AlignHCenter
+                        Controls.Label {
+                            text: "End Time:"
+                        }
+                        Controls.TextField {
+                            Layout.preferredWidth: Kirigami.Units.gridUnit * 6
+                            text: new Date(videoLengthSlider.secondVisualPosition * 1000).toISOString().slice(11, 19);
+                            horizontalAlignment: TextInput.AlignHCenter
+                        }
                     }
 
                 }
@@ -219,23 +226,6 @@ Item {
             id: botEmpty
             Layout.fillHeight: true
         }
-
-        Controls.TextArea {
-            id: filePathLabel
-            Layout.alignment: Qt.AlignBottom
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-            text: "File path: " + video.filePath
-            background: Item{}
-            readOnly: true
-            HoverHandler {
-                id: hoverHandler
-                enabled: false
-                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.IBeamCursor
-            }
-        }
-
-        /* } */
     }
     Timer {
         id: mpvLoadingTimer
@@ -251,7 +241,8 @@ Item {
         console.log(video.startTime);
         console.log(video.endTime);
         mpvLoadingTimer.restart();
-        footerLeftString = "File path: " + video.filePath
+        footerSecondText = video.filePath;
+        footerFirstText = "File path: ";
     }
 
     function stop() {
