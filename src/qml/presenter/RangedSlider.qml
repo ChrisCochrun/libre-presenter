@@ -33,6 +33,33 @@ Rectangle {
 
     height: 6
 
+    MouseArea {
+        id: trayMouse
+        anchors.fill: parent
+        onClicked: {
+            let mouseEnd = mouseX > second.x;
+            let mouseBegin = mouseX < first.x;
+            if (mouseBegin) {
+                first.x = mouseX - first.width / 2
+                firstMove();
+                firstDrop();
+            } else if (mouseEnd) {
+                second.x = mouseX - second.width / 2
+                secondMove();
+                secondDrop();
+            } else {
+                if (mouseX - first.x > second.x - mouseX) {
+                    second.x = mouseX - second.width / 2
+                    secondMove();
+                    secondDrop();
+                } else {
+                    first.x = mouseX - first.width / 2
+                    firstMove();
+                    firstDrop();
+                }
+            }
+        }
+    }
 
     Rectangle {
         id: range
@@ -69,17 +96,8 @@ Rectangle {
                 maximumX: Math.min((root.width - first.width / 2), second.x)
                 minimumX: 0 + first.width / 2
             }
-            onReleased: {
-                firstValue = (to - from) / (root.width - first.width) * (first.x - first.width / 2) + from;
-                firstVisualPosition = firstValue;
-                firstReleased();
-            }
-            onPositionChanged: {
-                if (drag.active) {
-                    firstVisualPosition = (to - from) / (root.width - first.width) * (first.x - first.width / 2) + from;
-                    firstMoved()
-                }
-            }
+            onReleased: firstDrop()
+            onPositionChanged: if (drag.active) firstMove()
         }
     }
 
@@ -108,22 +126,30 @@ Rectangle {
                 maximumX: root.width - second.width / 2
                 minimumX: Math.max((0 + second.width / 2), first.x)
             }
-            onReleased: {
-                secondValue = (to - from) / (root.width - second.width) * (second.x - second.width / 2) + from;
-                secondVisualPosition = secondValue;
-                secondReleased();
-            }
-            onPositionChanged: {
-                if (drag.active) {
-                    secondVisualPosition = (to - from) / (root.width - second.width) * (second.x - second.width / 2) + from;
-                    secondMoved()
-                }
-            }
+            onReleased: secondDrop()
+            onPositionChanged: if (drag.active) secondMove()
         }
     }
 
-    /* function setValues(first, second) { */
-    /*     first.x = first */
-    /*     second.x = second */
-    /* } */
+    function firstMove() {
+        firstVisualPosition = (to - from) / (root.width - first.width) * (first.x - first.width / 2) + from;
+        firstMoved()
+    }
+
+    function secondMove() {
+        secondVisualPosition = (to - from) / (root.width - second.width) * (second.x - second.width / 2) + from;
+        secondMoved()
+    }
+
+    function firstDrop() {
+        firstValue = (to - from) / (root.width - first.width) * (first.x - first.width / 2) + from;
+        firstVisualPosition = firstValue;
+        firstReleased();
+    }
+
+    function secondDrop() {
+        secondValue = (to - from) / (root.width - second.width) * (second.x - second.width / 2) + from;
+        secondVisualPosition = secondValue;
+        secondReleased();
+    }
 }
