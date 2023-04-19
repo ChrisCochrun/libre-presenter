@@ -119,12 +119,12 @@ FocusScope {
                     implicitWidth: root.width - 400 > 200 ? root.width - 400 : 200
                     implicitHeight: width / 16 * 9
                     anchors.centerIn: parent
-                    textSize: SlideObject.fontSize
                     itemType: SlideObject.ty
                     imageSource: SlideObject.imageBackground
                     videoSource: SlideObject.videoBackground
                     audioSource: SlideObject.audio
                     chosenFont: SlideObject.font
+                    textSize: SlideObject.fontSize
                     text: SlideObject.text
                     pdfIndex: SlideObject.slideIndex
                     vidLoop: SlideObject.looping
