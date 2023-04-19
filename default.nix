@@ -2,6 +2,7 @@
 # with pkgs;
 {
   stdenv,
+  fetchFromGitLab,
   lib,
   gcc,
   gnumake,
@@ -23,7 +24,6 @@
   ki18n,
   kcoreaddons,
   # kwindowsystem,
-  podofo,
   mpv,
   ffmpeg_6-full,
   # Rust tools
@@ -41,7 +41,12 @@ stdenv.mkDerivation rec {
 
   __noChroot = true;
 
-  src = ./.;
+  src = fetchFromGitLab {
+    owner = "chriscochrun";
+    repo = "church-presenter";
+    rev = "0.1";
+    sha256 = "sha256-tOQWUu+RTB4lG/RojYJUNQPuc/qr5HK/eeuaYAoNW6o=";
+  };
 
   nativeBuildInputs = with rustPlatform; [
     cargoSetupHook
