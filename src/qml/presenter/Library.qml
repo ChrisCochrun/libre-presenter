@@ -86,7 +86,7 @@ Item {
                 headerLabel: "Images"
                 itemIcon: "folder-pictures-symbolic"
                 /* itemSubtitle: model.path */
-                count: imageProxyModel.imageModel.count()
+                count: innerModel.count()
                 newItemFunction: (function() {
                     imageProxyModel.setFilterRegularExpression("");
                 })
@@ -276,11 +276,11 @@ Item {
             onExited: overlay = false
 
             function addVideo(url) {
-                videoProxyModel.videoModel.newVideo(url);
+                videoProxyModel.videoModel.newItem(url);
                 selectedLibrary = "video";
-                videoLibraryList.currentIndex = videoProxyModel.videoModel.rowCount();
-                console.log(videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex));
-                const video = videoProxyModel.videoModel.getVideo(videoLibraryList.currentIndex);
+                videoLibrary.libraryList.currentIndex = videoProxyModel.videoModel.count();
+                console.log(videoProxyModel.getVideo(videoLibrary.libraryList.currentIndex));
+                const video = videoProxyModel.getVideo(videoLibrary.libraryList.currentIndex);
                 showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
                     editMode = true;
