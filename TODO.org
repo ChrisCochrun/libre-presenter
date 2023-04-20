@@ -65,8 +65,10 @@ Songs will be the hardest so I'll save them for last. They are not even using th
 Another big blocker in this process is to make sure that all properties are accessed appropriately on the QML side. I need to update a lot of QML code yet.
 **** TODO start and end times for videos
 This is something I couldn't get right in my head and plans and I hope rust will help me to solve it.
-**** TODO serivce_item_model
-This needs to get ported to rust so that I can start adding more features to it soon.
+***** TODO serivce_item_model
+This needs to get ported to rust so that I can start adding more features to it soon. This is a blocker for the start and end times I believe
+**** TODO Song Model
+This still needs ported to Rust. It'll be the hardest of the library models since it includes the song lyric parsing functions.
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
