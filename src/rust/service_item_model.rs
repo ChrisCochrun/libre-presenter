@@ -98,6 +98,13 @@ mod service_item_model {
             roles: &'a QVector_i32,
         },
         ActiveChanged,
+        SelectedChanged,
+        ItemInserted {
+            index: &'a i32,
+        },
+        ItemAdded {
+            index: &'a i32,
+        },
     }
 
     enum Role {
@@ -119,15 +126,6 @@ mod service_item_model {
                 self.as_mut().service_items_mut().clear();
                 self.as_mut().end_reset_model();
             }
-        }
-
-        #[qinvokable]
-        pub fn remove_item_from_service(
-            mut self: Pin<&mut Self>,
-            index: i32,
-            service_item: &QMap_QString_QVariant,
-        ) {
-            println!("Removing: {:?}", index);
         }
 
         #[qinvokable]
@@ -246,22 +244,52 @@ mod service_item_model {
         #[qinvokable]
         pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
             println!("{index}");
-            let mut qvariantmap = QMap_QString_QVariant::default();
+            let mut map = QMap_QString_QVariant::default();
             let idx = self.index(index, 0, &QModelIndex::default());
             if !idx.is_valid() {
-                return qvariantmap;
+                return map;
             }
             let rn = self.as_ref().role_names();
             let rn_iter = rn.iter();
             if let Some(service_item) = self.rust().service_items.get(index as usize) {
                 for i in rn_iter {
-                    qvariantmap.insert(
+                    map.insert(
                         QString::from(&i.1.to_string()),
                         self.as_ref().data(&idx, *i.0),
                     );
                 }
             };
-            qvariantmap
+            map
+        }
+
+        #[qinvokable]
+        pub fn move_rows(
+            mut self: Pin<&mut Self>,
+            source_index: i32,
+            dest_index: i32,
+            count: i32,
+        ) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn move_up(mut self: Pin<&mut Self>, index: i32) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn move_down(mut self: Pin<&mut Self>, index: i32) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn select(mut self: Pin<&mut Self>, index: i32) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn select_items(mut self: Pin<&mut Self>, items: QMap_QString_QVariant) -> bool {
+            todo!();
         }
 
         #[qinvokable]
@@ -295,6 +323,26 @@ mod service_item_model {
             } else {
                 false
             }
+        }
+
+        #[qinvokable]
+        pub fn deactivate(mut self: Pin<&mut Self>, index: i32) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn save(mut self: Pin<&mut Self>, file: QUrl) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn load(mut self: Pin<&mut Self>, file: QUrl) -> bool {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn load_last_saved(mut self: Pin<&mut Self>) -> bool {
+            todo!();
         }
 
         fn get_role(&self, role: Role) -> i32 {
