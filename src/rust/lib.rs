@@ -8,4 +8,5 @@ mod settings;
 mod slide_model;
 mod slide_obj;
 pub mod video_model;
+pub mod ytdl;
 // mod video_thumbnail;

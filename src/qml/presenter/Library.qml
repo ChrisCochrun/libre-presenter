@@ -68,11 +68,25 @@ Item {
                 count: innerModel.count()
                 newItemFunction: (function() {
                     videoProxyModel.setFilterRegularExpression("");
+                    newVideo.open();
                 })
                 deleteItemFunction: (function(rows) {
                     videoProxyModel.deleteVideos(rows)
                 })
 
+            }
+
+            Presenter.NewVideo {
+                id: newVideo
+            }
+
+            Timer {
+                id: videoDLTimer
+                interval: 3000
+                running: !newVideo.sheetOpen
+                onTriggered: {
+                    newVideo.clear();
+                }
             }
 
             Presenter.LibraryItem {

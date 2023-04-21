@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import mpv 1.0
+import org.presenter 1.0
 
 Item {
     id: root
