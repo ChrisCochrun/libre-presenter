@@ -1,3 +1,4 @@
+pub mod ffmpeg;
 mod file_helper;
 pub mod image_model;
 pub mod models;

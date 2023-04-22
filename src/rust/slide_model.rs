@@ -124,26 +124,15 @@ mod slide_model {
 
     // use crate::video_thumbnail;
     // use image::{ImageBuffer, Rgba};
+    use crate::ffmpeg;
     use std::path::PathBuf;
     impl qobject::SlideyMod {
-        #[qinvokable]
-        pub fn video_thumbnail(
-            mut self: Pin<&mut Self>,
-            video: QString,
-            service_item_id: i32,
-            index: i32,
-        ) -> QString {
+        pub fn video_thumbnail(mut self: Pin<&mut Self>, video: &QString) -> QString {
             let video = video.to_string();
-            let mut path = PathBuf::from(video);
-            println!("{:?}", path);
-            // let mut image_iter = video_thumbnail::ImageIter::new(path)?;
-            // image_iter.seek(2.0);
+            let path = PathBuf::from(video);
+            let video = ffmpeg::bg_from_video(&path);
 
-            // if let Some(image) = image_iter.next() {
-            //     image.save("image.jpg");
-            // }
-
-            QString::default()
+            QString::from(video.to_str().unwrap())
         }
 
         #[qinvokable]
@@ -218,7 +207,16 @@ mod slide_model {
         fn add_slide(mut self: Pin<&mut Self>, slide: &Slidey) {
             let index = self.as_ref().slides().len() as i32;
             println!("{:?}", slide);
-            let slide = slide.clone();
+            let mut slide = slide.clone();
+            if !&slide.video_background.is_empty() {
+                slide.video_thumbnail = self
+                    .as_mut()
+                    .video_thumbnail(&slide.video_background)
+                    .insert(0, &QString::from("file://"))
+                    .to_owned();
+                println!("rust-inserted: {:?}", slide.video_thumbnail);
+            }
+
             unsafe {
                 self.as_mut()
                     .begin_insert_rows(&QModelIndex::default(), index, index);
@@ -230,6 +228,14 @@ mod slide_model {
         fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
             let mut slide = slide.clone();
             slide.slide_index = id;
+            if !&slide.video_background.is_empty() {
+                slide.video_thumbnail = self
+                    .as_mut()
+                    .video_thumbnail(&slide.video_background)
+                    .insert(0, &QString::from("file://"))
+                    .to_owned();
+                println!("rust-inserted: {:?}", slide.video_thumbnail);
+            }
 
             unsafe {
                 self.as_mut()
