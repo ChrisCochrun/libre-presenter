@@ -35,34 +35,38 @@ mod ytdl {
                     data_dir.push("librepresenter");
                     data_dir.push("ytdl");
                     if !data_dir.exists() {
-                        fs::create_dir(&data_dir);
+                        fs::create_dir(&data_dir).expect("Could not create ytdl dir");
                     }
                     println!("{:?}", data_dir);
+                    self.as_mut().set_loading(true);
+                    let thread = self.qt_thread();
+                    thread::spawn(move || {
+                        let url = url.to_string();
+                        let output_dirs = data_dir.to_str().unwrap();
+                        println!("{output_dirs}");
+                        let ytdl = YoutubeDl::new(url)
+                            .socket_timeout("15")
+                            .output_directory(output_dirs)
+                            .output_template("%(title)s.%(ext)s")
+                            .download(true)
+                            .run()
+                            .unwrap();
+                        let output = ytdl.into_single_video().unwrap();
+                        println!("{:?}", output.title);
+                        println!("{:?}", output.thumbnail);
+                        let title = QString::from(&output.title);
+                        let thumbnail = QUrl::from(&output.thumbnail.unwrap());
+                        thread.queue(move |mut qobject_ytdl| {
+                            qobject_ytdl.as_mut().set_loaded(true);
+                            qobject_ytdl.as_mut().set_loading(false);
+                            qobject_ytdl.as_mut().set_title(title);
+                            qobject_ytdl.as_mut().set_thumbnail(thumbnail);
+                        })
+                    });
+                    true
+                } else {
+                    false
                 }
-                self.as_mut().set_loading(true);
-                let thread = self.qt_thread();
-                thread::spawn(move || {
-                    let url = url.to_string();
-                    let output_dirs = "/home/chris/Videos/";
-                    let ytdl = YoutubeDl::new(url)
-                        .socket_timeout("15")
-                        .output_directory(output_dirs)
-                        .download(true)
-                        .run()
-                        .unwrap();
-                    let output = ytdl.into_single_video().unwrap();
-                    println!("{:?}", output.title);
-                    println!("{:?}", output.thumbnail);
-                    let title = QString::from(&output.title);
-                    let thumbnail = QUrl::from(&output.thumbnail.unwrap());
-                    thread.queue(move |mut qobject_ytdl| {
-                        qobject_ytdl.as_mut().set_loaded(true);
-                        qobject_ytdl.as_mut().set_loading(false);
-                        qobject_ytdl.as_mut().set_title(title);
-                        qobject_ytdl.as_mut().set_thumbnail(thumbnail);
-                    })
-                });
-                true
             }
         }
     }
