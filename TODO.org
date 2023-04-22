@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [75%] [34/45]
+* Tasks [72%] [34/47]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -75,7 +75,12 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
 - [ ] Windows
 - [ ] Macos
 ** TODO A busy indicator while deleting library items :feature:ui:
+** TODO ffmpeg.rs :feature:
+This still needs a lot of work.
+** TODO ytdl.rs :feature:
+This still needs a lot of work. Mostly error handling.
 ** TODO UI Blocks while saving :bug:
+This is waiting till we get the service_item_model.rs finished so we can use rust threads.
 ** TODO give images an aspect ratio option :feature:
 ** TODO Fix ImageEditor to make more sense for images :ui:
 ** TODO Add image slideshow with looping :feature:
