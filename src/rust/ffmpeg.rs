@@ -23,18 +23,40 @@ pub fn bg_from_video(video: &Path) -> PathBuf {
             .args(&["-i", &video.to_string_lossy()])
             .output()
             .expect("failed to execute ffprobe");
-        let mut duration = String::from("");
-        let mut at_second: i32;
-        at_second = 2;
-        let mut log = str::from_utf8(&output_duration.stdout)
+        io::stderr().write_all(&output_duration.stderr).unwrap();
+        let mut at_second = 2;
+        let mut log = str::from_utf8(&output_duration.stderr)
             .expect("Using non UTF-8 characters")
             .to_string();
-        if let Some(duration_index) = &log.find("Duration") {
-            duration = log.split_off(*duration_index + 10);
+        println!("{log}");
+        if let Some(duration_index) = log.find("Duration") {
+            let mut duration = log.split_off(duration_index + 10);
             duration.truncate(11);
             println!("rust-duration-is: {duration}");
+            let mut hours = String::from("");
+            let mut minutes = String::from("");
+            let mut seconds = String::from("");
+            for (i, c) in duration.chars().enumerate() {
+                if i <= 1 {
+                    hours.push(c);
+                } else if i > 2 && i <= 4 {
+                    minutes.push(c);
+                } else if i > 5 && i <= 7 {
+                    seconds.push(c);
+                }
+            }
+            let hours: i32 = hours.parse().unwrap();
+            let mut minutes: i32 = minutes.parse().unwrap();
+            let mut seconds: i32 = seconds.parse().unwrap();
+            minutes += hours * 60;
+            seconds += minutes * 60;
+            at_second = seconds / 5;
+            println!(
+                "hours: {}, minutes: {}, seconds: {}, at_second: {}",
+                hours, minutes, seconds, at_second
+            );
         }
-        let output = Command::new("ffmpeg")
+        let _output = Command::new("ffmpeg")
             .args(&[
                 "-i",
                 &video.to_string_lossy(),
@@ -47,8 +69,8 @@ pub fn bg_from_video(video: &Path) -> PathBuf {
             ])
             .output()
             .expect("failed to execute ffmpeg");
-        io::stdout().write_all(&output.stdout).unwrap();
-        io::stderr().write_all(&output.stderr).unwrap();
+        // io::stdout().write_all(&output.stdout).unwrap();
+        // io::stderr().write_all(&output.stderr).unwrap();
     } else {
         println!("Screenshot already exists");
     }
