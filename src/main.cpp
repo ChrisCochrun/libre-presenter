@@ -224,6 +224,8 @@ int main(int argc, char *argv[])
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:qml/main.qml")));
 
+  qDebug() << app.topLevelWindows();
+  qDebug() << app.allWindows();
   // QQuickView *view = new QQuickView;
   // view->setSource(QUrl(QStringLiteral("qrc:qml/main.qml")));
   // view->show();
