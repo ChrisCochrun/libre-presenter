@@ -718,7 +718,7 @@ QString SlideModel::thumbnailVideoRust(QString video, int serviceItemId, int ind
   QFileInfo thumbnailInfo(dir.path() + "/" + vidName + ".jpg");
   qDebug() << thumbnailInfo.filePath() << "FOR" << index;
   if (thumbnailInfo.exists()) {
-    slideModel->addVideoThumbnail("file://" + thumbnailInfo.absoluteFilePath(), serviceItemId, index);
+    // slideModel->addVideoThumbnail("file://" + thumbnailInfo.absoluteFilePath(), serviceItemId, index);
     return thumbnailInfo.filePath();
   }
 
@@ -740,7 +740,7 @@ QString SlideModel::thumbnailVideoRust(QString video, int serviceItemId, int ind
     qDebug() << QStringLiteral("Failed to save thumbnail for file: %1").arg(video);
   }
 
-  slideModel->addVideoThumbnail("file://" + thumbnailInfo.absoluteFilePath(), serviceItemId, index);
+  // slideModel->addVideoThumbnail("file://" + thumbnailInfo.absoluteFilePath(), serviceItemId, index);
 
   return thumbnailInfo.filePath();
 }

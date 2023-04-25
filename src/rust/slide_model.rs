@@ -27,41 +27,23 @@ mod slide_model {
     #[cxx_qt::qobject]
     #[derive(Clone, Debug)]
     pub struct Slidey {
-        #[qproperty]
         text: QString,
-        #[qproperty]
         ty: QString,
-        #[qproperty]
         audio: QString,
-        #[qproperty]
         image_background: QString,
-        #[qproperty]
         video_background: QString,
-        #[qproperty]
         htext_alignment: QString,
-        #[qproperty]
         vtext_alignment: QString,
-        #[qproperty]
         font: QString,
-        #[qproperty]
         font_size: i32,
-        #[qproperty]
         slide_count: i32,
-        #[qproperty]
         slide_index: i32,
-        #[qproperty]
         service_item_id: i32,
-        #[qproperty]
         active: bool,
-        #[qproperty]
         selected: bool,
-        #[qproperty]
         looping: bool,
-        #[qproperty]
         video_thumbnail: QString,
-        #[qproperty]
         video_start_time: f32,
-        #[qproperty]
         video_end_time: f32,
     }
 
@@ -126,31 +108,26 @@ mod slide_model {
     // use image::{ImageBuffer, Rgba};
     use crate::ffmpeg;
     use std::path::PathBuf;
+    use std::thread;
     impl qobject::SlideyMod {
-        pub fn video_thumbnail(mut self: Pin<&mut Self>, video: &QString) -> QString {
-            let video = video.to_string();
-            let path = PathBuf::from(video);
-            let video = ffmpeg::bg_from_video(&path);
-
-            QString::from(video.to_str().unwrap())
-        }
-
         #[qinvokable]
-        pub fn add_video_thumbnail(
-            mut self: Pin<&mut Self>,
-            video: QString,
-            service_item_id: i32,
-            index: i32,
-        ) {
-            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+        pub fn add_video_thumbnail(mut self: Pin<&mut Self>, index: i32) -> bool {
             let mut vector_roles = QVector_i32::default();
             vector_roles.append(self.get_role(Role::VideoThumbnailRole));
+
+            let model_index = &self.index(index, 0, &QModelIndex::default());
             if let Some(slide) = self.as_mut().slides_mut().get_mut(index as usize) {
-                slide.video_thumbnail = video;
+                if !slide.video_background.is_empty() {
+                    let path = PathBuf::from(slide.video_background.to_string());
+                    let video = QString::from(ffmpeg::bg_from_video(&path).to_str().unwrap())
+                        .insert(0, &QString::from("file://"))
+                        .to_owned();
+                    slide.video_thumbnail = video;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                }
             }
-            self.as_mut()
-                .emit_data_changed(model_index, model_index, &vector_roles);
-            println!("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+            true
         }
 
         #[qinvokable]
@@ -207,15 +184,7 @@ mod slide_model {
         fn add_slide(mut self: Pin<&mut Self>, slide: &Slidey) {
             let index = self.as_ref().slides().len() as i32;
             println!("{:?}", slide);
-            let mut slide = slide.clone();
-            if !&slide.video_background.is_empty() {
-                slide.video_thumbnail = self
-                    .as_mut()
-                    .video_thumbnail(&slide.video_background)
-                    .insert(0, &QString::from("file://"))
-                    .to_owned();
-                println!("rust-inserted: {:?}", slide.video_thumbnail);
-            }
+            let slide = slide.clone();
 
             unsafe {
                 self.as_mut()
@@ -223,26 +192,35 @@ mod slide_model {
                 self.as_mut().slides_mut().push(slide);
                 self.as_mut().end_insert_rows();
             }
+            let thread = self.qt_thread();
+            thread::spawn(move || {
+                thread
+                    .queue(move |slidemodel| {
+                        slidemodel.add_video_thumbnail(index);
+                    })
+                    .unwrap();
+            });
+            // self.as_mut().add_video_thumbnail(index);
         }
 
-        fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, id: i32) {
+        fn insert_slide(mut self: Pin<&mut Self>, slide: &Slidey, index: i32) {
             let mut slide = slide.clone();
-            slide.slide_index = id;
-            if !&slide.video_background.is_empty() {
-                slide.video_thumbnail = self
-                    .as_mut()
-                    .video_thumbnail(&slide.video_background)
-                    .insert(0, &QString::from("file://"))
-                    .to_owned();
-                println!("rust-inserted: {:?}", slide.video_thumbnail);
-            }
+            slide.slide_index = index;
 
             unsafe {
                 self.as_mut()
-                    .begin_insert_rows(&QModelIndex::default(), id, id);
-                self.as_mut().slides_mut().insert(id as usize, slide);
+                    .begin_insert_rows(&QModelIndex::default(), index, index);
+                self.as_mut().slides_mut().insert(index as usize, slide);
                 self.as_mut().end_insert_rows();
             }
+            let thread = self.qt_thread();
+            thread::spawn(move || {
+                thread
+                    .queue(move |slidemodel| {
+                        slidemodel.add_video_thumbnail(index);
+                    })
+                    .unwrap();
+            });
         }
 
         #[qinvokable]
