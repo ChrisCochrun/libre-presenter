@@ -75,6 +75,14 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
 - [ ] Windows
 - [ ] Macos
 ** TODO A busy indicator while deleting library items :feature:ui:
+** TODO get_lyric_list method
+[[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
+This is the big one. Previous implementation in cpp is here:
+[[file:src/cpp/songsqlmodel.cpp::QStringList SongSqlModel::getLyricList(const int &row)]]
+** TODO new_song method
+[[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
+** TODO Create a setting for holding static slides and audios
+[[file:~/dev/church-presenter/src/qml/presenter/Settings.qml]]
 ** TODO ffmpeg.rs :feature:
 This still needs a lot of work.
 ** TODO ytdl.rs :feature:
@@ -258,5 +266,3 @@ or at least turns the entry above it into the same as itself while retaining it'
 
 
 * Inbox
-** TODO Create a setting for holding static slides and audios
-[[file:~/dev/church-presenter/src/qml/presenter/Settings.qml]]
