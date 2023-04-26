@@ -33,17 +33,16 @@ mod song_model {
     pub struct Song {
         id: i32,
         title: QString,
-        title: String,
-        lyrics: String,
-        author: String,
-        ccli: String,
-        audio: String,
-        verse_order: String,
-        background: String,
-        background_type: String,
-        horizontal_text_alignment: String,
-        vertical_text_alignment: String,
-        font: String,
+        lyrics: QString,
+        author: QString,
+        ccli: QString,
+        audio: QString,
+        verse_order: QString,
+        background: QString,
+        background_type: QString,
+        horizontal_text_alignment: QString,
+        vertical_text_alignment: QString,
+        font: QString,
         font_size: i32,
     }
 
@@ -93,7 +92,7 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn test_database(mut self: Pin<&mut Self>) {
+        pub fn setup(mut self: Pin<&mut Self>) {
             let db = &mut self.as_mut().get_db();
             let results = songs
                 .load::<crate::models::Song>(db)
@@ -125,14 +124,12 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn remove_item(mut self: Pin<&mut Self>, index: i32) -> bool {
+        pub fn delete_song(mut self: Pin<&mut Self>, index: i32) -> bool {
             if index < 0 || (index as usize) >= self.songs().len() {
                 return false;
             }
             let db = &mut self.as_mut().get_db();
-
             let song_id = self.songs().get(index as usize).unwrap().id;
-
             let result = delete(songs.filter(id.eq(song_id))).execute(db);
 
             match result {
@@ -160,6 +157,11 @@ mod song_model {
             SqliteConnection::establish(DATABASE_URL)
                 .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL))
             // self.rust().db = db;
+        }
+
+        #[qinvokable]
+        pub fn new_song(mut self: Pin<&mut Self>) {
+            todo!();
         }
 
         #[qinvokable]
@@ -250,6 +252,102 @@ mod song_model {
         }
 
         #[qinvokable]
+        pub fn update_lyrics(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_lyrics: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::LyricsRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(lyrics.eq(updated_lyrics.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.lyrics = updated_lyrics;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_audio(mut self: Pin<&mut Self>, index: i32, updated_audio: QString) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::AudioRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(audio.eq(updated_audio.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.audio = updated_audio;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_author(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_author: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::AuthorRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(author.eq(updated_author.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.author = updated_author;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_ccli(mut self: Pin<&mut Self>, index: i32, updated_ccli: QString) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::CcliRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(ccli.eq(updated_ccli.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.ccli = updated_ccli;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
         pub fn update_file_path(
             mut self: Pin<&mut Self>,
             index: i32,
@@ -276,7 +374,190 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn get_item(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
+        pub fn update_verse_order(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_verse_order: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::VerseOrderRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(verse_order.eq(updated_verse_order.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.verse_order = updated_verse_order;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_background(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_background: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::BackgroundRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(background.eq(updated_background.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.background = updated_background;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_background_type(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_background_type: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::BackgroundTypeRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(background_type.eq(updated_background_type.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.background_type = updated_background_type;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_horizontal_text_alignment(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_horizontal_text_alignment: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::HorizontalTextAlignmentRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(horizontal_text_alignment.eq(updated_horizontal_text_alignment.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.horizontal_text_alignment = updated_horizontal_text_alignment;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_vertical_text_alignment(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_vertical_text_alignment: QString,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::VerticalTextAlignmentRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(vertical_text_alignment.eq(updated_vertical_text_alignment.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.vertical_text_alignment = updated_vertical_text_alignment;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_font(mut self: Pin<&mut Self>, index: i32, updated_font: QString) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::FontRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(font.eq(updated_font.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.font = updated_font;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn update_font_size(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_font_size: i32,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::FontSizeRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(songs.filter(id.eq(index)))
+                .set(font_size.eq(updated_font_size))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
+                    song.font_size = updated_font_size;
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
+        #[qinvokable]
+        pub fn get_lyric_list(mut self: Pin<&mut Self>, index: i32) -> QList_QString {
+            todo!();
+        }
+
+        #[qinvokable]
+        pub fn get_song(self: Pin<&mut Self>, index: i32) -> QMap_QString_QVariant {
             println!("{index}");
             let mut qvariantmap = QMap_QString_QVariant::default();
             let idx = self.index(index, 0, &QModelIndex::default());
