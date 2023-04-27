@@ -238,6 +238,11 @@ int main(int argc, char *argv[])
   }
 
   QWindow *window = windowFromEngine(&engine);
+  QQuickWindow *PresWindow = new QQuickWindow;
+  qDebug() << PresWindow;
+  PresWindow->create();
+  PresWindow->setVisible(true);
+  qDebug() << PresWindow->isVisible();
 
   window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   // KWindowSystem::setMainWindow(window);
