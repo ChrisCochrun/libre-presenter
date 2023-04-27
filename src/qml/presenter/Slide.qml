@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.15
 import QtMultimedia 5.15
 /* import QtAudioEngine 1.15 */
+import QtWebEngine 1.10
 import QtGraphicalEffects 1.15
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
@@ -18,6 +19,7 @@ Item {
     property real textSize: 50
     property bool dropShadow: false
     property url imageSource
+    property url webSource
     property url videoSource
     property url audioSource
     property bool vidLoop
@@ -164,6 +166,12 @@ Item {
                     color: "#80000000"
                 }
             }
+        }
+
+        WebEngine {
+            id: web
+            anchors.fill: parent
+            source: webSource
         }
     }
 

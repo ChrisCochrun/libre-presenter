@@ -23,6 +23,7 @@ pub struct Presentation {
     pub title: String,
     pub path: String,
     pub page_count: Option<i32>,
+    pub html: bool,
 }
 
 #[derive(Queryable)]

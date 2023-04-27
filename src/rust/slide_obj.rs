@@ -46,6 +46,8 @@ mod slide_obj {
         #[qproperty]
         video_background: QString,
         #[qproperty]
+        html: QString,
+        #[qproperty]
         vtext_alignment: QString,
         #[qproperty]
         htext_alignment: QString,
@@ -70,6 +72,7 @@ mod slide_obj {
                 ty: QString::from(""),
                 audio: QString::from(""),
                 image_background: QString::from(""),
+                html: QString::from(""),
                 video_background: QString::from(""),
                 vtext_alignment: QString::from(""),
                 htext_alignment: QString::from(""),

@@ -17,6 +17,7 @@ diesel::table! {
         path -> Text,
         #[sql_name = "pageCount"]
         page_count -> Nullable<Integer>,
+        html -> Bool,
     }
 }
 

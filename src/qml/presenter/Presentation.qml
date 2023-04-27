@@ -121,6 +121,7 @@ FocusScope {
                     anchors.centerIn: parent
                     itemType: SlideObject.ty
                     imageSource: SlideObject.imageBackground
+                    webSource: SlideObject.html
                     videoSource: SlideObject.videoBackground
                     audioSource: SlideObject.audio
                     chosenFont: SlideObject.font

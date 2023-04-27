@@ -5,6 +5,7 @@ mod presentation_model {
     use crate::schema::presentations::dsl::*;
     use diesel::sqlite::SqliteConnection;
     use diesel::{delete, insert_into, prelude::*};
+    // use sqlx::Connection;
     use std::path::{Path, PathBuf};
 
     unsafe extern "C++" {
@@ -33,6 +34,7 @@ mod presentation_model {
     pub struct Presentation {
         id: i32,
         title: QString,
+        html: bool,
         path: QString,
     }
 
@@ -57,6 +59,7 @@ mod presentation_model {
         IdRole,
         PathRole,
         TitleRole,
+        HtmlRole,
     }
 
     // use crate::entities::{presentations, prelude::Presentations};
@@ -74,6 +77,8 @@ mod presentation_model {
         #[qinvokable]
         pub fn setup(mut self: Pin<&mut Self>) {
             let db = &mut self.as_mut().get_db();
+            // let table_info = diesel::sql_query("PRAGMA table_info(presentations)").load(db);
+            // println!("{:?}", table_info);
             let results = presentations
                 .load::<crate::models::Presentation>(db)
                 .expect("Error loading presentations");
@@ -85,6 +90,7 @@ mod presentation_model {
                 println!("{}", presentation.title);
                 println!("{}", presentation.id);
                 println!("{}", presentation.path);
+                println!("{}", presentation.html);
                 println!("--------------");
                 if self.as_mut().highest_id() < &presentation.id {
                     self.as_mut().set_highest_id(presentation.id);
@@ -93,6 +99,7 @@ mod presentation_model {
                 let img = self::Presentation {
                     id: presentation.id,
                     title: QString::from(&presentation.title),
+                    html: false,
                     path: QString::from(&presentation.path),
                 };
 
@@ -149,11 +156,15 @@ mod presentation_model {
             let presentation_id = self.rust().highest_id + 1;
             let presentation_title = QString::from(name);
             let presentation_path = url.to_qstring();
+            println!("{:?}", file_path.extension().unwrap());
+            let presentation_html = file_path.extension().unwrap() == std::ffi::OsStr::new(".html");
 
-            if self
-                .as_mut()
-                .add_item(presentation_id, presentation_title, presentation_path)
-            {
+            if self.as_mut().add_item(
+                presentation_id,
+                presentation_title,
+                presentation_path,
+                presentation_html,
+            ) {
                 println!("filename: {:?}", name);
                 self.as_mut().set_highest_id(presentation_id);
             } else {
@@ -167,12 +178,14 @@ mod presentation_model {
             presentation_id: i32,
             presentation_title: QString,
             presentation_path: QString,
+            presentation_html: bool,
         ) -> bool {
             let db = &mut self.as_mut().get_db();
             // println!("{:?}", db);
             let presentation = self::Presentation {
                 id: presentation_id,
                 title: presentation_title.clone(),
+                html: false,
                 path: presentation_path.clone(),
             };
             println!("{:?}", presentation);
@@ -182,6 +195,7 @@ mod presentation_model {
                     id.eq(&presentation_id),
                     title.eq(&presentation_title.to_string()),
                     path.eq(&presentation_path.to_string()),
+                    html.eq(&presentation_html),
                 ))
                 .execute(db);
             println!("{:?}", result);
@@ -236,6 +250,7 @@ mod presentation_model {
                 Role::IdRole => 0,
                 Role::TitleRole => 1,
                 Role::PathRole => 2,
+                Role::HtmlRole => 3,
                 _ => 0,
             }
         }
@@ -286,6 +301,7 @@ mod presentation_model {
                     0 => QVariant::from(&presentation.id),
                     1 => QVariant::from(&presentation.title),
                     2 => QVariant::from(&presentation.path),
+                    3 => QVariant::from(&presentation.html),
                     _ => QVariant::default(),
                 };
             }
@@ -305,6 +321,7 @@ mod presentation_model {
             roles.insert(0, cxx_qt_lib::QByteArray::from("id"));
             roles.insert(1, cxx_qt_lib::QByteArray::from("title"));
             roles.insert(2, cxx_qt_lib::QByteArray::from("filePath"));
+            roles.insert(3, cxx_qt_lib::QByteArray::from("html"));
             roles
         }
 
