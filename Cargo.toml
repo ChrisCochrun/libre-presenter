@@ -25,6 +25,7 @@ dirs = "5.0.0"
 diesel = { version = "2.0.3", features = ["sqlite"] }
 libsqlite3-sys = { version = ">=0.17.2, <0.26.0", features = ["bundled"] }
 youtube_dl = "0.8.0"
+# sqlx = { version = "0.6.3", features = ["sqlite", "runtime-async-std"] }
 # ffmpeg-next = "6.0.0"
 
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module

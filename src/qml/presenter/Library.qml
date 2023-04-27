@@ -349,17 +349,14 @@ Item {
                 if (videoexts.includes(extension))
                 {
                     addVideo(file);
-                    return;
                 }
                 if (imgexts.includes(extension))
                 {
                     addImg(file);
-                    return
                 }
                 if (presexts.includes(extension))
                 {
                     addPres(file);
-                    return
                 }
                 
             }
@@ -375,12 +372,13 @@ Item {
                     }
                     if (imgexts.includes(ext))
                     {
+                        console.log(file);
                         addImg(file);
+                        console.log(file);
                     }
                     if (presexts.includes(ext))
                     {
                         addPres(file);
-                        return;
                     }
                 }
             }

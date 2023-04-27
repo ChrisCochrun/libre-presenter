@@ -5,6 +5,7 @@
     cargo2nix.url = "github:cargo2nix/cargo2nix/release-0.11.0";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    # nixpkgs.follows = "cargo2nix/nixpkgs";
   };
 
   outputs = inputs: with inputs;
@@ -27,6 +28,8 @@
           workspaceShell = rustPkgs.workspaceShell {
             packages = with pkgs; [
               gcc
+              stdenv
+              bintools
               gnumake
               gdb
               qtcreator
