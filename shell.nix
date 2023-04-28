@@ -5,6 +5,7 @@ mkShell rec {
 
   nativeBuildInputs = [
     gcc
+    stdenv
     gnumake
     gdb
     qtcreator
@@ -27,6 +28,7 @@ mkShell rec {
     qt5.qtx11extras
     qt5.qtmultimedia
     qt5.qtwayland
+    qt5.qtwebengine
     libsForQt5.kirigami2
     # libsForQt5.breeze-icons
     # libsForQt5.breeze-qt5
@@ -38,7 +40,7 @@ mkShell rec {
     # libsForQt5.kguiaddons
     # libsForQt5.kconfig
 
-    podofo
+    # podofo
     mpv
     ffmpeg_6-full
     # yt-dlp
@@ -52,6 +54,10 @@ mkShell rec {
     corrosion
   ];
   
+  cargoDeps = rustPlatform.importCargoLock {
+    lockFile = ./Cargo.lock;
+  };
+
   RUST_BACKTRACE = 1;
   LIBCLANG_PATH="${llvmPackages.libclang.lib}/lib";
   # QT_SCALE_FACTOR = 1;
