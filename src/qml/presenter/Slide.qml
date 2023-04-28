@@ -168,10 +168,11 @@ Item {
             }
         }
 
-        WebEngine {
+        WebEngineView {
             id: web
             anchors.fill: parent
-            source: webSource
+            url: webSource
+            visible: false
         }
     }
 

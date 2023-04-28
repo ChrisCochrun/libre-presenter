@@ -13,6 +13,7 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QSqlTableModel>
+#include <QtWebEngine>
 
 #include <QObject>
 #include <QtGlobal>
@@ -99,6 +100,7 @@ int main(int argc, char *argv[])
   // qDebug() << QSurfaceFormat::defaultFormat();
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("video-display")));
+  QtWebEngine::initialize();
   QApplication app(argc, argv);
   KLocalizedString::setApplicationDomain("librepresenter");
   KAboutData aboutData("librepresenter", i18n("Libre Presenter"), "0.1",

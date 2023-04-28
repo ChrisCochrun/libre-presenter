@@ -48,6 +48,7 @@
               qt5.qtx11extras
               qt5.qtmultimedia
               qt5.qtwayland
+              qt5.qtwebengine
               libsForQt5.kirigami2
               libsForQt5.qqc2-desktop-style
               libsForQt5.karchive

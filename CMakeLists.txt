@@ -29,7 +29,7 @@ include(ECMPoQmTools)
 
 kde_enable_exceptions()
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets Sql X11Extras QmlImportScanner)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets Sql X11Extras QmlImportScanner WebEngine)
 find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 CoreAddons I18n Archive)
 
 # find_package(PkgConfig REQUIRED)
@@ -124,6 +124,7 @@ target_link_libraries(${CRATE} INTERFACE
         Qt5::Widgets
         Qt5::Sql
         Qt5::X11Extras
+        Qt5::WebEngine
         KF5::Kirigami2
         KF5::I18n
         KF5::Archive
