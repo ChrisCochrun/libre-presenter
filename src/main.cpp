@@ -98,10 +98,10 @@ static void connectToDatabase() {
 int main(int argc, char *argv[])
 {
   // qDebug() << QSurfaceFormat::defaultFormat();
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("video-display")));
+  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QGuiApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("video-display")));
   QtWebEngine::initialize();
-  QApplication app(argc, argv);
+  QGuiApplication app(argc, argv);
   KLocalizedString::setApplicationDomain("librepresenter");
   KAboutData aboutData("librepresenter", i18n("Libre Presenter"), "0.1",
                        i18n("A church presentation app built with KDE tech."),
