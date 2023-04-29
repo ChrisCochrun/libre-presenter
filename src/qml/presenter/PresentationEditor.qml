@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15 as Controls
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.15
+import QtWebEngine 1.10
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 
@@ -10,6 +11,7 @@ Item {
 
     property string type: "presentation"
     property var presentation
+    property bool isHtml: presentation.filePath.endsWith(".html")
 
     GridLayout {
         id: mainLayout
@@ -112,11 +114,20 @@ Item {
                 Layout.preferredHeight: Layout.preferredWidth / 16 * 9
                 Layout.alignment: Qt.AlignCenter
                 fillMode: Image.PreserveAspectFit
-                source: presentation.filePath
+                source: isHtml ? "" : presentation.filePath
                 Component.onCompleted: {
                     updatePageCount(frameCount);
                     showPassiveNotification(presentation.pageCount);
                 }
+                visible: !isHtml
+            }
+            WebEngineView {
+                id: webPresentationPreview
+                Layout.preferredWidth: root.width - Kirigami.Units.largeSpacing
+                Layout.preferredHeight: Layout.preferredWidth / 16 * 9
+                Layout.alignment: Qt.AlignCenter
+                url: isHtml ? presentation.filePath : ""
+                visible: isHtml
             }
             RowLayout {
                 Layout.fillWidth: true;
@@ -127,7 +138,12 @@ Item {
                     id: leftArrow
                     text: "Back"
                     icon.name: "back"
-                    onClicked: presentationPreview.currentFrame = presentationPreview.currentFrame - 1
+                    onClicked: {
+                        if (isHtml) {
+                            webPresentationPreview.runJavaScript("Reveal.navigatePrev()");
+                        } else
+                            presentationPreview.currentFrame = presentationPreview.currentFrame - 1
+                    }
                 }
                 Item {
                     Layout.fillWidth: true
@@ -136,7 +152,12 @@ Item {
                     id: rightArrow
                     text: "Next"
                     icon.name: "next"
-                    onClicked: presentationPreview.currentFrame = presentationPreview.currentFrame + 1
+                    onClicked: {
+                        if (isHtml) {
+                            webPresentationPreview.runJavaScript("Reveal.navigateNext()");
+                        } else
+                            presentationPreview.currentFrame = presentationPreview.currentFrame + 1
+                    }
                 }
             }
             Item {

@@ -55,6 +55,7 @@
 #include "cxx-qt-gen/slide_model.cxxqt.h"
 #include "cxx-qt-gen/settings.cxxqt.h"
 #include "cxx-qt-gen/ytdl.cxxqt.h"
+#include "cxx-qt-gen/presentation_model.cxxqt.h"
 // #include "cxx-qt-gen/image_model.cxxqt.h"
 
 static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
@@ -201,6 +202,7 @@ int main(int argc, char *argv[])
   qmlRegisterType<VideoProxyModel>("org.presenter", 1, 0, "VideoProxyModel");
   qmlRegisterType<ImageProxyModel>("org.presenter", 1, 0, "ImageProxyModel");
   qmlRegisterType<PresentationProxyModel>("org.presenter", 1, 0, "PresentationProxyModel");
+  qmlRegisterType<PresentationModel>("org.presenter", 1, 0, "PresentationModel");
   qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
   qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
   qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");

@@ -36,6 +36,7 @@ mod presentation_model {
         title: QString,
         html: bool,
         path: QString,
+        page_count: i32,
     }
 
     #[cxx_qt::qobject(base = "QAbstractListModel")]
@@ -96,14 +97,15 @@ mod presentation_model {
                     self.as_mut().set_highest_id(presentation.id);
                 }
 
-                let img = self::Presentation {
+                let pres = self::Presentation {
                     id: presentation.id,
                     title: QString::from(&presentation.title),
                     html: false,
                     path: QString::from(&presentation.path),
+                    page_count: 1,
                 };
 
-                self.as_mut().add_presentation(img);
+                self.as_mut().add_presentation(pres);
             }
             println!("--------------------------------------");
             println!("{:?}", self.as_mut().presentations());
@@ -149,7 +151,7 @@ mod presentation_model {
         }
 
         #[qinvokable]
-        pub fn new_item(mut self: Pin<&mut Self>, url: QUrl) {
+        pub fn new_item(mut self: Pin<&mut Self>, url: QUrl, new_page_count: i32) {
             println!("LETS INSERT THIS SUCKER!");
             let file_path = PathBuf::from(url.path().to_string());
             let name = file_path.file_stem().unwrap().to_str().unwrap();
@@ -164,6 +166,7 @@ mod presentation_model {
                 presentation_title,
                 presentation_path,
                 presentation_html,
+                new_page_count,
             ) {
                 println!("filename: {:?}", name);
                 self.as_mut().set_highest_id(presentation_id);
@@ -179,6 +182,7 @@ mod presentation_model {
             presentation_title: QString,
             presentation_path: QString,
             presentation_html: bool,
+            new_page_count: i32,
         ) -> bool {
             let db = &mut self.as_mut().get_db();
             // println!("{:?}", db);
@@ -187,6 +191,7 @@ mod presentation_model {
                 title: presentation_title.clone(),
                 html: false,
                 path: presentation_path.clone(),
+                page_count: new_page_count,
             };
             println!("{:?}", presentation);
 

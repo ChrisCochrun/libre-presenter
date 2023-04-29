@@ -315,16 +315,20 @@ Item {
 
             function addPres(url) {
                 console.log(pdf.status);
-                pdf.source = url;
-                while (pdf.status != 2) {
-                    console.log(pdf.status);
-                    console.log("PAGECOUNT: " + pdf.pageCount);
+                let pageCount = 1;
+                if (url.endsWith(".pdf")) {
+                    pdf.source = url;
+                    while (pdf.status != 2) {
+                        console.log(pdf.status);
+                        console.log("PAGECOUNT: " + pdf.pageCount);
+                        pageCount = pdf.pageCount;
+                    }
                 }
-                presProxyModel.presentationModel.newPresentation(url, pdf.pageCount);
+                presProxyModel.presentationModel.newItem(url, pageCount);
                 selectedLibrary = "presentation";
-                presentationLibraryList.currentIndex = presProxyModel.presentationModel.rowCount();
-                console.log(presProxyModel.presentationModel.getPresentation(presentationLibraryList.currentIndex));
-                const presentation = presProxyModel.presentationModel.getImage(presentationLibraryList.currentIndex);
+                presentationLibrary.libraryList.currentIndex = presProxyModel.presentationModel.count();
+                console.log(presProxyModel.getPresentation(presentationLibrary.libraryList.currentIndex));
+                const presentation = presProxyModel.getPresentation(presentationLibrary.libraryList.currentIndex);
                 showPassiveNotification("newest image: " + presentation.title);
                 if (!editMode)
                     editMode = true;
