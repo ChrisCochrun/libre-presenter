@@ -61,6 +61,7 @@ mod presentation_model {
         PathRole,
         TitleRole,
         HtmlRole,
+        PageCountRole,
     }
 
     // use crate::entities::{presentations, prelude::Presentations};
@@ -100,9 +101,9 @@ mod presentation_model {
                 let pres = self::Presentation {
                     id: presentation.id,
                     title: QString::from(&presentation.title),
-                    html: false,
+                    html: presentation.path.ends_with(".html"),
                     path: QString::from(&presentation.path),
-                    page_count: 1,
+                    page_count: presentation.page_count.unwrap(),
                 };
 
                 self.as_mut().add_presentation(pres);
@@ -201,6 +202,7 @@ mod presentation_model {
                     title.eq(&presentation_title.to_string()),
                     path.eq(&presentation_path.to_string()),
                     html.eq(&presentation_html),
+                    page_count.eq(&presentation.page_count),
                 ))
                 .execute(db);
             println!("{:?}", result);
@@ -256,6 +258,7 @@ mod presentation_model {
                 Role::TitleRole => 1,
                 Role::PathRole => 2,
                 Role::HtmlRole => 3,
+                Role::PageCountRole => 4,
                 _ => 0,
             }
         }
@@ -307,6 +310,7 @@ mod presentation_model {
                     1 => QVariant::from(&presentation.title),
                     2 => QVariant::from(&presentation.path),
                     3 => QVariant::from(&presentation.html),
+                    4 => QVariant::from(&presentation.page_count),
                     _ => QVariant::default(),
                 };
             }
@@ -327,6 +331,7 @@ mod presentation_model {
             roles.insert(1, cxx_qt_lib::QByteArray::from("title"));
             roles.insert(2, cxx_qt_lib::QByteArray::from("filePath"));
             roles.insert(3, cxx_qt_lib::QByteArray::from("html"));
+            roles.insert(4, cxx_qt_lib::QByteArray::from("pageCount"));
             roles
         }
 

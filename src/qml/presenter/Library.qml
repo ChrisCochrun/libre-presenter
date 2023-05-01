@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.15
 import Qt.labs.platform 1.1 as Labs
 import QtQuick.Pdf 5.15
 import QtQml.Models 2.15
+import QtWebEngine 1.10
 import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
@@ -16,6 +17,8 @@ Item {
     property var videoexts: ["mp4", "webm", "mkv", "avi", "MP4", "WEBM", "MKV"]
     property var imgexts: ["jpg", "png", "gif", "jpeg", "JPG", "PNG", "webp", "gif"]
     property var presexts: ["pdf", "PDF", "odp", "pptx", "html"]
+
+    property bool htmlLoaded: false
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
@@ -316,13 +319,11 @@ Item {
             function addPres(url) {
                 console.log(pdf.status);
                 let pageCount = 1;
-                if (url.endsWith(".pdf")) {
-                    pdf.source = url;
-                    while (pdf.status != 2) {
-                        console.log(pdf.status);
-                        console.log("PAGECOUNT: " + pdf.pageCount);
-                        pageCount = pdf.pageCount;
-                    }
+                pdf.source = url;
+                while (pdf.status != 2) {
+                    console.log(pdf.status);
+                    console.log("PAGECOUNT: " + pdf.pageCount);
+                    pageCount = pdf.pageCount;
                 }
                 presProxyModel.presentationModel.newItem(url, pageCount);
                 selectedLibrary = "presentation";
@@ -360,7 +361,10 @@ Item {
                 }
                 if (presexts.includes(extension))
                 {
-                    addPres(file);
+                    if (file.endsWith(".html")) {
+                        web.url = file;
+                    } else
+                        addPres(file);
                 }
                 
             }
@@ -400,5 +404,38 @@ Item {
         PdfDocument {
             id: pdf
         }
+
+        WebEngineView {
+            id: web
+            height: 0
+            width: 0
+            onLoadingChanged: {
+                if (loadRequest.status == 2)
+                    addHtml(url);
+            }
+        }
+    }
+
+    function addHtml(url) {
+        console.log("adding an html");
+        var pageCount = 1;
+        web.runJavaScript("Reveal.getSlides()", function(result) {
+            let str = '';
+            for (const [p, val] of Object.entries(result[0])) {
+                str += `${p}::${val}\n`;
+            }
+            console.log(str);
+            pageCount = result.length;
+            console.log(pageCount);
+            presProxyModel.presentationModel.newItem(url, pageCount);
+            selectedLibrary = "presentation";
+            presentationLibrary.libraryList.currentIndex = presProxyModel.presentationModel.count();
+            console.log(presProxyModel.getPresentation(presentationLibrary.libraryList.currentIndex));
+            const presentation = presProxyModel.getPresentation(presentationLibrary.libraryList.currentIndex);
+            showPassiveNotification("newest image: " + presentation.title);
+            if (!editMode)
+                editMode = true;
+            editSwitch("presentation", presentation);
+        });
     }
 }

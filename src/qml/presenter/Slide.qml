@@ -20,6 +20,7 @@ Item {
     property bool dropShadow: false
     property url imageSource
     property url webSource
+    property bool htmlVisible: false
     property url videoSource
     property url audioSource
     property bool vidLoop
@@ -128,7 +129,7 @@ Item {
             source: imageSource
             fillMode: itemType == "song" ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             clip: true
-            visible: true
+            visible: webSource.length == 0
             currentFrame: pdfIndex
         }
 
@@ -172,7 +173,11 @@ Item {
             id: web
             anchors.fill: parent
             url: webSource
-            visible: false
+            visible: htmlVisible
+            onLoadingChanged: {
+                if (loadRequest.status == 2)
+                    showPassiveNotification("YAHOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!");
+            }
         }
     }
 

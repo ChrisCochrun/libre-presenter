@@ -120,8 +120,9 @@ FocusScope {
                     implicitHeight: width / 16 * 9
                     anchors.centerIn: parent
                     itemType: SlideObject.ty
-                    imageSource: SlideObject.imageBackground
+                    imageSource: SlideObject.imageBackground.endsWith(".html") ? "" : SlideObject.imageBackground
                     webSource: SlideObject.imageBackground.endsWith(".html") ? SlideObject.imageBackground : ""
+                    htmlVisible: SlideObject.imageBackground.endsWith(".html")
                     videoSource: SlideObject.videoBackground
                     audioSource: SlideObject.audio
                     chosenFont: SlideObject.font

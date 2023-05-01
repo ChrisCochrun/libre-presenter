@@ -140,7 +140,7 @@ Item {
                     icon.name: "back"
                     onClicked: {
                         if (isHtml) {
-                            webPresentationPreview.runJavaScript("Reveal.navigatePrev()");
+                            webPresentationPreview.runJavaScript("Reveal.prev()");
                         } else
                             presentationPreview.currentFrame = presentationPreview.currentFrame - 1
                     }
@@ -154,9 +154,9 @@ Item {
                     icon.name: "next"
                     onClicked: {
                         if (isHtml) {
-                            webPresentationPreview.runJavaScript("Reveal.navigateNext()");
+                            webPresentationPreview.runJavaScript("Reveal.next()");
                         } else
-                            presentationPreview.currentFrame = presentationPreview.currentFrame + 1
+                        presentationPreview.currentFrame = presentationPreview.currentFrame + 1
                     }
                 }
             }

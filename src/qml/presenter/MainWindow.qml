@@ -192,7 +192,7 @@ Controls.Page {
         slideHelper.chngSlide(item, index, SlideObject);
         /* SlideMod.activate(index); */
         presentation.textIndex = 0;
-        console.log("Slide changed to: " + index);
+        console.log("Slide changed to: ", item.imageBackground);
         activeServiceItem = ServiceItemModel.getItem(currentServiceItem).name;
     }
 
