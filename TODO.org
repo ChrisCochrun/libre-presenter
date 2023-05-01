@@ -78,7 +78,7 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
 ** TODO presentations need to know their index of individual slides and count :bug:
 Both PDFs and reveal.js presentations think every slide is the first one. I need a way of finding the individual components and then properly switching to the next one.
 
-Switching to the next slide in reveal.js may be tricky since I'll need to push into the WebEnginView the next reveal function and then get back how many more slides and fragments there are.
+Switching to the next slide in reveal.js may be tricky since I'll need to push into the WebEngineView the next reveal function and then get back how many more slides and fragments there are.
 ** TODO get_lyric_list method
 [[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
 This is the big one. Previous implementation in cpp is here:
