@@ -72,11 +72,7 @@ mod slide_model {
         }
     }
 
-    #[cxx_qt::qobject(
-        base = "QAbstractListModel",
-        // qml_uri = "com.kdab.cxx_qt.demo",
-        // qml_version = "1.0"
-    )]
+    #[cxx_qt::qobject(base = "QAbstractListModel")]
     #[derive(Default, Debug)]
     pub struct SlideyMod {
         id: i32,

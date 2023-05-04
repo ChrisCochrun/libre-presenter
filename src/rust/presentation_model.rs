@@ -33,9 +33,9 @@ mod presentation_model {
     #[derive(Default, Clone, Debug)]
     pub struct Presentation {
         id: i32,
-        title: QString,
+        title: String,
         html: bool,
-        path: QString,
+        path: String,
         page_count: i32,
     }
 
@@ -100,9 +100,9 @@ mod presentation_model {
 
                 let pres = self::Presentation {
                     id: presentation.id,
-                    title: QString::from(&presentation.title),
+                    title: presentation.title,
                     html: presentation.path.ends_with(".html"),
-                    path: QString::from(&presentation.path),
+                    path: presentation.path,
                     page_count: presentation.page_count.unwrap(),
                 };
 
@@ -189,9 +189,9 @@ mod presentation_model {
             // println!("{:?}", db);
             let presentation = self::Presentation {
                 id: presentation_id,
-                title: presentation_title.clone(),
+                title: presentation_title.clone().to_string(),
                 html: false,
-                path: presentation_path.clone(),
+                path: presentation_path.clone().to_string(),
                 page_count: new_page_count,
             };
             println!("{:?}", presentation);
@@ -307,8 +307,8 @@ mod presentation_model {
             if let Some(presentation) = self.presentations().get(index.row() as usize) {
                 return match role {
                     0 => QVariant::from(&presentation.id),
-                    1 => QVariant::from(&presentation.title),
-                    2 => QVariant::from(&presentation.path),
+                    1 => QVariant::from(&QString::from(&presentation.title)),
+                    2 => QVariant::from(&QString::from(&presentation.path)),
                     3 => QVariant::from(&presentation.html),
                     4 => QVariant::from(&presentation.page_count),
                     _ => QVariant::default(),

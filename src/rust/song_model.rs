@@ -32,7 +32,6 @@ mod song_model {
     #[derive(Default, Clone, Debug)]
     pub struct Song {
         id: i32,
-        title: QString,
         title: String,
         lyrics: String,
         author: String,
@@ -105,16 +104,26 @@ mod song_model {
             for song in results {
                 println!("{}", song.title);
                 println!("{}", song.id);
-                println!("{}", song.path);
+                println!("{}", song.background.clone().unwrap_or_default());
                 println!("--------------");
                 if self.as_mut().highest_id() < &song.id {
                     self.as_mut().set_highest_id(song.id);
                 }
 
-                let img = self::Song {
+                let img = Song {
                     id: song.id,
-                    title: QString::from(&song.title),
-                    path: QString::from(&song.path),
+                    title: song.title,
+                    lyrics: song.lyrics.unwrap_or_default(),
+                    author: song.author.unwrap_or_default(),
+                    ccli: song.ccli.unwrap_or_default(),
+                    audio: song.audio.unwrap_or_default(),
+                    verse_order: song.verse_order.unwrap_or_default(),
+                    background: song.background.unwrap_or_default(),
+                    background_type: song.background_type.unwrap_or_default(),
+                    horizontal_text_alignment: song.horizontal_text_alignment.unwrap_or_default(),
+                    vertical_text_alignment: song.vertical_text_alignment.unwrap_or_default(),
+                    font: song.font.unwrap_or_default(),
+                    font_size: song.font_size.unwrap_or_default(),
                 };
 
                 self.as_mut().add_song(img);
@@ -171,50 +180,50 @@ mod song_model {
             let song_title = QString::from(name);
             let song_path = url.to_qstring();
 
-            if self.as_mut().add_item(song_id, song_title, song_path) {
-                println!("filename: {:?}", name);
-                self.as_mut().set_highest_id(song_id);
-            } else {
-                println!("Error in inserting item");
-            }
+            // if self.as_mut().add_item(song_id, song_title, song_path) {
+            //     println!("filename: {:?}", name);
+            //     self.as_mut().set_highest_id(song_id);
+            // } else {
+            //     println!("Error in inserting item");
+            // }
         }
 
-        fn add_item(
-            mut self: Pin<&mut Self>,
-            song_id: i32,
-            song_title: QString,
-            song_path: QString,
-        ) -> bool {
-            let db = &mut self.as_mut().get_db();
-            // println!("{:?}", db);
-            let song = self::Song {
-                id: song_id,
-                title: song_title.clone(),
-                path: song_path.clone(),
-            };
-            println!("{:?}", song);
+        // fn add_item(
+        //     mut self: Pin<&mut Self>,
+        //     song_id: i32,
+        //     song_title: QString,
+        //     song_path: QString,
+        // ) -> bool {
+        //     let db = &mut self.as_mut().get_db();
+        //     // println!("{:?}", db);
+        //     let song = self::Song {
+        //         id: song_id,
+        //         title: song_title.clone(),
+        //         path: song_path.clone(),
+        //     };
+        //     println!("{:?}", song);
 
-            let result = insert_into(songs)
-                .values((
-                    id.eq(&song_id),
-                    title.eq(&song_title.to_string()),
-                    path.eq(&song_path.to_string()),
-                ))
-                .execute(db);
-            println!("{:?}", result);
+        //     let result = insert_into(songs)
+        //         .values((
+        //             id.eq(&song_id),
+        //             title.eq(&song_title.to_string()),
+        //             path.eq(&song_path.to_string()),
+        //         ))
+        //         .execute(db);
+        //     println!("{:?}", result);
 
-            match result {
-                Ok(_i) => {
-                    self.as_mut().add_song(song);
-                    println!("{:?}", self.as_mut().songs());
-                    true
-                }
-                Err(_e) => {
-                    println!("Cannot connect to database");
-                    false
-                }
-            }
-        }
+        //     match result {
+        //         Ok(_i) => {
+        //             self.as_mut().add_song(song);
+        //             println!("{:?}", self.as_mut().songs());
+        //             true
+        //         }
+        //         Err(_e) => {
+        //             println!("Cannot connect to database");
+        //             false
+        //         }
+        //     }
+        // }
 
         fn add_song(mut self: Pin<&mut Self>, song: self::Song) {
             let index = self.as_ref().songs().len() as i32;
@@ -240,7 +249,7 @@ mod song_model {
             match result {
                 Ok(_i) => {
                     let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
-                    song.title = updated_title;
+                    song.title = updated_title.to_string();
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     true
@@ -253,20 +262,20 @@ mod song_model {
         pub fn update_file_path(
             mut self: Pin<&mut Self>,
             index: i32,
-            updated_file_path: QString,
+            updated_background: QString,
         ) -> bool {
             let mut vector_roles = QVector_i32::default();
-            vector_roles.append(self.as_ref().get_role(Role::PathRole));
+            vector_roles.append(self.as_ref().get_role(Role::BackgroundRole));
             let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
 
             let db = &mut self.as_mut().get_db();
             let result = update(songs.filter(id.eq(index)))
-                .set(path.eq(updated_file_path.to_string()))
+                .set(background.eq(updated_background.to_string()))
                 .execute(db);
             match result {
                 Ok(_i) => {
                     let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
-                    song.path = updated_file_path;
+                    song.background = updated_background.to_string();
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     true
@@ -294,6 +303,20 @@ mod song_model {
                 }
             };
             qvariantmap
+        }
+
+        #[qinvokable]
+        pub fn get_lyric_list(mut self: Pin<&mut Self>, index: i32) -> QList_QString {
+            println!("{index}");
+            let lyric_list = QList_QString::default();
+            let idx = self.index(index, 0, &QModelIndex::default());
+            if !idx.is_valid() {
+                return lyric_list;
+            }
+            if let Some(song) = self.rust().songs.get(index as usize) {
+                let raw_lyrics = song.lyrics.clone();
+            }
+            lyric_list
         }
 
         fn get_role(&self, role: Role) -> i32 {
@@ -359,17 +382,17 @@ mod song_model {
             if let Some(song) = self.songs().get(index.row() as usize) {
                 return match role {
                     0 => QVariant::from(&song.id),
-                    1 => QVariant::from(&song.title),
-                    2 => QVariant::from(&song.lyrics),
-                    3 => QVariant::from(&song.author),
-                    4 => QVariant::from(&song.ccli),
-                    5 => QVariant::from(&song.audio),
-                    6 => QVariant::from(&song.verse_order),
-                    7 => QVariant::from(&song.background),
-                    8 => QVariant::from(&song.background_type),
-                    9 => QVariant::from(&song.horizontal_text_alignment),
-                    10 => QVariant::from(&song.vertical_text_alignment),
-                    11 => QVariant::from(&song.font),
+                    1 => QVariant::from(&QString::from(&song.title)),
+                    2 => QVariant::from(&QString::from(&song.lyrics)),
+                    3 => QVariant::from(&QString::from(&song.author)),
+                    4 => QVariant::from(&QString::from(&song.ccli)),
+                    5 => QVariant::from(&QString::from(&song.audio)),
+                    6 => QVariant::from(&QString::from(&song.verse_order)),
+                    7 => QVariant::from(&QString::from(&song.background)),
+                    8 => QVariant::from(&QString::from(&song.background_type)),
+                    9 => QVariant::from(&QString::from(&song.horizontal_text_alignment)),
+                    10 => QVariant::from(&QString::from(&song.vertical_text_alignment)),
+                    11 => QVariant::from(&QString::from(&song.font)),
                     12 => QVariant::from(&song.font_size),
                     _ => QVariant::default(),
                 };

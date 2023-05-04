@@ -35,9 +35,9 @@ diesel::table! {
         #[sql_name = "backgroundType"]
         background_type -> Nullable<Text>,
         #[sql_name = "horizontalTextAlignment"]
-        horizontal_text_alignment -> Nullable<Binary>,
+        horizontal_text_alignment -> Nullable<Text>,
         #[sql_name = "verticalTextAlignment"]
-        vertical_text_alignment -> Nullable<Binary>,
+        vertical_text_alignment -> Nullable<Text>,
         font -> Nullable<Text>,
         #[sql_name = "fontSize"]
         font_size -> Nullable<Integer>,
