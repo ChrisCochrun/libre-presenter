@@ -435,7 +435,7 @@ Item {
     function changeSong(index) {
         clearSlides();
         console.log(index);
-        song = songProxyModel.songModel.getSong(index);
+        song = songProxyModel.getSong(index);
         console.log(song.lyrics);
         songIndex = song.id;
 
@@ -581,7 +581,7 @@ Item {
 
     function changeSlideText(id) {
         /* console.log("Here are the verses: " + verses); */
-        const verses = songProxyModel.songModel.getLyricList(id);
+        const verses = songProxyModel.getLyricList(id);
         verses.forEach(slideEditor.appendVerse);
         /* slideEditor.loadVideo(); */
     }

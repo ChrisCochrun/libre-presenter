@@ -5,6 +5,7 @@ mod song_model {
     use crate::song_model::song_model::Song;
     use diesel::sqlite::SqliteConnection;
     use diesel::{delete, insert_into, prelude::*, update};
+    use std::collections::HashMap;
     use std::path::{Path, PathBuf};
 
     unsafe extern "C++" {
@@ -92,7 +93,7 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn test_database(mut self: Pin<&mut Self>) {
+        pub fn setup(mut self: Pin<&mut Self>) {
             let db = &mut self.as_mut().get_db();
             let results = songs
                 .load::<crate::models::Song>(db)
@@ -306,17 +307,71 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn get_lyric_list(mut self: Pin<&mut Self>, index: i32) -> QList_QString {
-            println!("{index}");
-            let lyric_list = QList_QString::default();
+        pub fn get_lyric_list(mut self: Pin<&mut Self>, index: i32) -> QStringList {
+            println!("LYRIC_LIST: {index}");
+            let mut lyric_list = QList_QString::default();
             let idx = self.index(index, 0, &QModelIndex::default());
             if !idx.is_valid() {
-                return lyric_list;
+                return QStringList::default();
             }
             if let Some(song) = self.rust().songs.get(index as usize) {
                 let raw_lyrics = song.lyrics.clone();
+                let vorder: Vec<&str> = song.verse_order.split(' ').collect();
+                let keywords = vec![
+                    "Verse 1", "Verse 2", "Verse 3", "Verse 4", "Verse 5", "Verse 6", "Verse 7",
+                    "Verse 8", "Chorus 1", "Chorus 2", "Chorus 3", "Chorus 4", "Bridge 1",
+                    "Bridge 2", "Bridge 3", "Bridge 4", "Intro 1", "Intro 2", "Ending 1",
+                    "Ending 2", "Other 1", "Other 2", "Other 3", "Other 4",
+                ];
+                let mut first_item = true;
+
+                let mut lyric_map = HashMap::new();
+                let mut verse_title = String::from("");
+                let mut lyric = String::from("");
+                for (i, line) in raw_lyrics.split("\n").enumerate() {
+                    if keywords.contains(&line) {
+                        if i != 0 {
+                            println!("{verse_title}");
+                            println!("{lyric}");
+                            lyric_map.insert(verse_title, lyric);
+                            lyric = String::from("");
+                            verse_title = line.to_string();
+                            // println!("{line}");
+                            // println!("\n");
+                        } else {
+                            verse_title = line.to_string();
+                            // println!("{line}");
+                            // println!("\n");
+                        }
+                    } else {
+                        lyric.push_str(line);
+                        lyric.push_str("\n");
+                    }
+                }
+                println!("da-map: {:?}", lyric_map);
+
+                for verse in vorder {
+                    let mut verse_name = "";
+                    for word in keywords.clone() {
+                        let end_verse = verse.get(1..).unwrap();
+                        if word.get(..0).unwrap() == verse.get(..0).unwrap()
+                            && word.ends_with(end_verse)
+                        {
+                            verse_name = word;
+                            println!("TITLE: {verse_name}");
+                        }
+                    }
+                    if let Some(lyric) = lyric_map.get(verse_name) {
+                        lyric_list.append(QString::from(lyric));
+                    } else {
+                        println!("NOT WORKING!");
+                    };
+                }
+                for lyric in lyric_list.iter() {
+                    println!("da-list: {:?}", lyric);
+                }
             }
-            lyric_list
+            QStringList::from(&lyric_list)
         }
 
         fn get_role(&self, role: Role) -> i32 {

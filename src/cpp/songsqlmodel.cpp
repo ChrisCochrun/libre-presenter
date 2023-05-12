@@ -722,7 +722,8 @@ QModelIndex SongSqlModel::idx(int row) {
 SongProxyModel::SongProxyModel(QObject *parent)
   :QSortFilterProxyModel(parent)
 {
-  m_songModel = new SongSqlModel;
+  m_songModel = new SongModel;
+  m_songModel->setup();
   // m_selectionModel = new QItemSelectionModel;
   // m_selectionModel->setModel(this);
   setSourceModel(m_songModel);
@@ -731,7 +732,7 @@ SongProxyModel::SongProxyModel(QObject *parent)
   setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
-SongSqlModel *SongProxyModel::songModel() {
+SongModel *SongProxyModel::songModel() {
   return m_songModel;
 }
 
@@ -742,7 +743,7 @@ QModelIndex SongProxyModel::idx(int row) {
 }
 
 QModelIndex SongProxyModel::modelIndex(int row) {
-  QModelIndex idx = m_songModel->idx(mapToSource(index(row, 0)).row());
+  QModelIndex idx = m_songModel->index(mapToSource(index(row, 0)).row());
   return idx;
 }
 
@@ -752,21 +753,21 @@ QStringList SongProxyModel::getLyricList(const int &row) {
 }
 
 QVariantMap SongProxyModel::getSong(const int &row) {
-  QVariantMap song = m_songModel->getSong(mapToSource(index(row, 0)).row());
+  QVariantMap song = m_songModel->getItem(mapToSource(index(row, 0)).row());
   return song;
 }
 
 void SongProxyModel::deleteSong(const int &row) {
-  auto model = qobject_cast<SongSqlModel *>(sourceModel());
-  model->deleteSong(row);
+  auto model = qobject_cast<SongModel *>(sourceModel());
+  model->removeItem(row);
 }
 
 void SongProxyModel::deleteSongs(const QVector<int> &rows) {
-  auto model = qobject_cast<SongSqlModel *>(sourceModel());
+  auto model = qobject_cast<SongModel *>(sourceModel());
   qDebug() << "DELETING!!!!!!!!!!!!!!!!!!!!!!!" << rows;
   for (int i = rows.size() - 1; i >= 0; i--) {
     qDebug() << "deleting" << rows.at(i);
-    model->deleteSong(rows.at(i));
+    model->removeItem(rows.at(i));
   }
 }
 

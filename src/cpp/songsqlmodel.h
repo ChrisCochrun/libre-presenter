@@ -7,6 +7,7 @@
 #include <qobjectdefs.h>
 #include <qqml.h>
 #include <qvariant.h>
+#include "cxx-qt-gen/song_model.cxxqt.h"
 
 class SongSqlModel : public QSqlTableModel
 {
@@ -113,14 +114,14 @@ private:
 class SongProxyModel : public QSortFilterProxyModel
 {
   Q_OBJECT
-  Q_PROPERTY(SongSqlModel *songModel READ songModel)
+  Q_PROPERTY(SongModel *songModel READ songModel)
   // Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY selectedChanged)
 
 public:
   explicit SongProxyModel(QObject *parent = nullptr);
   ~SongProxyModel() = default;
 
-  SongSqlModel *songModel();
+  SongModel *songModel();
   Q_INVOKABLE QModelIndex idx(int row);
   Q_INVOKABLE QModelIndex modelIndex(int row);
   // Q_INVOKABLE bool selected(const int &row);
@@ -142,7 +143,7 @@ signals:
   // Q_INVOKABLE void selectedChanged(bool selected);
 
 private:
-  SongSqlModel *m_songModel;
+  SongModel *m_songModel;
   // QItemSelectionModel *m_selectionModel;
   // bool m_selected;
 };
