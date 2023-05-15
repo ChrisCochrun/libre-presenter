@@ -316,6 +316,7 @@ mod song_model {
             }
             if let Some(song) = self.rust().songs.get(index as usize) {
                 let raw_lyrics = song.lyrics.clone();
+                println!("raw-lyrics: {:?}", raw_lyrics);
                 let vorder: Vec<&str> = song.verse_order.split(' ').collect();
                 let keywords = vec![
                     "Verse 1", "Verse 2", "Verse 3", "Verse 4", "Verse 5", "Verse 6", "Verse 7",
@@ -348,20 +349,35 @@ mod song_model {
                         lyric.push_str("\n");
                     }
                 }
+                lyric_map.insert(verse_title, lyric);
                 println!("da-map: {:?}", lyric_map);
 
-                for verse in vorder {
+                for mut verse in vorder {
                     let mut verse_name = "";
                     for word in keywords.clone() {
-                        let end_verse = verse.get(1..).unwrap();
-                        if word.get(..0).unwrap() == verse.get(..0).unwrap()
-                            && word.ends_with(end_verse)
-                        {
+                        let end_verse = verse.get(1..2).unwrap();
+                        let beg_verse = verse.get(0..1).unwrap();
+                        println!(
+                            "verse: {:?}, beginning: {:?}, end: {:?}, word: {:?}",
+                            verse, beg_verse, end_verse, word
+                        );
+                        if word.starts_with(beg_verse) && word.ends_with(end_verse) {
                             verse_name = word;
                             println!("TITLE: {verse_name}");
+                            continue;
                         }
                     }
                     if let Some(lyric) = lyric_map.get(verse_name) {
+                        if lyric.contains("\n\n") {
+                            let split_lyrics: Vec<&str> = lyric.split("\n\n").collect();
+                            for lyric in split_lyrics {
+                                if lyric == "" {
+                                    continue;
+                                }
+                                lyric_list.append(QString::from(lyric));
+                            }
+                            continue;
+                        }
                         lyric_list.append(QString::from(lyric));
                     } else {
                         println!("NOT WORKING!");
