@@ -111,7 +111,7 @@ mod song_model {
                     self.as_mut().set_highest_id(song.id);
                 }
 
-                let img = Song {
+                let song = Song {
                     id: song.id,
                     title: song.title,
                     lyrics: song.lyrics.unwrap_or_default(),
@@ -127,7 +127,7 @@ mod song_model {
                     font_size: song.font_size.unwrap_or_default(),
                 };
 
-                self.as_mut().add_song(img);
+                self.as_mut().add_song(song);
             }
             println!("--------------------------------------");
             println!("{:?}", self.as_mut().songs());
@@ -187,6 +187,20 @@ mod song_model {
             // } else {
             //     println!("Error in inserting item");
             // }
+        }
+
+        #[qinvokable]
+        pub fn new_song(self: Pin<&mut Self>) {
+            let song_id = self.rust().highest_id + 1;
+            let song_title = String::from("title");
+
+            let song = Song {
+                id: song_id,
+                title: song_title,
+                ..Default::default()
+            };
+
+            self.add_song(song);
         }
 
         // fn add_item(
@@ -315,6 +329,9 @@ mod song_model {
                 return QStringList::default();
             }
             if let Some(song) = self.rust().songs.get(index as usize) {
+                if song.lyrics.is_empty() {
+                    return QStringList::default();
+                }
                 let raw_lyrics = song.lyrics.clone();
                 println!("raw-lyrics: {:?}", raw_lyrics);
                 let vorder: Vec<&str> = song.verse_order.split(' ').collect();

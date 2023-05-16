@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [66%] [34/51]
+* Tasks [67%] [35/52]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -79,10 +79,14 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
 Both PDFs and reveal.js presentations think every slide is the first one. I need a way of finding the individual components and then properly switching to the next one.
 
 Switching to the next slide in reveal.js may be tricky since I'll need to push into the WebEngineView the next reveal function and then get back how many more slides and fragments there are.
-** TODO get_lyric_list method
+** DONE get_lyric_list method
 [[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
 This is the big one. Previous implementation in cpp is here:
 [[file:src/cpp/songsqlmodel.cpp::QStringList SongSqlModel::getLyricList(const int &row)]]
+** TODO find song on SongSelect
+This function will need to include parsing through the HTML of the results page. Finding the first "song-result", then "song-result-title", and inside that tag is the name. In the URL is the CCLI number.
+
+Lyrics will probably be better to grab from genius lyrics.
 ** TODO new_song method
 [[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
 ** TODO Create a setting for holding static slides and audios

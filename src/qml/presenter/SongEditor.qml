@@ -411,7 +411,7 @@ Item {
 
     function newSong(index) {
         clearSlides();
-        song = songProxyModel.songModel.getSong(index);
+        song = songProxyModel.getSong(index);
         console.log(song.lyrics);
         songIndex = song.id;
 
@@ -438,6 +438,7 @@ Item {
         song = songProxyModel.getSong(index);
         console.log(song.lyrics);
         songIndex = song.id;
+        console.log(song.id);
 
         if (song.backgroundType == "image") {
             slideEditor.videoBackground = "";
