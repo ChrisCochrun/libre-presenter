@@ -2,6 +2,7 @@
 mod presentation_model {
     use crate::models::*;
     use crate::presentation_model::presentation_model::Presentation;
+    use crate::reveal_js;
     use crate::schema::presentations::dsl::*;
     use diesel::sqlite::SqliteConnection;
     use diesel::{delete, insert_into, prelude::*};
@@ -187,12 +188,18 @@ mod presentation_model {
         ) -> bool {
             let db = &mut self.as_mut().get_db();
             // println!("{:?}", db);
+            let mut actual_page_count = new_page_count;
+            if presentation_html {
+                let actual_path = presentation_path.clone().to_string().trim();
+                actual_page_count = reveal_js::count_slides_and_fragments(actual_path);
+            }
+
             let presentation = self::Presentation {
                 id: presentation_id,
                 title: presentation_title.clone().to_string(),
-                html: false,
+                html: presentation_html,
                 path: presentation_path.clone().to_string(),
-                page_count: new_page_count,
+                page_count: actual_page_count,
             };
             println!("{:?}", presentation);
 
