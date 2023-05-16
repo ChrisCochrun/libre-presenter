@@ -190,8 +190,8 @@ mod presentation_model {
             // println!("{:?}", db);
             let mut actual_page_count = new_page_count;
             if presentation_html {
-                let actual_path = presentation_path.clone().to_string().trim();
-                actual_page_count = reveal_js::count_slides_and_fragments(actual_path);
+                let actual_path = presentation_path.clone().to_string();
+                actual_page_count = reveal_js::count_slides_and_fragments(actual_path.trim());
             }
 
             let presentation = self::Presentation {
