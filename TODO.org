@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [0%] [0/0]
+* Tasks [63%] [36/57]
 ** TODO Switch to using rust only deletion functions.
 [[file:~/dev/church-presenter/src/qml/presenter/Library.qml::videoProxyModel.deleteVideos(rows)]]
 
@@ -65,12 +65,12 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
-** TODO [#B] Updating properties in models. [0/4] [0%]
+** TODO [#B] Updating properties in models. [2/4] [50%]
 All of the models need to be editable from the outside so that the editor pages a can appropriately change the properties of each item. I'll go in this order.
 *** TODO Video
 Almost done here, but I can't get the data to emit the change and therefore inform the proxyModel of the changes and change it in the list view.
-*** TODO Image
-*** TODO Presentations
+*** DONE Image
+*** DONE Presentations
 *** TODO Songs
 
 Songs will be the hardest so I'll save them for last. They are not even using the rust models yet anyway. The key that I figured out is that instead of relying on the proxy model to map to the appropriate id inside the rust model. I'll store an id in the sqlite database and use that as a way to find each item. I'll need to keep tinkering with the best way to do that as right now I looped through all the items and that may get inefficient as models grow.
@@ -81,7 +81,7 @@ Right now some of the paths are hardcoded and I need to fix that very fast so th
 ** TODO [#B] start and end times for videos                       :feature:
 This is something I couldn't get right in my head and plans and I hope rust will help me to solve it.
 ** TODO A busy indicator while deleting library items :feature:ui:
-** TODO [#A] presentations need to know their index of individual slides and count :bug:
+** TODO [#B] presentations need to know their index of individual slides and count :bug:
 Both PDFs and reveal.js presentations think every slide is the first one. I need a way of finding the individual components and then properly switching to the next one.
 
 Switching to the next slide in reveal.js may be tricky since I'll need to push into the WebEngineView the next reveal function and then get back how many more slides and fragments there are.
@@ -91,7 +91,7 @@ Since building a lot of the rust code felt more like an experiment, I've not kep
 This function will need to include parsing through the HTML of the results page. Finding the first "song-result", then "song-result-title", and inside that tag is the name. In the URL is the CCLI number.
 
 Lyrics will probably be better to grab from genius lyrics.
-** TODO [#A] new_song method                                  :feature:bug:
+** DONE [#A] new_song method                                  :feature:bug:
 [[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
 ** TODO Create a setting for holding static slides and audios :feature:
 [[file:~/dev/church-presenter/src/qml/presenter/Settings.qml]]
