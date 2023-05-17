@@ -17,9 +17,10 @@ path = "src/rust/lib.rs"
 configparser = "3.0.2"
 serde = "1.0.152"
 serde_derive = "1.0.152"
+quote = "1.0.27"
 cxx = "1.0.83"
-cxx-qt = "0.5.1"
-cxx-qt-lib = "0.5.1"
+cxx-qt = {git = "https://github.com/ahayzen-kdab/cxx-qt", branch = "533-qvariantmap-qml-issues"}
+cxx-qt-lib = {git = "https://github.com/ahayzen-kdab/cxx-qt", branch = "533-qvariantmap-qml-issues"}
 # home = "0.5.4"
 dirs = "5.0.0"
 diesel = { version = "2.0.3", features = ["sqlite"] }

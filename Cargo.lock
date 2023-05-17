@@ -81,7 +81,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "scratch",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -93,18 +93,17 @@ dependencies = [
  "codespan-reporting",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
 name = "cxx-qt"
-version = "0.5.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c93b84cbcbc21fdfa6f93ae0b9b31b47a220ccb8a4afbd0593f0158413b9759"
+version = "0.5.2"
+source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#28f6b50ca0973226328c5caacb3f053b323fda30"
 dependencies = [
- "cxx-qt-gen",
+ "cxx-qt-gen 0.5.2",
  "proc-macro2",
- "syn",
+ "syn 2.0.16",
 ]
 
 [[package]]
@@ -116,10 +115,10 @@ dependencies = [
  "cc",
  "convert_case",
  "cxx-gen",
- "cxx-qt-gen",
- "cxx-qt-lib-headers",
+ "cxx-qt-gen 0.5.1",
+ "cxx-qt-lib-headers 0.5.1",
  "proc-macro2",
- "qt-build-utils",
+ "qt-build-utils 0.5.1",
  "quote",
 ]
 
@@ -134,19 +133,31 @@ dependencies = [
  "indoc",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
+]
+
+[[package]]
+name = "cxx-qt-gen"
+version = "0.5.2"
+source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#28f6b50ca0973226328c5caacb3f053b323fda30"
+dependencies = [
+ "clang-format",
+ "convert_case",
+ "indoc",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.16",
 ]
 
 [[package]]
 name = "cxx-qt-lib"
-version = "0.5.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dac4f36c156254e4519ffc92925d03d34fc43a6bdda5f64b198c2e09553ec4d4"
+version = "0.5.2"
+source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#28f6b50ca0973226328c5caacb3f053b323fda30"
 dependencies = [
  "cxx",
  "cxx-build",
- "cxx-qt-lib-headers",
- "qt-build-utils",
+ "cxx-qt-lib-headers 0.5.2",
+ "qt-build-utils 0.5.2",
 ]
 
 [[package]]
@@ -154,6 +165,11 @@ name = "cxx-qt-lib-headers"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "83ba3343bcafd6d0beb6cabf9eca9d44ce22914ee334654664b06607a872b808"
+
+[[package]]
+name = "cxx-qt-lib-headers"
+version = "0.5.2"
+source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#28f6b50ca0973226328c5caacb3f053b323fda30"
 
 [[package]]
 name = "cxxbridge-flags"
@@ -169,7 +185,7 @@ checksum = "1362b0ddcfc4eb0a1f57b68bd77dd99f0e826958a96abd0ae9bd092e114ffed6"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -191,7 +207,7 @@ dependencies = [
  "proc-macro-error",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -279,6 +295,7 @@ dependencies = [
  "diesel",
  "dirs",
  "libsqlite3-sys",
+ "quote",
  "serde",
  "serde_derive",
  "youtube_dl",
@@ -356,7 +373,7 @@ dependencies = [
  "proc-macro-error-attr",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
  "version_check",
 ]
 
@@ -373,9 +390,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.47"
+version = "1.0.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ea3d908b0e36316caf9e9e2c4625cdde190a7e6f440d794667ed17a1855e725"
+checksum = "fa1fb82fc0c281dd9671101b66b771ebbe1eaf967b96ac8740dcba4b70005ca8"
 dependencies = [
  "unicode-ident",
 ]
@@ -391,10 +408,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "qt-build-utils"
+version = "0.5.2"
+source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#28f6b50ca0973226328c5caacb3f053b323fda30"
+dependencies = [
+ "thiserror",
+ "versions",
+]
+
+[[package]]
 name = "quote"
-version = "1.0.21"
+version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbe448f377a7d6961e30f5955f9b8d106c3f5e449d493ee1b125c1d43c2b5179"
+checksum = "8f4f29d145265ec1c483c7c654450edde0bfe043d3938d6972630663356d9500"
 dependencies = [
  "proc-macro2",
 ]
@@ -448,7 +474,7 @@ checksum = "af487d118eecd09402d70a5d72551860e788df87b464af30e5ea6a38c75c541e"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -467,6 +493,17 @@ name = "syn"
 version = "1.0.109"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-ident",
+]
+
+[[package]]
+name = "syn"
+version = "2.0.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a6f671d4b5ffdb8eadec19c0ae67fe2639df8684bd7bc4b83d986b8db549cf01"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -499,7 +536,7 @@ checksum = "982d17546b47146b28f7c22e3d08465f6b8903d0ea13c1660d9d84a6e7adcdbb"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
