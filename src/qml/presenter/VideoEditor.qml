@@ -237,7 +237,7 @@ Item {
     }
 
     function changeVideo(index) {
-        let vid = videoProxyModel.getVideo(index);
+        let vid = videoProxyModel.videoModel.getItem(index);
         root.video = vid;
         console.log(video.startTime);
         console.log(video.endTime);
@@ -253,24 +253,24 @@ Item {
     }
 
     function updateEndTime(value) {
-        videoProxyModel.updateEndTime(video.id, Math.min(value, videoPreview.duration));
+        videoProxyModel.videoModel.updateEndTime(video.id, Math.min(value, videoPreview.duration));
         video.endTime = value;
     }
 
     function updateStartTime(value) {
-        videoProxyModel.updateStartTime(video.id, Math.max(value, 0));
+        videoProxyModel.videoModel.updateStartTime(video.id, Math.max(value, 0));
         video.startTime = value;
     }
 
     function updateTitle(text) {
         changeTitle(text, false);
-        videoProxyModel.updateTitle(video.id, text);
+        videoProxyModel.videoModel.updateTitle(video.id, text);
         /* showPassiveNotification(video.title); */
     }
 
     function updateLoop(value) {
         /* changeStartTime(value, false); */
-        let bool = videoProxyModel.updateLoop(video.id, value);
+        let bool = videoProxyModel.videoModel.updateLoop(video.id, value);
         if (bool)
             video.loop = value;
         /* showPassiveNotification("Loop changed to: " + video.loop); */

@@ -370,9 +370,12 @@ mod video_model {
                         .filter(|x| x.id == index)
                     {
                         video.title = updated_title.clone();
+                        println!("rust-title: {:?}", video.title);
                     }
+                    // TODO this seems to not be updating in the actual list
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
+                    // self.as_mut().emit_title_changed();
                     println!("rust-title: {:?}", updated_title);
                     true
                 }
