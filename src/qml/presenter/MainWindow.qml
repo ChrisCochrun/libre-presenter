@@ -201,9 +201,9 @@ Controls.Page {
         pWindow.loopVideo();
     }
 
-    function editSwitch(item) {
+    function editSwitch(item, mode) {
         if (editMode) {
-            switch (editType) {
+            switch (mode) {
             case "song" :
                 presentation.visible = false;
                 videoEditor.visible = false;

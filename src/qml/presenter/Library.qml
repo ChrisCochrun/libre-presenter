@@ -47,8 +47,7 @@ Item {
                     libraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
                     if (!editMode)
                         editMode = true;
-                    editType = "song";
-                    editSwitch(libraryList.currentIndex);
+                    editSwitch(libraryList.currentIndex, "song");
                 })
                 deleteItemFunction: (function(rows) {
                     songProxyModel.deleteSongs(rows)
@@ -301,7 +300,7 @@ Item {
                 showPassiveNotification("newest video: " + video.title);
                 if (!editMode)
                     editMode = true;
-                editSwitch("video", video);
+                editSwitch(video, "video");
             }
 
             function addImg(url) {
@@ -313,7 +312,7 @@ Item {
                 showPassiveNotification("newest image: " + image.title);
                 if (!editMode)
                     editMode = true;
-                editSwitch("image", image);
+                editSwitch(image, "image");
             }
 
             function addPres(url) {
@@ -333,7 +332,7 @@ Item {
                 showPassiveNotification("newest image: " + presentation.title);
                 if (!editMode)
                     editMode = true;
-                editSwitch("presentation", presentation);
+                editSwitch(presentation, "presentation");
                 pdf.source = "";
             }
 

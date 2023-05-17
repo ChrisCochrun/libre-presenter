@@ -349,8 +349,7 @@ ColumnLayout {
                             libraryList.currentIndex = index;
                             if (!editMode)
                                 editMode = true;
-                            editType = libraryType;
-                            editSwitch(index);
+                            editSwitch(index, libraryType);
                         }
 
                     }
