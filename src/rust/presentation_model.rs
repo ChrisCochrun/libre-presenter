@@ -291,6 +291,42 @@ mod presentation_model {
             }
         }
 
+        #[qinvokable]
+        pub fn update_page_count(
+            mut self: Pin<&mut Self>,
+            index: i32,
+            updated_page_count: i32,
+        ) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::PageCountRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(presentations.filter(id.eq(index)))
+                .set(page_count.eq(updated_page_count))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    for presentation in self
+                        .as_mut()
+                        .presentations_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        presentation.page_count = updated_page_count;
+                        println!("rust-page_count: {:?}", presentation.page_count);
+                    }
+                    // TODO this seems to not be updating in the actual list
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    // self.as_mut().emit_page_count_changed();
+                    println!("rust-page_count: {:?}", updated_page_count);
+                    true
+                }
+                Err(_e) => false,
+            }
+        }
+
         fn get_role(&self, role: Role) -> i32 {
             match role {
                 Role::IdRole => 0,
