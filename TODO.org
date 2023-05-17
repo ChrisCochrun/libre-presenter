@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [67%] [35/52]
+* Tasks [66%] [35/53]
 
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
@@ -53,19 +53,7 @@ I'll need to make sure I'm removing the right slide after a serviceItem is remov
 [[file:~/dev/church-presenter/src/rust/slide_model.rs::for (i, slide) in slides_iter.clone().enumerate() {]]
 
 Either their index in the vector is wrong or their service_item_id is wrong. So my next approach will be to move slides individually rather than all at once?
-**** TODO Updating properties in models.
-All of the models need to be editable from the outside so that the editor pages a can appropriately change the properties of each item. I'll go in this order.
-- Video
-- Image
-- Presentations
-- Songs
-
-Songs will be the hardest so I'll save them for last. They are not even using the rust models yet anyway. The key that I figured out is that instead of relying on the proxy model to map to the appropriate id inside the rust model. I'll store an id in the sqlite database and use that as a way to find each item. I'll need to keep tinkering with the best way to do that as right now I looped through all the items and that may get inefficient as models grow.
-
-Another big blocker in this process is to make sure that all properties are accessed appropriately on the QML side. I need to update a lot of QML code yet.
-**** TODO start and end times for videos
-This is something I couldn't get right in my head and plans and I hope rust will help me to solve it.
-***** TODO serivce_item_model
+**** TODO serivce_item_model
 This needs to get ported to rust so that I can start adding more features to it soon. This is a blocker for the start and end times I believe
 **** TODO Song Model
 This still needs ported to Rust. It'll be the hardest of the library models since it includes the song lyric parsing functions.
@@ -74,31 +62,41 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
+** TODO [#B] Updating properties in models.
+All of the models need to be editable from the outside so that the editor pages a can appropriately change the properties of each item. I'll go in this order.
+*** Video
+*** Image
+*** Presentations
+*** Songs
+
+Songs will be the hardest so I'll save them for last. They are not even using the rust models yet anyway. The key that I figured out is that instead of relying on the proxy model to map to the appropriate id inside the rust model. I'll store an id in the sqlite database and use that as a way to find each item. I'll need to keep tinkering with the best way to do that as right now I looped through all the items and that may get inefficient as models grow.
+
+Another big blocker in this process is to make sure that all properties are accessed appropriately on the QML side. I need to update a lot of QML code yet.
+** TODO [#B] start and end times for videos                       :feature:
+This is something I couldn't get right in my head and plans and I hope rust will help me to solve it.
 ** TODO A busy indicator while deleting library items :feature:ui:
-** TODO presentations need to know their index of individual slides and count :bug:
+** TODO [#A] presentations need to know their index of individual slides and count :bug:
 Both PDFs and reveal.js presentations think every slide is the first one. I need a way of finding the individual components and then properly switching to the next one.
 
 Switching to the next slide in reveal.js may be tricky since I'll need to push into the WebEngineView the next reveal function and then get back how many more slides and fragments there are.
-** DONE get_lyric_list method
-[[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
-This is the big one. Previous implementation in cpp is here:
-[[file:src/cpp/songsqlmodel.cpp::QStringList SongSqlModel::getLyricList(const int &row)]]
-** TODO find song on SongSelect
+** TODO [#A] Organize and layout structure of rust code       :maintenance:
+Since building a lot of the rust code felt more like an experiment, I've not kept it very well organized. I need to go through each model and rust module and organize them well and then decide what needs to be publicly available or not.
+** TODO find song on SongSelect :feature:
 This function will need to include parsing through the HTML of the results page. Finding the first "song-result", then "song-result-title", and inside that tag is the name. In the URL is the CCLI number.
 
 Lyrics will probably be better to grab from genius lyrics.
-** TODO new_song method
+** TODO [#A] new_song method                                  :feature:bug:
 [[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
-** TODO Create a setting for holding static slides and audios
+** TODO Create a setting for holding static slides and audios :feature:
 [[file:~/dev/church-presenter/src/qml/presenter/Settings.qml]]
-** TODO ffmpeg.rs :feature:
+** TODO [#B] ffmpeg.rs                                            :feature:
 This still needs a lot of work.
-** TODO ytdl.rs :feature:
+** TODO [#B] ytdl.rs                                              :feature:
 This still needs a lot of work. Mostly error handling.
 ** TODO UI Blocks while saving :bug:
 This is waiting till we get the service_item_model.rs finished so we can use rust threads.
-** TODO give images an aspect ratio option :feature:
-** TODO Fix ImageEditor to make more sense for images :ui:
+** TODO [#B] give images an aspect ratio option                   :feature:
+** TODO [#B] Fix ImageEditor to make more sense for images             :ui:
 ** TODO Add image slideshow with looping :feature:
 I could add this by adding a bool as a gallery option in the ImageSqlModel. Then add a loop bool as well. Then perhaps I'd ask if this image item contains a gallery and if so, make sure to loop through all of the filePaths as they could be saved as a list instead of a single filepath. Then decide on the last one whether or not to loop back to the beginning based on the loop bool in the image item.
 ** TODO Add image gallery options :feature:
@@ -113,16 +111,20 @@ I could add this by adding a bool as a gallery option in the ImageSqlModel. Then
 
   I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
 
+** TODO Need to test on other wayland compositors but Hyprland doesn't show the presentation window. :bug:
+
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
-
-** TODO Need to test on other wayland compositors but Hyprland doesn't show the presentation window.
 
 ** WAIT nix-shell needs a little bit of work perhaps yet. But may be working under plasma just not minimal window managers using qt5ct.
 https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
 This thread helped a lot
 
 
+** DONE get_lyric_list method
+[[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
+This is the big one. Previous implementation in cpp is here:
+[[file:src/cpp/songsqlmodel.cpp::QStringList SongSqlModel::getLyricList(const int &row)]]
 ** DONE Add video repeat pieces                                   :feature:
 This is possible with a toggle in the presenter but it'd be even better to have that built into the video model so that videos remember whether they should repeat. This would make sense in things like countdowns or video slideshows.
 ** DONE Make libraries and models aware of being selected.
