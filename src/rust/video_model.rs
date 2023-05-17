@@ -270,11 +270,14 @@ mod video_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    for video in self.as_mut().videos_mut().iter_mut() {
-                        if video.id == index {
-                            video.looping = loop_value.clone();
-                            println!("rust-video: {:?}", video.title);
-                        }
+                    for video in self
+                        .as_mut()
+                        .videos_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        video.looping = loop_value.clone();
+                        println!("rust-video: {:?}", video.title);
                     }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
@@ -395,8 +398,15 @@ mod video_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let video = self.as_mut().videos_mut().get_mut(index as usize).unwrap();
-                    video.path = updated_path.clone();
+                    for video in self
+                        .as_mut()
+                        .videos_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        video.path = updated_path.clone();
+                        println!("rust-title: {:?}", video.title);
+                    }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     println!("rust-path: {:?}", updated_path);
