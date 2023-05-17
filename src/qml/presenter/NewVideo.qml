@@ -40,7 +40,7 @@ Kirigami.OverlaySheet {
                 Controls.ToolButton {
                     id: localButton
                     text: "Local Video"
-                    icon.name: "fileopen"
+                    icon.name: "folder-videos-symbolic"
                     hoverEnabled: true
                     onClicked: videoFileDialog.open()
                 }
