@@ -5,7 +5,7 @@ mod presentation_model {
     use crate::reveal_js;
     use crate::schema::presentations::dsl::*;
     use diesel::sqlite::SqliteConnection;
-    use diesel::{delete, insert_into, prelude::*};
+    use diesel::{delete, insert_into, prelude::*, update};
     // use sqlx::Connection;
     use std::path::{Path, PathBuf};
 
@@ -257,6 +257,38 @@ mod presentation_model {
                 }
             };
             qvariantmap
+        }
+
+        #[qinvokable]
+        pub fn update_title(mut self: Pin<&mut Self>, index: i32, updated_title: QString) -> bool {
+            let mut vector_roles = QVector_i32::default();
+            vector_roles.append(self.as_ref().get_role(Role::TitleRole));
+            let model_index = &self.as_ref().index(index, 0, &QModelIndex::default());
+
+            let db = &mut self.as_mut().get_db();
+            let result = update(presentations.filter(id.eq(index)))
+                .set(title.eq(updated_title.to_string()))
+                .execute(db);
+            match result {
+                Ok(_i) => {
+                    for presentation in self
+                        .as_mut()
+                        .presentations_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        presentation.title = updated_title.to_string();
+                        println!("rust-title: {:?}", presentation.title);
+                    }
+                    // TODO this seems to not be updating in the actual list
+                    self.as_mut()
+                        .emit_data_changed(model_index, model_index, &vector_roles);
+                    // self.as_mut().emit_title_changed();
+                    println!("rust-title: {:?}", updated_title);
+                    true
+                }
+                Err(_e) => false,
+            }
         }
 
         fn get_role(&self, role: Role) -> i32 {

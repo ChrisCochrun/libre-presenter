@@ -183,7 +183,7 @@ Item {
     }
 
     function changePresentation(index) {
-        let pres = presProxyModel.getPresentation(index);
+        let pres = presProxyModel.presentationModel.getItem(index);
         root.presentation = pres;
         console.log(pres.filePath.toString());
         updatePageCount(presentationPreview.frameCount);
@@ -193,7 +193,7 @@ Item {
 
     function updateTitle(text) {
         changeTitle(text, false);
-        pressqlmodel.updateTitle(presentation.id, text);
+        presProxyModel.presentationModel.updateTitle(presentation.id, text);
         showPassiveNotification(presentation.title);
     }
 
@@ -208,6 +208,6 @@ Item {
         if (curPageCount === presentation.pageCount)
             return;
         presentation.pageCount = pageCount;
-        pressqlmodel.updatePageCount(presentation.id, pageCount);
+        presProxyModel.presentationModel.updatePageCount(presentation.id, pageCount);
     }
 }
