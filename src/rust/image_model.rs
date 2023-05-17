@@ -220,8 +220,15 @@ mod image_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let image = self.as_mut().images_mut().get_mut(index as usize).unwrap();
-                    image.title = updated_title;
+                    for image in self
+                        .as_mut()
+                        .images_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        image.title = updated_title.clone();
+                        println!("rust-title: {:?}", image.title);
+                    }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     true
@@ -246,8 +253,15 @@ mod image_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let image = self.as_mut().images_mut().get_mut(index as usize).unwrap();
-                    image.path = updated_file_path;
+                    for image in self
+                        .as_mut()
+                        .images_mut()
+                        .iter_mut()
+                        .filter(|x| x.id == index)
+                    {
+                        image.path = updated_file_path.clone();
+                        println!("rust-title: {:?}", image.path);
+                    }
                     self.as_mut()
                         .emit_data_changed(model_index, model_index, &vector_roles);
                     true
