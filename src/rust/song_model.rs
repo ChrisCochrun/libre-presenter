@@ -263,11 +263,14 @@ mod song_model {
                 .execute(db);
             match result {
                 Ok(_i) => {
-                    let song = self.as_mut().songs_mut().get_mut(index as usize).unwrap();
-                    song.title = updated_title.to_string();
-                    self.as_mut()
-                        .emit_data_changed(model_index, model_index, &vector_roles);
-                    true
+                    if let Some(song) = self.as_mut().songs_mut().get_mut(index as usize) {
+                        song.title = updated_title.to_string();
+                        self.as_mut()
+                            .emit_data_changed(model_index, model_index, &vector_roles);
+                        true
+                    } else {
+                        false
+                    }
                 }
                 Err(_e) => false,
             }
