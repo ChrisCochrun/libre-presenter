@@ -44,7 +44,7 @@ Item {
                 newItemFunction: (function() {
                     songProxyModel.setFilterRegularExpression("");
                     songProxyModel.songModel.newSong();
-                    libraryList.currentIndex = songProxyModel.songModel.rowCount() - 1;
+                    libraryList.currentIndex = songProxyModel.songModel.count() - 1;
                     if (!editMode)
                         editMode = true;
                     editSwitch(libraryList.currentIndex, "song");

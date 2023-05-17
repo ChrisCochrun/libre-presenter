@@ -190,55 +190,48 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn new_song(self: Pin<&mut Self>) {
+        pub fn new_song(mut self: Pin<&mut Self>) -> bool {
             let song_id = self.rust().highest_id + 1;
             let song_title = String::from("title");
+            let db = &mut self.as_mut().get_db();
 
             let song = Song {
                 id: song_id,
-                title: song_title,
+                title: song_title.clone(),
                 ..Default::default()
             };
 
-            self.add_song(song);
+            let result = insert_into(songs)
+                .values((
+                    id.eq(&song_id),
+                    title.eq(&song_title),
+                    lyrics.eq(&song.lyrics),
+                    author.eq(&song.author),
+                    ccli.eq(&song.ccli),
+                    audio.eq(&song.audio),
+                    verse_order.eq(&song.verse_order),
+                    background.eq(&song.background),
+                    background_type.eq(&song.background_type),
+                    horizontal_text_alignment.eq(&song.horizontal_text_alignment),
+                    vertical_text_alignment.eq(&song.vertical_text_alignment),
+                    font.eq(&song.font),
+                    font_size.eq(&song.font_size),
+                ))
+                .execute(db);
+            println!("{:?}", result);
+
+            match result {
+                Ok(_i) => {
+                    self.as_mut().add_song(song);
+                    println!("{:?}", self.as_mut().songs());
+                    true
+                }
+                Err(_e) => {
+                    println!("Cannot connect to database");
+                    false
+                }
+            }
         }
-
-        // fn add_item(
-        //     mut self: Pin<&mut Self>,
-        //     song_id: i32,
-        //     song_title: QString,
-        //     song_path: QString,
-        // ) -> bool {
-        //     let db = &mut self.as_mut().get_db();
-        //     // println!("{:?}", db);
-        //     let song = self::Song {
-        //         id: song_id,
-        //         title: song_title.clone(),
-        //         path: song_path.clone(),
-        //     };
-        //     println!("{:?}", song);
-
-        //     let result = insert_into(songs)
-        //         .values((
-        //             id.eq(&song_id),
-        //             title.eq(&song_title.to_string()),
-        //             path.eq(&song_path.to_string()),
-        //         ))
-        //         .execute(db);
-        //     println!("{:?}", result);
-
-        //     match result {
-        //         Ok(_i) => {
-        //             self.as_mut().add_song(song);
-        //             println!("{:?}", self.as_mut().songs());
-        //             true
-        //         }
-        //         Err(_e) => {
-        //             println!("Cannot connect to database");
-        //             false
-        //         }
-        //     }
-        // }
 
         fn add_song(mut self: Pin<&mut Self>, song: self::Song) {
             let index = self.as_ref().songs().len() as i32;
