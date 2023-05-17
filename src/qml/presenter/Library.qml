@@ -291,104 +291,6 @@ Item {
             }
             onExited: overlay = false
 
-            function addVideo(url) {
-                videoProxyModel.videoModel.newItem(url);
-                selectedLibrary = "video";
-                videoLibrary.libraryList.currentIndex = videoProxyModel.videoModel.count();
-                console.log(videoProxyModel.getVideo(videoLibrary.libraryList.currentIndex));
-                const video = videoProxyModel.getVideo(videoLibrary.libraryList.currentIndex);
-                showPassiveNotification("newest video: " + video.title);
-                if (!editMode)
-                    editMode = true;
-                editSwitch(video, "video");
-            }
-
-            function addImg(url) {
-                imageProxyModel.newItem(url);
-                selectedLibrary = "image";
-                imageLibrary.libraryList.currentIndex = imageProxyModel.imageModel.count();
-                console.log(imageProxyModel.getImage(imageLibrary.libraryList.currentIndex));
-                const image = imageProxyModel.getImage(imageLibrary.libraryList.currentIndex);
-                showPassiveNotification("newest image: " + image.title);
-                if (!editMode)
-                    editMode = true;
-                editSwitch(image, "image");
-            }
-
-            function addPres(url) {
-                console.log(pdf.status);
-                let pageCount = 1;
-                pdf.source = url;
-                while (pdf.status != 2) {
-                    console.log(pdf.status);
-                    console.log("PAGECOUNT: " + pdf.pageCount);
-                    pageCount = pdf.pageCount;
-                }
-                presProxyModel.presentationModel.newItem(url, pageCount);
-                selectedLibrary = "presentation";
-                presentationLibrary.libraryList.currentIndex = presProxyModel.presentationModel.count();
-                console.log(presProxyModel.getPresentation(presentationLibrary.libraryList.currentIndex));
-                const presentation = presProxyModel.getPresentation(presentationLibrary.libraryList.currentIndex);
-                showPassiveNotification("newest image: " + presentation.title);
-                if (!editMode)
-                    editMode = true;
-                editSwitch(presentation, "presentation");
-                pdf.source = "";
-            }
-
-            function isDragFile(item) {
-                var extension = item.split('.').pop();
-                var valid = false;
-
-                if(extension) {
-                    console.log(extension);
-                    valid = true;
-                }
-
-                return valid;
-            }
-
-            function addFile(file) {
-                let extension = file.split('.').pop();
-                if (videoexts.includes(extension))
-                {
-                    addVideo(file);
-                }
-                if (imgexts.includes(extension))
-                {
-                    addImg(file);
-                }
-                if (presexts.includes(extension))
-                {
-                    if (file.endsWith(".html")) {
-                        web.url = file;
-                    } else
-                        addPres(file);
-                }
-                
-            }
-
-            function addFiles(files) {
-                showPassiveNotification("More than one file");
-                for (let i = 0; i < files.length; i++) {
-                    let file = files[i];
-                    let ext = file.split('.').pop()
-                    if (videoexts.includes(ext))
-                    {
-                        addVideo(file);
-                    }
-                    if (imgexts.includes(ext))
-                    {
-                        console.log(file);
-                        addImg(file);
-                        console.log(file);
-                    }
-                    if (presexts.includes(ext))
-                    {
-                        addPres(file);
-                    }
-                }
-            }
         }
 
         Rectangle {
@@ -411,6 +313,96 @@ Item {
             onLoadingChanged: {
                 if (loadRequest.status == 2)
                     addHtml(url);
+            }
+        }
+    }
+
+    function addVideo(url) {
+        videoProxyModel.videoModel.newItem(url);
+        selectedLibrary = "video";
+        videoLibrary.libraryList.currentIndex = videoProxyModel.videoModel.count() - 1;
+        if (!editMode)
+            editMode = true;
+        editSwitch(videoLibrary.libraryList.currentIndex, "video");
+    }
+
+    function addImg(url) {
+        imageProxyModel.newItem(url);
+        selectedLibrary = "image";
+        imageLibrary.libraryList.currentIndex = imageProxyModel.imageModel.count() - 1;
+        if (!editMode)
+            editMode = true;
+        editSwitch(imageLibrary.libraryList.currentIndex, "image");
+    }
+
+    function addPres(url) {
+        console.log(pdf.status);
+        let pageCount = 1;
+        pdf.source = url;
+        while (pdf.status != 2) {
+            console.log(pdf.status);
+            console.log("PAGECOUNT: " + pdf.pageCount);
+            pageCount = pdf.pageCount;
+        }
+        presProxyModel.presentationModel.newItem(url, pageCount);
+        selectedLibrary = "presentation";
+        presentationLibrary.libraryList.currentIndex = presProxyModel.presentationModel.count() - 1;
+        if (!editMode)
+            editMode = true;
+        editSwitch(presentationLibrary.libraryList.currentIndex, "presentation");
+        pdf.source = "";
+    }
+
+    function isDragFile(item) {
+        var extension = item.split('.').pop();
+        var valid = false;
+
+        if(extension) {
+            console.log(extension);
+            valid = true;
+        }
+
+        return valid;
+    }
+
+    function addFile(file) {
+        let extension = file.split('.').pop();
+        if (videoexts.includes(extension))
+        {
+            addVideo(file);
+        }
+        if (imgexts.includes(extension))
+        {
+            addImg(file);
+        }
+        if (presexts.includes(extension))
+        {
+            if (file.endsWith(".html")) {
+                web.url = file;
+            } else
+                addPres(file);
+        }
+        
+    }
+
+    function addFiles(files) {
+        showPassiveNotification("More than one file");
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+            let ext = file.split('.').pop()
+            if (videoexts.includes(ext))
+            {
+                addVideo(file);
+            }
+            if (imgexts.includes(ext))
+            {
+                console.log(file);
+                addImg(file);
+                console.log(file);
+            }
+            if (presexts.includes(ext))
+            {
+                addPres(file);
             }
         }
     }

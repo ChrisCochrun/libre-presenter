@@ -36,6 +36,14 @@ Kirigami.OverlaySheet {
                     text: ""
                     onEditingFinished: videoInput.text.startsWith("http") ? loadVideo() : showPassiveNotification("Coach called, this isn't it.");
                 }
+
+                Controls.ToolButton {
+                    id: localButton
+                    text: "Local Video"
+                    icon.name: "fileopen"
+                    hoverEnabled: true
+                    onClicked: videoFileDialog.open()
+                }
             }
         }
 
@@ -117,6 +125,24 @@ Kirigami.OverlaySheet {
             }
 
         }
+
+        FileDialog {
+            id: videoFileDialog
+            title: "Please choose a video"
+            folder: shortcuts.home
+            selectMultiple: false
+            nameFilters: ["Video files (*.mp4 *.mkv *.mov *.wmv *.avi *.MP4 *.MOV *.MKV)"]
+            onAccepted: {
+                console.log("video = " + videoFileDialog.fileUrls[0]);
+                addVideo(videoFileDialog.fileUrls[0]);
+                root.close();
+            }
+            onRejected: {
+                console.log("Canceled")
+            }
+
+        }
+
     }
 
     function loadVideo() {
