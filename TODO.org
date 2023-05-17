@@ -3,8 +3,11 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [62%] [35/56]
+* Tasks [0%] [0/0]
+** TODO Switch to using rust only deletion functions.
+[[file:~/dev/church-presenter/src/qml/presenter/Library.qml::videoProxyModel.deleteVideos(rows)]]
 
+For this to work I'll need to use a vector of indexes. Somehow I'll need to figure out what QML can pass to Rust and then cycle through all of them and remove each item.
 ** TODO Start planning out what a 1.0 release would look like and decide how to get there :roadmap:
 A 1.0 release may be achievable soon as long as I can figure out what is good to have in and what isn't. Then figure out what outstanding bugs and odd workflows exist and fix them. Then figure out deploying the package to various distros, windows, and mac.
 
