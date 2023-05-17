@@ -757,6 +757,10 @@ QVariantMap SongProxyModel::getSong(const int &row) {
   return song;
 }
 
+void SongProxyModel::newSong() {
+  m_songModel->newSong();
+}
+
 void SongProxyModel::deleteSong(const int &row) {
   auto model = qobject_cast<SongModel *>(sourceModel());
   model->removeItem(row);

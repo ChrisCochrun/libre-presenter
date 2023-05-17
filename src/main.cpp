@@ -56,6 +56,9 @@
 #include "cxx-qt-gen/settings.cxxqt.h"
 #include "cxx-qt-gen/ytdl.cxxqt.h"
 #include "cxx-qt-gen/presentation_model.cxxqt.h"
+#include "cxx-qt-gen/song_model.cxxqt.h"
+#include "cxx-qt-gen/video_model.cxxqt.h"
+#include "cxx-qt-gen/image_model.cxxqt.h"
 // #include "cxx-qt-gen/image_model.cxxqt.h"
 
 static QWindow *windowFromEngine(QQmlApplicationEngine *engine)
@@ -202,11 +205,14 @@ int main(int argc, char *argv[])
   qmlRegisterType<VideoProxyModel>("org.presenter", 1, 0, "VideoProxyModel");
   qmlRegisterType<ImageProxyModel>("org.presenter", 1, 0, "ImageProxyModel");
   qmlRegisterType<PresentationProxyModel>("org.presenter", 1, 0, "PresentationProxyModel");
+  qmlRegisterType<SongModel>("org.presenter", 1, 0, "SongModel");
+  qmlRegisterType<VideoModel>("org.presenter", 1, 0, "VideoModel");
+  qmlRegisterType<ImageModel>("org.presenter", 1, 0, "ImageModel");
   qmlRegisterType<PresentationModel>("org.presenter", 1, 0, "PresentationModel");
-  qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
-  qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
-  qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
-  qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
+  // qmlRegisterType<SongSqlModel>("org.presenter", 1, 0, "SongSqlModel");
+  // qmlRegisterType<VideoSqlModel>("org.presenter", 1, 0, "VideoSqlModel");
+  // qmlRegisterType<ImageSqlModel>("org.presenter", 1, 0, "ImageSqlModel");
+  // qmlRegisterType<PresentationSqlModel>("org.presenter", 1, 0, "PresentationSqlModel");
   qmlRegisterType<FileHelper>("org.presenter", 1, 0, "FileHelper");
   qmlRegisterType<Ytdl>("org.presenter", 1, 0, "Ytdl");
   qmlRegisterType<ServiceThing>("org.presenter", 1, 0, "ServiceThing");
