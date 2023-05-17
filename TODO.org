@@ -65,12 +65,13 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
-** TODO [#B] Updating properties in models.
+** TODO [#B] Updating properties in models. [0/4] [0%]
 All of the models need to be editable from the outside so that the editor pages a can appropriately change the properties of each item. I'll go in this order.
-*** Video
-*** Image
-*** Presentations
-*** Songs
+*** TODO Video
+Almost done here, but I can't get the data to emit the change and therefore inform the proxyModel of the changes and change it in the list view.
+*** TODO Image
+*** TODO Presentations
+*** TODO Songs
 
 Songs will be the hardest so I'll save them for last. They are not even using the rust models yet anyway. The key that I figured out is that instead of relying on the proxy model to map to the appropriate id inside the rust model. I'll store an id in the sqlite database and use that as a way to find each item. I'll need to keep tinkering with the best way to do that as right now I looped through all the items and that may get inefficient as models grow.
 
