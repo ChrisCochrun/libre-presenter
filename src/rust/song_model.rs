@@ -80,8 +80,6 @@ mod song_model {
         FontSizeRole,
     }
 
-    // use crate::entities::{songs, prelude::Songs};
-    // use sea_orm::{ConnectionTrait, Database, DbBackend, DbErr, Statement, ActiveValue};
     impl qobject::SongModel {
         #[qinvokable]
         pub fn clear(mut self: Pin<&mut Self>) {
