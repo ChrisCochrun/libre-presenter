@@ -22,6 +22,8 @@ mod ytdl {
         loaded: bool,
         #[qproperty]
         loading: bool,
+        #[qproperty]
+        file: QUrl,
     }
 
     impl qobject::Ytdl {
@@ -54,13 +56,22 @@ mod ytdl {
                         let output = ytdl.into_single_video().unwrap();
                         println!("{:?}", output.title);
                         println!("{:?}", output.thumbnail);
+                        println!("{:?}", output.url);
                         let title = QString::from(&output.title);
-                        let thumbnail = QUrl::from(&output.thumbnail.unwrap());
+                        let thumbnail = QUrl::from(&output.thumbnail.unwrap_or_default());
+                        let mut file = String::from(output_dirs);
+                        file.push_str("/");
+                        file.push_str(&output.title);
+                        file.push_str(".");
+                        file.push_str(&output.ext.unwrap_or_default());
+                        println!("{:?}", file);
+
                         thread.queue(move |mut qobject_ytdl| {
                             qobject_ytdl.as_mut().set_loaded(true);
                             qobject_ytdl.as_mut().set_loading(false);
                             qobject_ytdl.as_mut().set_title(title);
                             qobject_ytdl.as_mut().set_thumbnail(thumbnail);
+                            qobject_ytdl.as_mut().set_file(QUrl::from(&file));
                         })
                     });
                     true

@@ -49,7 +49,7 @@ Kirigami.OverlaySheet {
 
         Item {
             id: centerItem
-            Layout.preferredHeight: Kirigami.Units.gridUnit * 25
+            Layout.preferredHeight: Kirigami.Units.gridUnit * 30
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             visible: true
@@ -119,7 +119,11 @@ Kirigami.OverlaySheet {
                     Controls.Button {
                         anchors.right: parent.right
                         text: "Ok"
-                        onClicked: { clear(); root.close();}
+                        onClicked: {
+                            videoProxyModel.videoModel.newItem(ytdl.file);
+                            clear();
+                            root.close();
+                        }
                     }
                 }
             }
