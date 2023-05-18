@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [63%] [36/57]
+* Tasks [64%] [37/57]
 ** TODO Switch to using rust only deletion functions.
 [[file:~/dev/church-presenter/src/qml/presenter/Library.qml::videoProxyModel.deleteVideos(rows)]]
 
@@ -65,18 +65,19 @@ This still needs ported to Rust. It'll be the hardest of the library models sinc
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
 - [ ] Windows
 - [ ] Macos
-** TODO [#B] Updating properties in models. [2/4] [50%]
+** TODO [#A] Updating properties in models. [4/5] [80%]
 All of the models need to be editable from the outside so that the editor pages a can appropriately change the properties of each item. I'll go in this order.
-*** TODO Video
-Almost done here, but I can't get the data to emit the change and therefore inform the proxyModel of the changes and change it in the list view.
+*** DONE Video
 *** DONE Image
 *** DONE Presentations
-*** TODO Songs
+*** DONE Songs
 
 Songs will be the hardest so I'll save them for last. They are not even using the rust models yet anyway. The key that I figured out is that instead of relying on the proxy model to map to the appropriate id inside the rust model. I'll store an id in the sqlite database and use that as a way to find each item. I'll need to keep tinkering with the best way to do that as right now I looped through all the items and that may get inefficient as models grow.
 
 Another big blocker in this process is to make sure that all properties are accessed appropriately on the QML side. I need to update a lot of QML code yet.
-** TODO [#A] Make things not rely on my own machine. :bug:
+*** TODO DATA CHANGED
+Almost done here, but I can't get the data to emit the change and therefore inform the proxyModel of the changes and change it in the list view.
+** DONE [#A] Make things not rely on my own machine.                  :bug:
 Right now some of the paths are hardcoded and I need to fix that very fast so that everything will work on other machines.
 ** TODO [#B] start and end times for videos                       :feature:
 This is something I couldn't get right in my head and plans and I hope rust will help me to solve it.
