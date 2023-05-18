@@ -62,6 +62,8 @@ mod song_model {
             bottom_right: &'a QModelIndex,
             roles: &'a QVector_i32,
         },
+        TitleChanged {},
+        FontSizeChanged {},
     }
 
     enum Role {
@@ -243,8 +245,12 @@ mod song_model {
                 Ok(_i) => {
                     if let Some(song) = self.as_mut().songs_mut().get_mut(index as usize) {
                         song.title = updated_title.to_string();
-                        self.as_mut()
-                            .emit_data_changed(model_index, model_index, &vector_roles);
+                        self.as_mut().emit(Signals::DataChanged {
+                            top_left: &model_index,
+                            bottom_right: &model_index,
+                            roles: &vector_roles,
+                        });
+                        self.as_mut().emit_title_changed();
                         true
                     } else {
                         false
