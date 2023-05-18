@@ -56,10 +56,10 @@ I'll need to make sure I'm removing the right slide after a serviceItem is remov
 [[file:~/dev/church-presenter/src/rust/slide_model.rs::for (i, slide) in slides_iter.clone().enumerate() {]]
 
 Either their index in the vector is wrong or their service_item_id is wrong. So my next approach will be to move slides individually rather than all at once?
+**** DONE Song Model
+This still needs ported to Rust. It'll be the hardest of the library models since it includes the song lyric parsing functions.
 **** TODO serivce_item_model
 This needs to get ported to rust so that I can start adding more features to it soon. This is a blocker for the start and end times I believe
-**** TODO Song Model
-This still needs ported to Rust. It'll be the hardest of the library models since it includes the song lyric parsing functions.
 *** TODO Deployment
 - [ ] Linux
   Need to figure out if I can use Nix to deploy in various fashions. Maybe I'll need to handcraft my own things for Arch, flatpak, and or snap.
