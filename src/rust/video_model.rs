@@ -141,11 +141,15 @@ mod video_model {
         }
 
         fn get_db(self: Pin<&mut Self>) -> SqliteConnection {
-            const DATABASE_URL: &str = "sqlite:///home/chris/.local/share/librepresenter/Libre Presenter/library-db.sqlite3";
+            let mut data = dirs::data_local_dir().unwrap();
+            data.push("librepresenter");
+            data.push("library-db.sqlite3");
+            let mut db_url = String::from("sqlite://");
+            db_url.push_str(data.to_str().unwrap());
+            println!("DB: {:?}", db_url);
 
-            SqliteConnection::establish(DATABASE_URL)
-                .unwrap_or_else(|_| panic!("error connecting to {}", DATABASE_URL))
-            // self.rust().db = db;
+            SqliteConnection::establish(&db_url)
+                .unwrap_or_else(|_| panic!("error connecting to {}", db_url))
         }
 
         #[qinvokable]
