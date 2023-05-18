@@ -40,11 +40,11 @@ Item {
                 headerLabel: "Songs"
                 itemIcon: "folder-music-symbolic"
                 /* itemSubtitle: model.author */
-                count: innerModel.rowCount()
+                count: innerModel.count()
                 newItemFunction: (function() {
                     songProxyModel.setFilterRegularExpression("");
-                    songProxyModel.songModel.newSong();
-                    libraryList.currentIndex = songProxyModel.songModel.count() - 1;
+                    innerModel.newSong();
+                    libraryList.currentIndex = innerModel.count() - 1;
                     if (!editMode)
                         editMode = true;
                     editSwitch(libraryList.currentIndex, "song");

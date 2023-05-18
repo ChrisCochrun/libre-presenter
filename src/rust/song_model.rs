@@ -173,23 +173,6 @@ mod song_model {
         }
 
         #[qinvokable]
-        pub fn new_item(mut self: Pin<&mut Self>, url: QUrl) {
-            println!("LETS INSERT THIS SUCKER!");
-            let file_path = PathBuf::from(url.path().to_string());
-            let name = file_path.file_stem().unwrap().to_str().unwrap();
-            let song_id = self.rust().highest_id + 1;
-            let song_title = QString::from(name);
-            let song_path = url.to_qstring();
-
-            // if self.as_mut().add_item(song_id, song_title, song_path) {
-            //     println!("filename: {:?}", name);
-            //     self.as_mut().set_highest_id(song_id);
-            // } else {
-            //     println!("Error in inserting item");
-            // }
-        }
-
-        #[qinvokable]
         pub fn new_song(mut self: Pin<&mut Self>) -> bool {
             let song_id = self.rust().highest_id + 1;
             let song_title = String::from("title");
