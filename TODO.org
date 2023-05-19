@@ -119,6 +119,7 @@ I could add this by adding a bool as a gallery option in the ImageSqlModel. Then
   I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
 
 ** TODO Need to test on other wayland compositors but Hyprland doesn't show the presentation window. :bug:
+Quite by accident, I discovered how I may be able to fix this bug. Even though in QML I cannot show the window on demand, apparently in C++ I can still do it. So I will attempt to show the window by subclassing QQuickView in Rust and assign it's source through a QML file that is the PresentationWindow.qml
 
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
