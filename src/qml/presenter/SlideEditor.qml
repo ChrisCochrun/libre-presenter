@@ -111,7 +111,8 @@ Item {
     function appendVerse(verse) {
         /* console.log("Let's append some verses") */
         /* console.log(verse); */
-        songModel.append({"verse": verse})
+        /* showPassiveNotification(verse); */
+        songModel.append({"verse": verse});
     }
 
     function updateHAlignment(alignment) {
@@ -168,6 +169,10 @@ Item {
             slideList.currentItem.representation.loadVideo();
             console.log(slideList.currentItem);
         }
+        showPassiveNotification("I loaded the videos");
     }
 
+    function clear() {
+        songModel.clear()
+    }
 }
