@@ -98,35 +98,36 @@ dependencies = [
 
 [[package]]
 name = "cxx-qt"
-version = "0.5.2"
-source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#e660025dc2cc3816f59c53551950bfd15b933593"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2002fa000d687f8cf21abce76d85d4eceef638dcd2a146dc3f61b47e67d89220"
 dependencies = [
- "cxx-qt-gen 0.5.2 (git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues)",
+ "cxx-qt-gen",
  "proc-macro2",
- "syn 2.0.16",
+ "syn 1.0.109",
 ]
 
 [[package]]
 name = "cxx-qt-build"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ea0671293eb08b72afe6cb48cd2984442574a78f4bb52c30c2f06595c86e9fbd"
+checksum = "e83a15e8f8f39677d2f9e62850bb79218db25d7a352b0f2134932bf5eb3fdff2"
 dependencies = [
  "cc",
  "convert_case",
  "cxx-gen",
- "cxx-qt-gen 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "cxx-qt-lib-headers 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cxx-qt-gen",
+ "cxx-qt-lib-headers",
  "proc-macro2",
- "qt-build-utils 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "qt-build-utils",
  "quote",
 ]
 
 [[package]]
 name = "cxx-qt-gen"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad3de92084b83c85eaee41b978302c269cedb7a7bae899e23d234ae9548d5c50"
+checksum = "389cd0e44b265d2a23124006c2100571040bda5c0b74e98e9a3740f9abf309db"
 dependencies = [
  "clang-format",
  "convert_case",
@@ -137,39 +138,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "cxx-qt-gen"
-version = "0.5.2"
-source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#e660025dc2cc3816f59c53551950bfd15b933593"
-dependencies = [
- "clang-format",
- "convert_case",
- "indoc",
- "proc-macro2",
- "quote",
- "syn 2.0.16",
-]
-
-[[package]]
 name = "cxx-qt-lib"
-version = "0.5.2"
-source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#e660025dc2cc3816f59c53551950bfd15b933593"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8cee7ccaf5fc9f0a4562aae0dcd387756dda0772571e0b9d0f255f542a970b50"
 dependencies = [
  "cxx",
  "cxx-build",
- "cxx-qt-lib-headers 0.5.2 (git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues)",
- "qt-build-utils 0.5.2 (git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues)",
+ "cxx-qt-lib-headers",
+ "qt-build-utils",
 ]
 
 [[package]]
 name = "cxx-qt-lib-headers"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f3145b3e81bf3d01bd13ede22ec21d1a3cf0d42461ec322abfb2abce7a7ba81f"
-
-[[package]]
-name = "cxx-qt-lib-headers"
-version = "0.5.2"
-source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#e660025dc2cc3816f59c53551950bfd15b933593"
+checksum = "d7fa7bf31bd520d00536d27b9e26a265a1cba6d84ec544175f254c755406110c"
 
 [[package]]
 name = "cxxbridge-flags"
@@ -406,18 +390,9 @@ dependencies = [
 
 [[package]]
 name = "qt-build-utils"
-version = "0.5.2"
+version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "75422b8c922e6ff8b24d060c0cb6763461d305c050a9235944d0740df26a8aa2"
-dependencies = [
- "thiserror",
- "versions",
-]
-
-[[package]]
-name = "qt-build-utils"
-version = "0.5.2"
-source = "git+https://github.com/ahayzen-kdab/cxx-qt?branch=533-qvariantmap-qml-issues#e660025dc2cc3816f59c53551950bfd15b933593"
+checksum = "d5ce806205819a87696bb9275c831be88a79592f035d4cc17d01625395cbe1da"
 dependencies = [
  "thiserror",
  "versions",
