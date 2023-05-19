@@ -237,7 +237,7 @@ Item {
     }
 
     function changeVideo(index) {
-        let vid = videoProxyModel.videoModel.getItem(index);
+        let vid = videoProxyModel.getVideo(index);
         root.video = vid;
         console.log(video.startTime);
         console.log(video.endTime);

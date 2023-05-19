@@ -306,15 +306,15 @@ Item {
             id: pdf
         }
 
-        WebEngineView {
-            id: web
-            height: 0
-            width: 0
-            onLoadingChanged: {
-                if (loadRequest.status == 2)
-                    addHtml(url);
-            }
-        }
+        /* WebEngineView { */
+        /*     id: web */
+        /*     height: 0 */
+        /*     width: 0 */
+        /*     onLoadingChanged: { */
+        /*         if (loadRequest.status == 2) */
+        /*             addHtml(url); */
+        /*     } */
+        /* } */
     }
 
     function addVideo(url) {

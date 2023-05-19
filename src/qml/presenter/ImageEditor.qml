@@ -120,7 +120,7 @@ Item {
     }
 
     function changeImage(index) {
-        let img = imageProxyModel.imageModel.getItem(index);
+        let img = imageProxyModel.getImage(index);
         root.image = img;
         console.log(img.filePath.toString());
     }
