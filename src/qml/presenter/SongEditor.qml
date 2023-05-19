@@ -32,7 +32,7 @@ Item {
                     implicitWidth: 300
                     editable: true
                     hoverEnabled: true
-                    flat: true
+                    /* flat: true */
                     onActivated: updateFont(currentText)
                 }
                 Controls.SpinBox {
@@ -48,7 +48,7 @@ Item {
                     model: ["Left", "Center", "Right", "Justify"]
                     implicitWidth: 100
                     hoverEnabled: true
-                    flat: true
+                    /* flat: true */
                     onActivated: updateHorizontalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ComboBox {
@@ -56,7 +56,7 @@ Item {
                     model: ["Top", "Center", "Bottom"]
                     implicitWidth: 100
                     hoverEnabled: true
-                    flat: true
+                    /* flat: true */
                     onActivated: updateVerticalTextAlignment(currentText.toLowerCase());
                 }
                 Controls.ToolButton {
@@ -337,6 +337,8 @@ Item {
 
                 Presenter.SlideEditor {
                     id: slideEditor
+                    imageBackground: song.backgroundType === "image" ? song.background : ""
+                    videoBackground: song.backgroundType === "video" ? song.background : ""
                     Layout.preferredWidth: 500
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -411,50 +413,29 @@ Item {
 
     function newSong(index) {
         clearSlides();
-        song = songProxyModel.songModel.getItem(index);
-        console.log(song.lyrics);
-        songIndex = song.id;
-
-        if (song.backgroundType == "image") {
-            slideEditor.videoBackground = "";
-            slideEditor.imageBackground = song.background;
-        } else {
-            slideEditor.imageBackground = "";
-            slideEditor.videoBackground = song.background;
-            /* slideEditor.loadVideo(); */
-        }
+        song = songProxyModel.getSong(index);
 
         changeSlideHAlignment("Center");
         changeSlideVAlignment("Center");
         changeSlideFont("Noto Sans", true);
         changeSlideFontSize(50, true)
         changeSlideText(songProxyModel.modelIndex(index).row);
-        console.log(song.title);
+        slideEditor.loadVideo();
+        console.log("New song with ID: " + song.id);
     }
 
     function changeSong(index) {
         clearSlides();
-        console.log(index);
-        song = songProxyModel.songModel.getItem(index);
-        console.log(song.lyrics);
+        song = songProxyModel.getSong(index);
         songIndex = song.id;
-        console.log(song.id);
-
-        if (song.backgroundType == "image") {
-            slideEditor.videoBackground = "";
-            slideEditor.imageBackground = song.background;
-        } else {
-            slideEditor.imageBackground = "";
-            slideEditor.videoBackground = song.background;
-            /* slideEditor.loadVideo(); */
-        }
 
         changeSlideHAlignment(song.horizontalTextAlignment);
         changeSlideVAlignment(song.verticalTextAlignment);
         changeSlideFont(song.font, true);
         changeSlideFontSize(song.fontSize, true)
         changeSlideText(songProxyModel.modelIndex(index).row);
-        console.log(song.title);
+        slideEditor.loadVideo();
+        console.log("Changing to song: " + song.title + " with ID: " + song.id);
     }
 
     function updateLyrics(lyrics) {
@@ -494,16 +475,16 @@ Item {
         songProxyModel.songModel.updateBackground(songIndex, background);
         songProxyModel.songModel.updateBackgroundType(songIndex, backgroundType);
         console.log("changed background");
-        if (backgroundType === "image") {
-            //todo
-            slideEditor.videoBackground = "";
-            slideEditor.imageBackground = background;
-        } else {
-            //todo
-            slideEditor.imageBackground = "";
-            slideEditor.videoBackground = background;
-            slideEditor.loadVideo();
-        }
+        /* if (backgroundType === "image") { */
+        /*     //todo */
+        /*     slideEditor.videoBackground = ""; */
+        /*     slideEditor.imageBackground = background; */
+        /* } else { */
+        /*     //todo */
+        /*     slideEditor.imageBackground = ""; */
+        /*     slideEditor.videoBackground = background; */
+        /*     slideEditor.loadVideo(); */
+        /* } */
     }
 
 
@@ -588,6 +569,6 @@ Item {
     }
 
     function clearSlides() {
-        slideEditor.songs.clear()
+        slideEditor.clear()
     }
 }
