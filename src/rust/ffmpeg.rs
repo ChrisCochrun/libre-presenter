@@ -45,9 +45,9 @@ pub fn bg_from_video(video: &Path) -> PathBuf {
                     seconds.push(c);
                 }
             }
-            let hours: i32 = hours.parse().unwrap();
-            let mut minutes: i32 = minutes.parse().unwrap();
-            let mut seconds: i32 = seconds.parse().unwrap();
+            let hours: i32 = hours.parse().unwrap_or_default();
+            let mut minutes: i32 = minutes.parse().unwrap_or_default();
+            let mut seconds: i32 = seconds.parse().unwrap_or_default();
             minutes += hours * 60;
             seconds += minutes * 60;
             at_second = seconds / 5;
