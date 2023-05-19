@@ -120,7 +120,7 @@ Kirigami.ApplicationWindow {
             Controls.Label {
                 Layout.alignment: Qt.AlignRight
                 Layout.rightMargin: Kirigami.Units.smallSpacing * 2
-                text: "Total Slides: " + SlideModel.rowCount()
+                text: "Total Slides: " + SlideMod.count()
             }
         }
     }
