@@ -42,7 +42,7 @@ mkShell rec {
 
     # podofo
     mpv
-    ffmpeg_6-full
+    ffmpeg_5-full
     # yt-dlp
 
     # Rust tools
@@ -54,9 +54,9 @@ mkShell rec {
     corrosion
   ];
   
-  cargoDeps = rustPlatform.importCargoLock {
-    lockFile = ./Cargo.lock;
-  };
+  # cargoDeps = rustPlatform.importCargoLock {
+  #   lockFile = ./Cargo.lock;
+  # };
 
   RUST_BACKTRACE = 1;
   LIBCLANG_PATH="${llvmPackages.libclang.lib}/lib";
