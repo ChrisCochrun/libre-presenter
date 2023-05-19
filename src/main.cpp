@@ -152,7 +152,12 @@ int main(int argc, char *argv[])
 
   Settings *settings = new Settings;
   settings->setup();
-  // preswin->setSource(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
+
+  QQuickView *PresWindow = new QQuickView;
+  qDebug() << PresWindow;
+  // PresWindow->create();
+  // PresWindow->setSource(QUrl(QStringLiteral("qrc://qml/presenter/PresentationWindow.qml")));
+  qDebug() << PresWindow->isVisible();
 
   QObject::connect(serviceItemModel.get(),
                    SIGNAL(itemInserted(const int&, const ServiceItem&)),
@@ -223,7 +228,11 @@ int main(int argc, char *argv[])
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideMod", slideMod.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "SlideObject", slideobject.get());
   qmlRegisterSingletonInstance("org.presenter", 1, 0, "FileManager", filemanager.get());
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", PresWindow);
+  qmlRegisterSingletonInstance("org.presenter", 1, 0, "RSettings", settings);
   // qmlRegisterSingletonInstance("org.presenter", 1, 0, "PresWindow", preswin.get());
+  PresWindow->rootContext()->setContextProperty("SlideObj", slideobject.get());
+  PresWindow->setTitle("presentation-window");
 
   connectToDatabase();
 
@@ -231,6 +240,7 @@ int main(int argc, char *argv[])
 
   engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:qml/main.qml")));
+  // engine.load(QUrl(QStringLiteral("qrc:qml/presenter/PresentationWindow.qml")));
 
   qDebug() << app.topLevelWindows();
   qDebug() << app.allWindows();
@@ -246,11 +256,6 @@ int main(int argc, char *argv[])
   }
 
   QWindow *window = windowFromEngine(&engine);
-  QQuickWindow *PresWindow = new QQuickWindow;
-  qDebug() << PresWindow;
-  PresWindow->create();
-  // PresWindow->setVisible(true);
-  qDebug() << PresWindow->isVisible();
 
   window->setIcon(QIcon::fromTheme(QStringLiteral("system-config-display")));
   // KWindowSystem::setMainWindow(window);

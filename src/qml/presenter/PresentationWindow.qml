@@ -7,49 +7,64 @@ import org.kde.kirigami 2.13 as Kirigami
 import "./" as Presenter
 import org.presenter 1.0
 
-Window {
+Item {
     id: presentationWindow
 
     property Item slide: presentationSlide
+    /* property var slideObj */
+    property var pWin
+    anchors.fill: parent
 
-    title: "presentation-window"
-    height: maximumHeight
-    width: maximumWidth
-    screen: presentationScreen
-    opacity: 1.0
+    /* title: "presentation-window" */
+    /* height: maximumHeight */
+    /* width: maximumWidth */
+    /* screen: presentationScreen */
+    /* opacity: 1.0 */
     /* transientParent: null */
     /* modality: Qt.NonModal */
-    flags: Qt.FramelessWindowHint
-    onClosing: {
-        presentationSlide.stopVideo();
-        SlideObject.pause();
-        presentationSlide.stopAudio();
-        presenting = false;
+    /* flags: Qt.FramelessWindowHint */
+
+    /* onClosing: { */
+    /*     presentationSlide.stopVideo(); */
+    /*     SlideObj.pause(); */
+    /*     presentationSlide.stopAudio(); */
+    /*     presenting = false; */
+    /* } */
+
+    Connections {
+        target: PresWindow
+        function onClosing() {
+            presentationSlide.stopVideo();
+            SlideObj.pause();
+            presentationSlide.stopAudio();
+            presenting = false;
+        }
     }
 
     Component.onCompleted: {
-        console.log(screen.name);
+        /* console.log(screen.name); */
+        /* presentationWindow.showFullScreen(); */
     }
 
     Presenter.Slide {
         id: presentationSlide
         anchors.fill: parent
-        imageSource: SlideObject.imageBackground
-        webSource: SlideObject.html
-        videoSource: presentationWindow.visible ? SlideObject.videoBackground : ""
-        audioSource: SlideObject.audio
-        text: SlideObject.text
-        chosenFont: SlideObject.font
-        textSize: SlideObject.fontSize
-        pdfIndex: SlideObject.pdfIndex
-        itemType: SlideObject.ty
-        vidLoop: SlideObject.looping
+        imageSource: SlideObj.imageBackground
+        webSource: SlideObj.html
+        videoSource: presentationWindow.visible ? SlideObj.videoBackground : ""
+        audioSource: SlideObj.audio
+        text: SlideObj.text
+        chosenFont: SlideObj.font
+        textSize: SlideObj.fontSize
+        pdfIndex: SlideObj.slideIndex
+        itemType: SlideObj.ty
+        vidLoop: SlideObj.looping
     }
 
     Connections {
-        target: SlideObject
+        target: SlideObj
         function onVideoBackgroundChanged() {
-            if (SlideObject.videoBackground === "")
+            if (SlideObj.videoBackground === "")
                 stopVideo();
             else {
                 loadVideo();
@@ -57,7 +72,7 @@ Window {
             }
         }
         function onIsPlayingChanged() {
-            if(SlideObject.isPlaying)
+            if(SlideObj.isPlaying)
                 presentationSlide.playVideo();
             pauseVideo();
         }

@@ -20,6 +20,7 @@ Kirigami.OverlaySheet {
     /* } */
 
     Kirigami.FormLayout {
+        implicitHeight: Kirigami.Units.gridUnit * 30
 	Controls.ComboBox {
 	    id: screenSelectionField
 	    Kirigami.FormData.label: i18nc("@label:textbox", "Presentation Screen:")
@@ -27,6 +28,31 @@ Kirigami.OverlaySheet {
             textRole: "name"
 	    onActivated: {
                 presentationScreen = screens[currentIndex];
+                console.log(PresWindow.screen);
+                PresWindow.screen = screens[currentIndex];
+                console.log(PresWindow.screen);
+            }
+
+            popup: Controls.Popup {
+                y: screenSelectionField.height + 10
+                z: 1000
+                width: screenSelectionField.width
+                implicitHeight: contentItem.implicitHeight
+                padding: 1
+
+                contentItem: ListView {
+                    clip: true
+                    implicitHeight: contentHeight
+                    model: screenSelectionField.popup.visible ? screenSelectionField.delegateModel : null
+                    currentIndex: screenSelectionField.highlightedIndex
+
+                    Controls.ScrollIndicator.vertical: Controls.ScrollIndicator { }
+                }
+
+                background: Rectangle {
+                    border.color: Kirigami.Theme.hoverColor
+                    radius: 2
+                }
             }
 	}
         Controls.ToolButton {

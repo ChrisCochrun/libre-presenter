@@ -128,9 +128,14 @@ Controls.Page {
         }
     }
 
-    Presenter.PresentationWindow {
-        id: pWindow
-    }
+    /* Loader { */
+    /*     id: presWinLoader */
+    /*     active: false */
+    /*     sourceComponent: Presenter.PresentationWindow {} */
+    /* } */
+    /* Presenter.PresentationWindow { */
+    /*     id: pWindow */
+    /* } */
 
     SongProxyModel { id: songProxyModel }
     ImageProxyModel { id: imageProxyModel }
@@ -272,15 +277,19 @@ Controls.Page {
     function present(present) {
         if (present)
         {
-            /* presentation.loadVideo(); */
-            console.log("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
-            pWindow.showFullScreen();
-            /* pWindow.screen = presentationScreen; */
-            console.log("For window: Screen is: " + pWindow.screen + " And selected screen is: " + presentationScreen);
+            PresWindow.showFullScreen();
+            PresWindow.setSource("qrc:qml/presenter/PresentationWindow.qml")
+            console.log(PresWindow);
+            /* presWinLoader.active = true; */
         }
-        else
-            pWindow.close();
+        else {
+            PresWindow.close();
+
+            /* presWinLoader.active = false; */
+        }
     }
+
+    function closeAll() { PresWindow.close() }
 
     function changeVidPos(pos) {
         presentation.slide.seek(pos);

@@ -29,6 +29,7 @@ Kirigami.ApplicationWindow {
     signal edit()
 
     onActiveFocusItemChanged: console.log("FOCUS CHANGED TO: " + activeFocusControl)
+    onClosing: mainPage.closeAll()
 
     /* pageStack.initialPage: mainPage */
     header: Presenter.Header {}
