@@ -411,7 +411,7 @@ Item {
 
     function newSong(index) {
         clearSlides();
-        song = songProxyModel.getSong(index);
+        song = songProxyModel.songModel.getItem(index);
         console.log(song.lyrics);
         songIndex = song.id;
 
@@ -435,7 +435,7 @@ Item {
     function changeSong(index) {
         clearSlides();
         console.log(index);
-        song = songProxyModel.getSong(index);
+        song = songProxyModel.songModel.getItem(index);
         console.log(song.lyrics);
         songIndex = song.id;
         console.log(song.id);
