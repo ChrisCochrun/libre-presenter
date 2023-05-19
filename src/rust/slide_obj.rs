@@ -211,6 +211,12 @@ mod slide_obj {
                     self.as_mut().set_slide_size(slide_size);
                 }
             }
+            let video_start_time = item
+                .get(&QString::from("videoStartTime"))
+                .unwrap_or(QVariant::from(&0.0));
+            if let Some(int) = video_start_time.value::<f32>() {
+                self.as_mut().set_video_start_time(int)
+            }
             let icount = item
                 .get(&QString::from("imageCount"))
                 .unwrap_or(QVariant::from(&1));

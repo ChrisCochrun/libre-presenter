@@ -130,6 +130,8 @@ FocusScope {
                     text: SlideObject.text
                     pdfIndex: SlideObject.slideIndex
                     vidLoop: SlideObject.looping
+                    vidStartTime: SlideObject.videoStartTime
+                    vidEndTime: SlideObject.videoEndTime
                     preview: true 
                 }
 

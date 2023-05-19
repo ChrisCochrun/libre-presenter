@@ -59,6 +59,8 @@ Item {
         pdfIndex: SlideObj.slideIndex
         itemType: SlideObj.ty
         vidLoop: SlideObj.looping
+        vidStartTime: SlideObj.videoStartTime
+        vidEndTime: SlideObj.videoEndTime
     }
 
     Connections {

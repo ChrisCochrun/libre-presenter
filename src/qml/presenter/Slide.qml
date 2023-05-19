@@ -24,6 +24,8 @@ Item {
     property url videoSource
     property url audioSource
     property bool vidLoop
+    property real vidStartTime
+    property real vidEndTime
     property int pdfIndex
     property string chosenFont: "Quicksand"
     property string text
@@ -85,6 +87,7 @@ Item {
             onTriggered: {
                 /* showPassiveNotification("YIPPEEE!") */
                 mpv.loadFile(videoSource.toString());
+                mpv.seek(vidStartTime)
                 if (editMode) {
                     console.log("WHY AREN'T YOU PASUING!");
                     pauseTimer.restart();
