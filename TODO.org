@@ -3,7 +3,7 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [64%] [37/57]
+* Tasks [66%] [38/57]
 ** TODO Switch to using rust only deletion functions.
 [[file:~/dev/church-presenter/src/qml/presenter/Library.qml::videoProxyModel.deleteVideos(rows)]]
 
@@ -58,7 +58,7 @@ I'll need to make sure I'm removing the right slide after a serviceItem is remov
 Either their index in the vector is wrong or their service_item_id is wrong. So my next approach will be to move slides individually rather than all at once?
 **** DONE Song Model
 This still needs ported to Rust. It'll be the hardest of the library models since it includes the song lyric parsing functions.
-**** TODO serivce_item_model
+*** TODO serivce_item_model
 This needs to get ported to rust so that I can start adding more features to it soon. This is a blocker for the start and end times I believe
 *** TODO Deployment
 - [ ] Linux
@@ -77,8 +77,6 @@ Songs will be the hardest so I'll save them for last. They are not even using th
 Another big blocker in this process is to make sure that all properties are accessed appropriately on the QML side. I need to update a lot of QML code yet.
 *** TODO DATA CHANGED
 Almost done here, but I can't get the data to emit the change and therefore inform the proxyModel of the changes and change it in the list view.
-** DONE [#A] Make things not rely on my own machine.                  :bug:
-Right now some of the paths are hardcoded and I need to fix that very fast so that everything will work on other machines.
 ** TODO [#B] start and end times for videos                       :feature:
 This is something I couldn't get right in my head and plans and I hope rust will help me to solve it.
 ** TODO A busy indicator while deleting library items :feature:ui:
@@ -92,8 +90,6 @@ Since building a lot of the rust code felt more like an experiment, I've not kep
 This function will need to include parsing through the HTML of the results page. Finding the first "song-result", then "song-result-title", and inside that tag is the name. In the URL is the CCLI number.
 
 Lyrics will probably be better to grab from genius lyrics.
-** DONE [#A] new_song method                                  :feature:bug:
-[[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
 ** TODO Create a setting for holding static slides and audios :feature:
 [[file:~/dev/church-presenter/src/qml/presenter/Settings.qml]]
 ** TODO [#B] ffmpeg.rs                                            :feature:
@@ -118,9 +114,6 @@ I could add this by adding a bool as a gallery option in the ImageSqlModel. Then
 
   I'm thinking shadows for sure for readability on slides. Also, maybe I should have an effect of like glow? But maybe I'll come back to this after more of the core system is finished.
 
-** TODO Need to test on other wayland compositors but Hyprland doesn't show the presentation window. :bug:
-Quite by accident, I discovered how I may be able to fix this bug. Even though in QML I cannot show the window on demand, apparently in C++ I can still do it. So I will attempt to show the window by subclassing QQuickView in Rust and assign it's source through a QML file that is the PresentationWindow.qml
-
 ** TODO Finish toolbar in presentation display :ui:
 [[file:~/dev/church-presenter/src/qml/presenter/Presentation.qml::Controls.ToolBar {]]
 
@@ -129,6 +122,15 @@ https://discourse.nixos.org/t/developing-kirigami-applications/19947/17
 This thread helped a lot
 
 
+** DONE Need to test on other wayland compositors but Hyprland doesn't show the presentation window. :bug:
+Quite by accident, I discovered how I may be able to fix this bug. Even though in QML I cannot show the window on demand, apparently in C++ I can still do it. So I will attempt to show the window by subclassing QQuickView in Rust and assign it's source through a QML file that is the PresentationWindow.qml
+
+FIXED!
+
+** DONE [#A] new_song method                                  :feature:bug:
+[[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
+** DONE [#A] Make things not rely on my own machine.                  :bug:
+Right now some of the paths are hardcoded and I need to fix that very fast so that everything will work on other machines.
 ** DONE get_lyric_list method
 [[file:~/dev/church-presenter/src/rust/song_model.rs::todo!();]]
 This is the big one. Previous implementation in cpp is here:
