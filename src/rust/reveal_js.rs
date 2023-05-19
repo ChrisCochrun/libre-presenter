@@ -1,15 +1,6 @@
 // use dirs;
 use std::fs::read_to_string;
 
-// struct Slide {
-//     num_fragments: usize,
-// }
-
-// struct Presentation {
-//     num_slides: usize,
-//     num_fragments: usize,
-// }
-
 pub fn count_slides_and_fragments(html_file_path: &str) -> i32 {
     // Read the HTML file
     let html_content = read_to_string(html_file_path).expect("Failed to read HTML file");
@@ -35,10 +26,3 @@ pub fn count_slides_and_fragments(html_file_path: &str) -> i32 {
 
     total as i32
 }
-
-// fn main() {
-//     let html_file_path = "path/to/presentation.html";
-//     let presentation = count_slides_and_fragments(html_file_path);
-
-//     println!("Total number of slides: {}", presentation.num_slides);
-//     println!("Total number of fragments: {}", presentation
