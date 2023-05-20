@@ -18,10 +18,8 @@ mod service_item_model {
         type QStringList = cxx_qt_lib::QStringList;
         include!("cxx-qt-lib/qlist.h");
         type QList_QString = cxx_qt_lib::QList<QString>;
-        // #[cxx_name = "ServiceItem"]
-        // type CxxServiceItem = super::qobject::Slidey;
-        // include!("cxx-qt-lib/qvector.h");
-        // type QVector_ServiceItem = cxx_qt_lib::QVector<Slidey>;
+        include!("cxx-qt-lib/qurl.h");
+        type QUrl = cxx_qt_lib::QUrl;
     }
 
     #[cxx_qt::qobject]
@@ -38,7 +36,7 @@ mod service_item_model {
         #[qproperty]
         background_type: QString,
         #[qproperty]
-        text: Vec<QString>,
+        text: QStringList,
         #[qproperty]
         font: QString,
         #[qproperty]
@@ -65,7 +63,7 @@ mod service_item_model {
                 audio: QString::default(),
                 background: QString::default(),
                 background_type: QString::default(),
-                text: vec![QString::default()],
+                text: QStringList::default(),
                 font: QString::default(),
                 font_size: 50,
                 slide_count: 1,
@@ -78,11 +76,7 @@ mod service_item_model {
         }
     }
 
-    #[cxx_qt::qobject(
-        base = "QAbstractListModel",
-        // qml_uri = "com.kdab.cxx_qt.demo",
-        // qml_version = "1.0"
-    )]
+    #[cxx_qt::qobject(base = "QAbstractListModel")]
     #[derive(Default, Debug)]
     pub struct ServiceItemModel {
         id: i32,
@@ -108,11 +102,20 @@ mod service_item_model {
     }
 
     enum Role {
+        NameRole,
+        TyRole,
+        AudioRole,
+        BackgroundRole,
+        BackgroundTypeRole,
+        TextRole,
+        FontRole,
+        FontSizeRole,
+        SlideCountRole,
         ActiveRole,
         SelectedRole,
         LoopingRole,
-        TextRole,
-        VideoThumbnailRole,
+        VideoStartTimeRole,
+        VideoEndTimeRole,
     }
 
     // use crate::video_thumbnail;
@@ -147,7 +150,7 @@ mod service_item_model {
             mut self: Pin<&mut Self>,
             name: QString,
             ty: QString,
-            text: Vec<QString>,
+            text: QStringList,
             background: QString,
             background_type: QString,
             audio: QString,
@@ -194,7 +197,7 @@ mod service_item_model {
             mut self: Pin<&mut Self>,
             index: i32,
             name: QString,
-            text: Vec<QString>,
+            text: QStringList,
             ty: QString,
             background: QString,
             background_type: QString,
@@ -301,14 +304,11 @@ mod service_item_model {
             }
             if let Some(service_item) = self.as_mut().service_items_mut().get_mut(index as usize) {
                 println!("service_item is activating {:?}", index);
-                println!("service_item-title: {:?}", service_item.service_item_id);
+                println!("service_item_title: {:?}", service_item.name);
+                println!("service_item_background: {:?}", service_item.background);
                 println!(
-                    "service_item-image-background: {:?}",
-                    service_item.image_background
-                );
-                println!(
-                    "service_item-video-background: {:?}",
-                    service_item.video_background
+                    "service_item_background_type: {:?}",
+                    service_item.background_type
                 );
                 service_item.active = true;
                 self.as_mut().emit_data_changed(tl, br, &vector_roles);
@@ -343,11 +343,20 @@ mod service_item_model {
 
         fn get_role(&self, role: Role) -> i32 {
             match role {
-                Role::TextRole => 1,
-                Role::ActiveRole => 12,
-                Role::SelectedRole => 13,
-                Role::LoopingRole => 14,
-                Role::VideoThumbnailRole => 15,
+                Role::NameRole => 0,
+                Role::TyRole => 1,
+                Role::AudioRole => 2,
+                Role::BackgroundRole => 3,
+                Role::BackgroundTypeRole => 4,
+                Role::TextRole => 5,
+                Role::FontRole => 6,
+                Role::FontSizeRole => 7,
+                Role::SlideCountRole => 8,
+                Role::ActiveRole => 9,
+                Role::SelectedRole => 10,
+                Role::LoopingRole => 11,
+                Role::VideoStartTimeRole => 12,
+                Role::VideoEndTimeRole => 13,
                 _ => 0,
             }
         }
@@ -395,22 +404,20 @@ mod service_item_model {
         fn data(&self, index: &QModelIndex, role: i32) -> QVariant {
             if let Some(service_item) = self.service_items().get(index.row() as usize) {
                 return match role {
-                    0 => QVariant::from(&service_item.ty),
-                    1 => QVariant::from(&service_item.text),
+                    0 => QVariant::from(&service_item.name),
+                    1 => QVariant::from(&service_item.ty),
                     2 => QVariant::from(&service_item.audio),
-                    3 => QVariant::from(&service_item.image_background),
-                    4 => QVariant::from(&service_item.video_background),
-                    5 => QVariant::from(&service_item.htext_alignment),
-                    6 => QVariant::from(&service_item.vtext_alignment),
-                    7 => QVariant::from(&service_item.font),
-                    8 => QVariant::from(&service_item.font_size),
-                    9 => QVariant::from(&service_item.service_item_id),
-                    10 => QVariant::from(&service_item.slide_index),
-                    11 => QVariant::from(&service_item.slide_count),
-                    12 => QVariant::from(&service_item.active),
-                    13 => QVariant::from(&service_item.selected),
-                    14 => QVariant::from(&service_item.looping),
-                    15 => QVariant::from(&service_item.video_thumbnail),
+                    3 => QVariant::from(&service_item.background),
+                    4 => QVariant::from(&service_item.background_type),
+                    5 => QVariant::from(&service_item.text),
+                    6 => QVariant::from(&service_item.font),
+                    7 => QVariant::from(&service_item.font_size),
+                    8 => QVariant::from(&service_item.slide_count),
+                    9 => QVariant::from(&service_item.active),
+                    10 => QVariant::from(&service_item.selected),
+                    11 => QVariant::from(&service_item.looping),
+                    12 => QVariant::from(&service_item.video_start_time),
+                    13 => QVariant::from(&service_item.video_end_time),
                     _ => QVariant::default(),
                 };
             }
@@ -427,22 +434,20 @@ mod service_item_model {
         #[qinvokable(cxx_override)]
         pub fn role_names(&self) -> QHash_i32_QByteArray {
             let mut roles = QHash_i32_QByteArray::default();
-            roles.insert(0, cxx_qt_lib::QByteArray::from("type"));
-            roles.insert(1, cxx_qt_lib::QByteArray::from("text"));
+            roles.insert(0, cxx_qt_lib::QByteArray::from("name"));
+            roles.insert(1, cxx_qt_lib::QByteArray::from("ty"));
             roles.insert(2, cxx_qt_lib::QByteArray::from("audio"));
-            roles.insert(3, cxx_qt_lib::QByteArray::from("imageBackground"));
-            roles.insert(4, cxx_qt_lib::QByteArray::from("videoBackground"));
-            roles.insert(5, cxx_qt_lib::QByteArray::from("hTextAlignment"));
-            roles.insert(6, cxx_qt_lib::QByteArray::from("vTextAlignment"));
-            roles.insert(7, cxx_qt_lib::QByteArray::from("font"));
-            roles.insert(8, cxx_qt_lib::QByteArray::from("fontSize"));
-            roles.insert(9, cxx_qt_lib::QByteArray::from("serviceItemId"));
-            roles.insert(10, cxx_qt_lib::QByteArray::from("service_itemIndex"));
-            roles.insert(11, cxx_qt_lib::QByteArray::from("imageCount"));
-            roles.insert(12, cxx_qt_lib::QByteArray::from("active"));
-            roles.insert(13, cxx_qt_lib::QByteArray::from("selected"));
-            roles.insert(14, cxx_qt_lib::QByteArray::from("looping"));
-            roles.insert(15, cxx_qt_lib::QByteArray::from("videoThumbnail"));
+            roles.insert(3, cxx_qt_lib::QByteArray::from("background"));
+            roles.insert(4, cxx_qt_lib::QByteArray::from("backgroundType"));
+            roles.insert(5, cxx_qt_lib::QByteArray::from("text"));
+            roles.insert(6, cxx_qt_lib::QByteArray::from("font"));
+            roles.insert(7, cxx_qt_lib::QByteArray::from("fontSize"));
+            roles.insert(8, cxx_qt_lib::QByteArray::from("slideCount"));
+            roles.insert(9, cxx_qt_lib::QByteArray::from("active"));
+            roles.insert(10, cxx_qt_lib::QByteArray::from("selected"));
+            roles.insert(11, cxx_qt_lib::QByteArray::from("looping"));
+            roles.insert(12, cxx_qt_lib::QByteArray::from("videoStartTime"));
+            roles.insert(13, cxx_qt_lib::QByteArray::from("videoEndTime"));
             roles
         }
 
