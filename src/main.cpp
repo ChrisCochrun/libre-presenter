@@ -53,6 +53,7 @@
 #include "cxx-qt-gen/file_helper.cxxqt.h"
 #include "cxx-qt-gen/slide_obj.cxxqt.h"
 #include "cxx-qt-gen/slide_model.cxxqt.h"
+#include "cxx-qt-gen/service_item_model.cxxqt.h"
 #include "cxx-qt-gen/settings.cxxqt.h"
 #include "cxx-qt-gen/ytdl.cxxqt.h"
 #include "cxx-qt-gen/presentation_model.cxxqt.h"

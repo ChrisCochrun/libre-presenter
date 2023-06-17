@@ -4,6 +4,8 @@
 :END:
 
 * Tasks [66%] [38/57]
+** TODO Figure out qml hot reload
+https://www.reddit.com/r/QtFramework/comments/11plifj/qhot_now_with_qt6_support/
 ** TODO Switch to using rust only deletion functions.
 [[file:~/dev/church-presenter/src/qml/presenter/Library.qml::videoProxyModel.deleteVideos(rows)]]
 

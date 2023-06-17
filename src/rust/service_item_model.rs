@@ -24,7 +24,7 @@ mod service_item_model {
 
     #[cxx_qt::qobject]
     #[derive(Clone, Debug)]
-    pub struct ServiceItem {
+    pub struct ServiceItm {
         #[qproperty]
         name: QString,
         #[qproperty]
@@ -55,7 +55,7 @@ mod service_item_model {
         video_end_time: f32,
     }
 
-    impl Default for ServiceItem {
+    impl Default for ServiceItm {
         fn default() -> Self {
             Self {
                 name: QString::default(),
@@ -78,12 +78,12 @@ mod service_item_model {
 
     #[cxx_qt::qobject(base = "QAbstractListModel")]
     #[derive(Default, Debug)]
-    pub struct ServiceItemModel {
+    pub struct ServiceItemMod {
         id: i32,
-        service_items: Vec<ServiceItem>,
+        service_items: Vec<ServiceItm>,
     }
 
-    #[cxx_qt::qsignals(ServiceItemModel)]
+    #[cxx_qt::qsignals(ServiceItemMod)]
     pub enum Signals<'a> {
         #[inherit]
         DataChanged {
@@ -121,7 +121,7 @@ mod service_item_model {
     // use crate::video_thumbnail;
     // use image::{ImageBuffer, Rgba};
     use std::path::PathBuf;
-    impl qobject::ServiceItemModel {
+    impl qobject::ServiceItemMod {
         #[qinvokable]
         pub fn clear(mut self: Pin<&mut Self>) {
             unsafe {
@@ -161,7 +161,7 @@ mod service_item_model {
             video_start_time: f32,
             video_end_time: f32,
         ) {
-            let service_item = ServiceItem {
+            let service_item = ServiceItm {
                 name,
                 ty,
                 text,
@@ -180,7 +180,7 @@ mod service_item_model {
             self.as_mut().add_service_item(&service_item);
         }
 
-        fn add_service_item(mut self: Pin<&mut Self>, service_item: &ServiceItem) {
+        fn add_service_item(mut self: Pin<&mut Self>, service_item: &ServiceItm) {
             let index = self.as_ref().service_items().len() as i32;
             println!("{:?}", service_item);
             let service_item = service_item.clone();
@@ -209,7 +209,7 @@ mod service_item_model {
             video_start_time: f32,
             video_end_time: f32,
         ) {
-            let service_item = ServiceItem {
+            let service_item = ServiceItm {
                 name,
                 ty,
                 text,
@@ -228,7 +228,7 @@ mod service_item_model {
             self.as_mut().insert_service_item(&service_item, index);
         }
 
-        fn insert_service_item(mut self: Pin<&mut Self>, service_item: &ServiceItem, id: i32) {
+        fn insert_service_item(mut self: Pin<&mut Self>, service_item: &ServiceItm, id: i32) {
             let service_item = service_item.clone();
             unsafe {
                 self.as_mut()
@@ -366,32 +366,32 @@ mod service_item_model {
     #[cxx_qt::inherit]
     extern "C++" {
         unsafe fn begin_insert_rows(
-            self: Pin<&mut qobject::ServiceItemModel>,
+            self: Pin<&mut qobject::ServiceItemMod>,
             parent: &QModelIndex,
             first: i32,
             last: i32,
         );
-        unsafe fn end_insert_rows(self: Pin<&mut qobject::ServiceItemModel>);
+        unsafe fn end_insert_rows(self: Pin<&mut qobject::ServiceItemMod>);
 
         unsafe fn begin_remove_rows(
-            self: Pin<&mut qobject::ServiceItemModel>,
+            self: Pin<&mut qobject::ServiceItemMod>,
             parent: &QModelIndex,
             first: i32,
             last: i32,
         );
-        unsafe fn end_remove_rows(self: Pin<&mut qobject::ServiceItemModel>);
+        unsafe fn end_remove_rows(self: Pin<&mut qobject::ServiceItemMod>);
 
-        unsafe fn begin_reset_model(self: Pin<&mut qobject::ServiceItemModel>);
-        unsafe fn end_reset_model(self: Pin<&mut qobject::ServiceItemModel>);
+        unsafe fn begin_reset_model(self: Pin<&mut qobject::ServiceItemMod>);
+        unsafe fn end_reset_model(self: Pin<&mut qobject::ServiceItemMod>);
     }
 
     #[cxx_qt::inherit]
     unsafe extern "C++" {
         #[cxx_name = "canFetchMore"]
-        fn base_can_fetch_more(self: &qobject::ServiceItemModel, parent: &QModelIndex) -> bool;
+        fn base_can_fetch_more(self: &qobject::ServiceItemMod, parent: &QModelIndex) -> bool;
 
         fn index(
-            self: &qobject::ServiceItemModel,
+            self: &qobject::ServiceItemMod,
             row: i32,
             column: i32,
             parent: &QModelIndex,
@@ -399,7 +399,7 @@ mod service_item_model {
     }
 
     // QAbstractListModel implementation
-    impl qobject::ServiceItemModel {
+    impl qobject::ServiceItemMod {
         #[qinvokable(cxx_override)]
         fn data(&self, index: &QModelIndex, role: i32) -> QVariant {
             if let Some(service_item) = self.service_items().get(index.row() as usize) {
