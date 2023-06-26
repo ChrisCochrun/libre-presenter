@@ -36,7 +36,8 @@ mkShell rec {
     libsForQt5.karchive
     # libsForQt5.kirigami-addons
     # libsForQt5.ki18n
-    # libsForQt5.kcoreaddons
+    libsForQt5.kcoreaddons
+    libsForQt5.sonnet
     # libsForQt5.kguiaddons
     # libsForQt5.kconfig
 
