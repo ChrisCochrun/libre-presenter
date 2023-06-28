@@ -7,3 +7,5 @@ bld
 /src/rust/Cargo.lock
 /src/rust/target/
 target
+/.gdb_history
+/log.txt
