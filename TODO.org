@@ -3,7 +3,18 @@
 :CATEGORY: dev
 :END:
 
-* Tasks [66%] [38/57]
+* Tasks [0%] [0/0]
+** TODO Database doesn't exist we crash :bug:
+[[file:~/dev/church-presenter/src/rust/song_model.rs::.expect("Error loading songs");]]
+
+Need to handle the error and create the database in case it doesn't exist with the proper setup.
+
+*** TODO Let's copy it from the old comp to test
+*** TODO Research diesel's ability to build the database for me
+*** TODO Choose function to use
+*** TODO Find proper error loading path that is earliest
+*** TODO Create database
+*** TODO Load rest of app
 ** TODO Figure out qml hot reload
 https://www.reddit.com/r/QtFramework/comments/11plifj/qhot_now_with_qt6_support/
 ** TODO Switch to using rust only deletion functions.
