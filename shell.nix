@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> { } }:
 with pkgs;
 mkShell rec {
-  name = "presenter";
+  name = "lumina";
 
   nativeBuildInputs = [
     gcc
