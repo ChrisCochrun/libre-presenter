@@ -60,7 +60,7 @@ mkShell rec {
   # };
 
   RUST_BACKTRACE = 1;
-  LIBCLANG_PATH="${llvmPackages.libclang.lib}/lib";
+  LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";
   # QT_SCALE_FACTOR = 1;
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
