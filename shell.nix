@@ -36,8 +36,7 @@ mkShell rec {
     libsForQt5.karchive
     # libsForQt5.kirigami-addons
     # libsForQt5.ki18n
-    libsForQt5.kcoreaddons
-    libsForQt5.sonnet
+    # libsForQt5.kcoreaddons
     # libsForQt5.kguiaddons
     # libsForQt5.kconfig
 
@@ -59,9 +58,12 @@ mkShell rec {
   #   lockFile = ./Cargo.lock;
   # };
 
-  RUST_BACKTRACE = 1;
+  RUST_BACKTRACE = "full";
   LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";
+  CMAKE_C_COMPILER = "${gcc}/bin/gcc";
+  CMAKE_CXX_COMPILER = "${gcc}/bin/g++";
   # QT_SCALE_FACTOR = 1;
+
   # This creates the proper qt env so that plugins are found right.
   shellHook = ''
     setQtEnvironment=$(mktemp --suffix .setQtEnvironment.sh)
