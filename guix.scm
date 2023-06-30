@@ -1,25 +1,29 @@
-
-;; (define-module (lumina)
-;;   #:use-module (gnu packages)
-;;   #:use-module (gnu packages rust-apps)
-;;   #:use-module (gnu packages llvm)
-;;   #:use-module (gnu packages qt)
-;;   #:use-module (gnu packages kde-frameworks)
-;;   #:use-module (gnu packages video)
-;;   #:use-module (gnu packages crates-io)
-;;   #:use-module (gnu services)
-;;   #:use-module (guix gexp)
-;;   #:use-module (guix packages)
-;;   #:use-module (guix git-download)
-;;   #:use-module (guix build-system cmake)
-;;   #:use-module ((guix licenses) #:prefix license:))
+;; This file is provided to assist in setting up a development
+;; environment for Lumina.
+;; 
+;; Author: Chris Cochrun
+;; 
+;; 
+;; 
+;; 
+;; 
+;; 
+;; 
+;; 
+;; 
+;; 
 
 (use-modules (gnu packages)
+             (gnu packages rust)
              (gnu packages rust-apps)
              (gnu packages llvm)
              (gnu packages qt)
+             (gnu packages gdb)
+             (gnu packages mold)
+             (gnu packages pkg-config)
              (gnu packages kde-frameworks)
              (gnu packages video)
+             (gnu packages cmake)
              (gnu packages crates-io)
              (gnu services)
              (guix gexp)
@@ -38,29 +42,35 @@
               #:recursive? #t
               #:select? (git-predicate this-directory)))
 
-;; (define-public corrosion
-;;   (package
-;;     (name "corrosion")
-;;     (version (git-version "0.0.1" revision commit))
-;;     (source (origin ))
-;;     (build-system cmake-build-system)
-;;     (arguments `(#:phases
-;;                  (modify-phases %standard-phases
-;;                    (replace 'build
-;;                      (lambda* (#:key outputs #:allow-other-keys)
-;;                        (invoke "cmake" ""))))))
-;;     (inputs (list
-;;              clang
-;;              clang-toolchain))
-;;     (license license:gpl3+)
-;;     (home-page "idk")
-;;     (synopsis "A Church Presentation Application")
-;;     (description "idk")
-;;     ))
+;; Corrosion allows us to build a cmake project that uses rust too.
+(define-public corrosion
+  (let ((commit "6ae04cf691fa721945428b2f96b0818085135890")
+        (revision "0.4.1"))
+    (package
+      (name "corrosion")
+      (version (git-version "0.4.1" revision commit))
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://github.com/corrosion-rs/corrosion.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1f0zmqm0iz669zqv74222x9759jbn1zq5z4snjwkd5g3lv0p4mkw"))))
+      (build-system cmake-build-system)
+      (arguments `(#:tests? #f))
+      (inputs (list
+               cmake
+               `(,rust "out")
+               `(,rust "cargo")))
+      (license license:gpl3+)
+      (home-page "idk")
+      (synopsis "Adding rust to cmake projects")
+      (description "idk"))))
 
 (define-public lumina
-  ;; (let ((commit "62f19dba573b924703829847feb1bfee68885514")
-  ;;       (revision "0"))
   (package
     (name "lumina")
     (version "0.0.1")
@@ -71,27 +81,43 @@
                    (replace 'build
                      (lambda* (#:key outputs #:allow-other-keys)
                        (invoke "sh" "./build.sh" "-d"))))))
-    (inputs '(("clang" ,clang)
-              ("clang-toolchain" ,clang-toolchain)
-              ("qtbase" ,qtbase-5.15.8)
-              ("qttools" ,qttools-5.15.8)
-              ("qtquickcontrols2" ,qtquickcontrols2-5.15.8)
-              ("qtx11extras" ,qtx11extras-5.15.8)
-              ("qtwayland" ,qtwayland-5.15.8)
-              ("qtwebengine" ,qtwebengine-5.15.8)
-              ("kirigami" ,kirigami)
-              ("qqc2-desktop-style" ,qqc2-desktop-style)
-              ("karchive" ,karchive)
-              ("mpv" ,mpv)
-              ("ffmpeg" ,ffmpeg-5.1.3)
-              ("rust" ,rust)
-              ;; both of these need to be packaged yet
-              ;; corrosion is needed for build...
-              ;; corrosion
-              ;; rust-rustfmt
-              ("rust-clippy" ,rust-clippy)
-              ("rust-cargo" ,rust-cargo)
-              ("rust-analyzer" ,rust-analyzer)))
+
+    (inputs (list mpv
+                  ffmpeg))
+    (propagated-inputs (list clang
+                             cmake
+                             clazy
+                             clang-toolchain
+                             gdb
+                             pkg-config
+                             qtbase-5
+                             qttools-5
+                             qt-creator
+                             qtdeclarative-5
+                             qtquickcontrols2-5
+                             qtx11extras
+                             qtwayland-5
+                             qtwebengine-5
+                             kirigami
+                             qqc2-desktop-style
+                             extra-cmake-modules
+                             karchive
+                             kcoreaddons
+                             ki18n
+                             ;; corrosion is needed for build and is yet to
+                             ;; be packaged.
+                             corrosion
+                             `(,rust "out")
+                             `(,rust "rustfmt")
+                             `(,rust "cargo")
+                             ;; rust-analyzer
+                             rust-clippy-0.0))
+
+    (native-search-paths
+     (list (search-path-specification
+            (variable "CMAKE_INCLUDE_PATH")
+            (files '("include")))))
+
     (license license:gpl3+)
     (home-page "idk")
     (synopsis "A Church Presentation Application")

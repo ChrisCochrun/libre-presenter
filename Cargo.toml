@@ -19,8 +19,8 @@ serde = "1.0.152"
 serde_derive = "1.0.152"
 quote = "1.0.27"
 cxx = "1.0.83"
-cxx-qt = "0.5.2"
-cxx-qt-lib = "0.5.2"
+cxx-qt = "0.5.3"
+cxx-qt-lib = "0.5.3"
 # home = "0.5.4"
 dirs = "5.0.0"
 diesel = { version = "2.0.3", features = ["sqlite"] }
@@ -32,7 +32,7 @@ youtube_dl = "0.8.0"
 # cxx-qt-build generates C++ code from the `#[cxx_qt::bridge]` module
 # and compiles it together with the Rust static library
 [build-dependencies]
-cxx-qt-build = "0.5.2"
+cxx-qt-build = "0.5.3"
 
 # [dependencies.confy]
 # features = ["yaml_conf"]

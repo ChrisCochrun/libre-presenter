@@ -4,6 +4,10 @@ mkShell rec {
   name = "lumina";
 
   nativeBuildInputs = [
+    # ffmpeg
+  ];
+
+  buildInputs = [
     gcc
     stdenv
     gnumake
@@ -14,10 +18,8 @@ mkShell rec {
     pkg-config
     libsForQt5.wrapQtAppsHook
     makeWrapper
-    # ffmpeg
-  ];
 
-  buildInputs = [
+
     clang-tools
     clang
     libclang
