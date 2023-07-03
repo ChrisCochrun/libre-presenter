@@ -14,9 +14,5 @@ fn main() {
         .file("src/rust/presentation_model.rs")
         .file("src/rust/song_model.rs")
         .file("src/rust/ytdl.rs")
-        .cc_builder (|cc| {
-            println!("{:?}", env::var ("GUIX_ENVIRONMENT").unwrap_or_default());
-            cc.include( env::var("GUIX_ENVIRONMENT").unwrap_or_default() + "/include");
-            })
         .build();
 }
