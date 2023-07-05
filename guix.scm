@@ -29,6 +29,7 @@
              (guix gexp)
              (guix packages)
              (guix git-download)
+             (guix build-system qt)
              (guix build-system cmake)
              ((guix licenses) #:prefix license:))
 
@@ -106,12 +107,12 @@
     (name "lumina")
     (version "0.0.1")
     (source source)
-    (build-system cmake-build-system)
+    (build-system qt-build-system)
     (arguments `(#:phases
                  (modify-phases %standard-phases
                    (replace 'build
                      (lambda* (#:key outputs #:allow-other-keys)
-                       (invoke "sh" "./build.sh" "-d"))))))
+                       (invoke "/bin/sh" "./build.sh" "-d"))))))
 
     (inputs (list mpv
                   ffmpeg))
@@ -120,6 +121,7 @@
                              mold
                              clazy
                              clang-toolchain
+                             mold
                              gdb
                              pkg-config
                              qtbase-5
@@ -139,6 +141,7 @@
                              ;; corrosion is needed for build and is yet to
                              ;; be packaged.
                              corrosion
+
                              `(,rust "out")
                              `(,rust "rustfmt")
                              `(,rust "cargo")
