@@ -138,6 +138,7 @@
                              karchive
                              kcoreaddons
                              ki18n
+                             sonnet
                              ;; corrosion is needed for build and is yet to
                              ;; be packaged.
                              corrosion
